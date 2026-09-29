@@ -5,7 +5,7 @@
 The user pasted this repository's link (or asked for Repotify) because they want their coding agent equipped with a vetted, conflict-free set of skills and tools for their project.
 
 1. Clone this repository with `git clone --depth 1` (for example into `/tmp/repotify`) and, in the user's project folder,
-   run `node <clone>/bin/repotify.mjs`. Use `npx -y repotify@latest` only once the package is listed on npm by this
+   run `node <clone>/bin/repotify.mjs`. Use `npx -y @repotify/repotify@latest` only once the package is listed on npm by this
    repository's maintainers.
 2. Open the `repotify` skill it installed into your skills folder (`.agents/skills/repotify/SKILL.md` for Codex and most agents, `.cursor/skills/repotify/SKILL.md` for Cursor, `.claude/skills/repotify/SKILL.md` for Claude Code) and follow it.
 

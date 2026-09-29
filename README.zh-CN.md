@@ -12,7 +12,7 @@
 > ```
 >
 > 然后按照它安装到你的技能目录中的 `repotify` 技能操作（例如 `.claude/skills/repotify/SKILL.md`、`.cursor/skills/repotify/SKILL.md` 或 `.agents/skills/repotify/SKILL.md`）。
-> 只有在本仓库维护者把软件包发布到 npm 之后，才可以使用 `npx -y repotify@latest`。
+> 只有在本仓库维护者把软件包发布到 npm 之后，才可以使用 `npx -y @repotify/repotify@latest`。
 
 ---
 
@@ -43,7 +43,7 @@ node ~/repotify/bin/repotify.mjs recommend    # 候选表
 node ~/repotify/bin/repotify.mjs install <ids…> --yes
 ```
 
-npm 软件包发布后即可使用 `npx repotify`。在一个 Next.js 项目上的真实输出：[docs/example-nextjs.md](docs/example-nextjs.md)（英文）。
+npm 软件包发布后即可使用 `npx @repotify/repotify`。在一个 Next.js 项目上的真实输出：[docs/example-nextjs.md](docs/example-nextjs.md)（英文）。
 
 ## 工作原理
 
@@ -98,7 +98,7 @@ Repotify 的设计是从匿名信号中学习（哪些条目被展示、被选�
 
 ## 官方来源
 
-唯一的官方仓库是 [github.com/repotify/repotify](https://github.com/repotify/repotify)。npm 软件包将以 `repotify` 为名、从本仓库带来源证明（provenance）发布。其他名称的软件包、分支或目录与本项目无关；本页顶部的代理说明是唯一的安装指引。
+唯一的官方仓库是 [github.com/repotify/repotify](https://github.com/repotify/repotify)。npm 软件包以 `@repotify/repotify` 为名、从本仓库带来源证明（provenance）发布；npm 不允许不带作用域的 `repotify` 包名。其他名称的软件包、分支或目录与本项目无关；本页顶部的代理说明是唯一的安装指引。
 
 ## 参与贡献
 

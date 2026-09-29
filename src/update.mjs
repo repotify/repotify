@@ -4,6 +4,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { checkMcpSetup, installItem, installSelf, readSettings, SELF_SKILL_DIR } from "./install.mjs";
 import { readLock, writeLock } from "./lock.mjs";
+import { NPX_LAUNCHER } from "./config.mjs";
 import { agentForMcpFile, applyMcp, mcpConfigWritable } from "./mcpconfig.mjs";
 
 // Replaces an installed MCP server in place. Consent and config checks happen before anything is written.
@@ -82,7 +83,7 @@ export function weeklyCheckDue(config, now = new Date()) {
 }
 
 // Optional: a light weekly check when a Claude Code session starts (the user opts in).
-export function enableAutoCheck({ cwd, launcher = "npx -y repotify@latest" }) {
+export function enableAutoCheck({ cwd, launcher = NPX_LAUNCHER }) {
   const settings = readSettings(cwd);
   if (!settings.ok) return { written: false, reason: "unparseable" };
   const cfg = settings.value;

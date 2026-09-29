@@ -18,7 +18,7 @@
 > ```
 >
 > Then follow the `repotify` skill it installs into your skills folder (for example `.claude/skills/repotify/SKILL.md`, `.cursor/skills/repotify/SKILL.md` or `.agents/skills/repotify/SKILL.md`).
-> Only use `npx -y repotify@latest` once the package is listed on npm by this repository's maintainers.
+> Only use `npx -y @repotify/repotify@latest` once the package is listed on npm by this repository's maintainers.
 
 ---
 
@@ -49,7 +49,7 @@ node ~/repotify/bin/repotify.mjs recommend    # the candidate table
 node ~/repotify/bin/repotify.mjs install <ids…> --yes
 ```
 
-`npx repotify` will work once the npm package is published.
+`npx @repotify/repotify` will work once the npm package is published.
 
 ## See it in action
 
@@ -171,13 +171,14 @@ Repotify is designed to learn from anonymous signals (which items were shown, pi
 
 ## Official sources
 
-The only official repository is [github.com/repotify/repotify](https://github.com/repotify/repotify). The npm package will be
-published as `repotify` from this repository, with provenance. Packages, forks or catalogs under other names are not
-affiliated; the agent block at the top of this page is the only install instruction.
+The only official repository is [github.com/repotify/repotify](https://github.com/repotify/repotify). The npm package is published
+as `@repotify/repotify` from this repository, with provenance; npm does not allow an unscoped `repotify` package.
+Packages, forks or catalogs under other names are not affiliated; the agent block at the top of this page is the only
+install instruction.
 
 ## Status
 
-Preview (`0.1.0`). The CLI, the scanner, the installer for four agents, the package guard and the catalog pipeline work and are tested. Next: the npm release, a larger catalog and anonymous analytics.
+Preview (`0.1.1`). The CLI, the scanner, the installer for four agents, the package guard and the catalog pipeline work and are tested. Next: the npm release, a larger catalog and anonymous analytics.
 
 ## Contributing
 

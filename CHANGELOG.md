@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 (2026-09-30)
+
+- The npm package is `@repotify/repotify`. npm does not accept the unscoped name `repotify` (too similar to
+  `restify` and `reactify`), so 0.1.0 was never published there. The command is still `repotify`.
+
 ## 0.1.0 (2026-09-29)
 
 First public preview.

@@ -5,7 +5,7 @@
 > ## 🤖 Yapay zekâ ajanları için
 >
 > Depoyu klonla (`git clone --depth 1 https://github.com/repotify/repotify`), kullanıcının proje klasöründe
-> `node repotify/bin/repotify.mjs` çalıştır ve kurduğu `repotify` skill'ini izle. `npx -y repotify@latest` yalnızca paket
+> `node repotify/bin/repotify.mjs` çalıştır ve kurduğu `repotify` skill'ini izle. `npx -y @repotify/repotify@latest` yalnızca paket
 > bu deponun sahiplerince npm'de yayımlandıktan sonra kullanılmalı.
 
 ---
@@ -37,7 +37,7 @@ node ~/repotify/bin/repotify.mjs recommend    # aday tablosu
 node ~/repotify/bin/repotify.mjs install <id…> --yes
 ```
 
-`npx repotify`, npm paketi yayımlandıktan sonra çalışacak.
+`npx @repotify/repotify`, npm paketi yayımlandıktan sonra çalışacak.
 
 Bir Next.js projesindeki gerçek çıktının adım adım anlatımı: [docs/example-nextjs.md](docs/example-nextjs.md) (İngilizce).
 
@@ -140,12 +140,13 @@ Repotify anonim sinyallerden öğrenmek üzere tasarlandı: hangi öğelerin gö
 ## Resmî kaynaklar
 
 Tek resmî depo [github.com/repotify/repotify](https://github.com/repotify/repotify). npm paketi bu depodan, kaynağı
-doğrulanabilir biçimde `repotify` adıyla yayımlanacak. Başka adlardaki paketler, çatallar ya da kataloglar bu projeyle
+doğrulanabilir biçimde `@repotify/repotify` adıyla yayımlanır; npm kapsamsız (scope'suz) bir `repotify` paketine izin
+vermiyor. Başka adlardaki paketler, çatallar ya da kataloglar bu projeyle
 ilgili değildir; tek kurulum talimatı bu sayfanın başındaki ajan bloğudur.
 
 ## Durum
 
-Önizleme (`0.1.0`). Komut satırı aracı, tarayıcı, dört ajan için kurulum, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: npm yayını, daha büyük bir katalog ve anonim analitik.
+Önizleme (`0.1.1`). Komut satırı aracı, tarayıcı, dört ajan için kurulum, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: npm yayını, daha büyük bir katalog ve anonim analitik.
 
 ## Katkı
 

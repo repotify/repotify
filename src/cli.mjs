@@ -6,7 +6,7 @@ import { fingerprint, formatFingerprint } from "./fingerprint.mjs";
 import { questionBank, formatQuestions, resolveNeeds } from "./needs.mjs";
 import { recommend, formatTable } from "./recommend.mjs";
 import { loadCatalog, BUNDLED_DIR } from "./catalog.mjs";
-import { catalogUrl, homeDir } from "./config.mjs";
+import { catalogUrl, homeDir, NPX_LAUNCHER } from "./config.mjs";
 import { readJsonSafe } from "./util.mjs";
 import { detectAgents, parseAgentList, skillTargets } from "./agents.mjs";
 import { installItem, removeItem, installSelf } from "./install.mjs";
@@ -50,7 +50,7 @@ const BIN_PATH = fileURLToPath(new URL("../bin/repotify.mjs", import.meta.url));
 // Decided by where this file lives: npm_command and similar variables leak into children of any npx run.
 export function detectLauncher(binPath = BIN_PATH) {
   const parts = binPath.split(/[\\/]/);
-  if (parts.includes("_npx") || parts.includes("node_modules")) return "npx -y repotify@latest";
+  if (parts.includes("_npx") || parts.includes("node_modules")) return NPX_LAUNCHER;
   return `node "${binPath}"`;
 }
 

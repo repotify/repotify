@@ -38,6 +38,8 @@ and set `REPOTIFY_STATS_URL`. Until then the client only keeps a local queue and
 
 Bump `version` in `package.json`, commit, and push a tag `v<version>`. `release.yml` verifies tests, eval and catalog
 hashes, checks that the tag matches the version, and runs `npm publish --provenance --access public`.
+The package is `@repotify/repotify`: npm rejects the unscoped `repotify` as too similar to `restify` and `reactify`.
+The `@repotify` scope is an npm organization (or the npm user `repotify`), and `NPM_TOKEN` needs write access to it.
 
 ## Reviewing quarantined items
 

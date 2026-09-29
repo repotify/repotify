@@ -107,8 +107,8 @@ test("M16: an older Repotify never downgrades a newer installed skill", () => {
 
 test("M9: the launcher follows where the code lives, not npm variables inherited from a parent npx", () => {
   assert.equal(detectLauncher("/tmp/repotify/bin/repotify.mjs"), 'node "/tmp/repotify/bin/repotify.mjs"');
-  assert.equal(detectLauncher("/home/u/.npm/_npx/ab12/node_modules/repotify/bin/repotify.mjs"), "npx -y repotify@latest");
-  assert.equal(detectLauncher("/work/app/node_modules/repotify/bin/repotify.mjs"), "npx -y repotify@latest");
+  assert.equal(detectLauncher("/home/u/.npm/_npx/ab12/node_modules/@repotify/repotify/bin/repotify.mjs"), "npx -y @repotify/repotify@latest");
+  assert.equal(detectLauncher("/work/app/node_modules/@repotify/repotify/bin/repotify.mjs"), "npx -y @repotify/repotify@latest");
   const r = spawnSync(process.execPath, [join(root, "bin", "repotify.mjs"), "--help"], { encoding: "utf8", env: { ...process.env, npm_command: "exec" } });
   assert.equal(r.status, 0, r.stderr);
   const cwd = tmp();
@@ -146,12 +146,12 @@ test("re-review M-a: the downgrade guard holds across runs, even with another la
   const cwd = tmp();
   const src = tmp();
   writeFileSync(join(src, "SKILL.md"), "new");
-  installSelf({ cwd, agents: ["claude-code"], version: "0.2.0", sourceDir: src, launcher: "npx -y repotify@latest" });
+  installSelf({ cwd, agents: ["claude-code"], version: "0.2.0", sourceDir: src, launcher: "npx -y @repotify/repotify@latest" });
   writeFileSync(join(src, "SKILL.md"), "old");
   for (let run = 0; run < 2; run++) installSelf({ cwd, agents: ["claude-code"], version: "0.1.0", sourceDir: src, launcher: 'node "/tmp/old/bin/repotify.mjs"' });
   assert.equal(readFileSync(join(cwd, ".claude/skills/repotify/SKILL.md"), "utf8"), "new");
   assert.equal(readLock(cwd).items.repotify.version, "0.2.0");
-  assert.equal(readLock(cwd).items.repotify.launcher, "npx -y repotify@latest");
+  assert.equal(readLock(cwd).items.repotify.launcher, "npx -y @repotify/repotify@latest");
 });
 
 test("M13: staging happens beside the skills folder, never inside it", async () => {
@@ -167,4 +167,10 @@ test("M13: staging happens beside the skills folder, never inside it", async () 
 test("M17: dot-only hosts are not network domains", () => {
   const r = scanFiles([{ path: "a.sh", content: "curl https://../x\nwget https://./y\n" }]);
   assert.ok(!r.findings.some((f) => f.rule === "network-call"), JSON.stringify(r.findings));
+});
+
+test("the npx launcher names the package npm actually publishes", () => {
+  const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  assert.equal(pkg.name, "@repotify/repotify");
+  assert.equal(detectLauncher("/work/app/node_modules/@repotify/repotify/bin/repotify.mjs"), `npx -y ${pkg.name}@latest`);
 });

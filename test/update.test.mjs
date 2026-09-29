@@ -92,7 +92,7 @@ test("enableAutoCheck adds one SessionStart hook and keeps existing settings", (
   assert.equal(s.model, "opus");
   assert.equal(s.hooks.PreToolUse.length, 1);
   assert.equal(s.hooks.SessionStart.length, 1);
-  assert.match(s.hooks.SessionStart[0].hooks[0].command, /repotify@latest update --check --quiet --weekly/);
+  assert.match(s.hooks.SessionStart[0].hooks[0].command, /^npx -y @repotify\/repotify@latest update --check --quiet --weekly$/);
   writeFileSync(join(cwd, ".claude/settings.json"), "{bad");
   assert.deepEqual(enableAutoCheck({ cwd }), { written: false, reason: "unparseable" });
 });

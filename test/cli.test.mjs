@@ -12,7 +12,7 @@ const run = (...args) => spawnSync(process.execPath, [bin, ...args], { encoding:
 test("--version prints the package version", () => {
   const r = run("--version");
   assert.equal(r.status, 0);
-  assert.equal(r.stdout, "0.1.0\n");
+  assert.equal(r.stdout, "0.1.1\n");
 });
 
 test("unknown command exits 2 with a message", () => {

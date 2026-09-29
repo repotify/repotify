@@ -6,6 +6,9 @@ import { readJsonSafe } from "./util.mjs";
 // Where the published catalog lives once Repotify has its own repository.
 export const DEFAULT_CATALOG_URL = "https://raw.githubusercontent.com/repotify/repotify/main/catalog";
 
+// npm does not accept the unscoped name "repotify" (too close to restify and reactify), so the package is scoped.
+export const NPX_LAUNCHER = "npx -y @repotify/repotify@latest";
+
 // Analytics endpoint: intentionally null until the Cloudflare account is configured.
 // While null, events are only queued locally and nothing is sent.
 export const TELEMETRY_ENDPOINT = null;
