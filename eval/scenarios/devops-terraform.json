@@ -1,0 +1,32 @@
+{
+  "name": "devops-terraform",
+  "note": "agentic-actions-auditor@82fe822 is rejected by scanner 1.1.0 (a critical remote-exec match in attack prose, references/vector-f-subshell-expansion.md:51); rejected items stay out of the catalog (spec §8.2).",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "docker"
+    ],
+    "inferredNeeds": [
+      "deploy",
+      "ci"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "needs": [
+      "security"
+    ]
+  },
+  "mustInclude": [
+    "semgrep"
+  ],
+  "mustNotInclude": [
+    "frontend-design",
+    "react-native-skills",
+    "agentic-actions-auditor"
+  ]
+}

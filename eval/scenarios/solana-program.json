@@ -1,0 +1,27 @@
+{
+  "name": "solana-program",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "rust"
+    ],
+    "inferredNeeds": [
+      "smart-contracts"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "semgrep",
+    "property-based-testing"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "frontend-design"
+  ]
+}

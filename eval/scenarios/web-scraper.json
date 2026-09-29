@@ -1,0 +1,28 @@
+{
+  "name": "web-scraper",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python"
+    ],
+    "inferredNeeds": [
+      "scraping"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "automation"
+  },
+  "mustInclude": [
+    "playwright-mcp"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "frontend-design"
+  ]
+}

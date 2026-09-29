@@ -1,0 +1,3699 @@
+[
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "design-brainstorming"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 198,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a32d2255354775aa124855aa7100cf276bea096fff4ebb3a0edf57be216e6c72"
+      },
+      {
+        "path": "scripts/frame-template.html",
+        "sha256": "6a8a4e58bd6a44b904e2e3c57de774481d909204597e1498de53f1b2fecc4c4e"
+      },
+      {
+        "path": "scripts/helper.js",
+        "sha256": "43c6d69954a46ec34a2a262bcc62a9a7e83e839c739f199cb72646d397c686e3"
+      },
+      {
+        "path": "scripts/server.cjs",
+        "sha256": "2d2961ea8d11f56c5f4c3a1a68d22709efa5d7601a2246d8c880774e7e9e8412"
+      },
+      {
+        "path": "scripts/start-server.sh",
+        "sha256": "a4e5ae84275bcaacd2f84345afeabe59cf7b00ba080e123da7cc1fb226f12847"
+      },
+      {
+        "path": "scripts/stop-server.sh",
+        "sha256": "0b5ccbbd57f62d3ed88993f7940b5ee0e5c0fc9b21c550c623da4f6292e47daf"
+      },
+      {
+        "path": "spec-document-reviewer-prompt.md",
+        "sha256": "95a0a195de9d984be2fffa95bab16fc8c563bc296a9cfc5e9c29cb3ece0d7457"
+      },
+      {
+        "path": "visual-companion.md",
+        "sha256": "6ffcb038b53254bd31debaa15e12dcd4ff24bd63d690e0b644ac6396701cf2e2"
+      }
+    ],
+    "id": "brainstorming",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "Brainstorming (Superpowers)",
+    "needs": [],
+    "path": "skills/brainstorming",
+    "repo": "obra/superpowers",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "network call",
+          "file": "scripts/server.cjs",
+          "line": 0,
+          "note": "domains: primeradiant.com",
+          "rule": "network-call",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "2",
+      "level": "caution",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Turns a rough idea into an approved design through focused questions and trade-offs before any code is written.",
+    "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "component-architecture"
+    ],
+    "cluster": "component-architecture",
+    "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 310,
+    "files": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "89e3ddd58fcf99a53a50e25dfd21b8cde1be5f10b7df6bacd3dfa6796932f516"
+      },
+      {
+        "path": "README.md",
+        "sha256": "85915a43a6f0b4efe525e3cf6398dd866166da2025837c4460468a24a940da94"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "e38e0eaa609316b10423a9a138ed95e35099accd3f735585295c8a8f165c28a3"
+      },
+      {
+        "path": "metadata.json",
+        "sha256": "49262ed5cb4186f31ee980cf8d990be0170c51efed4908d0464a1cff9905bd05"
+      },
+      {
+        "path": "rules/_sections.md",
+        "sha256": "a174213b87e6911e2b766995a2cbaf8d1534057076e82fb79fe3f0ecb38047df"
+      },
+      {
+        "path": "rules/_template.md",
+        "sha256": "587f7d16b0660eb61fee4a4d3d7df2b3077d6835de170602c7d6e60bee559131"
+      },
+      {
+        "path": "rules/architecture-avoid-boolean-props.md",
+        "sha256": "007555ebb020f4d552582a2c4db194db71a1fd33094012e5187bcfa4f8c392d5"
+      },
+      {
+        "path": "rules/architecture-compound-components.md",
+        "sha256": "f246af13dc269b521cf20eb8ad99a0cb645beac381c8c9b117262c34612c8457"
+      },
+      {
+        "path": "rules/patterns-children-over-render-props.md",
+        "sha256": "7c45a0d21b3c4126a32cba916ee31adeae195386ad1dbbe6634aedb7457aa0ad"
+      },
+      {
+        "path": "rules/patterns-explicit-variants.md",
+        "sha256": "8c19e596e61807549d01ce8c6954c6358199f97a8511c0c02c625ec0efda8c0e"
+      },
+      {
+        "path": "rules/react19-no-forwardref.md",
+        "sha256": "881830adb7534c4b2d70db426556646ad9837f5478f744f35641f635ada22227"
+      },
+      {
+        "path": "rules/state-context-interface.md",
+        "sha256": "09e73afbf9285fa416679cc864a287b9e8b821d0969272ab784295386d8c9bc3"
+      },
+      {
+        "path": "rules/state-decouple-implementation.md",
+        "sha256": "76a8c1eb29a70d8996ab3f71260345af2f7bc89deab815a421d6c87c6591a9c3"
+      },
+      {
+        "path": "rules/state-lift-state.md",
+        "sha256": "74c54038a6c554c748fe31cec673b80861b5d920b7553cf78cdf10d18b4b759b"
+      }
+    ],
+    "id": "composition-patterns",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.95,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "React Composition Patterns (Vercel)",
+    "needs": [
+      "frontend-ui"
+    ],
+    "path": "skills/composition-patterns",
+    "repo": "vercel-labs/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "react",
+      "nextjs"
+    ],
+    "summary": "React composition patterns that scale: compound components, slots and state lifting done right.",
+    "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli"
+    ],
+    "badges": [],
+    "capabilities": [
+      "docs-lookup"
+    ],
+    "cluster": "docs-lookup",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 700,
+    "id": "context7",
+    "jury": null,
+    "license": "MIT",
+    "name": "Context7",
+    "needs": [
+      "llm-calls",
+      "dependencies",
+      "frontend-ui"
+    ],
+    "repo": "upstash/context7",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": {
+      "mcp": {
+        "args": [
+          "-y",
+          "@upstash/context7-mcp@4.1.1"
+        ],
+        "command": "npx"
+      },
+      "npm": "@upstash/context7-mcp@4.1.1",
+      "steps": [
+        "Add the Context7 MCP server to your agent's MCP config"
+      ]
+    },
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": null,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Fetches current, version-specific library docs into context so generated code matches today's APIs.",
+    "tier": "mission",
+    "type": "mcp"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "82fe8226252622fa807643bdca1710901198553a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 477,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f9af6a8193fc1a9f8ca3c54bb8d19095a5f20c9472ca6d014488bbde50b67da0"
+      },
+      {
+        "path": "adversarial.md",
+        "sha256": "3cb823f38c6e551cbcf5f72325d2bb219dacdad774072519c31d50d92db19800"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "0279d56f88dc1a04d4b1941a25fa7672912a3ceb0557b13c38d069908b30ae61"
+      },
+      {
+        "path": "assets/trail-of-bits-mark.svg",
+        "sha256": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05"
+      },
+      {
+        "path": "methodology.md",
+        "sha256": "16b335d24cf2145e3dc4a37f50056550d29db2efa20e6df78fec95ec1e6fb0b4"
+      },
+      {
+        "path": "patterns.md",
+        "sha256": "52abb18abbc73502a3d3b2f36a7a035adc1db40fd812d1d5424cf065036a06e9"
+      },
+      {
+        "path": "reporting.md",
+        "sha256": "0016876dc6f158e926448bff1b6f634796757c7afe09dff177cfe30250724fc4"
+      }
+    ],
+    "id": "differential-review",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.95,
+      "specificity": 0.9
+    },
+    "license": "CC-BY-SA-4.0",
+    "name": "Differential Review (Trail of Bits)",
+    "needs": [
+      "security",
+      "auth",
+      "payments",
+      "github-workflow"
+    ],
+    "path": "plugins/differential-review/skills/differential-review",
+    "repo": "trailofbits/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Security-focused review of each diff: blast radius, callers, test coverage and a written report.",
+    "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "docx-documents"
+    ],
+    "cluster": "docx-documents",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 835,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "8017469ea95fb7d28225c62daf8e2f3492a7b516fc64c18c28977cbf8980b7fe"
+      },
+      {
+        "path": "scripts/__init__.py",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "path": "scripts/accept_changes.py",
+        "sha256": "0c991d2bc7304a1248e9f3bf9b1498f0b6e76641fc457e7cbd73c99b4eef3a74"
+      },
+      {
+        "path": "scripts/comment.py",
+        "sha256": "37d116e5f56bb142b208c6c6a4bbcf960495abf470ddb7c6675ccfac864ba3d7"
+      },
+      {
+        "path": "scripts/merge_runs.py",
+        "sha256": "3ab367fd7fba4647943d0aa5e65203b15458551410f5ffc821d902616a4b9f40"
+      },
+      {
+        "path": "scripts/office/helpers/__init__.py",
+        "sha256": "678e42456d9e10923c8b9a93691cdd993de3433448a184fa72a0c31f4ae086d5"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_chart.py",
+        "sha256": "47ac266f7d39d11ede6bb0d1f3a19d801394fd2964636f1b48beb701f1832964"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_slide.py",
+        "sha256": "7b9f69b4a5bd6a2d9eabf9e0e3e796d7a421373145f6a8cd11f60b7ba2d6a5d0"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_theme.py",
+        "sha256": "ebb54c56e9c13807f5f98f0cae22d47cdd0162da8525eaa664e3f2c8c8d6bb03"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd",
+        "sha256": "41b93bd8857cc68b1e43be2806a872d736a9bdd6566900062d8fdb57d7bbb354"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd",
+        "sha256": "3fd0586f2637b98bb9886f0e0b67d89e1cc987c2d158cc7deb5f5b9890ced412"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd",
+        "sha256": "29b254ee0d10414a8504b5a08149c7baec35a60d5ff607d6b3f492aa36815f40"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd",
+        "sha256": "5cb76dabd8b97d1e9308a1700b90c20139be4d50792d21a7f09789f5cccd6026"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd",
+        "sha256": "5375417f0f5394b8dd1a7035b9679151f19a6b65df309dec10cfb4a420cb00e9"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd",
+        "sha256": "5d389d42befbebd91945d620242347caecd3367f9a3a7cf8d97949507ae1f53c"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd",
+        "sha256": "b4532b6d258832953fbb3ee4c711f4fe25d3faf46a10644b2505f17010d01e88"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd",
+        "sha256": "bdad416b096b61d37b71603b2c949484f9070c830bdaeba93bf35e15c8900614"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd",
+        "sha256": "d173c3e5d61e42e2e3a97226c632fd2ab7cc481fc4e492365b87024ab546daff"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd",
+        "sha256": "3c6709101c6aaa82888df5d8795c33f9e857196790eb320d9194e64be2b6bdd8"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd",
+        "sha256": "0b364451dc36a48dd6dae0f3b6ada05fd9b71e5208211f8ee5537d7e51a587e2"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd",
+        "sha256": "e2abacbb9a55ce1365f8961bc1b1395bbc811e512b111000d8c333f98458dece"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd",
+        "sha256": "0ef4bb354ff44b923564c4ddbdda5987919d220225129ec94614a618ceafc281"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd",
+        "sha256": "0d103b99a4a8652f8871552a69d42d2a3760ac6a5e3ef02d979c4273257ff6a4"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd",
+        "sha256": "9c085407751b9061c1f996f6c39ce58451be22a8d334f09175f0e89e42736285"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd",
+        "sha256": "bc92e36ccd233722d4c5869bec71ddc7b12e2df56059942cce5a39065cc9c368"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd",
+        "sha256": "7b5b7413e2c895b1e148e82e292a117d53c7ec65b0696c992edca57b61b4a74b"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd",
+        "sha256": "3213ef1631606250f5010b42cad7ef716f7c59426367798e33c374c0ec391d3a"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd",
+        "sha256": "12264f3c03d738311cd9237d212f1c07479e70f0cbe1ae725d29b36539aef637"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd",
+        "sha256": "beffeed56945c22a77440122c8bdc426f3fcbe7f3b12ea0976c770d1f8d54578"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd",
+        "sha256": "f5ee623b08b6a66935e5aced2f5d8ad0fc71bf9e8e833cd490150c0fa94b8763"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd",
+        "sha256": "585bedc1313b40888dcc544cb74cd939a105ee674f3b1d3aa1cc6d34f70ff155"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd",
+        "sha256": "133c9f64a5c5d573b78d0a474122b22506d8eadb5e063f67cdbbb8fa2f161d0e"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd",
+        "sha256": "6bdeb169c3717eb01108853bd9fc5a3750fb1fa5b82abbdd854d49855a40f519"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd",
+        "sha256": "475dcae1e7d1ea46232db6f8481040c15e53a52a3c256831d3df204212b0e831"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd",
+        "sha256": "c2dd9f61f892deae6acd8d20771ea79b12018af25f3bf8d06639c8542d218cfd"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd",
+        "sha256": "a539aa2fb154fa50e0f5cc97e6ad7cbc66f8ec3e3746f61ec6a8b0d5d15ecdf2"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd",
+        "sha256": "9e0b7209fc69ab11987900404540969976000c5ebe4d4f58c43dc3842886bf3a"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd",
+        "sha256": "451958454e8588dfc7cd945981ada142ca06ff3307937f5700df059c2b307fa8"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd",
+        "sha256": "6de111e11403f7cd49027400755bae0ea1cabef2815f09bd40a24f0017613b24"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd",
+        "sha256": "f565adfef5a502044abc3a9153e157edc25af78304d335994afb958874b15e26"
+      },
+      {
+        "path": "scripts/office/schemas/mce/mc.xsd",
+        "sha256": "3a37e461ecf5a8670fdec34029703401f8728ab9c96ec1739a6ae58d55212413"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2010.xsd",
+        "sha256": "568b26ee156cb9549aa439ca2158965f77b7c1602b7e0316f40ac6cf586e35f2"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2012.xsd",
+        "sha256": "0fa75578a000439a7988ba0c59fdc69f774bbd416cbacc14d07125b3f686cb74"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2018.xsd",
+        "sha256": "be0ff793a22dd31384650c3a4da14c2fa8062751c2e97b0e5ee852bda13c60ad"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-cex-2018.xsd",
+        "sha256": "fddc2b880cabb9005aebbc7e783e53c19fec1c03df7d0e2f2076a33a0fdfd081"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-cid-2016.xsd",
+        "sha256": "127ca209fa73d7cb708449cb355c871867948a96e4a74f7bf5811ef62d17991d"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd",
+        "sha256": "842e7163409c8d74f4d7088a8bc99500d80bc75332681a0980055b08f374a604"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-symex-2015.xsd",
+        "sha256": "16f6f8072249f431370723c2cd8974672e0d9c897e00e97dd918079df934871b"
+      },
+      {
+        "path": "scripts/office/soffice.py",
+        "sha256": "df2c8d7249c132a4512d744482e4b5ed0ecbe885f0bcfb1295e7e6a7ced0432c"
+      },
+      {
+        "path": "scripts/office/validate.py",
+        "sha256": "346a4c89d92fff55e610f11efda48c30228815b29bdb10b987e48f7af70acf1e"
+      },
+      {
+        "path": "scripts/office/validators/__init__.py",
+        "sha256": "83e0f035c5abea238d3f2c3968afbd511ed022b527b7c9cb60a9434cc34ff987"
+      },
+      {
+        "path": "scripts/office/validators/base.py",
+        "sha256": "f818ea28c793ba42960fa4498265e2632a62c86f7b5d6aff6fa89dacc02d59ea"
+      },
+      {
+        "path": "scripts/office/validators/docx.py",
+        "sha256": "93d3444c0ef3f043d21a2285c46d2cda478426b930dc33dcf3b11265935517b5"
+      },
+      {
+        "path": "scripts/office/validators/pptx.py",
+        "sha256": "17eadad2b7a8374ccbe4cda45693bcd6a36f9d61a7d60f9c9ceef9464dec8299"
+      },
+      {
+        "path": "scripts/office/validators/redlining.py",
+        "sha256": "ed50d0885eee4b9c387f546b059bcaed64086815880a5167336244f93e305123"
+      },
+      {
+        "path": "scripts/templates/comments.xml",
+        "sha256": "a08ba83ee8790ac9e3dc61921f4988f19edd7e06ac09d6f1897a877c1581818d"
+      },
+      {
+        "path": "scripts/templates/commentsExtended.xml",
+        "sha256": "544eeecfeceed4b468fff163cd9c366d33641c8b8ab691ce002576197846afe8"
+      },
+      {
+        "path": "scripts/templates/commentsExtensible.xml",
+        "sha256": "bad10b3283e6ad6e7ef6d1ca5169683721ed690ee331282c65df04017e080631"
+      },
+      {
+        "path": "scripts/templates/commentsIds.xml",
+        "sha256": "db20f9616e004ec42ef736e80c2384e45db0f8d1194d31dc8b37c7d6ecdd6420"
+      },
+      {
+        "path": "scripts/templates/people.xml",
+        "sha256": "056f63aa1197fd8c9dda980c9f1b9ff016fd5fa4a462df8aec5f384f39d23e37"
+      }
+    ],
+    "id": "docx",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Proprietary, source-available (see LICENSE.txt)",
+    "name": "Word Documents (Anthropic)",
+    "needs": [
+      "office-docs"
+    ],
+    "path": "skills/docx",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "network call",
+          "file": "scripts/office/helpers/__init__.py",
+          "line": 0,
+          "note": "domains: schemas.openxmlformats.org",
+          "rule": "network-call",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "2",
+      "level": "caution",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Creates and edits Word documents with tracked changes, comments and clean formatting.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "frontend-design"
+    ],
+    "cluster": "frontend-design",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 204,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
+      }
+    ],
+    "id": "frontend-design",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.88,
+      "specificity": 0.92
+    },
+    "license": "Apache-2.0",
+    "name": "Frontend Design (Anthropic)",
+    "needs": [
+      "frontend-ui"
+    ],
+    "path": "skills/frontend-design",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Produces distinctive, production-grade interfaces instead of generic AI-looking layouts.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli"
+    ],
+    "badges": [],
+    "capabilities": [
+      "github-integration"
+    ],
+    "cluster": "github-integration",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 3200,
+    "id": "github-mcp",
+    "jury": null,
+    "license": "MIT",
+    "name": "GitHub MCP Server",
+    "needs": [
+      "github-workflow",
+      "ci"
+    ],
+    "repo": "github/github-mcp-server",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": {
+      "mcp": {
+        "args": [
+          "run",
+          "-i",
+          "--rm",
+          "-e",
+          "GITHUB_PERSONAL_ACCESS_TOKEN",
+          "ghcr.io/github/github-mcp-server:v1.12.2"
+        ],
+        "command": "docker"
+      },
+      "steps": [
+        "Add the GitHub MCP server to your agent's MCP config",
+        "Create a fine-grained GitHub token with the least scopes you need and export it as GITHUB_PERSONAL_ACCESS_TOKEN in your shell (never in a committed file)"
+      ]
+    },
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": null,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Official GitHub server: issues, pull requests, code search and Actions from inside the agent.",
+    "tier": "mission",
+    "type": "mcp"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "codebase-map"
+    ],
+    "cluster": "codebase-map",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 420,
+    "id": "graphify",
+    "jury": null,
+    "license": "Apache-2.0",
+    "name": "Graphify",
+    "needs": [
+      "large-codebase",
+      "onboarding"
+    ],
+    "repo": "Graphify-Labs/graphify",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": {
+      "pypi": "graphifyy==0.9.71",
+      "steps": [
+        "uv tool install graphifyy==0.9.71",
+        "graphify install"
+      ],
+      "verify": "graphify --version"
+    },
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": null,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Maps your whole project into a queryable knowledge graph so the agent navigates by structure instead of grepping.",
+    "tier": "core",
+    "type": "tool"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "smart-contract-security"
+    ],
+    "cluster": "smart-contract-security",
+    "commit": "82fe8226252622fa807643bdca1710901198553a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 582,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "5bb8ba34d363c419e1769a59d0fcc7444a04dc6d9e59032cb93019befdc2e464"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "efb688da205e309c49a91e969bfd5c6c63c23ad3f90bd429367d5539eea7e6ec"
+      },
+      {
+        "path": "assets/trail-of-bits-mark.svg",
+        "sha256": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05"
+      },
+      {
+        "path": "resources/ASSESSMENT_AREAS.md",
+        "sha256": "951352a5e7c3afa717ed62770ae1b7c152c4792480e3beebefc68f9c96d2a46c"
+      },
+      {
+        "path": "resources/DELIVERABLES.md",
+        "sha256": "5a9a6e14acb0be5dd8e15440227d5cf659931ec79cca346661f9ef22bc5f21c2"
+      },
+      {
+        "path": "resources/EXAMPLE_REPORT.md",
+        "sha256": "4c31c1718afaece6c7ba2c3519373167ca5d81f937fb4356c8d9b45d280833f0"
+      }
+    ],
+    "id": "guidelines-advisor",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "CC-BY-SA-4.0",
+    "name": "Smart Contract Guidelines Advisor (Trail of Bits)",
+    "needs": [
+      "smart-contracts",
+      "security"
+    ],
+    "path": "plugins/building-secure-contracts/skills/guidelines-advisor",
+    "repo": "trailofbits/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "solidity"
+    ],
+    "summary": "Reviews smart contract architecture, upgradeability, dependencies and tests against Trail of Bits practice.",
+    "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "mcp-development"
+    ],
+    "cluster": "mcp-development",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 277,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "0f4592dcb53cf2b5d6b7febee6b4152018b565551a1c29e3c612f57b218ab295"
+      },
+      {
+        "path": "reference/evaluation.md",
+        "sha256": "8c99479f8a2d22a636c38e274537aac3610879e26f34e0709825077c4576f427"
+      },
+      {
+        "path": "reference/mcp_best_practices.md",
+        "sha256": "80fb4369a349447cf18ecdd7494fe7938b6065377e9f08c077cec411093a3007"
+      },
+      {
+        "path": "reference/node_mcp_server.md",
+        "sha256": "c3ba35a4f599dd53be9c6555ae72c19a7bf412cd5426576c2c08d42755482c66"
+      },
+      {
+        "path": "reference/python_mcp_server.md",
+        "sha256": "2da52f77e675191014ca2e146a4b95aa04d0ca7dd7e2b100322df15ade685e80"
+      },
+      {
+        "path": "scripts/connections.py",
+        "sha256": "9403668a2041568772082a8b334122c1f88daf0541fb393af4522d0094a47a6e"
+      },
+      {
+        "path": "scripts/evaluation.py",
+        "sha256": "49ed1d17cdce5da101b210197740713f49b935c29d4f339542a14b132658e6f7"
+      },
+      {
+        "path": "scripts/example_evaluation.xml",
+        "sha256": "9272b348ddcc4b06ba562367ccd0770e018158c0068ac5116d5e34aaeff8777a"
+      },
+      {
+        "path": "scripts/requirements.txt",
+        "sha256": "d5d7558b2368ecea9dfeed7d1fbc71ee9e0750bebd1282faa527d528a344c3c7"
+      }
+    ],
+    "id": "mcp-builder",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.88,
+      "specificity": 0.9
+    },
+    "license": "Apache-2.0",
+    "name": "MCP Builder (Anthropic)",
+    "needs": [
+      "mcp-server"
+    ],
+    "path": "skills/mcp-builder",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides building high-quality MCP servers in TypeScript or Python, from tool design to evaluation.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "pdf-processing"
+    ],
+    "cluster": "pdf-processing",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 437,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "9f78b8359fbd4943ad260a7a1e436e5a96503406d6c34e99f69223d647d85b9c"
+      },
+      {
+        "path": "forms.md",
+        "sha256": "9530b3f57034792e0242a3abfe8b3c296466329551916f2ff6c5a70db78f7e44"
+      },
+      {
+        "path": "reference.md",
+        "sha256": "03a5f964f8abecbbe156f363356e927e864d7ee964f1012c84ee1bfc8acbeb95"
+      },
+      {
+        "path": "scripts/check_bounding_boxes.py",
+        "sha256": "0ced522402dd7b3c82a0be9518cf4e485fa9cc0467d7beab6ddb04cb36fcc3e1"
+      },
+      {
+        "path": "scripts/check_fillable_fields.py",
+        "sha256": "1fe10b9980a5493c9bbec8c20630c603eaa475b45403751c08f26738736647b8"
+      },
+      {
+        "path": "scripts/convert_pdf_to_images.py",
+        "sha256": "7f58e292a67e18a8ff000d30bad2469389546731f7e8a698cc1d0aed001ea15d"
+      },
+      {
+        "path": "scripts/create_validation_image.py",
+        "sha256": "8fa9fd7962c9f940045b81cf6b991e7c1057c1838e3f9cc6d305007a222ffebf"
+      },
+      {
+        "path": "scripts/extract_form_field_info.py",
+        "sha256": "bb235b36f497bbb1c7c6821cecf527bbba7213520de11219da99f7b13a38c109"
+      },
+      {
+        "path": "scripts/extract_form_structure.py",
+        "sha256": "6814e3fe8f78c2b16d766c132b5a727ff7a31b71d76a7d46bd6e40fe50bc97c5"
+      },
+      {
+        "path": "scripts/fill_fillable_fields.py",
+        "sha256": "d140872c2e92e41b1e05370ae8d270c5b7f5ebdf55d9905f03bc974a9c708ff5"
+      },
+      {
+        "path": "scripts/fill_pdf_form_with_annotations.py",
+        "sha256": "8a56e063a49ed53c0b0e1d312ecf8023af76816ed139486ec3b539873de202fd"
+      }
+    ],
+    "id": "pdf",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.85,
+      "specificity": 1
+    },
+    "license": "Proprietary, source-available (see LICENSE.txt)",
+    "name": "PDF (Anthropic)",
+    "needs": [
+      "pdf",
+      "office-docs"
+    ],
+    "path": "skills/pdf",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Reads, fills, merges, splits and generates PDF files, including forms and scanned pages.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli"
+    ],
+    "badges": [],
+    "capabilities": [
+      "browser-automation"
+    ],
+    "cluster": "browser-automation",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 2400,
+    "id": "playwright-mcp",
+    "jury": null,
+    "license": "Apache-2.0",
+    "name": "Playwright MCP",
+    "needs": [
+      "scraping",
+      "e2e-testing"
+    ],
+    "repo": "microsoft/playwright-mcp",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": {
+      "mcp": {
+        "args": [
+          "-y",
+          "@playwright/mcp@0.0.82"
+        ],
+        "command": "npx"
+      },
+      "npm": "@playwright/mcp@0.0.82",
+      "steps": [
+        "Add the Playwright MCP server to your agent's MCP config"
+      ]
+    },
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": null,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Lets the agent drive a real browser: navigate, click, fill forms and read pages via accessibility snapshots.",
+    "tier": "mission",
+    "type": "mcp"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "presentations"
+    ],
+    "cluster": "presentations",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 732,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "a7ff03e2c85b636f55232a6b1555f5dd90216b7a1a359ab289d8364e6acbc6a0"
+      },
+      {
+        "path": "scripts/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "scripts/add_slide.py",
+        "sha256": "3922f819ee1f6b8bdc6aa146d1a86de70640f5f919321fe3f01a764482ff69c9"
+      },
+      {
+        "path": "scripts/clean.py",
+        "sha256": "5c808cd4dff7e02661ef3c68b5917f4e25097cc6610c92a3a7df4a6366a5c3c1"
+      },
+      {
+        "path": "scripts/office/helpers/__init__.py",
+        "sha256": "678e42456d9e10923c8b9a93691cdd993de3433448a184fa72a0c31f4ae086d5"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_chart.py",
+        "sha256": "47ac266f7d39d11ede6bb0d1f3a19d801394fd2964636f1b48beb701f1832964"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_slide.py",
+        "sha256": "7b9f69b4a5bd6a2d9eabf9e0e3e796d7a421373145f6a8cd11f60b7ba2d6a5d0"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_theme.py",
+        "sha256": "ebb54c56e9c13807f5f98f0cae22d47cdd0162da8525eaa664e3f2c8c8d6bb03"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd",
+        "sha256": "41b93bd8857cc68b1e43be2806a872d736a9bdd6566900062d8fdb57d7bbb354"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd",
+        "sha256": "3fd0586f2637b98bb9886f0e0b67d89e1cc987c2d158cc7deb5f5b9890ced412"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd",
+        "sha256": "29b254ee0d10414a8504b5a08149c7baec35a60d5ff607d6b3f492aa36815f40"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd",
+        "sha256": "5cb76dabd8b97d1e9308a1700b90c20139be4d50792d21a7f09789f5cccd6026"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd",
+        "sha256": "5375417f0f5394b8dd1a7035b9679151f19a6b65df309dec10cfb4a420cb00e9"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd",
+        "sha256": "5d389d42befbebd91945d620242347caecd3367f9a3a7cf8d97949507ae1f53c"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd",
+        "sha256": "b4532b6d258832953fbb3ee4c711f4fe25d3faf46a10644b2505f17010d01e88"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd",
+        "sha256": "bdad416b096b61d37b71603b2c949484f9070c830bdaeba93bf35e15c8900614"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd",
+        "sha256": "d173c3e5d61e42e2e3a97226c632fd2ab7cc481fc4e492365b87024ab546daff"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd",
+        "sha256": "3c6709101c6aaa82888df5d8795c33f9e857196790eb320d9194e64be2b6bdd8"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd",
+        "sha256": "0b364451dc36a48dd6dae0f3b6ada05fd9b71e5208211f8ee5537d7e51a587e2"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd",
+        "sha256": "e2abacbb9a55ce1365f8961bc1b1395bbc811e512b111000d8c333f98458dece"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd",
+        "sha256": "0ef4bb354ff44b923564c4ddbdda5987919d220225129ec94614a618ceafc281"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd",
+        "sha256": "0d103b99a4a8652f8871552a69d42d2a3760ac6a5e3ef02d979c4273257ff6a4"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd",
+        "sha256": "9c085407751b9061c1f996f6c39ce58451be22a8d334f09175f0e89e42736285"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd",
+        "sha256": "bc92e36ccd233722d4c5869bec71ddc7b12e2df56059942cce5a39065cc9c368"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd",
+        "sha256": "7b5b7413e2c895b1e148e82e292a117d53c7ec65b0696c992edca57b61b4a74b"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd",
+        "sha256": "3213ef1631606250f5010b42cad7ef716f7c59426367798e33c374c0ec391d3a"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd",
+        "sha256": "12264f3c03d738311cd9237d212f1c07479e70f0cbe1ae725d29b36539aef637"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd",
+        "sha256": "beffeed56945c22a77440122c8bdc426f3fcbe7f3b12ea0976c770d1f8d54578"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd",
+        "sha256": "f5ee623b08b6a66935e5aced2f5d8ad0fc71bf9e8e833cd490150c0fa94b8763"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd",
+        "sha256": "585bedc1313b40888dcc544cb74cd939a105ee674f3b1d3aa1cc6d34f70ff155"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd",
+        "sha256": "133c9f64a5c5d573b78d0a474122b22506d8eadb5e063f67cdbbb8fa2f161d0e"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd",
+        "sha256": "6bdeb169c3717eb01108853bd9fc5a3750fb1fa5b82abbdd854d49855a40f519"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd",
+        "sha256": "475dcae1e7d1ea46232db6f8481040c15e53a52a3c256831d3df204212b0e831"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd",
+        "sha256": "c2dd9f61f892deae6acd8d20771ea79b12018af25f3bf8d06639c8542d218cfd"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd",
+        "sha256": "a539aa2fb154fa50e0f5cc97e6ad7cbc66f8ec3e3746f61ec6a8b0d5d15ecdf2"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd",
+        "sha256": "9e0b7209fc69ab11987900404540969976000c5ebe4d4f58c43dc3842886bf3a"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd",
+        "sha256": "451958454e8588dfc7cd945981ada142ca06ff3307937f5700df059c2b307fa8"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd",
+        "sha256": "6de111e11403f7cd49027400755bae0ea1cabef2815f09bd40a24f0017613b24"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd",
+        "sha256": "f565adfef5a502044abc3a9153e157edc25af78304d335994afb958874b15e26"
+      },
+      {
+        "path": "scripts/office/schemas/mce/mc.xsd",
+        "sha256": "3a37e461ecf5a8670fdec34029703401f8728ab9c96ec1739a6ae58d55212413"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2010.xsd",
+        "sha256": "568b26ee156cb9549aa439ca2158965f77b7c1602b7e0316f40ac6cf586e35f2"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2012.xsd",
+        "sha256": "0fa75578a000439a7988ba0c59fdc69f774bbd416cbacc14d07125b3f686cb74"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2018.xsd",
+        "sha256": "be0ff793a22dd31384650c3a4da14c2fa8062751c2e97b0e5ee852bda13c60ad"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-cex-2018.xsd",
+        "sha256": "fddc2b880cabb9005aebbc7e783e53c19fec1c03df7d0e2f2076a33a0fdfd081"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-cid-2016.xsd",
+        "sha256": "127ca209fa73d7cb708449cb355c871867948a96e4a74f7bf5811ef62d17991d"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd",
+        "sha256": "842e7163409c8d74f4d7088a8bc99500d80bc75332681a0980055b08f374a604"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-symex-2015.xsd",
+        "sha256": "16f6f8072249f431370723c2cd8974672e0d9c897e00e97dd918079df934871b"
+      },
+      {
+        "path": "scripts/office/soffice.py",
+        "sha256": "df2c8d7249c132a4512d744482e4b5ed0ecbe885f0bcfb1295e7e6a7ced0432c"
+      },
+      {
+        "path": "scripts/office/validate.py",
+        "sha256": "346a4c89d92fff55e610f11efda48c30228815b29bdb10b987e48f7af70acf1e"
+      },
+      {
+        "path": "scripts/office/validators/__init__.py",
+        "sha256": "83e0f035c5abea238d3f2c3968afbd511ed022b527b7c9cb60a9434cc34ff987"
+      },
+      {
+        "path": "scripts/office/validators/base.py",
+        "sha256": "f818ea28c793ba42960fa4498265e2632a62c86f7b5d6aff6fa89dacc02d59ea"
+      },
+      {
+        "path": "scripts/office/validators/docx.py",
+        "sha256": "93d3444c0ef3f043d21a2285c46d2cda478426b930dc33dcf3b11265935517b5"
+      },
+      {
+        "path": "scripts/office/validators/pptx.py",
+        "sha256": "17eadad2b7a8374ccbe4cda45693bcd6a36f9d61a7d60f9c9ceef9464dec8299"
+      },
+      {
+        "path": "scripts/office/validators/redlining.py",
+        "sha256": "ed50d0885eee4b9c387f546b059bcaed64086815880a5167336244f93e305123"
+      },
+      {
+        "path": "scripts/thumbnail.py",
+        "sha256": "94ef83a84346aa2d63913de0d42bb2fe902ccdc17bfac6130096ca758381793c"
+      }
+    ],
+    "id": "pptx",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Proprietary, source-available (see LICENSE.txt)",
+    "name": "Slide Decks (Anthropic)",
+    "needs": [
+      "office-docs"
+    ],
+    "path": "skills/pptx",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "network call",
+          "file": "scripts/office/helpers/__init__.py",
+          "line": 0,
+          "note": "domains: schemas.openxmlformats.org",
+          "rule": "network-call",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "2",
+      "level": "caution",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Creates and edits PowerPoint decks with layouts, speaker notes and consistent design.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "property-testing"
+    ],
+    "cluster": "property-testing",
+    "commit": "82fe8226252622fa807643bdca1710901198553a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 845,
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "ffbe30eec09cc64fb1eae836b07ca1d82939bda3f1e6f0dceadcdd78793a3112"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "9448cacb65c6237a7c22dc59602667177ecae405524079ae9ff92240590b995a"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "51d635deefa254d8cdf6dc56450851b6ec9545cd37f88a4eb4035cf3f2262fff"
+      },
+      {
+        "path": "assets/trail-of-bits-mark.svg",
+        "sha256": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05"
+      },
+      {
+        "path": "references/generating.md",
+        "sha256": "c0e72dfc89babe3c32de718b81b94044362c85e776d7475e950dfeaab78bb58e"
+      },
+      {
+        "path": "references/interpreting-failures.md",
+        "sha256": "dbae7db8773712ba03268a3d56ea5aa6720af0650a5189580bfd88aa2edc3f9a"
+      },
+      {
+        "path": "references/libraries.md",
+        "sha256": "f7218acf8e668130ef3048983472579d04e12030c5401926f666363e5f69c686"
+      },
+      {
+        "path": "references/refactoring.md",
+        "sha256": "6eb5c206f575704791f089608bb06e41d6eed91b9d3c7fb27912f969aed07a18"
+      },
+      {
+        "path": "references/reviewing.md",
+        "sha256": "110b08118a1e7b1a2566def6e9d2a0bf43fc2deefce857d2ce3b4382b07bc774"
+      }
+    ],
+    "id": "property-based-testing",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.95
+    },
+    "license": "CC-BY-SA-4.0",
+    "name": "Property-Based Testing (Trail of Bits)",
+    "needs": [
+      "testing",
+      "smart-contracts"
+    ],
+    "path": "plugins/property-based-testing/skills/property-based-testing",
+    "repo": "trailofbits/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Adds property-based tests that find edge cases example tests miss, for parsers, serializers and math.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "react-performance"
+    ],
+    "cluster": "react-performance",
+    "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 329,
+    "files": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "fc93e7421177bbf869cce892bc60a6c83a4517d974bc3bf65c4e2c1e58a6ccf6"
+      },
+      {
+        "path": "README.md",
+        "sha256": "9eafb2123d3b8b2aef41fba0db2648a3f4f49996f8c7c8bb2c86263befd8b48a"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "71ed7794962fa6e803ee83030517b5b93a9f70fbfeb431ec4535c5480a8d8355"
+      },
+      {
+        "path": "metadata.json",
+        "sha256": "c4e18bac3290fbe1b471a605867d4df68b03144ea26b8befdbe8f9d8fd124354"
+      },
+      {
+        "path": "rules/_sections.md",
+        "sha256": "01c59969e4e867f0708c8f8ef9c6d87fab9a07d0586244f429ff84013db8a115"
+      },
+      {
+        "path": "rules/_template.md",
+        "sha256": "99df2a3ea088c6c22de2484ddc7e964d0e9923846f44c63380343ecc64455442"
+      },
+      {
+        "path": "rules/advanced-effect-event-deps.md",
+        "sha256": "55ed8f9f27a1bff803d6fa55828176207714b02123cbb97ddb8a90d88024a723"
+      },
+      {
+        "path": "rules/advanced-event-handler-refs.md",
+        "sha256": "a3097edeecfb2ff6851cd66ed8cdf0617c3c88180504bee824aa6e75a215bbbc"
+      },
+      {
+        "path": "rules/advanced-init-once.md",
+        "sha256": "3e4dc22173eb0e2b6dcf583e3babd862b8696328f8f59aee7c4d746c5bc05f6c"
+      },
+      {
+        "path": "rules/advanced-use-latest.md",
+        "sha256": "8a3f64dfe5a77d1564248faf17fe662ae75b55d497a243cb30b38eb07ccbbf9a"
+      },
+      {
+        "path": "rules/async-api-routes.md",
+        "sha256": "523338540d73427dc14c0cbb19f2741ebccdf8b105a7b2c1b33d2905cf237a42"
+      },
+      {
+        "path": "rules/async-cheap-condition-before-await.md",
+        "sha256": "03107c1f70a293cd58a8abc5474c5548e20ea4efdf01b6d45aae7ad0ac1cb32c"
+      },
+      {
+        "path": "rules/async-defer-await.md",
+        "sha256": "f3c142d090615abdcc99d31c123be37b31f0f1ed8d9ec9f7789a3bc6883ae0fb"
+      },
+      {
+        "path": "rules/async-dependencies.md",
+        "sha256": "16ef469f877e30c6b8e1e1b4bc3e527312fa3c6318cb785a4eca186ea236131a"
+      },
+      {
+        "path": "rules/async-parallel.md",
+        "sha256": "6d2f841896279e976dfcdc1ac89e70771ac188baadfd43c096b5706cb838b961"
+      },
+      {
+        "path": "rules/async-suspense-boundaries.md",
+        "sha256": "de05fedac2eb7ae563b887b5a424464ec3dfaf84e5b7797467ebe2a796ac8afc"
+      },
+      {
+        "path": "rules/bundle-analyzable-paths.md",
+        "sha256": "62090b5c815fd71bf1133dce754f51abc16a9456d0ccd025fd627de27726e92a"
+      },
+      {
+        "path": "rules/bundle-barrel-imports.md",
+        "sha256": "e648f6d54525f07a691357040ca5bff6ea3424788a91ff63812adb29622a671b"
+      },
+      {
+        "path": "rules/bundle-conditional.md",
+        "sha256": "09c8259c3efb04fc0abb8e412ccbda217c222ae8118516283e571c995fe3a7d4"
+      },
+      {
+        "path": "rules/bundle-defer-third-party.md",
+        "sha256": "3719fb47b191e8db4fe22686ec88448ad5af9e6838585425abbe103d0b642e37"
+      },
+      {
+        "path": "rules/bundle-dynamic-imports.md",
+        "sha256": "401817a7369f315fc5a68a1095742ff7d53d0461906880dc9d64a41495ee1986"
+      },
+      {
+        "path": "rules/bundle-preload.md",
+        "sha256": "d1f7cc28da7cd5ab249acd287edc5b761afcfb194e9cb62cd44c5f3543db2de2"
+      },
+      {
+        "path": "rules/client-event-listeners.md",
+        "sha256": "242a873349febc1ce685e85617994784dbab92c2eaa68aed7fed5a83e7680e93"
+      },
+      {
+        "path": "rules/client-localstorage-schema.md",
+        "sha256": "0fb7cdf9dc93fdf22f87e3669f953fb9d4ac9b0be42eec4a29fe9a2560610b88"
+      },
+      {
+        "path": "rules/client-passive-event-listeners.md",
+        "sha256": "1f35016f9053de69e884ee9be00654e37979c2ca85f5e57764dc2626ff7acb4b"
+      },
+      {
+        "path": "rules/client-swr-dedup.md",
+        "sha256": "644652c39c6cc00de8d1c77a7273612e868dc3f7edda30764164c12ec0f764a3"
+      },
+      {
+        "path": "rules/js-batch-dom-css.md",
+        "sha256": "480b891b9eaf96e929dc1e964274a4828e3a78009b7d00ccd965a0d425215959"
+      },
+      {
+        "path": "rules/js-cache-function-results.md",
+        "sha256": "3daaa11d24f4295cb6be8bc6f407f2ce83cc7b5bd1f0e68891ea8ab835721dc7"
+      },
+      {
+        "path": "rules/js-cache-property-access.md",
+        "sha256": "73e47431e74878a927061bf0ddc7cd91a7556cb35d2573f3421e82300d9ae311"
+      },
+      {
+        "path": "rules/js-cache-storage.md",
+        "sha256": "11b826b0433898c1ece2d3547010d8e77db9fb240185748c45db91493de9b6cc"
+      },
+      {
+        "path": "rules/js-combine-iterations.md",
+        "sha256": "71add08aeeb43091d4ff4c0b2842cce8b4bdef8ad3e732cc034bb5a84827e746"
+      },
+      {
+        "path": "rules/js-early-exit.md",
+        "sha256": "925ce5ce87f3347186ca62212f29cc6baa2b8c85a96d2720ad07c3d0abf781c0"
+      },
+      {
+        "path": "rules/js-flatmap-filter.md",
+        "sha256": "9e5b166a41914d975bef7635467f8fb32cd98b5c3126c0bc6f163490812fb5f0"
+      },
+      {
+        "path": "rules/js-hoist-regexp.md",
+        "sha256": "f9e9aef2f7c2307dd7310f283df85dcada45fc43e9bb941b0c3aa414dec21ec4"
+      },
+      {
+        "path": "rules/js-index-maps.md",
+        "sha256": "5df1bdc2cfabb2c98abd55d26762e5c18189535c2e686184f426082e62920391"
+      },
+      {
+        "path": "rules/js-length-check-first.md",
+        "sha256": "8b54a311c826b299272f29187fc58bc55772a04c4a72eeb29456ee96dc9fc624"
+      },
+      {
+        "path": "rules/js-min-max-loop.md",
+        "sha256": "87dfb67e2f39df6ad8bcfb5b78c5fb364d3c07554ad188a202408d99f3763421"
+      },
+      {
+        "path": "rules/js-request-idle-callback.md",
+        "sha256": "ee08f83905b4011abbc33d594033157d77561b5bbd9b36b04f0f409581ffec32"
+      },
+      {
+        "path": "rules/js-set-map-lookups.md",
+        "sha256": "a7fd781a6ba9ad49065961b6f9a90ef486bf6b648390e1a08704025f98e1642b"
+      },
+      {
+        "path": "rules/js-tosorted-immutable.md",
+        "sha256": "d0a5e1b0fec48a0a81397957e2f068e224329f7c42cb5feeed8aae6fa64025e8"
+      },
+      {
+        "path": "rules/rendering-activity.md",
+        "sha256": "1e5e7eaf3555e61d6a2e900089c676527d26259501db5594f59544b6c664f85a"
+      },
+      {
+        "path": "rules/rendering-animate-svg-wrapper.md",
+        "sha256": "9c6ae0ca7a51434e803887c64cded760956579a1452ccb80a461a03f9c937c77"
+      },
+      {
+        "path": "rules/rendering-conditional-render.md",
+        "sha256": "2ec2fa23c4148285144687050c52369adba3da2fbe3d486f8d3e0aad8f06f2bc"
+      },
+      {
+        "path": "rules/rendering-content-visibility.md",
+        "sha256": "64eee6d5b916fe74df33363994b27fc7f71bea3bcedc7ee04bda23107ca3e6e4"
+      },
+      {
+        "path": "rules/rendering-hoist-jsx.md",
+        "sha256": "93b229560fae92005ed9a2a829064607b39b2e984e92d221d05b2d41df2b7c0e"
+      },
+      {
+        "path": "rules/rendering-hydration-no-flicker.md",
+        "sha256": "dc7ab358c67c177bca6e6f360fbc935ebe4efa928c0ba3ebd3f9f3d9e2000ca3"
+      },
+      {
+        "path": "rules/rendering-hydration-suppress-warning.md",
+        "sha256": "915bacb934e2927d84b37a3f3d225a47b309ac8f9e494ed2bcb66ce07c5676a2"
+      },
+      {
+        "path": "rules/rendering-resource-hints.md",
+        "sha256": "351b1095d641717b930f1b2253282b7120af3023bc74e06c17675168d4286864"
+      },
+      {
+        "path": "rules/rendering-script-defer-async.md",
+        "sha256": "4cea07b7875ba7fc2c7465ff23b63a2bb334f90aaf2d9293d38d67b05fdb32ab"
+      },
+      {
+        "path": "rules/rendering-svg-precision.md",
+        "sha256": "ed468533f6e95f622859c884b122cf21f9f593ed6bb3d500a54de4b9f9bcb9fb"
+      },
+      {
+        "path": "rules/rendering-usetransition-loading.md",
+        "sha256": "3a1249c3f13026b6f54ab5712c388df219d6af01b12aa542749acd99a46f4bc1"
+      },
+      {
+        "path": "rules/rerender-defer-reads.md",
+        "sha256": "234050a77faf50cb306be10a9e15bd4421134ab5907e75f13e6d78e2bd262dc9"
+      },
+      {
+        "path": "rules/rerender-dependencies.md",
+        "sha256": "17eb5830956fb56486fd3cfc7431f5849d39751730c05ad9e77dd4f0c27169c5"
+      },
+      {
+        "path": "rules/rerender-derived-state-no-effect.md",
+        "sha256": "cb11ec76f50aa7b6847269f02d79b120c889a30d9ecd2c1d578f75144419c77a"
+      },
+      {
+        "path": "rules/rerender-derived-state.md",
+        "sha256": "1c326bb67b01fb084eb00c8911b0a7cff54681c2315b629f88e49b64eaa6481d"
+      },
+      {
+        "path": "rules/rerender-functional-setstate.md",
+        "sha256": "5e68df6b2ae8058e67f476ff1ac67bde159f5a9d18df439e46eabcdeb7b52e58"
+      },
+      {
+        "path": "rules/rerender-lazy-state-init.md",
+        "sha256": "4ae844740f266fc8cbf050701230286624a2440ec5be67b9a63d9edc3c580573"
+      },
+      {
+        "path": "rules/rerender-memo-with-default-value.md",
+        "sha256": "81c47476564ad8a79fc68fc442734255ca7d6829424359464503fda0a9f9a0dd"
+      },
+      {
+        "path": "rules/rerender-memo.md",
+        "sha256": "1f258990c2f27ff6256b3cc5c43300631bb3f0d81f749aed08d07fcdcc131dd1"
+      },
+      {
+        "path": "rules/rerender-move-effect-to-event.md",
+        "sha256": "abc2cbf167bee056743023351e96806a411d3398da8802093620aecf0721f029"
+      },
+      {
+        "path": "rules/rerender-no-inline-components.md",
+        "sha256": "1cc32907a770272524ba682eef9e7efdd8ad4533b6f89b718a1fcd7d1d0eb6a3"
+      },
+      {
+        "path": "rules/rerender-simple-expression-in-memo.md",
+        "sha256": "5bdcf2d1558ba5204e643c887b7b4060f89630969425651eb68e96427d97f800"
+      },
+      {
+        "path": "rules/rerender-split-combined-hooks.md",
+        "sha256": "6f45d703343484ef9acef9388397f3642966ae6a5a258899a0cf1f9977cfbf6c"
+      },
+      {
+        "path": "rules/rerender-transitions.md",
+        "sha256": "60f4033909a62df5e5b8c601494f9e50a562e2f8c1c2d81eac24f38142265f1c"
+      },
+      {
+        "path": "rules/rerender-use-deferred-value.md",
+        "sha256": "8c3579576a61a949884167745dcfaf1d5426ba305cc61fd0a79602d70fda4909"
+      },
+      {
+        "path": "rules/rerender-use-ref-transient-values.md",
+        "sha256": "f1a649af9d1d0b5c762f6c9c4c1c70c90d7df82aa10296ee87aadb78c1b76c54"
+      },
+      {
+        "path": "rules/server-after-nonblocking.md",
+        "sha256": "d0b8d24a3db9f0f65f9e2bddbf230b0e03a5f60e1229d93a4a18f5e7a991c7c2"
+      },
+      {
+        "path": "rules/server-auth-actions.md",
+        "sha256": "a2ca8aa102839251c7971ec784560fab943c20b36fe6f80365d4110c13260c23"
+      },
+      {
+        "path": "rules/server-cache-lru.md",
+        "sha256": "1924b64561841923b88a657085097a0aeba3e0ba2d5470b9f5c15cc10d6ae70f"
+      },
+      {
+        "path": "rules/server-cache-react.md",
+        "sha256": "fddeea6c870bb3da4134b61d54b7d09b83d2603f929b7547cd3dc1dc269edd5c"
+      },
+      {
+        "path": "rules/server-dedup-props.md",
+        "sha256": "c2747424cdac46be62f835f245a0aa887b0090b416d28e2ac8676702645eeb37"
+      },
+      {
+        "path": "rules/server-hoist-static-io.md",
+        "sha256": "5abea4dd882b13661bd5f7dfb93f9e547d5f08176c61c448ade91b210ed5d49f"
+      },
+      {
+        "path": "rules/server-no-shared-module-state.md",
+        "sha256": "4d869bf1cd2f1632e5ca4c0e64b1cf0e71c5f5a0f940bc8a22174d205e735ed7"
+      },
+      {
+        "path": "rules/server-parallel-fetching.md",
+        "sha256": "569a2e9fc04f9606686cd75c5894ef8781b502786a7fffe241396846c7733472"
+      },
+      {
+        "path": "rules/server-parallel-nested-fetching.md",
+        "sha256": "ad5d9656984d4a959997a2367bf59cc6632297b4634a1dd13a087939d83f30b3"
+      },
+      {
+        "path": "rules/server-serialization.md",
+        "sha256": "f4c7d68b29c82381baad059c4a7f09e868e71ec9c3115a26ad3ae7d24c0dfe1f"
+      }
+    ],
+    "id": "react-best-practices",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "React Best Practices (Vercel)",
+    "needs": [
+      "performance",
+      "seo",
+      "frontend-ui"
+    ],
+    "path": "skills/react-best-practices",
+    "repo": "vercel-labs/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "react",
+      "nextjs"
+    ],
+    "summary": "Vercel's React and Next.js performance rules: data fetching, bundles, rendering and caching.",
+    "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "react-native"
+    ],
+    "cluster": "react-native",
+    "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 295,
+    "files": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "72996343b8260800fbeb9af63ddaed91f14b65dc547e0922f9f8e9bd72076cbf"
+      },
+      {
+        "path": "README.md",
+        "sha256": "d60d7623005a833b928be6a109ed9d14dea43d7217fb534e8f2e4de5fc1f0ddf"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "4012750a5ccbe064ca04af3835d5d1b011979d2d09d9b6df1c8128fac58e0a66"
+      },
+      {
+        "path": "metadata.json",
+        "sha256": "59ee2274cadbd95b2220727028f0dbc26d3e0251e7937226edc9e7640756ba21"
+      },
+      {
+        "path": "rules/_sections.md",
+        "sha256": "21d7445e92bd7d393b420118c3fb9ebbf30aaf123a15143afb6c0b1b562cfdfd"
+      },
+      {
+        "path": "rules/_template.md",
+        "sha256": "99df2a3ea088c6c22de2484ddc7e964d0e9923846f44c63380343ecc64455442"
+      },
+      {
+        "path": "rules/animation-derived-value.md",
+        "sha256": "689228e9d59227934f296563963951aa9368be0afb2a188f650de161203b1862"
+      },
+      {
+        "path": "rules/animation-gesture-detector-press.md",
+        "sha256": "69408d4be669e74689d865c5f50a22fc3a802d521fe493371761abd20526e58e"
+      },
+      {
+        "path": "rules/animation-gpu-properties.md",
+        "sha256": "f885e4179445da27cbc225e0a4aa3ed9016fc3507ca6f864392ba7a9d0bd7516"
+      },
+      {
+        "path": "rules/design-system-compound-components.md",
+        "sha256": "dcb10900a58fcf57cca2e27c062d02df2325a7949e08fb45e9e05cc2b132b1a6"
+      },
+      {
+        "path": "rules/fonts-config-plugin.md",
+        "sha256": "b92568774064a604e7a479d4c8d7263aed5609740e9161d2f2764bfff761905d"
+      },
+      {
+        "path": "rules/imports-design-system-folder.md",
+        "sha256": "aa6337f7f2869a46a9141ec65e02c3da5c3bf051023899b82e0f0aef5bff8423"
+      },
+      {
+        "path": "rules/js-hoist-intl.md",
+        "sha256": "b4b08622465ffcd5e5961878eb8c6d7359aa242d16c990b59941c9111962fe46"
+      },
+      {
+        "path": "rules/list-performance-callbacks.md",
+        "sha256": "db800e9dfe0080eb4954b96e2a362ee8344d08e08b1ed06bc8059450f3e6f0dd"
+      },
+      {
+        "path": "rules/list-performance-function-references.md",
+        "sha256": "b54470e41d578b207ee3223f6853efb7fbf8e5f83d9aecf8da16989072f99544"
+      },
+      {
+        "path": "rules/list-performance-images.md",
+        "sha256": "e88f16ac113c29230d674b7aa2c66c31d5772a74b1ea378d48a97b1143fe6c19"
+      },
+      {
+        "path": "rules/list-performance-inline-objects.md",
+        "sha256": "e2a80aac0f29c6abaf0163c1cc273d09cc8a0030ec077ca2022bbf5c309e4625"
+      },
+      {
+        "path": "rules/list-performance-item-expensive.md",
+        "sha256": "a68cc8ec5dba3c55761bd5df9dfd3d98485f63076868d3e03af15f1e58907ce3"
+      },
+      {
+        "path": "rules/list-performance-item-memo.md",
+        "sha256": "38ec1d149ee485434d11c2b9e2101dfc914afadae4a0738ca905f26b05f708c1"
+      },
+      {
+        "path": "rules/list-performance-item-types.md",
+        "sha256": "eed225f4e9e504bfa7db01f5395d1402545cc47de8adf1829a9408cd5d158cf6"
+      },
+      {
+        "path": "rules/list-performance-virtualize.md",
+        "sha256": "98cad308118acb4d6e8e975c0168ce56e2d48ca52ed47f23bc9a30667c066ada"
+      },
+      {
+        "path": "rules/monorepo-native-deps-in-app.md",
+        "sha256": "8368b109027fcec1b8a81bfb99718aef2b64edaba77107f73d7c465cc5a14217"
+      },
+      {
+        "path": "rules/monorepo-single-dependency-versions.md",
+        "sha256": "61c01b9eaab1e319bf078204231fb573bdfea3c43a6eb99e7ef73ee95d474ccc"
+      },
+      {
+        "path": "rules/navigation-native-navigators.md",
+        "sha256": "6642dedb57e72f0b56df5fbc3d5b8aaa91fc4456932c12712cfd076d393f32c6"
+      },
+      {
+        "path": "rules/react-compiler-destructure-functions.md",
+        "sha256": "8048926a4fa3fbd28fc0ecf4ba4c383a2f0ed06c2fd7330dd4a15d7f4e548044"
+      },
+      {
+        "path": "rules/react-compiler-reanimated-shared-values.md",
+        "sha256": "3174303a72b6849ff0eda5cd9f9650f26baa5f31ed28d35a75076af714fb2ffc"
+      },
+      {
+        "path": "rules/react-state-dispatcher.md",
+        "sha256": "7ec5b653e3ff8d9ca97d8d66981cce5590c0e49fa79ab708fd6324542b588870"
+      },
+      {
+        "path": "rules/react-state-fallback.md",
+        "sha256": "eb76e386d71680bfdfc0ab64dba1221f4d3d0fdcb4980bb4a871381d58e9e58b"
+      },
+      {
+        "path": "rules/react-state-minimize.md",
+        "sha256": "31b989de61defda1c61d8578c4700efd64a427218c3f3dbb7062a1666e1cbe43"
+      },
+      {
+        "path": "rules/rendering-no-falsy-and.md",
+        "sha256": "7300fa45ac3a4968db144727a21052421bc62de9b5e9f6f59e28bd16d2fff001"
+      },
+      {
+        "path": "rules/rendering-text-in-text-component.md",
+        "sha256": "fc67897b6126b6b5574f4d284a6c5b2282528fe89de8ec08e6cfd2a86ab5b235"
+      },
+      {
+        "path": "rules/scroll-position-no-state.md",
+        "sha256": "70aa1ee679e755556d7b01b326431fe898d3c23ddba40d0da6bdac23c87a1525"
+      },
+      {
+        "path": "rules/state-ground-truth.md",
+        "sha256": "9f3efc73d2e66a5deb3199c9774f42524cd6a0f69784af38301946be5d747cb5"
+      },
+      {
+        "path": "rules/ui-expo-image.md",
+        "sha256": "c3c13cce3dd2cc7f8a9b4861e5743af98f62e28f5699f72f492e79a335cfae55"
+      },
+      {
+        "path": "rules/ui-image-gallery.md",
+        "sha256": "b34d1ba03710ed9622187716541ae618968e7d03bc28895c2ac918d3cc5853f1"
+      },
+      {
+        "path": "rules/ui-measure-views.md",
+        "sha256": "170d058abc4900ea9e851e54f5e8b437ffffc2c9d3847ae35e30a515c8990c3d"
+      },
+      {
+        "path": "rules/ui-menus.md",
+        "sha256": "5964adbecfe9aeb28d736a4eaacec6469a1c4ca3f48779d243eb38b6d181cfe9"
+      },
+      {
+        "path": "rules/ui-native-modals.md",
+        "sha256": "d803493b3046ad31cbb2c189f1fffb948fd0055050e3c322589bd548421e23a8"
+      },
+      {
+        "path": "rules/ui-pressable.md",
+        "sha256": "52cdbad127d713d7d32c59ef74ab1bbd6dca211edc9b25993453f7f4545e79fa"
+      },
+      {
+        "path": "rules/ui-safe-area-scroll.md",
+        "sha256": "3dd776caef2344d73529010940b50042861d06d31a192122a4df64bc06aed0e8"
+      },
+      {
+        "path": "rules/ui-scrollview-content-inset.md",
+        "sha256": "89e4bbe5e9a602660f4155e9d4c0dee09db1adf21c73f47213cd67ec896e5a13"
+      },
+      {
+        "path": "rules/ui-styling.md",
+        "sha256": "cdef4d8b1a097b844e5992ab78e66a2dc604faf1e90f8d325a0eb116e8ef6a7e"
+      }
+    ],
+    "id": "react-native-skills",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "React Native Skills (Vercel)",
+    "needs": [
+      "mobile",
+      "performance"
+    ],
+    "path": "skills/react-native-skills",
+    "repo": "vercel-labs/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "react-native",
+      "expo"
+    ],
+    "summary": "React Native and Expo practices for fast, smooth mobile apps: lists, images, animations, navigation.",
+    "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code"
+    ],
+    "badges": [],
+    "builtin": true,
+    "capabilities": [
+      "package-guard"
+    ],
+    "cluster": "package-guard",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 0,
+    "id": "repotify-guard",
+    "jury": null,
+    "license": "MIT",
+    "name": "Repotify Package Guard",
+    "needs": [
+      "dependencies",
+      "security"
+    ],
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": {
+      "steps": [
+        "repotify install repotify-guard --yes"
+      ],
+      "verify": "repotify guard --self-test"
+    },
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": null,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Blocks installs of packages that do not exist and warns on brand-new ones, stopping hallucinated-package attacks.",
+    "tier": "core",
+    "type": "config"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review"
+    ],
+    "cluster": "code-review",
+    "commit": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 107,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "cfcee1b06774e7c0517f1e09be1a11f2d5680257072723e709ddbcf7e08b795a"
+      },
+      {
+        "path": "code-reviewer.md",
+        "sha256": "82e370be6b3447523816286195571e4216ba56ba1ad6ad0e87862294c4c78dcb"
+      }
+    ],
+    "id": "requesting-code-review",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "Requesting Code Review (Superpowers)",
+    "needs": [
+      "github-workflow",
+      "testing"
+    ],
+    "path": "skills/requesting-code-review",
+    "repo": "obra/superpowers",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Sends finished work to an independent reviewer with the right context and acts on the findings.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "static-analysis"
+    ],
+    "cluster": "static-analysis",
+    "commit": "82fe8226252622fa807643bdca1710901198553a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 707,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "52162605593f871cf45f48f9cf00b7c2d7e0759ccb7507981088442b7cc5d76c"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "b200a52900687f8176cb5d8230a29e5e80c8317337efcdcf87754e892129cd89"
+      },
+      {
+        "path": "assets/trail-of-bits-mark.svg",
+        "sha256": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05"
+      },
+      {
+        "path": "references/rulesets.md",
+        "sha256": "e641bf7b2f32cd81b2623759f72a560dd96f6747f1295157f2984fe8ebac3f74"
+      },
+      {
+        "path": "references/scan-modes.md",
+        "sha256": "99ed0ffb9e9ee68bcb175da469f1310f28f96e356c69c65918a0afc430027d3d"
+      },
+      {
+        "path": "scripts/merge_sarif.py",
+        "sha256": "8b6094e18a0e4d36250c72c81903edac914552df7eb2a7eebd1ac449d105f7ba"
+      },
+      {
+        "path": "scripts/run-scans.sh",
+        "sha256": "ac3d815dbd5cdfa0419596411058378ab659bd243c7dc87495114e773aa40347"
+      },
+      {
+        "path": "scripts/test_merge_sarif.py",
+        "sha256": "8f235bface6ff37f813c1a44b2a6c2edf273cd548b95b770c362f0a443473c75"
+      },
+      {
+        "path": "workflows/scan-workflow.md",
+        "sha256": "fef44f3abb2ebc050e96daaefa71d9b94a0d0082278d6d958f366dff04d9064d"
+      }
+    ],
+    "id": "semgrep",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "CC-BY-SA-4.0",
+    "name": "Semgrep Scan (Trail of Bits)",
+    "needs": [
+      "security",
+      "smart-contracts"
+    ],
+    "path": "plugins/static-analysis/skills/semgrep",
+    "repo": "trailofbits/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Runs a Semgrep security scan with language-aware rulesets and triages the findings.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "skill-authoring"
+    ],
+    "cluster": "skill-authoring",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 319,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "dcd4803e61e913e6fc27294184cd3a71f09f5e924ff20c8a9a20173e7b3c2bcf"
+      },
+      {
+        "path": "agents/analyzer.md",
+        "sha256": "bf68f4cac5a56c673a928c2e6d619586c5b93ea364026ab37547772cb45a663a"
+      },
+      {
+        "path": "agents/comparator.md",
+        "sha256": "fe1fc9787c495d864c5d6eada47396478572325fde1b33a96d78bf4b849b7a3e"
+      },
+      {
+        "path": "agents/grader.md",
+        "sha256": "57134da0c1a4eea33fbd74a1c9c44aa814f07d6bc64de303edb586f941e5d21a"
+      },
+      {
+        "path": "assets/eval_review.html",
+        "sha256": "ce477dcc74dc1c0d1d3352646a79167b5a63634e936b1019160025065974e452"
+      },
+      {
+        "path": "eval-viewer/generate_review.py",
+        "sha256": "fc9d1b9243fe5ab6012ebd579bd76d0035de1b79fd3b969de114defab26478fb"
+      },
+      {
+        "path": "eval-viewer/viewer.html",
+        "sha256": "a53213426ee1100441d701a3a0d49cda7a842f992d2c36463f4d3cc0258575fa"
+      },
+      {
+        "path": "references/schemas.md",
+        "sha256": "8e8876180a8989b406a4d3edddf875b04cdfd5805cc8616686d552b11ce4455f"
+      },
+      {
+        "path": "scripts/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "scripts/aggregate_benchmark.py",
+        "sha256": "123ef128ea5ccc01a4b1ac212ef5567f21e9c13d3d240609780beeb3200c49aa"
+      },
+      {
+        "path": "scripts/generate_report.py",
+        "sha256": "13df7118a3c50c83c4c3250a606d5f2b20b25a3d44cbc392b3d669ec75281453"
+      },
+      {
+        "path": "scripts/improve_description.py",
+        "sha256": "87d864570220b699fac52da309d2d6efdb060647bfebc74f768128e646accf80"
+      },
+      {
+        "path": "scripts/package_skill.py",
+        "sha256": "1a33059b0db1ef73375d46d513e5ea81369d2e8838c970597b0d52ddef8d1c0f"
+      },
+      {
+        "path": "scripts/quick_validate.py",
+        "sha256": "67cf5703402013936c8fb75ad6a1afecd8841d45cc5e606b634eb05825fde365"
+      },
+      {
+        "path": "scripts/run_eval.py",
+        "sha256": "43e3b8f80dbf69c343967ba77e268fae991d9fa3ed68b32a0ff02532cd48657f"
+      },
+      {
+        "path": "scripts/run_loop.py",
+        "sha256": "7bd6f674203168520517eec94c55f493c0d154339b061b4d7c0f0dad187d0f21"
+      },
+      {
+        "path": "scripts/utils.py",
+        "sha256": "3af8ae62c40c73ab712207436a0d9a981e845f25c5a7040229eb189cc8e45bb1"
+      }
+    ],
+    "id": "skill-creator",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "Apache-2.0",
+    "name": "Skill Creator (Anthropic)",
+    "needs": [
+      "agent-skills"
+    ],
+    "path": "skills/skill-creator",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "network call",
+          "file": "scripts/generate_report.py",
+          "line": 0,
+          "note": "domains: fonts.googleapis.com, fonts.gstatic.com",
+          "rule": "network-call",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "2",
+      "level": "caution",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Creates, tests and tunes agent skills, including trigger descriptions and evals.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "supply-chain-audit"
+    ],
+    "cluster": "supply-chain-audit",
+    "commit": "82fe8226252622fa807643bdca1710901198553a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 367,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a1254b7f8d3a1731a9a7e1f9cd6c67b59cf84ed6ef7c7fb455db9a14c528ceb4"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "7d79ce0a77aaa1e2c72939b02b285b13a84d9da85ffb965a9d1489c358cd27ab"
+      },
+      {
+        "path": "assets/trail-of-bits-mark.svg",
+        "sha256": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05"
+      },
+      {
+        "path": "scripts/collect.py",
+        "sha256": "fd75cffad628980a6da521b5d3a40fb5dd16c5bb9ad63a25245e5208d08abff7"
+      },
+      {
+        "path": "scripts/model.py",
+        "sha256": "78a20954b76e81216991b57453ceddbdb867035a0d6993b98cfa05a7f8d008d3"
+      },
+      {
+        "path": "scripts/pyproject.toml",
+        "sha256": "a79ec30039ce3bc90544b9d833f7edc128232821575736f659d2b2ca0a601f3b"
+      },
+      {
+        "path": "scripts/render.py",
+        "sha256": "9d6091645c8a8edf5c50d24bd70ff881efa30b920d93b46ea1775ee2dd328bc7"
+      },
+      {
+        "path": "scripts/sources.py",
+        "sha256": "4eb66952dca285b4790d1193b39f240e8015025ee054a215f4c696cbba2478e2"
+      },
+      {
+        "path": "scripts/test_collect.py",
+        "sha256": "ea4f25bdab0add75d500b22ba5eb9f993d3695d974cd3f92b418f5cff07e00da"
+      },
+      {
+        "path": "scripts/test_model.py",
+        "sha256": "92059fe937c50f1502d71df2ddc4f123e8e2647fc0f4f7b270727ef9a2004f5c"
+      },
+      {
+        "path": "scripts/test_render.py",
+        "sha256": "319970fd010d6bf5fbf79b595e8fc918c5e74645b718f495f2479aef3ea8cc16"
+      },
+      {
+        "path": "scripts/test_sources.py",
+        "sha256": "5c0a993d747e3ed29972272a18a14dd46b6f897bdfff7e147d0a9e9b4b4b6511"
+      },
+      {
+        "path": "scripts/uv.lock",
+        "sha256": "99598cc397a42c945abbc9d839d1c61f1852f414660ce41e2e68bd9cdf664100"
+      }
+    ],
+    "id": "supply-chain-risk-auditor",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "CC-BY-SA-4.0",
+    "name": "Supply-Chain Risk Auditor (Trail of Bits)",
+    "needs": [
+      "dependencies",
+      "security"
+    ],
+    "path": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor",
+    "repo": "trailofbits/skills",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "network call",
+          "file": "scripts/sources.py",
+          "line": 0,
+          "note": "domains: api.npmjs.org, proxy.golang.org, api.scorecard.dev",
+          "rule": "network-call",
+          "severity": "medium"
+        },
+        {
+          "excerpt": "network call",
+          "file": "scripts/test_collect.py",
+          "line": 0,
+          "note": "domains: x, npm.acme.internal, proxy.golang.org, api.npmjs.org, api.scorecard.dev, example.com",
+          "rule": "network-call",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "2",
+      "level": "caution",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Audits dependencies for advisories, abandoned upstreams, publisher concentration and install-time scripts.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "debugging-method"
+    ],
+    "cluster": "debugging-method",
+    "commit": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 91,
+    "files": [
+      {
+        "path": "CREATION-LOG.md",
+        "sha256": "c24733a5b1821bd6bed1fc950261f0b9f4e90097e0bbb96459d8179713730789"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "808fc5717aa88ad65efff312b11c186294d3e6ee301afb584e2f86599b137787"
+      },
+      {
+        "path": "condition-based-waiting-example.ts",
+        "sha256": "40ae5ebe497fdf310200e43fe986552546d0a22837c0d39e855db1cfd33eb88e"
+      },
+      {
+        "path": "condition-based-waiting.md",
+        "sha256": "e89fec8400d6cd50f43407cec9fab50976ba4d55d0ec2eb51c0bd68036b54c26"
+      },
+      {
+        "path": "defense-in-depth.md",
+        "sha256": "1e175fb86fc357e58c6aebf5441e481e1b7868b4380c0456b63a17eefbd18ba7"
+      },
+      {
+        "path": "find-polluter.sh",
+        "sha256": "dd7b8f13c4cc2a24b33ff87b18da9248f3e1c80a085c3316224f69ff0fa5c43c"
+      },
+      {
+        "path": "root-cause-tracing.md",
+        "sha256": "75b933b6a8c40bdb2031b10f21654395b56ec6ab6bc7b018c18d3fe57aeb7fb8"
+      },
+      {
+        "path": "test-academic.md",
+        "sha256": "fe2ba480d78ac0d686dc025f41c2a32a43d642bf533f91b0c6053a04d35d6486"
+      },
+      {
+        "path": "test-pressure-1.md",
+        "sha256": "0b6a915db0054577819834c79be9eb614e97bddba10d73768e1fbe91cfed048a"
+      },
+      {
+        "path": "test-pressure-2.md",
+        "sha256": "b2030aeffba07050e8ad573ddf87486457c4a016a786bb326235bebd856f2016"
+      },
+      {
+        "path": "test-pressure-3.md",
+        "sha256": "96b50a52e2c7989c9cf20fb752c47c1e9a3a70dc362f8f7989f8f5b64dac7708"
+      }
+    ],
+    "id": "systematic-debugging",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "Systematic Debugging (Superpowers)",
+    "needs": [
+      "testing"
+    ],
+    "path": "skills/systematic-debugging",
+    "repo": "obra/superpowers",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Finds root causes with a four-phase method instead of guess-and-patch fixes.",
+    "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "tdd-discipline"
+    ],
+    "cluster": "tdd-discipline",
+    "commit": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 79,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "64b03fce4aee5a97a93160cea8111f3ba13a17b7c001db4bd5836d67fd10705d"
+      },
+      {
+        "path": "writing-good-tests.md",
+        "sha256": "51471c853306ff92ca8bb41dcaea05f31c0e46b03651f8f3c99754b7172f4ae1"
+      }
+    ],
+    "id": "test-driven-development",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.95,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "Test-Driven Development (Superpowers)",
+    "needs": [
+      "testing"
+    ],
+    "path": "skills/test-driven-development",
+    "repo": "obra/superpowers",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Enforces red-green-refactor: no production code without a failing test first.",
+    "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "verification-gate"
+    ],
+    "cluster": "verification-gate",
+    "commit": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 225,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3"
+      }
+    ],
+    "id": "verification-before-completion",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.95,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "Verification Before Completion (Superpowers)",
+    "needs": [
+      "testing"
+    ],
+    "path": "skills/verification-before-completion",
+    "repo": "obra/superpowers",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Requires fresh command output as evidence before the agent claims work is done.",
+    "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "web-design-review"
+    ],
+    "cluster": "web-design-review",
+    "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 184,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f4647ca866a3accf763777f83e7682954f0187cd6bea7eea0399796652414e8f"
+      }
+    ],
+    "id": "web-design-guidelines",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.8,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "Web Interface Guidelines (Vercel)",
+    "needs": [
+      "frontend-ui",
+      "seo"
+    ],
+    "path": "skills/web-design-guidelines",
+    "repo": "vercel-labs/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Reviews UI code for accessibility, UX and web interface best practices.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "webapp-testing"
+    ],
+    "cluster": "webapp-testing",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 204,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "51b7349e77ec63b7744a6f63647e7566a0b4d2e301121cc10e8c2113af6556a2"
+      },
+      {
+        "path": "examples/console_logging.py",
+        "sha256": "ea46877289acb82da7e7ce59d0bc37c8977cd57e2a006d0c88d7a1c625bf95da"
+      },
+      {
+        "path": "examples/element_discovery.py",
+        "sha256": "d63c89604a22f8845d724e95dda45db49b1bf57c25ce0a83afbb7b8da3d402f0"
+      },
+      {
+        "path": "examples/static_html_automation.py",
+        "sha256": "9d533aafb875ee3ab8b8ebf8f5b9003ac8d999da3d09b285cce252e623140064"
+      },
+      {
+        "path": "scripts/with_server.py",
+        "sha256": "b0dcf4918935b795f4eda9821579b9902119235ff4447f687a30286e7d0925fd"
+      }
+    ],
+    "id": "webapp-testing",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.85,
+      "specificity": 0.9
+    },
+    "license": "Apache-2.0",
+    "name": "Web App Testing (Anthropic)",
+    "needs": [
+      "e2e-testing",
+      "testing",
+      "frontend-ui"
+    ],
+    "path": "skills/webapp-testing",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Tests local web apps with Playwright: screenshots, console logs and interaction checks.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "writing-quality"
+    ],
+    "cluster": "writing-quality",
+    "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 207,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "89a5f581193289b80af58b980090aeed535047c8df2b55ccbaae0de40283a99d"
+      }
+    ],
+    "id": "writing-guidelines",
+    "jury": {
+      "agreement": 0.7999999999999999,
+      "maintenance": 0.7,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.8,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "Writing Guidelines (Vercel)",
+    "needs": [
+      "docs-writing"
+    ],
+    "path": "skills/writing-guidelines",
+    "repo": "vercel-labs/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Reviews docs and product copy for clear voice, tone and structure.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 84,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a6c67c1900064347c2a329990dd3c555657c51c3ec53b259a08aa01a2c26139a"
+      }
+    ],
+    "id": "writing-plans",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "Writing Plans (Superpowers)",
+    "needs": [],
+    "path": "skills/writing-plans",
+    "repo": "obra/superpowers",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Breaks an approved design into small test-first tasks with exact files, interfaces and checks.",
+    "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "spreadsheets"
+    ],
+    "cluster": "spreadsheets",
+    "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 948,
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "6712b39718fe815054abca9c3ee72f989613e6f771c8a5c58f30a65a6c905622"
+      },
+      {
+        "path": "scripts/office/helpers/__init__.py",
+        "sha256": "678e42456d9e10923c8b9a93691cdd993de3433448a184fa72a0c31f4ae086d5"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_chart.py",
+        "sha256": "47ac266f7d39d11ede6bb0d1f3a19d801394fd2964636f1b48beb701f1832964"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_slide.py",
+        "sha256": "7b9f69b4a5bd6a2d9eabf9e0e3e796d7a421373145f6a8cd11f60b7ba2d6a5d0"
+      },
+      {
+        "path": "scripts/office/helpers/pptx_theme.py",
+        "sha256": "ebb54c56e9c13807f5f98f0cae22d47cdd0162da8525eaa664e3f2c8c8d6bb03"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd",
+        "sha256": "41b93bd8857cc68b1e43be2806a872d736a9bdd6566900062d8fdb57d7bbb354"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd",
+        "sha256": "3fd0586f2637b98bb9886f0e0b67d89e1cc987c2d158cc7deb5f5b9890ced412"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd",
+        "sha256": "29b254ee0d10414a8504b5a08149c7baec35a60d5ff607d6b3f492aa36815f40"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd",
+        "sha256": "5cb76dabd8b97d1e9308a1700b90c20139be4d50792d21a7f09789f5cccd6026"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd",
+        "sha256": "5375417f0f5394b8dd1a7035b9679151f19a6b65df309dec10cfb4a420cb00e9"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd",
+        "sha256": "5d389d42befbebd91945d620242347caecd3367f9a3a7cf8d97949507ae1f53c"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd",
+        "sha256": "b4532b6d258832953fbb3ee4c711f4fe25d3faf46a10644b2505f17010d01e88"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd",
+        "sha256": "bdad416b096b61d37b71603b2c949484f9070c830bdaeba93bf35e15c8900614"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd",
+        "sha256": "d173c3e5d61e42e2e3a97226c632fd2ab7cc481fc4e492365b87024ab546daff"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd",
+        "sha256": "3c6709101c6aaa82888df5d8795c33f9e857196790eb320d9194e64be2b6bdd8"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd",
+        "sha256": "0b364451dc36a48dd6dae0f3b6ada05fd9b71e5208211f8ee5537d7e51a587e2"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd",
+        "sha256": "e2abacbb9a55ce1365f8961bc1b1395bbc811e512b111000d8c333f98458dece"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd",
+        "sha256": "0ef4bb354ff44b923564c4ddbdda5987919d220225129ec94614a618ceafc281"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd",
+        "sha256": "0d103b99a4a8652f8871552a69d42d2a3760ac6a5e3ef02d979c4273257ff6a4"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd",
+        "sha256": "9c085407751b9061c1f996f6c39ce58451be22a8d334f09175f0e89e42736285"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd",
+        "sha256": "bc92e36ccd233722d4c5869bec71ddc7b12e2df56059942cce5a39065cc9c368"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd",
+        "sha256": "7b5b7413e2c895b1e148e82e292a117d53c7ec65b0696c992edca57b61b4a74b"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd",
+        "sha256": "3213ef1631606250f5010b42cad7ef716f7c59426367798e33c374c0ec391d3a"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd",
+        "sha256": "12264f3c03d738311cd9237d212f1c07479e70f0cbe1ae725d29b36539aef637"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd",
+        "sha256": "beffeed56945c22a77440122c8bdc426f3fcbe7f3b12ea0976c770d1f8d54578"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd",
+        "sha256": "f5ee623b08b6a66935e5aced2f5d8ad0fc71bf9e8e833cd490150c0fa94b8763"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd",
+        "sha256": "585bedc1313b40888dcc544cb74cd939a105ee674f3b1d3aa1cc6d34f70ff155"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd",
+        "sha256": "133c9f64a5c5d573b78d0a474122b22506d8eadb5e063f67cdbbb8fa2f161d0e"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd",
+        "sha256": "6bdeb169c3717eb01108853bd9fc5a3750fb1fa5b82abbdd854d49855a40f519"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd",
+        "sha256": "475dcae1e7d1ea46232db6f8481040c15e53a52a3c256831d3df204212b0e831"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd",
+        "sha256": "c2dd9f61f892deae6acd8d20771ea79b12018af25f3bf8d06639c8542d218cfd"
+      },
+      {
+        "path": "scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd",
+        "sha256": "a539aa2fb154fa50e0f5cc97e6ad7cbc66f8ec3e3746f61ec6a8b0d5d15ecdf2"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd",
+        "sha256": "9e0b7209fc69ab11987900404540969976000c5ebe4d4f58c43dc3842886bf3a"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd",
+        "sha256": "451958454e8588dfc7cd945981ada142ca06ff3307937f5700df059c2b307fa8"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd",
+        "sha256": "6de111e11403f7cd49027400755bae0ea1cabef2815f09bd40a24f0017613b24"
+      },
+      {
+        "path": "scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd",
+        "sha256": "f565adfef5a502044abc3a9153e157edc25af78304d335994afb958874b15e26"
+      },
+      {
+        "path": "scripts/office/schemas/mce/mc.xsd",
+        "sha256": "3a37e461ecf5a8670fdec34029703401f8728ab9c96ec1739a6ae58d55212413"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2010.xsd",
+        "sha256": "568b26ee156cb9549aa439ca2158965f77b7c1602b7e0316f40ac6cf586e35f2"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2012.xsd",
+        "sha256": "0fa75578a000439a7988ba0c59fdc69f774bbd416cbacc14d07125b3f686cb74"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-2018.xsd",
+        "sha256": "be0ff793a22dd31384650c3a4da14c2fa8062751c2e97b0e5ee852bda13c60ad"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-cex-2018.xsd",
+        "sha256": "fddc2b880cabb9005aebbc7e783e53c19fec1c03df7d0e2f2076a33a0fdfd081"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-cid-2016.xsd",
+        "sha256": "127ca209fa73d7cb708449cb355c871867948a96e4a74f7bf5811ef62d17991d"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd",
+        "sha256": "842e7163409c8d74f4d7088a8bc99500d80bc75332681a0980055b08f374a604"
+      },
+      {
+        "path": "scripts/office/schemas/microsoft/wml-symex-2015.xsd",
+        "sha256": "16f6f8072249f431370723c2cd8974672e0d9c897e00e97dd918079df934871b"
+      },
+      {
+        "path": "scripts/office/soffice.py",
+        "sha256": "df2c8d7249c132a4512d744482e4b5ed0ecbe885f0bcfb1295e7e6a7ced0432c"
+      },
+      {
+        "path": "scripts/office/validate.py",
+        "sha256": "346a4c89d92fff55e610f11efda48c30228815b29bdb10b987e48f7af70acf1e"
+      },
+      {
+        "path": "scripts/office/validators/__init__.py",
+        "sha256": "83e0f035c5abea238d3f2c3968afbd511ed022b527b7c9cb60a9434cc34ff987"
+      },
+      {
+        "path": "scripts/office/validators/base.py",
+        "sha256": "f818ea28c793ba42960fa4498265e2632a62c86f7b5d6aff6fa89dacc02d59ea"
+      },
+      {
+        "path": "scripts/office/validators/docx.py",
+        "sha256": "93d3444c0ef3f043d21a2285c46d2cda478426b930dc33dcf3b11265935517b5"
+      },
+      {
+        "path": "scripts/office/validators/pptx.py",
+        "sha256": "17eadad2b7a8374ccbe4cda45693bcd6a36f9d61a7d60f9c9ceef9464dec8299"
+      },
+      {
+        "path": "scripts/office/validators/redlining.py",
+        "sha256": "ed50d0885eee4b9c387f546b059bcaed64086815880a5167336244f93e305123"
+      },
+      {
+        "path": "scripts/recalc.py",
+        "sha256": "66f6e726d5a53cfabea0b6471d6669deb95e54e96cb7913b687e4388da1bb3d9"
+      }
+    ],
+    "id": "xlsx",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.95
+    },
+    "license": "Proprietary, source-available (see LICENSE.txt)",
+    "name": "Spreadsheets (Anthropic)",
+    "needs": [
+      "office-docs",
+      "data-processing"
+    ],
+    "path": "skills/xlsx",
+    "repo": "anthropics/skills",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "network call",
+          "file": "scripts/office/helpers/__init__.py",
+          "line": 0,
+          "note": "domains: schemas.openxmlformats.org",
+          "rule": "network-call",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "2",
+      "level": "caution",
+      "scannedAt": "2026-09-28T23:35:32.776Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Builds and edits spreadsheets with formulas, formatting and charts; cleans messy tabular data.",
+    "tier": "mission",
+    "type": "skill"
+  }
+]

@@ -1,0 +1,320 @@
+import { lstat, readdir, readFile, readlink } from "node:fs/promises";
+import { join, relative, sep } from "node:path";
+import {
+  LINE_RULES, DOC_CONTEXT_RE, NEGATION_BEFORE_RE, DETECTION_FENCES, fileKind, isHiddenChar, isTagChar, isBidiChar,
+  isZeroWidth, exfilWindow, blobWithExec,
+} from "./rules.mjs";
+import { splitPipelines } from "./shell.mjs";
+import { fileRules, isBinaryFile, hostsInScript, NETWORK_ALLOWLIST } from "./files.mjs";
+
+export const SCANNER_VERSION = "1.2.0";
+
+const RANK = { low: 0, medium: 1, high: 2, critical: 3 };
+const MAX_FINDINGS_PER_RULE_PER_FILE = 10;
+
+export function levelFromFindings(findings) {
+  let top = -1;
+  for (const f of findings) top = Math.max(top, RANK[f.severity] ?? -1);
+  if (top === 3) return "rejected";
+  if (top === 2) return "quarantined";
+  if (top === 1) return "caution";
+  return "verified";
+}
+
+export function escapeInvisible(text) {
+  let out = "";
+  let offset = 0;
+  for (const ch of text) {
+    const cp = ch.codePointAt(0);
+    if (isHiddenChar(cp, offset === 0 ? -1 : offset) || cp < 0x20 && ch !== "\t") {
+      out += `\\u{${cp.toString(16).toUpperCase()}}`;
+    } else {
+      out += ch;
+    }
+    offset += ch.length;
+  }
+  return out;
+}
+
+function excerptOf(line, index = 0) {
+  const start = Math.max(0, Math.min(index, line.length) - 20);
+  const clean = escapeInvisible(line.slice(start).trimStart());
+  return clean.length > 80 ? clean.slice(0, 79) + "…" : clean;
+}
+
+// True when the match sits between a pair of quotes, e.g. `x = "; rm -rf /"`.
+function inQuotes(line, match) {
+  const end = match.index + match.length;
+  for (const q of ['"', "'"]) {
+    const open = line.lastIndexOf(q, match.index - 1);
+    if (open < 0 || /\w/.test(line[open - 1] ?? "")) continue;
+    const close = line.indexOf(q, end - 1 >= open + 1 ? end - 1 : end);
+    if (close >= end - 1 && close > open && !/\w/.test(line[close + 1] ?? "")) return true;
+  }
+  return false;
+}
+
+// A documentation word must come before the match ("Never run …", "e.g. …"). A quoted example also
+// counts when a documentation word appears anywhere on the line. Inline code alone does not demote:
+// it is the normal way a skill tells the agent which command to run.
+function docContext(line, match) {
+  if (DOC_CONTEXT_RE.test(line.slice(0, match.index))) return true;
+  const outside = line.slice(0, match.index) + " " + line.slice(match.index + match.length);
+  return inQuotes(line, match) && DOC_CONTEXT_RE.test(outside);
+}
+
+const SHELL_FENCES = new Set(["bash", "sh", "shell", "zsh", "console", "powershell", "ps1", "pwsh", "cmd", "bat", "fish", "terminal", "shell-session"]);
+
+// Per-line fence info for Markdown: language, whether the fence is properly closed, fence marker lines.
+function fenceMap(lines) {
+  const info = lines.map(() => ({ lang: null, closed: false, marker: false }));
+  let open = -1;
+  let lang = null;
+  for (let i = 0; i < lines.length; i++) {
+    if (open < 0) {
+      const m = /^\s*(```|~~~)\s*([\w+-]*)/.exec(lines[i]);
+      if (m) {
+        open = i;
+        lang = m[2].toLowerCase();
+        info[i].marker = true;
+      }
+    } else if (/^\s*(```|~~~)\s*$/.test(lines[i])) {
+      for (let k = open + 1; k < i; k++) info[k] = { lang, closed: true, marker: false };
+      info[i].marker = true;
+      open = -1;
+    }
+  }
+  if (open >= 0) for (let k = open + 1; k < lines.length; k++) info[k] = { lang, closed: false, marker: false };
+  return info;
+}
+
+const PICTOGRAPHIC_RE = /[\p{Extended_Pictographic}\u{1F3FB}-\u{1F3FF}\u{FE0F}]/u;
+const NON_LATIN_LETTER_RE = /[^\P{L}a-zA-Z]/u;
+
+// Classifies hidden characters. Returns findings and the text with hidden characters removed,
+// so the line rules below cannot be dodged by splitting a keyword with a zero-width character.
+function hiddenCharFindings(text) {
+  const cps = Array.from(text);
+  const findings = [];
+  const keep = [];
+  let line = 1;
+  let offset = 0;
+  for (let i = 0; i < cps.length; i++) {
+    const ch = cps[i];
+    const cp = ch.codePointAt(0);
+    if (ch === "\n") line++;
+    if (cp === 0x1f3f4) {
+      // Subdivision flags: black flag + tag letters + cancel tag.
+      let j = i + 1;
+      while (j < cps.length && j - i <= 8 && isTagChar(cps[j].codePointAt(0)) && cps[j].codePointAt(0) !== 0xe007f) j++;
+      if (j < cps.length && cps[j].codePointAt(0) === 0xe007f && j > i + 1) {
+        for (let k = i; k <= j; k++) keep.push(cps[k]);
+        offset += cps.slice(i, j + 1).join("").length;
+        i = j;
+        continue;
+      }
+    }
+    if (isTagChar(cp)) {
+      findings.push({ rule: "hidden-unicode", severity: "critical", line, note: "invisible Unicode tag character" });
+    } else if (isBidiChar(cp)) {
+      findings.push({ rule: "hidden-unicode", severity: "critical", line, note: "bidirectional override" });
+    } else if (isZeroWidth(cp, offset)) {
+      let j = i;
+      let o = offset;
+      while (j < cps.length && isZeroWidth(cps[j].codePointAt(0), o)) {
+        o += cps[j].length;
+        j++;
+      }
+      const run = j - i;
+      const prev = cps[i - 1] ?? "";
+      const next = cps[j] ?? "";
+      const joinsEmoji = run <= 2 && PICTOGRAPHIC_RE.test(prev) && PICTOGRAPHIC_RE.test(next);
+      const joinsScript = run === 1 && (cp === 0x200c || cp === 0x200d) && NON_LATIN_LETTER_RE.test(prev) && NON_LATIN_LETTER_RE.test(next);
+      if (run >= 3) {
+        findings.push({ rule: "hidden-unicode", severity: "critical", line, note: `run of ${run} zero-width characters` });
+      } else if (!joinsEmoji && !joinsScript) {
+        findings.push({ rule: "hidden-unicode", severity: "medium", line, note: "zero-width character" });
+      }
+      if (joinsEmoji || joinsScript) for (let k = i; k < j; k++) keep.push(cps[k]);
+      offset = o;
+      i = j - 1;
+      continue;
+    }
+    if (!isTagChar(cp) && !isBidiChar(cp)) keep.push(ch);
+    offset += ch.length;
+  }
+  return { findings, clean: keep.join("") };
+}
+
+const COMMENT_RE = /^\s*(#(?!!)|\/\/|--\s|;|REM\s|\*|\/\*)/i;
+const PRINT_RE = /^\s*(echo|printf|print\s*\(|console\.(log|error|warn)\s*\(|Write-(Host|Output)|puts|say)\b/;
+
+// A print statement is documentation only when nothing else runs on the line. `$(…)` and backticks run even
+// inside double quotes, so only single-quoted text is ignored for those.
+function isPurePrint(line) {
+  if (!PRINT_RE.test(line)) return false;
+  const unsingle = line.replace(/'[^']*'/g, "");
+  if (/`|\$\(/.test(unsingle)) return false;
+  const bare = unsingle.replace(/"(\\.|[^"\\])*"/g, "");
+  return !/[;&|>]/.test(bare);
+}
+
+// Joins lines ending in a `\` continuation, keeping the number of the first physical line.
+function logicalLines(lines) {
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const start = i;
+    let text = lines[i];
+    while (/(^|[^\\])(\\\\)*\\$/.test(text) && i + 1 < lines.length) text = text.slice(0, -1) + " " + lines[++i];
+    out.push({ text, line: start });
+  }
+  return out;
+}
+
+// Effective kind of one line: comments and pure print statements in scripts read like documentation.
+function lineKind(fileKindValue, line) {
+  if (fileKindValue === "script" && (COMMENT_RE.test(line) || isPurePrint(line))) return "doc";
+  if (fileKindValue === "detection") return "doc";
+  return fileKindValue;
+}
+
+function scanText(path, text) {
+  const findings = [];
+  const kind = fileKind(path, text);
+  const counts = new Map();
+  const push = (f) => {
+    const n = counts.get(f.rule) || 0;
+    if (n >= MAX_FINDINGS_PER_RULE_PER_FILE) return;
+    counts.set(f.rule, n + 1);
+    findings.push({ file: path, ...f });
+  };
+
+  const originalLines = text.split("\n");
+  const hidden = hiddenCharFindings(text);
+  for (const f of hidden.findings) push({ ...f, excerpt: excerptOf(originalLines[f.line - 1] ?? "") });
+
+  const physical = hidden.clean.split("\n");
+  const fences = kind === "doc" ? fenceMap(physical) : null;
+  const logical = logicalLines(physical);
+  const lines = logical.map((l) => l.text);
+  const shellLines = [];
+  const shellOpts = (f) => {
+    const inShellFence = Boolean(f && f.lang !== null && SHELL_FENCES.has(f.lang));
+    return { inShellFence, comments: kind === "script" || inShellFence, prose: kind === "doc" && !(f && f.lang !== null) };
+  };
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineNo = logical[i].line + 1;
+    const f = fences?.[logical[i].line];
+    if (f?.marker) continue;
+    const { inShellFence, comments, prose } = shellOpts(f);
+    if (inShellFence) shellLines.push(line);
+    const effective = lineKind(kind, line);
+    const forcedDoc = kind === "detection" || Boolean(f && f.closed && DETECTION_FENCES.has(f.lang));
+    const mayDemote = effective === "doc" && !inShellFence;
+    const ctx = { lines, i, comments, prose, readings: [splitPipelines(line, { comments, prose }), splitPipelines(line, { comments, prose, quotes: false })] };
+    for (const rule of LINE_RULES) {
+      const m = rule.test(line, ctx);
+      if (!m) continue;
+      let severity = rule.severity(effective);
+      let note;
+      const adjusted = rule.adjust?.(m.text, line);
+      if (adjusted) ({ severity, note } = adjusted);
+      if (mayDemote && RANK[severity] > RANK.medium && (forcedDoc || docContext(line, m))) {
+        const strict = rule.strictDocContext && severity === "critical" && !forcedDoc;
+        severity = strict && !NEGATION_BEFORE_RE.test(line.slice(0, m.index)) ? "high" : "medium";
+        note = severity === "high" ? "documentation context; needs human review" : "documentation context";
+      }
+      if (severity === "low" && !note) continue;
+      push({ rule: rule.id, severity, line: lineNo, excerpt: excerptOf(line, m.index), ...(note ? { note } : {}) });
+    }
+  }
+
+  // Shell snippets in Markdown are run by agents as-is: list the hosts they contact, like scripts.
+  if (shellLines.length) {
+    const unknown = hostsInScript(shellLines.join("\n")).filter((h) => !NETWORK_ALLOWLIST.some((a) => h === a || h.endsWith("." + a)));
+    if (unknown.length) push({ rule: "network-call", severity: "medium", line: 0, excerpt: "network call in a shell snippet", note: "domains: " + unknown.join(", ") });
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const { comments, prose } = shellOpts(fences?.[logical[i].line]);
+    const hit = exfilWindow(lines, i, { comments, prose });
+    if (hit) {
+      push({ rule: "exfiltration", severity: hit.severity, line: logical[i].line + 1, excerpt: excerptOf(lines[i]), note: "network send with secret" });
+      i += 2;
+    }
+  }
+
+  const blob = blobWithExec(hidden.clean);
+  if (blob) {
+    const blobLine = hidden.clean.slice(0, blob.index).split("\n").length;
+    push({ rule: "obfuscation", severity: "high", line: blobLine, excerpt: "high-entropy blob with code execution", note: "encoded payload" });
+  }
+  return findings;
+}
+
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// Detection-rule files count as documentation, so running one (`bash setup.rules`) is a finding of its own.
+function detectionRunFindings(texts) {
+  const names = texts.filter((t) => fileKind(t.path) === "detection").map((t) => t.path.split("/").pop());
+  if (!names.length) return [];
+  const re = new RegExp(`(?:^|[\\s;&|(\`])(?:(?:ba|z|da|k)?sh|source|\\.|python[23]?|perl|ruby|node|pwsh|powershell)\\s+(?:-\\S+\\s+){0,3}(?:\\S*\\/)?(${names.map(escapeRe).join("|")})(?![\\w.-])|(?:^|[\\s;&|(\`])\\.\\/(${names.map(escapeRe).join("|")})(?![\\w.-])`);
+  const out = [];
+  for (const t of texts) {
+    const lines = t.text.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      const m = re.exec(lines[i].slice(0, 4000));
+      if (m) out.push({ file: t.path, rule: "remote-exec", severity: "high", line: i + 1, excerpt: excerptOf(lines[i], m.index), note: "runs a detection-rule file" });
+    }
+  }
+  return out;
+}
+
+// files: [{path, content: string|Buffer, size?, isSymlink?, linkTarget?}]
+export function scanFiles(files) {
+  const findings = [];
+  const texts = [];
+  for (const file of files) {
+    findings.push(...fileRules(file, files));
+    if (file.isSymlink) continue;
+    const buf = Buffer.isBuffer(file.content) ? file.content : Buffer.from(String(file.content ?? ""), "utf8");
+    if (isBinaryFile(file.path, buf)) continue;
+    const text = buf.toString("utf8");
+    texts.push({ path: file.path, text });
+    findings.push(...scanText(file.path, text));
+  }
+  findings.push(...detectionRunFindings(texts));
+  return { level: levelFromFindings(findings), findings };
+}
+
+const SKIP_DIRS = new Set([".git", "node_modules"]);
+
+export async function readTree(dir, { maxFiles = Infinity, maxBytes = Infinity } = {}) {
+  const out = [];
+  let bytes = 0;
+  async function walk(abs) {
+    for (const entry of await readdir(abs, { withFileTypes: true })) {
+      if (entry.isDirectory() && SKIP_DIRS.has(entry.name)) continue;
+      const full = join(abs, entry.name);
+      const rel = relative(dir, full).split(sep).join("/");
+      const st = await lstat(full);
+      if (st.isSymbolicLink()) {
+        out.push({ path: rel, content: "", size: 0, isSymlink: true, linkTarget: await readlink(full) });
+      } else if (st.isDirectory()) {
+        await walk(full);
+      } else if (st.isFile()) {
+        bytes += st.size;
+        if (out.length + 1 > maxFiles || bytes > maxBytes) throw new Error(`too large to vet: more than ${maxFiles} files or ${maxBytes} bytes`);
+        out.push({ path: rel, content: await readFile(full), size: st.size });
+      }
+    }
+  }
+  await walk(dir);
+  out.sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
+  return out;
+}
+
+export async function scanDir(dir) {
+  return scanFiles(await readTree(dir));
+}

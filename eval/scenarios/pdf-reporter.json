@@ -1,0 +1,27 @@
+{
+  "name": "pdf-reporter",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python"
+    ],
+    "inferredNeeds": [
+      "pdf",
+      "office-docs"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "pdf",
+    "docx"
+  ],
+  "mustNotInclude": [
+    "react-native-skills"
+  ]
+}

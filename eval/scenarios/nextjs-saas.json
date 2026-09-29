@@ -1,0 +1,43 @@
+{
+  "name": "nextjs-saas",
+  "note": "omniroute@3.8.50 is quarantined (GHSA-hf57-cqmx-p4gr, critical RCE); it must not be recommended until a fixed release passes the gate.",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript",
+      "nextjs",
+      "react",
+      "vercel"
+    ],
+    "inferredNeeds": [
+      "payments",
+      "auth",
+      "llm-calls",
+      "testing",
+      "e2e-testing",
+      "deploy",
+      "ci",
+      "frontend-ui"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "react-best-practices",
+    "webapp-testing",
+    "frontend-design",
+    "context7",
+    "differential-review"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "guidelines-advisor",
+    "mcp-builder",
+    "omniroute"
+  ]
+}

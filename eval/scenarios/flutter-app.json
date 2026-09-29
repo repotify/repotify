@@ -1,0 +1,29 @@
+{
+  "name": "flutter-app",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "dart",
+      "flutter"
+    ],
+    "inferredNeeds": [
+      "mobile",
+      "frontend-ui"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "frontend-design",
+    "test-driven-development"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "react-best-practices"
+  ]
+}

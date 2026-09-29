@@ -1,0 +1,29 @@
+{
+  "name": "solidity-dapp",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "solidity"
+    ],
+    "inferredNeeds": [
+      "smart-contracts",
+      "testing"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "guidelines-advisor",
+    "semgrep",
+    "property-based-testing"
+  ],
+  "mustNotInclude": [
+    "react-native-skills"
+  ]
+}

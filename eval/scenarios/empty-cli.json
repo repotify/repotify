@@ -1,0 +1,25 @@
+{
+  "name": "empty-cli",
+  "note": "",
+  "fingerprint": {
+    "empty": true,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "cli"
+  },
+  "mustInclude": [
+    "property-based-testing",
+    "supply-chain-risk-auditor"
+  ],
+  "mustNotInclude": [
+    "frontend-design",
+    "react-native-skills"
+  ]
+}

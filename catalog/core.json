@@ -1,0 +1,34 @@
+[
+  {
+    "id": "graphify",
+    "reason": "Every agent works better when it can navigate the codebase as a graph instead of grepping blindly."
+  },
+  {
+    "id": "brainstorming",
+    "reason": "Forces a design conversation before code, the cheapest place to catch wrong assumptions."
+  },
+  {
+    "id": "writing-plans",
+    "reason": "Turns designs into small verified steps, which keeps long agent sessions on track."
+  },
+  {
+    "id": "test-driven-development",
+    "reason": "Tests written first are the agent's main defence against confident but wrong code."
+  },
+  {
+    "id": "systematic-debugging",
+    "reason": "Root-cause debugging stops the patch-on-patch spiral that burns tokens."
+  },
+  {
+    "id": "verification-before-completion",
+    "reason": "Evidence before 'done' removes the most common agent failure: claiming success without checking."
+  },
+  {
+    "id": "differential-review",
+    "reason": "A security pass on every diff catches what functional tests never look for."
+  },
+  {
+    "id": "repotify-guard",
+    "reason": "Agents hallucinate package names; attackers register them. The guard blocks that at install time."
+  }
+]

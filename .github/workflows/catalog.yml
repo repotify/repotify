@@ -1,0 +1,120 @@
+# Catalog build, started by hand: Actions → catalog-build → Run workflow (see docs/operations.md).
+# Two jobs on purpose: `build` holds the LLM keys but can only read the repository;
+# `publish` can push but never sees an LLM key. Every action is pinned to a commit SHA.
+name: catalog-build
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: catalog-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: read
+      issues: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22.22.2" # OmniRoute 3.8.50 requires >=22.22.2 <23
+
+      - name: Restore jury cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: pipeline/cache
+          key: jury-cache-${{ github.run_id }}
+          restore-keys: jury-cache-
+
+      # OmniRoute: pinned version, install scripts disabled, bound to loopback and run as a separate
+      # unprivileged user, so a compromised package cannot read the pipeline's environment via /proc.
+      # It only receives the fourth NVIDIA key, as a fallback route for the jury.
+      # Opt-in (repository variable USE_OMNIROUTE=true): omniroute <= 3.8.50 is affected by
+      # GHSA-hf57-cqmx-p4gr (critical, unauthenticated RCE, no fixed release as of 2026-09-28).
+      - name: Start OmniRoute
+        if: ${{ vars.USE_OMNIROUTE == 'true' }}
+        env:
+          OMNIROUTE_NVIDIA_KEY: ${{ secrets.NVIDIA_API_KEY_4 }}
+        run: |
+          sudo useradd --system --create-home --home-dir /home/omniroute omniroute
+          sudo npm install --prefix /opt/omniroute --ignore-scripts --no-audit --no-fund omniroute@3.8.50
+          OR=/opt/omniroute/node_modules/omniroute/bin/omniroute.mjs
+          sudo -u omniroute -H env OMNIROUTE_SERVER_HOST=127.0.0.1 PORT=20128 nohup node "$OR" serve > "$RUNNER_TEMP/omniroute.log" 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -s -o /dev/null "http://127.0.0.1:20128/"; then break; fi
+            sleep 2
+          done
+          if [ -n "$OMNIROUTE_NVIDIA_KEY" ]; then
+            sudo --preserve-env=OMNIROUTE_NVIDIA_KEY -u omniroute -H env OMNIROUTE_BASE_URL=http://127.0.0.1:20128 \
+              node "$OR" providers add nvidia --credential-env OMNIROUTE_NVIDIA_KEY --yes > /dev/null
+          fi
+
+      - name: Build catalog
+        env:
+          NVIDIA_API_KEY_1: ${{ secrets.NVIDIA_API_KEY_1 }}
+          NVIDIA_API_KEY_2: ${{ secrets.NVIDIA_API_KEY_2 }}
+          NVIDIA_API_KEY_3: ${{ secrets.NVIDIA_API_KEY_3 }}
+          OMNIROUTE_BASE_URL: http://127.0.0.1:20128/v1
+          REPOTIFY_USE_OMNIROUTE: ${{ vars.USE_OMNIROUTE == 'true' && '1' || '0' }}
+          GITHUB_TOKEN: ${{ github.token }}
+          REPOTIFY_SUBMISSIONS_REPO: ${{ github.repository }}
+          REPOTIFY_STATS_URL: ${{ vars.REPOTIFY_STATS_URL }}
+        run: |
+          # Without the jury the catalog would lose its scores: stop instead of publishing a weaker one.
+          if [ -z "$NVIDIA_API_KEY_1" ]; then
+            echo "::error::Add the NVIDIA_API_KEY_1..3 secrets before building the catalog."
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/catalog"
+          cp catalog/*.json "$RUNNER_TEMP/catalog/"
+          node pipeline/run.mjs --out "$RUNNER_TEMP/catalog" --work "$RUNNER_TEMP/repos" --cache pipeline/cache/jury.json --limit 60
+          node pipeline/verify.mjs "$RUNNER_TEMP/catalog"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: catalog
+          path: ${{ runner.temp }}/catalog
+          retention-days: 7
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: catalog
+          path: ${{ runner.temp }}/catalog-new
+
+      - name: Verify and commit
+        run: |
+          node pipeline/verify.mjs "$RUNNER_TEMP/catalog-new"
+          cp "$RUNNER_TEMP"/catalog-new/*.json catalog/
+          npm test
+          if git diff --quiet -- catalog; then
+            echo "catalog unchanged"
+            exit 0
+          fi
+          git config user.name "repotify-bot"
+          git config user.email "repotify-bot@users.noreply.github.com"
+          git add catalog
+          git commit -m "catalog: build $(node -p 'require("./catalog/meta.json").version')"
+          git push

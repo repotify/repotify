@@ -1,0 +1,31 @@
+{
+  "name": "expo-app",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript",
+      "react",
+      "react-native",
+      "expo"
+    ],
+    "inferredNeeds": [
+      "mobile",
+      "frontend-ui"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "react-native-skills",
+    "frontend-design"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor"
+  ]
+}

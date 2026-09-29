@@ -1,0 +1,27 @@
+{
+  "name": "ml-notebook",
+  "note": "omniroute@3.8.50 is quarantined (GHSA-hf57-cqmx-p4gr, critical RCE); it must not be recommended until a fixed release passes the gate.",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python"
+    ],
+    "inferredNeeds": [
+      "llm-calls",
+      "data-processing"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "xlsx"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "omniroute"
+  ]
+}

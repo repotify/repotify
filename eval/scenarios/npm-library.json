@@ -1,0 +1,31 @@
+{
+  "name": "npm-library",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript"
+    ],
+    "inferredNeeds": [
+      "testing",
+      "ci"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "library"
+  },
+  "mustInclude": [
+    "property-based-testing",
+    "supply-chain-risk-auditor"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "guidelines-advisor"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "data-pipeline",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python"
+    ],
+    "inferredNeeds": [
+      "data-processing",
+      "pdf",
+      "office-docs"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "xlsx",
+    "pdf"
+  ],
+  "mustNotInclude": [
+    "react-best-practices",
+    "react-native-skills"
+  ]
+}

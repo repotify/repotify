@@ -1,0 +1,31 @@
+{
+  "name": "fastapi-llm",
+  "note": "omniroute@3.8.50 is quarantined (GHSA-hf57-cqmx-p4gr, critical RCE); it must not be recommended until a fixed release passes the gate.",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python",
+      "fastapi"
+    ],
+    "inferredNeeds": [
+      "llm-calls",
+      "testing"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "context7",
+    "semgrep"
+  ],
+  "mustNotInclude": [
+    "react-best-practices",
+    "frontend-design",
+    "react-native-skills",
+    "omniroute"
+  ]
+}

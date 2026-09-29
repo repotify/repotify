@@ -1,0 +1,27 @@
+{
+  "name": "empty-web-app",
+  "note": "No code yet, user says: a SaaS web app",
+  "fingerprint": {
+    "empty": true,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "web-app"
+  },
+  "mustInclude": [
+    "frontend-design",
+    "webapp-testing",
+    "web-design-guidelines",
+    "react-best-practices"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor",
+    "react-native-skills"
+  ]
+}

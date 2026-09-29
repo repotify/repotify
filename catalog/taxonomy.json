@@ -1,0 +1,490 @@
+{
+  "agents": [
+    "claude-code",
+    "cursor",
+    "codex",
+    "gemini-cli",
+    "generic"
+  ],
+  "capabilities": {
+    "browser-automation": {
+      "label": "Browser automation"
+    },
+    "ci-security-audit": {
+      "label": "CI/CD and agentic workflow audit"
+    },
+    "code-review": {
+      "label": "Code review workflow"
+    },
+    "codebase-map": {
+      "label": "Codebase knowledge graph"
+    },
+    "component-architecture": {
+      "label": "React component architecture"
+    },
+    "debugging-method": {
+      "label": "Systematic debugging"
+    },
+    "deploy-vercel": {
+      "label": "Deploying to Vercel"
+    },
+    "design-brainstorming": {
+      "label": "Design brainstorming before coding"
+    },
+    "docs-lookup": {
+      "label": "Up-to-date library docs lookup"
+    },
+    "docx-documents": {
+      "label": "Word documents"
+    },
+    "frontend-design": {
+      "label": "Distinctive frontend design"
+    },
+    "github-integration": {
+      "label": "GitHub issues, PRs and repos"
+    },
+    "implementation-planning": {
+      "label": "Implementation planning"
+    },
+    "llm-gateway": {
+      "label": "LLM gateway with free-model fallback"
+    },
+    "mcp-development": {
+      "label": "Building MCP servers"
+    },
+    "package-guard": {
+      "label": "Hallucinated-package guard"
+    },
+    "pdf-processing": {
+      "label": "PDF reading and generation"
+    },
+    "presentations": {
+      "label": "Slide decks"
+    },
+    "property-testing": {
+      "label": "Property-based testing"
+    },
+    "python-tooling": {
+      "label": "Modern Python tooling"
+    },
+    "react-native": {
+      "label": "React Native and Expo"
+    },
+    "react-performance": {
+      "label": "React and Next.js performance"
+    },
+    "security-review": {
+      "label": "Security review of changes"
+    },
+    "skill-authoring": {
+      "label": "Writing agent skills"
+    },
+    "smart-contract-security": {
+      "label": "Smart contract security"
+    },
+    "spreadsheets": {
+      "label": "Spreadsheets"
+    },
+    "static-analysis": {
+      "label": "Static analysis (Semgrep, CodeQL)"
+    },
+    "supply-chain-audit": {
+      "label": "Dependency supply-chain audit"
+    },
+    "tdd-discipline": {
+      "label": "Test-driven development discipline"
+    },
+    "verification-gate": {
+      "label": "Verify before claiming done"
+    },
+    "web-design-review": {
+      "label": "UI and accessibility review"
+    },
+    "webapp-testing": {
+      "label": "Web app end-to-end testing"
+    },
+    "workflow-meta": {
+      "exclusiveGroup": "process-meta",
+      "label": "Always-on workflow meta skill"
+    },
+    "writing-quality": {
+      "label": "Clear technical writing"
+    }
+  },
+  "needs": {
+    "agent-skills": {
+      "capabilities": [
+        "skill-authoring"
+      ],
+      "label": "Builds agent skills"
+    },
+    "auth": {
+      "capabilities": [
+        "security-review"
+      ],
+      "label": "User accounts and auth"
+    },
+    "ci": {
+      "capabilities": [
+        "ci-security-audit"
+      ],
+      "label": "CI/CD pipelines"
+    },
+    "data-processing": {
+      "capabilities": [
+        "spreadsheets",
+        "python-tooling"
+      ],
+      "label": "Data wrangling and reports"
+    },
+    "dependencies": {
+      "capabilities": [
+        "supply-chain-audit"
+      ],
+      "label": "Many third-party dependencies"
+    },
+    "deploy": {
+      "capabilities": [
+        "deploy-vercel"
+      ],
+      "label": "Deploys to the cloud"
+    },
+    "docs-writing": {
+      "capabilities": [
+        "writing-quality"
+      ],
+      "label": "Writes docs or content"
+    },
+    "e2e-testing": {
+      "capabilities": [
+        "webapp-testing",
+        "browser-automation"
+      ],
+      "label": "End-to-end browser tests"
+    },
+    "frontend-ui": {
+      "capabilities": [
+        "frontend-design",
+        "web-design-review"
+      ],
+      "label": "Polished user interface"
+    },
+    "github-workflow": {
+      "capabilities": [
+        "github-integration",
+        "code-review"
+      ],
+      "label": "Works through GitHub PRs and issues"
+    },
+    "large-codebase": {
+      "capabilities": [
+        "codebase-map"
+      ],
+      "label": "Large or unfamiliar codebase"
+    },
+    "llm-calls": {
+      "capabilities": [
+        "llm-gateway",
+        "docs-lookup"
+      ],
+      "label": "Calls LLM APIs"
+    },
+    "mcp-server": {
+      "capabilities": [
+        "mcp-development"
+      ],
+      "label": "Builds an MCP server"
+    },
+    "mobile": {
+      "capabilities": [
+        "react-native"
+      ],
+      "label": "Mobile app"
+    },
+    "office-docs": {
+      "capabilities": [
+        "docx-documents",
+        "spreadsheets",
+        "presentations"
+      ],
+      "label": "Word, Excel or PowerPoint files"
+    },
+    "onboarding": {
+      "capabilities": [
+        "codebase-map"
+      ],
+      "label": "Getting to know a codebase"
+    },
+    "payments": {
+      "capabilities": [
+        "security-review"
+      ],
+      "label": "Takes payments"
+    },
+    "pdf": {
+      "capabilities": [
+        "pdf-processing"
+      ],
+      "label": "Reads or makes PDFs"
+    },
+    "performance": {
+      "capabilities": [
+        "react-performance"
+      ],
+      "label": "Speed and performance"
+    },
+    "python-quality": {
+      "capabilities": [
+        "python-tooling"
+      ],
+      "label": "Clean modern Python"
+    },
+    "scraping": {
+      "capabilities": [
+        "browser-automation"
+      ],
+      "label": "Scrapes or crawls the web"
+    },
+    "security": {
+      "capabilities": [
+        "security-review",
+        "static-analysis",
+        "supply-chain-audit"
+      ],
+      "label": "Security matters"
+    },
+    "seo": {
+      "capabilities": [
+        "web-design-review",
+        "react-performance"
+      ],
+      "label": "Search visibility and fast pages"
+    },
+    "smart-contracts": {
+      "capabilities": [
+        "smart-contract-security",
+        "static-analysis"
+      ],
+      "label": "Smart contracts"
+    },
+    "testing": {
+      "capabilities": [
+        "tdd-discipline",
+        "property-testing"
+      ],
+      "label": "Solid automated tests"
+    }
+  },
+  "priorities": {
+    "cost": {
+      "label": "Low cost"
+    },
+    "quality": {
+      "label": "Quality and tests"
+    },
+    "security": {
+      "label": "Security"
+    },
+    "speed": {
+      "label": "Ship fast"
+    }
+  },
+  "projectTypes": {
+    "agent-tooling": {
+      "label": "AI agent tooling (MCP, skills)",
+      "needs": [
+        "mcp-server",
+        "agent-skills"
+      ]
+    },
+    "api": {
+      "label": "API or backend service",
+      "needs": [
+        "testing",
+        "security",
+        "deploy"
+      ]
+    },
+    "automation": {
+      "label": "Automation or scraping",
+      "needs": [
+        "scraping",
+        "testing"
+      ]
+    },
+    "cli": {
+      "label": "Command-line tool",
+      "needs": [
+        "testing",
+        "dependencies"
+      ]
+    },
+    "content-site": {
+      "label": "Content, news or blog site",
+      "needs": [
+        "seo",
+        "scraping",
+        "llm-calls",
+        "frontend-ui"
+      ]
+    },
+    "data-ai": {
+      "label": "Data or AI project",
+      "needs": [
+        "llm-calls",
+        "data-processing",
+        "python-quality"
+      ]
+    },
+    "game": {
+      "label": "Game",
+      "needs": [
+        "testing"
+      ]
+    },
+    "library": {
+      "label": "Library or package",
+      "needs": [
+        "testing",
+        "dependencies",
+        "docs-writing"
+      ]
+    },
+    "mobile": {
+      "label": "Mobile app",
+      "needs": [
+        "mobile",
+        "testing"
+      ]
+    },
+    "smart-contracts": {
+      "label": "Smart contracts",
+      "needs": [
+        "smart-contracts",
+        "security",
+        "testing"
+      ]
+    },
+    "web-app": {
+      "label": "Web app or SaaS",
+      "needs": [
+        "frontend-ui",
+        "testing",
+        "e2e-testing",
+        "deploy",
+        "auth"
+      ]
+    }
+  },
+  "stacks": {
+    "angular": {
+      "label": "Angular"
+    },
+    "astro": {
+      "label": "Astro"
+    },
+    "cpp": {
+      "label": "C/C++"
+    },
+    "csharp": {
+      "label": "C#"
+    },
+    "dart": {
+      "label": "Dart"
+    },
+    "django": {
+      "label": "Django"
+    },
+    "docker": {
+      "label": "Docker"
+    },
+    "electron": {
+      "label": "Electron"
+    },
+    "expo": {
+      "label": "Expo"
+    },
+    "express": {
+      "label": "Express"
+    },
+    "fastapi": {
+      "label": "FastAPI"
+    },
+    "fastify": {
+      "label": "Fastify"
+    },
+    "flask": {
+      "label": "Flask"
+    },
+    "flutter": {
+      "label": "Flutter"
+    },
+    "go": {
+      "label": "Go"
+    },
+    "java": {
+      "label": "Java"
+    },
+    "kotlin": {
+      "label": "Kotlin"
+    },
+    "laravel": {
+      "label": "Laravel"
+    },
+    "nestjs": {
+      "label": "NestJS"
+    },
+    "nextjs": {
+      "label": "Next.js"
+    },
+    "node": {
+      "label": "Node.js"
+    },
+    "nuxt": {
+      "label": "Nuxt"
+    },
+    "php": {
+      "label": "PHP"
+    },
+    "python": {
+      "label": "Python"
+    },
+    "rails": {
+      "label": "Rails"
+    },
+    "react": {
+      "label": "React"
+    },
+    "react-native": {
+      "label": "React Native"
+    },
+    "ruby": {
+      "label": "Ruby"
+    },
+    "rust": {
+      "label": "Rust"
+    },
+    "solidity": {
+      "label": "Solidity"
+    },
+    "svelte": {
+      "label": "Svelte"
+    },
+    "swift": {
+      "label": "Swift"
+    },
+    "tauri": {
+      "label": "Tauri"
+    },
+    "typescript": {
+      "label": "TypeScript"
+    },
+    "vercel": {
+      "label": "Vercel"
+    },
+    "vue": {
+      "label": "Vue"
+    }
+  },
+  "version": 1
+}

@@ -1,0 +1,24 @@
+{
+  "name": "empty-no-answers",
+  "note": "User only said: help me start a project",
+  "fingerprint": {
+    "empty": true,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "graphify",
+    "test-driven-development",
+    "repotify-guard"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "guidelines-advisor"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "empty-mobile",
+  "note": "",
+  "fingerprint": {
+    "empty": true,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "mobile"
+  },
+  "mustInclude": [
+    "react-native-skills",
+    "frontend-design"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor",
+    "mcp-builder"
+  ]
+}

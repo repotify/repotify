@@ -1,0 +1,24 @@
+{
+  "name": "empty-automation",
+  "note": "omniroute@3.8.50 is quarantined (GHSA-hf57-cqmx-p4gr, critical RCE); it must not be recommended until a fixed release passes the gate.",
+  "fingerprint": {
+    "empty": true,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "automation"
+  },
+  "mustInclude": [
+    "playwright-mcp"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "omniroute"
+  ]
+}

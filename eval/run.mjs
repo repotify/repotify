@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+// Recommendation quality on the scenario set.
+// "Hit" = a must-include id is in the recommended default set; a violation = a must-not id is in it.
+import { isMain } from "../src/util.mjs";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { recommend } from "../src/recommend.mjs";
+import { resolveNeeds } from "../src/needs.mjs";
+
+const here = fileURLToPath(new URL(".", import.meta.url));
+
+export function loadScenarios(dir = join(here, "scenarios")) {
+  return readdirSync(dir).filter((f) => f.endsWith(".json")).sort().map((f) => JSON.parse(readFileSync(join(dir, f), "utf8")));
+}
+
+export function runEval(scenarios, catalog) {
+  let hits = 0;
+  let total = 0;
+  let clusterDuplicates = 0;
+  const misses = [];
+  const violations = [];
+  const perScenario = [];
+  for (const s of scenarios) {
+    const fp = { empty: false, stacks: [], inferredNeeds: [], agents: { configured: [], skills: [] }, ...s.fingerprint };
+    const needs = resolveNeeds({ fingerprint: fp, answers: s.answers ?? {}, taxonomy: catalog.taxonomy });
+    const rec = recommend({ catalog, fingerprint: fp, needs });
+    const chosen = new Set(rec.defaultSet);
+    const clusters = rec.rows.map((r) => r.cluster);
+    clusterDuplicates += clusters.length - new Set(clusters).size;
+    let sHits = 0;
+    for (const id of s.mustInclude ?? []) {
+      total++;
+      if (chosen.has(id)) {
+        hits++;
+        sHits++;
+      } else misses.push({ scenario: s.name, id });
+    }
+    for (const id of s.mustNotInclude ?? []) if (chosen.has(id)) violations.push({ scenario: s.name, id });
+    perScenario.push({ name: s.name, hits: sHits, of: (s.mustInclude ?? []).length, defaultSet: rec.defaultSet, budget: rec.budget.used });
+  }
+  return { hitRate: total ? hits / total : 1, hits, total, misses, violations, clusterDuplicates, perScenario };
+}
+
+if (isMain(import.meta.url)) {
+  const read = (f) => JSON.parse(readFileSync(join(here, "..", "catalog", f), "utf8"));
+  const catalog = { items: read("items.json"), taxonomy: read("taxonomy.json"), loadouts: read("loadouts.json"), core: read("core.json") };
+  const r = runEval(loadScenarios(), catalog);
+  console.log(`scenarios: ${r.perScenario.length}  must-include hits: ${r.hits}/${r.total} (${(r.hitRate * 100).toFixed(1)}%)  violations: ${r.violations.length}  cluster duplicates: ${r.clusterDuplicates}`);
+  for (const m of r.misses) console.log(`  miss      ${m.scenario}: ${m.id}`);
+  for (const v of r.violations) console.log(`  violation ${v.scenario}: ${v.id}`);
+  if (process.argv.includes("--verbose")) for (const s of r.perScenario) console.log(`  ${s.name.padEnd(24)} ${s.hits}/${s.of}  budget ${s.budget}  ${s.defaultSet.join(",")}`);
+  process.exit(r.hitRate >= 0.9 && !r.violations.length && !r.clusterDuplicates ? 0 : 1);
+}

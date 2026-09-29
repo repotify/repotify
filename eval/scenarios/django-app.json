@@ -1,0 +1,29 @@
+{
+  "name": "django-app",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python",
+      "django"
+    ],
+    "inferredNeeds": [
+      "testing",
+      "auth"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "semgrep",
+    "property-based-testing"
+  ],
+  "mustNotInclude": [
+    "react-best-practices",
+    "react-native-skills"
+  ]
+}

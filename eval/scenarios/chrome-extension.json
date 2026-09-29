@@ -1,0 +1,29 @@
+{
+  "name": "chrome-extension",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript",
+      "react"
+    ],
+    "inferredNeeds": [
+      "frontend-ui"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "frontend-design",
+    "web-design-guidelines",
+    "react-best-practices"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor"
+  ]
+}

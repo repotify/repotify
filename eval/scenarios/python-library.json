@@ -1,0 +1,29 @@
+{
+  "name": "python-library",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python"
+    ],
+    "inferredNeeds": [
+      "testing"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "library"
+  },
+  "mustInclude": [
+    "property-based-testing",
+    "supply-chain-risk-auditor",
+    "writing-guidelines"
+  ],
+  "mustNotInclude": [
+    "react-native-skills"
+  ]
+}

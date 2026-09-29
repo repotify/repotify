@@ -1,0 +1,144 @@
+[
+  {
+    "id": "agent-tooling",
+    "items": [
+      "mcp-builder",
+      "skill-creator",
+      "context7"
+    ],
+    "label": "Agent tooling (MCP and skills)",
+    "needs": [
+      "mcp-server",
+      "agent-skills"
+    ],
+    "projectType": "agent-tooling"
+  },
+  {
+    "id": "automation",
+    "items": [
+      "playwright-mcp",
+      "property-based-testing"
+    ],
+    "label": "Automation and scraping",
+    "needs": [
+      "scraping",
+      "llm-calls",
+      "testing"
+    ],
+    "projectType": "automation"
+  },
+  {
+    "id": "cli-tool",
+    "items": [
+      "property-based-testing",
+      "supply-chain-risk-auditor",
+      "github-mcp"
+    ],
+    "label": "CLI tool",
+    "needs": [
+      "testing",
+      "dependencies",
+      "ci"
+    ],
+    "projectType": "cli"
+  },
+  {
+    "id": "content-site",
+    "items": [
+      "playwright-mcp",
+      "web-design-guidelines",
+      "frontend-design",
+      "writing-guidelines"
+    ],
+    "label": "News and content site",
+    "needs": [
+      "seo",
+      "scraping",
+      "llm-calls",
+      "frontend-ui",
+      "docs-writing"
+    ],
+    "projectType": "content-site"
+  },
+  {
+    "id": "data-pipeline",
+    "items": [
+      "xlsx",
+      "pdf",
+      "context7",
+      "property-based-testing"
+    ],
+    "label": "Data and AI pipeline",
+    "needs": [
+      "llm-calls",
+      "data-processing",
+      "pdf"
+    ],
+    "projectType": "data-ai"
+  },
+  {
+    "id": "mobile-app",
+    "items": [
+      "react-native-skills",
+      "frontend-design",
+      "context7"
+    ],
+    "label": "Mobile app",
+    "needs": [
+      "mobile",
+      "testing"
+    ],
+    "projectType": "mobile"
+  },
+  {
+    "id": "nextjs-saas",
+    "items": [
+      "react-best-practices",
+      "composition-patterns",
+      "frontend-design",
+      "web-design-guidelines",
+      "webapp-testing",
+      "context7"
+    ],
+    "label": "Next.js SaaS",
+    "needs": [
+      "frontend-ui",
+      "e2e-testing",
+      "auth",
+      "payments",
+      "performance"
+    ],
+    "projectType": "web-app"
+  },
+  {
+    "id": "python-api",
+    "items": [
+      "property-based-testing",
+      "semgrep",
+      "supply-chain-risk-auditor",
+      "context7"
+    ],
+    "label": "Python API",
+    "needs": [
+      "testing",
+      "security",
+      "dependencies"
+    ],
+    "projectType": "api"
+  },
+  {
+    "id": "smart-contracts",
+    "items": [
+      "guidelines-advisor",
+      "semgrep",
+      "property-based-testing"
+    ],
+    "label": "Smart contracts",
+    "needs": [
+      "smart-contracts",
+      "security",
+      "testing"
+    ],
+    "projectType": "smart-contracts"
+  }
+]

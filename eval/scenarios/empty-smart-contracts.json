@@ -1,0 +1,26 @@
+{
+  "name": "empty-smart-contracts",
+  "note": "",
+  "fingerprint": {
+    "empty": true,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "smart-contracts"
+  },
+  "mustInclude": [
+    "guidelines-advisor",
+    "semgrep",
+    "property-based-testing"
+  ],
+  "mustNotInclude": [
+    "react-native-skills",
+    "frontend-design"
+  ]
+}

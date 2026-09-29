@@ -1,0 +1,40 @@
+name: Feature request
+description: Suggest an improvement.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the problem first, then the solution you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Recommendations
+        - Installing and updating
+        - Security scanner or package guard
+        - Catalog and pipeline
+        - Agent support
+        - Documentation
+    validations:
+      required: true
+  - type: dropdown
+    id: pr
+    attributes:
+      label: Would you like to work on it?
+      options:
+        - Yes
+        - Yes, with some guidance
+        - Not this time

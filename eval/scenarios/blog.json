@@ -1,0 +1,32 @@
+{
+  "name": "blog",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "astro"
+    ],
+    "inferredNeeds": [
+      "seo",
+      "frontend-ui"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "needs": [
+      "docs-writing"
+    ]
+  },
+  "mustInclude": [
+    "writing-guidelines",
+    "web-design-guidelines"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor"
+  ]
+}

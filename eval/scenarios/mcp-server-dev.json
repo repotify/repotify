@@ -1,0 +1,27 @@
+{
+  "name": "mcp-server-dev",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript"
+    ],
+    "inferredNeeds": [
+      "mcp-server"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "mcp-builder",
+    "context7"
+  ],
+  "mustNotInclude": [
+    "react-native-skills"
+  ]
+}

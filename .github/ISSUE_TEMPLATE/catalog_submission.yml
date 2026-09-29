@@ -1,0 +1,51 @@
+name: Suggest a skill for the catalog
+description: Point us at a skill, MCP server or tool that should be in the catalog.
+title: "[Submission]: owner/repo"
+labels:
+  - submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! Every submission goes through the same security gate and LLM jury as everything else, so it may be
+        declined or quarantined. The next catalog build reads open issues with the `submission` label.
+  - type: input
+    id: repository
+    attributes:
+      label: GitHub repository
+      description: The repository that holds the skill (a path inside it is fine).
+      placeholder: https://github.com/owner/repo/tree/main/skills/example
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is it?
+      options:
+        - Skill (SKILL.md)
+        - Plugin (several skills)
+        - MCP server
+        - Tool (CLI or app)
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What does it do, and for which projects?
+      description: One or two sentences. Which stack or need does it serve?
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: Items without a recognizable license are declined.
+      placeholder: MIT
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I am not affiliated with the project, or I have said so above.
+        - label: I understand that a failed security check keeps it out of the catalog.
+          required: true

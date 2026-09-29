@@ -1,0 +1,226 @@
+{
+  "benign": {
+    "api-client": {
+      "maxLevel": "caution"
+    },
+    "assets": {
+      "maxLevel": "verified"
+    },
+    "code-review": {
+      "maxLevel": "verified"
+    },
+    "data-uri-html": {
+      "maxLevel": "verified"
+    },
+    "deploy-checklist": {
+      "maxLevel": "caution"
+    },
+    "docker-guide": {
+      "maxLevel": "verified"
+    },
+    "emoji-docs": {
+      "maxLevel": "verified"
+    },
+    "env-setup": {
+      "maxLevel": "verified"
+    },
+    "git-workflow": {
+      "maxLevel": "verified"
+    },
+    "i18n-json": {
+      "maxLevel": "verified"
+    },
+    "mcp-docs": {
+      "maxLevel": "verified"
+    },
+    "npm-registry-check": {
+      "maxLevel": "verified"
+    },
+    "pdf-helper": {
+      "maxLevel": "verified"
+    },
+    "persian-text": {
+      "maxLevel": "verified"
+    },
+    "python-lint": {
+      "maxLevel": "verified"
+    },
+    "react-perf": {
+      "maxLevel": "verified"
+    },
+    "security-auditor-docs": {
+      "maxLevel": "quarantined"
+    },
+    "shell-helpers": {
+      "maxLevel": "verified"
+    },
+    "sql-migrations": {
+      "maxLevel": "verified"
+    },
+    "tdd-discipline": {
+      "maxLevel": "verified"
+    },
+    "uv-installer": {
+      "maxLevel": "caution"
+    },
+    "webhook-docs": {
+      "maxLevel": "verified"
+    },
+    "yara-rules": {
+      "maxLevel": "caution"
+    },
+    "security-docs-example-domain": {
+      "maxLevel": "caution"
+    }
+  },
+  "malicious": {
+    "aws-creds-md": {
+      "minLevel": "rejected",
+      "rule": "credential-access"
+    },
+    "base64-eval": {
+      "minLevel": "quarantined",
+      "rule": "obfuscation"
+    },
+    "bash-c-curl-subst": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "bidi-trojan-source": {
+      "minLevel": "rejected",
+      "rule": "hidden-unicode"
+    },
+    "browser-cookies": {
+      "minLevel": "rejected",
+      "rule": "credential-access"
+    },
+    "chmod-777": {
+      "minLevel": "quarantined",
+      "rule": "dangerous-command"
+    },
+    "claude-settings-hook": {
+      "minLevel": "quarantined",
+      "rule": "hook-autoexec"
+    },
+    "comment-url-demotion": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "curl-pipe-bash": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "deno-land-third-party": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "dotenv-exfil": {
+      "minLevel": "rejected",
+      "rule": "credential-access"
+    },
+    "download-then-exec": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "echo-chained-command": {
+      "minLevel": "rejected",
+      "rule": "credential-access"
+    },
+    "elf-binary": {
+      "minLevel": "quarantined",
+      "rule": "binary-file"
+    },
+    "encoded-payload": {
+      "minLevel": "quarantined",
+      "rule": "obfuscation"
+    },
+    "env-exfil-webhook": {
+      "minLevel": "rejected",
+      "rule": "exfiltration"
+    },
+    "evaluator-note": {
+      "minLevel": "quarantined",
+      "rule": "prompt-injection"
+    },
+    "evasion-doc-wrapped": {
+      "minLevel": "caution",
+      "rule": "remote-exec"
+    },
+    "exfil-ssh-to-ngrok": {
+      "minLevel": "rejected",
+      "rule": "exfiltration"
+    },
+    "file-upload": {
+      "minLevel": "quarantined",
+      "rule": "exfiltration"
+    },
+    "hidden-tag-instructions": {
+      "minLevel": "rejected",
+      "rule": "hidden-unicode"
+    },
+    "ignore-previous": {
+      "minLevel": "quarantined",
+      "rule": "prompt-injection"
+    },
+    "inline-code-imperative": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "keychain-dump": {
+      "minLevel": "rejected",
+      "rule": "credential-access"
+    },
+    "mcp-autoenable": {
+      "minLevel": "quarantined",
+      "rule": "hook-autoexec"
+    },
+    "multi-stage-pipe": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "network-unknown-domain": {
+      "minLevel": "caution",
+      "rule": "network-call"
+    },
+    "pastebin-upload": {
+      "minLevel": "rejected",
+      "rule": "exfiltration"
+    },
+    "postinstall-script": {
+      "minLevel": "caution",
+      "rule": "install-script"
+    },
+    "powershell-iex": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "rm-rf-home": {
+      "minLevel": "quarantined",
+      "rule": "dangerous-command"
+    },
+    "silent-action": {
+      "minLevel": "quarantined",
+      "rule": "prompt-injection"
+    },
+    "ssh-key-read": {
+      "minLevel": "rejected",
+      "rule": "credential-access"
+    },
+    "symlink-escape": {
+      "minLevel": "quarantined",
+      "rule": "symlink"
+    },
+    "unclosed-detection-fence": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "zero-width-split-keyword": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "zero-width-stego": {
+      "minLevel": "rejected",
+      "rule": "hidden-unicode"
+    }
+  }
+}

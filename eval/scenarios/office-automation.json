@@ -1,0 +1,27 @@
+{
+  "name": "office-automation",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node"
+    ],
+    "inferredNeeds": [
+      "office-docs"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "docx",
+    "xlsx",
+    "pptx"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor"
+  ]
+}

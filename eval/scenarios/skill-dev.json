@@ -1,0 +1,27 @@
+{
+  "name": "skill-dev",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "agent-tooling",
+    "needs": [
+      "agent-skills"
+    ]
+  },
+  "mustInclude": [
+    "skill-creator",
+    "mcp-builder"
+  ],
+  "mustNotInclude": [
+    "react-native-skills"
+  ]
+}

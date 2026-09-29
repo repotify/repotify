@@ -1,0 +1,28 @@
+{
+  "name": "flask-api",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python",
+      "flask"
+    ],
+    "inferredNeeds": [
+      "testing"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "semgrep",
+    "supply-chain-risk-auditor"
+  ],
+  "mustNotInclude": [
+    "react-best-practices",
+    "composition-patterns"
+  ]
+}

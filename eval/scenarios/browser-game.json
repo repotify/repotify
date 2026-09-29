@@ -1,0 +1,30 @@
+{
+  "name": "browser-game",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript"
+    ],
+    "inferredNeeds": [
+      "testing"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "game"
+  },
+  "mustInclude": [
+    "property-based-testing",
+    "test-driven-development"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor",
+    "docx"
+  ]
+}

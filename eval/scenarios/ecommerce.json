@@ -1,0 +1,33 @@
+{
+  "name": "ecommerce",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript",
+      "nextjs",
+      "react"
+    ],
+    "inferredNeeds": [
+      "payments",
+      "auth",
+      "frontend-ui",
+      "testing"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "differential-review",
+    "react-best-practices",
+    "frontend-design"
+  ],
+  "mustNotInclude": [
+    "react-native-skills"
+  ]
+}

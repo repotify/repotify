@@ -1,0 +1,24 @@
+{
+  "name": "empty-agent-tooling",
+  "note": "",
+  "fingerprint": {
+    "empty": true,
+    "stacks": [],
+    "inferredNeeds": [],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "projectType": "agent-tooling"
+  },
+  "mustInclude": [
+    "mcp-builder",
+    "skill-creator"
+  ],
+  "mustNotInclude": [
+    "react-native-skills"
+  ]
+}

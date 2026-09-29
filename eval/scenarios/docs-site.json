@@ -1,0 +1,29 @@
+{
+  "name": "docs-site",
+  "note": "",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node"
+    ],
+    "inferredNeeds": [
+      "frontend-ui"
+    ],
+    "frameworks": [],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {
+    "needs": [
+      "docs-writing"
+    ]
+  },
+  "mustInclude": [
+    "writing-guidelines"
+  ],
+  "mustNotInclude": [
+    "guidelines-advisor"
+  ]
+}

@@ -1,0 +1,9 @@
+# Repotify analytics Worker. Fill in database_id after `wrangler d1 create repotify` (see README.md).
+name = "repotify-analytics"
+main = "src/index.mjs"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "repotify"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
