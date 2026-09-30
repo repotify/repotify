@@ -2,6 +2,7 @@ import { readFileSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import { auditSkills, formatAudit } from "./audit.mjs";
+import { buildSuggestion, formatSuggestion } from "./suggest.mjs";
 import { fileURLToPath } from "node:url";
 import { scanDir } from "./scan/index.mjs";
 import { fingerprint, formatFingerprint } from "./fingerprint.mjs";
@@ -56,7 +57,7 @@ export function detectLauncher(binPath = BIN_PATH) {
   return `node "${binPath}"`;
 }
 
-const VALUE_FLAGS = ["agent", "needs", "type", "priorities", "budget", "answers", "apply"];
+const VALUE_FLAGS = ["agent", "needs", "type", "priorities", "budget", "answers", "apply", "kind", "why", "license"];
 const out = (io, text) => io.stdout.write(text.endsWith("\n") ? text : text + "\n");
 const err = (io, text) => io.stderr.write(text.endsWith("\n") ? text : text + "\n");
 const csv = (v) => (typeof v === "string" ? v.split(",").map((s) => s.trim()).filter(Boolean) : []);
@@ -151,6 +152,18 @@ async function cmdAudit(args, io) {
     out(io, formatAudit(report));
   }
   return 0;
+}
+
+const str = (v) => (typeof v === "string" ? v : undefined);
+
+async function cmdSuggest(args, io) {
+  const s = await buildSuggestion({
+    cwd: io.cwd, target: args.positionals[0], kind: str(args.flags.kind), why: str(args.flags.why), license: str(args.flags.license),
+    own: !args.flags["not-mine"],
+  });
+  if (args.flags.json) out(io, JSON.stringify(s, null, 2));
+  else (s.ok ? out : err)(io, formatSuggestion(s));
+  return s.ok ? 0 : s.code === "blocked" ? 1 : 2;
 }
 
 function agentsFrom(flags, io) {
@@ -424,6 +437,7 @@ export const COMMANDS = {
   fingerprint: { run: cmdFingerprint, help: "fingerprint [--json]                 Summarize this project (local; code is not read)" },
   questions: { run: cmdQuestions, help: "questions [--json]                   Questions to ask only when the answer is unknown" },
   recommend: { run: cmdRecommend, help: "recommend [--type t] [--needs a,b]   Conflict-free candidate table (--json, --budget N)" },
+  suggest: { run: cmdSuggest, help: "suggest [dir|github-url] [--why text]  Suggest your repo for the catalog (pre-filled form; nothing is sent)" },
   audit: { run: cmdAudit, help: "audit [--user] [--json]              Which installed skills earn their place, which to remove, and why" },
   install: { run: cmdInstall, help: "install <id...> [--yes] [--agent a,b] Install catalog items (hash-checked, re-scanned)" },
   remove: { run: cmdRemove, help: "remove <id>                          Remove an item Repotify installed" },
