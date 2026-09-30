@@ -1752,6 +1752,7 @@
     },
     "conflicts": [
       "ml-pipeline",
+      "sre-engineer",
       "the-fool"
     ],
     "descriptionChars": 403,
@@ -3183,6 +3184,7 @@
     },
     "conflicts": [
       "feature-forge",
+      "sre-engineer",
       "the-fool"
     ],
     "descriptionChars": 604,
@@ -4332,6 +4334,108 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning",
+      "python-tooling",
+      "skill-authoring",
+      "llm-gateway",
+      "design-brainstorming",
+      "component-architecture"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 416,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "1e9d3804a9288f9d248085eefb153538a8f327443e0662bf9e1620f30257803a"
+      },
+      {
+        "path": "references/chunking-strategies.md",
+        "sha256": "1b732310ebf7b5e64c5abef46b13a11614f1c3dc331c214389f2643504a9a809"
+      },
+      {
+        "path": "references/embedding-models.md",
+        "sha256": "a840774bb2f5a635f454ccf7f2e9da72725552382ebf2a2b412b0d578f6bb8c8"
+      },
+      {
+        "path": "references/rag-evaluation.md",
+        "sha256": "de20bdaa8180b00bdd931dd79870926f747de4dafc1c0a66a64609293a8131e0"
+      },
+      {
+        "path": "references/retrieval-optimization.md",
+        "sha256": "caca467d9b0b2b0d3beba5e77f3333bd23f05c971a5dc101084293aa3d66df86"
+      },
+      {
+        "path": "references/vector-databases.md",
+        "sha256": "2782da946dee97da4dfa796aaee62852a7d0b92b8d713a7d8350fb7733ab63cc"
+      }
+    ],
+    "id": "rag-architect",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.8500000000000001
+    },
+    "license": "MIT",
+    "name": "rag-architect",
+    "needs": [
+      "data-processing",
+      "dependencies",
+      "llm-calls",
+      "python-quality",
+      "performance",
+      "testing",
+      "auth",
+      "docs-writing"
+    ],
+    "path": "skills/rag-architect",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Designs and implements production‑grade RAG systems with chunking, embeddings, vector store, hybrid search, reranking, and evaluation.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "rails-expertise"
     ],
     "cluster": "rails-expertise",
@@ -4782,6 +4886,107 @@
     ],
     "summary": "Vercel's React and Next.js performance rules: data fetching, bundles, rendering and caching.",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review",
+      "debugging-method",
+      "component-architecture",
+      "static-analysis",
+      "react-native",
+      "react-performance"
+    ],
+    "cluster": "code-review",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 495,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "3cba7fabe2b7e9e1953f9bea66969e0a16f7f4fec3bfc470ea037d657eacb6d9"
+      },
+      {
+        "path": "references/expo-router.md",
+        "sha256": "a62b3f4eaef6cef9bf7a6670682656a59dc9b54df02de93915da8528c19f6fe9"
+      },
+      {
+        "path": "references/list-optimization.md",
+        "sha256": "7b9908e812829870acaaae10dfbc0e59bfdb18c1360f94cfa018636d15e6040f"
+      },
+      {
+        "path": "references/platform-handling.md",
+        "sha256": "4fdafd628dea19bad3927c9a7db4fa00bdf612502df51e14e830705e492805f3"
+      },
+      {
+        "path": "references/project-structure.md",
+        "sha256": "0b5292d49a6bfdf87d625decfe0d2ce53831b67b333dae27fa20de8446d168ed"
+      },
+      {
+        "path": "references/storage-hooks.md",
+        "sha256": "65b969a610b5214470287fb0b34cafe41ead85f65de9b544bb49d78297261af4"
+      }
+    ],
+    "id": "react-native-expert",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "react-native-expert",
+    "needs": [
+      "frontend-ui",
+      "deploy",
+      "testing",
+      "mobile",
+      "performance"
+    ],
+    "path": "skills/react-native-expert",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "react-native",
+      "expo",
+      "typescript"
+    ],
+    "summary": "React Native expert skill for building, optimizing, and debugging cross‑platform mobile apps with Expo, navigation, FlatList performance, p…",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -5250,6 +5455,102 @@
     ],
     "badges": [],
     "capabilities": [
+      "security-review",
+      "code-review"
+    ],
+    "cluster": "security-review",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 594,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "19153a339a499baf6ea7fc684afc535d8b31292af468e5dd008b58b20d29a89c"
+      },
+      {
+        "path": "references/authentication.md",
+        "sha256": "4d680ac47602955de09a4bb248346a91b96158d0b7e23de4fe20ecfda2ff8ac2"
+      },
+      {
+        "path": "references/input-validation.md",
+        "sha256": "2f227b437b0d1184ad557c3ba48bf6e0db4df43c8949c9c0fc923c69847a040a"
+      },
+      {
+        "path": "references/owasp-prevention.md",
+        "sha256": "4baed17eeefd365c1b46cf54e0915e99ce85666b345faf40dd9c6bf9e33372b1"
+      },
+      {
+        "path": "references/security-headers.md",
+        "sha256": "59333cf6d3a13b8675d98afd0888e224a1e6b644f755b08a46ebcef3fb6be281"
+      },
+      {
+        "path": "references/xss-csrf.md",
+        "sha256": "4d9976faed6ff05ce2677cdccee1df0be2980375fcdc6151ea59553fce5ca470"
+      }
+    ],
+    "id": "secure-code-guardian",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "secure-code-guardian",
+    "needs": [
+      "auth",
+      "security",
+      "dependencies",
+      "testing"
+    ],
+    "path": "skills/secure-code-guardian",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "node",
+      "typescript",
+      "express"
+    ],
+    "summary": "Secure coding guidance for authentication, authorization, input validation, OWASP Top 10 prevention, and secure session management in Node/…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "static-analysis"
     ],
     "cluster": "static-analysis",
@@ -5580,6 +5881,306 @@
       "*"
     ],
     "summary": "Reverse-engineers specifications from existing codebases by mapping structure, tracing data flows, and documenting observed behavior in EAR…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "component-architecture",
+      "security-review",
+      "webapp-testing",
+      "tdd-discipline"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 433,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "6dcc68c578adc986cbaf6d0d2adaa7a0e9b2c158caff13a64c989338a54d01ea"
+      },
+      {
+        "path": "references/cloud.md",
+        "sha256": "d2ae703cf2c9723d6e249b5dc149d825683e68b50aa5ba3343f4ac2a84976f51"
+      },
+      {
+        "path": "references/data.md",
+        "sha256": "87bb091f484121d76bd25bef5e5b63c17a781c071f2498345af9b75c40ca9cdc"
+      },
+      {
+        "path": "references/security.md",
+        "sha256": "aae4cf3e8f7e99298dc9f7b156dac97c6f656f89329ffdad8ba0bf5d3dfa684e"
+      },
+      {
+        "path": "references/testing.md",
+        "sha256": "b3bc0fdbacf47a096fcf2b4ebdfba7c7e190f8fb8f312bf96c70313de7b28564"
+      },
+      {
+        "path": "references/web.md",
+        "sha256": "670edd1b9e7807e0481b90f7df814b2bc3aa1b5f53b5b80908805dcd248fa844"
+      }
+    ],
+    "id": "spring-boot-engineer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.825,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.8500000000000001
+    },
+    "license": "MIT",
+    "name": "spring-boot-engineer",
+    "needs": [
+      "agent-skills",
+      "dependencies",
+      "testing",
+      "security"
+    ],
+    "path": "skills/spring-boot-engineer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "java"
+    ],
+    "summary": "Generates Spring Boot 3.x code: REST controllers, services, repositories, security, WebFlux, microservices, tests, and cloud config example…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review",
+      "component-architecture",
+      "debugging-method"
+    ],
+    "cluster": "code-review",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 551,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "88ee296bc482dc47ad4bc9f2d0e21c0d37568690e43874fd55beed1099cfcf5d"
+      },
+      {
+        "path": "references/database-design.md",
+        "sha256": "b8d0676ac91213999c28e03dae2a7685d78dda05b6abe3f6b34690d2ae19d0f6"
+      },
+      {
+        "path": "references/dialect-differences.md",
+        "sha256": "5eac1a75d44e65dab3877353bf9e5963fa95dd990b5b1d853b17f744761f9586"
+      },
+      {
+        "path": "references/optimization.md",
+        "sha256": "dd197a02491cda9e1d26e2f0fdff4a5a90f4a54ccf4f6d57e5041a62c06be9a6"
+      },
+      {
+        "path": "references/query-patterns.md",
+        "sha256": "19c3b2e803336b5de9edb9fb663d2942f010459bf50f0d2961d5b0c1da6e3a8f"
+      },
+      {
+        "path": "references/window-functions.md",
+        "sha256": "23f1987aa8223d256502f9ef1504b5aff35999ad6917d85a62c6df4ede7b1769"
+      }
+    ],
+    "id": "sql-pro",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "sql-pro",
+    "needs": [
+      "agent-skills",
+      "data-processing",
+      "docs-writing",
+      "performance",
+      "large-codebase"
+    ],
+    "path": "skills/sql-pro",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "SQL Pro skill optimizes queries, designs schemas, and troubleshoots performance across major SQL dialects.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "python-tooling",
+      "workflow-meta",
+      "docs-lookup",
+      "debugging-method"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "feature-forge",
+      "ml-pipeline",
+      "the-fool"
+    ],
+    "descriptionChars": 381,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "7d3ff7346b57ae80a345bb32bfde35712639ccff0fbb042ee98d89e905b7796d"
+      },
+      {
+        "path": "references/automation-toil.md",
+        "sha256": "6e93b916b246a739e28583f70565abcfee18285141900734ef1587329858272f"
+      },
+      {
+        "path": "references/error-budget-policy.md",
+        "sha256": "ab1eb5849bcb1345b57ed5a34d8836dc853e30968b998601195bfc65f803c0cd"
+      },
+      {
+        "path": "references/incident-chaos.md",
+        "sha256": "063058f0f36d2c420f33dd158f6e96b24328b47043a59ea8523f0391717dfdac"
+      },
+      {
+        "path": "references/monitoring-alerting.md",
+        "sha256": "22479c9718b70d889baf43fa7c6cbbe7015f3ba7d710f627c7da68286ca0adf1"
+      },
+      {
+        "path": "references/slo-sli-management.md",
+        "sha256": "9f56a471eaf30474906deea6009b800eae972097828560ab950d104525b900d2"
+      }
+    ],
+    "id": "sre-engineer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "sre-engineer",
+    "needs": [
+      "agent-skills",
+      "docs-writing",
+      "python-quality",
+      "security",
+      "deploy",
+      "large-codebase",
+      "ci",
+      "performance"
+    ],
+    "path": "skills/sre-engineer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "python",
+      "docker",
+      "go"
+    ],
+    "summary": "Defines SLOs, error budgets, monitoring, automation, incident response, and chaos engineering for production systems.",
     "tier": "mission",
     "type": "skill"
   },
@@ -6006,6 +6607,124 @@
     ],
     "badges": [],
     "capabilities": [
+      "tdd-discipline",
+      "verification-gate",
+      "webapp-testing",
+      "security-review",
+      "code-review"
+    ],
+    "cluster": "tdd-discipline",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 553,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f16f02c55fcc761bac2e9f31fff2fc47398601b125a3658399b35670271889e9"
+      },
+      {
+        "path": "references/automation-frameworks.md",
+        "sha256": "407d5778b282cdf1bc72ccb18e81e9f8479198218da4dd8f35cbeda40e8a4c00"
+      },
+      {
+        "path": "references/e2e-testing.md",
+        "sha256": "b9b731c88e0bce4a2dc35f2f97b7c37e83104c075cd8f5f81b267a0632c855ae"
+      },
+      {
+        "path": "references/integration-testing.md",
+        "sha256": "2330ec33787f4afcde1486c0c041b33f015396d995b0799372f081601631dfa8"
+      },
+      {
+        "path": "references/performance-testing.md",
+        "sha256": "8ba93c666af382e91c8ee1bd4ccc02e213c3c3b986b1b88f53321214bd2d6955"
+      },
+      {
+        "path": "references/qa-methodology.md",
+        "sha256": "9277588309c80929241df3302150cae1c966cb83dd1dc2be3125a943fa4d4477"
+      },
+      {
+        "path": "references/security-testing.md",
+        "sha256": "aa4fe58e2e1341fc8e9ce2c50abe940b378571fa0b9233904aa567a31d8bb6fc"
+      },
+      {
+        "path": "references/tdd-iron-laws.md",
+        "sha256": "1f719ea75af92dac32762b9e27d7f1bd6dfd7be9d71c8b8db7b1c8842b34bed1"
+      },
+      {
+        "path": "references/test-reports.md",
+        "sha256": "9202c94244a2da9981fec66042634244478bf8d762061856f71d202e0e4744cf"
+      },
+      {
+        "path": "references/testing-anti-patterns.md",
+        "sha256": "ae653194178f04a7fe7662d256e2d11da763d6d2e04fcd091f7b374d70b28945"
+      },
+      {
+        "path": "references/unit-testing.md",
+        "sha256": "6165c82a10c79295ce45329fa16895128888ffd874269ee509af56061291c43a"
+      }
+    ],
+    "id": "test-master",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.825,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.7
+    },
+    "license": "MIT",
+    "name": "test-master",
+    "needs": [
+      "testing",
+      "ci",
+      "e2e-testing",
+      "security",
+      "performance"
+    ],
+    "path": "skills/test-master",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Skill for generating comprehensive test plans, writing unit/integration/E2E tests, analyzing coverage, and producing defect reports across …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "workflow-meta",
       "code-review",
       "verification-gate"
@@ -6022,7 +6741,8 @@
     },
     "conflicts": [
       "feature-forge",
-      "ml-pipeline"
+      "ml-pipeline",
+      "sre-engineer"
     ],
     "descriptionChars": 191,
     "files": [
@@ -6520,6 +7240,105 @@
       "*"
     ],
     "summary": "Tests local web apps with Playwright: screenshots, console logs and interaction checks.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "security-review",
+      "static-analysis",
+      "frontend-design"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 547,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "16f4f72214a98b85c144b33aaf797f266a526ea20dc016612cc7bad10e45d329"
+      },
+      {
+        "path": "references/gutenberg-blocks.md",
+        "sha256": "ac5ce4b71ff66de85a352c1b829667a8ba0a6f2d7717d91be3f40cf046eec8b3"
+      },
+      {
+        "path": "references/hooks-filters.md",
+        "sha256": "8aa512bb5ffb23a90fb4293190dfe227137d6785f42246e3565c543d95080905"
+      },
+      {
+        "path": "references/performance-security.md",
+        "sha256": "991fc8fa170c94476a68aa0d6c53647b62a831ea06a118e84d4a12197976062f"
+      },
+      {
+        "path": "references/plugin-architecture.md",
+        "sha256": "ef663e0c1b4b60e84d5035968dfb301b88de932bce17c8192dd3ef66eecef38a"
+      },
+      {
+        "path": "references/theme-development.md",
+        "sha256": "540a9669e2618487683d2a640c1a8b98dd255620d63a18c1032ed7cae8d28dbc"
+      }
+    ],
+    "id": "wordpress-pro",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.825,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.75
+    },
+    "license": "MIT",
+    "name": "wordpress-pro",
+    "needs": [
+      "agent-skills",
+      "security",
+      "testing",
+      "docs-writing",
+      "frontend-ui",
+      "performance"
+    ],
+    "path": "skills/wordpress-pro",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "php",
+      "node"
+    ],
+    "summary": "Provides comprehensive guidance for building secure, performant WordPress themes, plugins, Gutenberg blocks, WooCommerce, and REST APIs.",
     "tier": "mission",
     "type": "skill"
   },
