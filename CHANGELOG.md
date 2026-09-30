@@ -20,6 +20,9 @@ Smarter picks, an audit of what is already installed, and a setup your agent's s
 - The fingerprint reports platforms and capability evidence; the table marks hooks and MCP servers with ⚙.
 - Scanner: a long line with many downloads scans about four times faster (CI was failing on Node 18); verdicts on the
   127-skill corpus are unchanged.
+- Windows and macOS: the scanner reads link targets written with backslashes (a link out of a skill folder went
+  unnoticed on Windows), and the home folder is recognised under another spelling of its path (on macOS Repotify
+  could install itself into a home folder reached through a symlink).
 - The npm package is the primary install path in every README and in AGENTS.md; the agent block reads as the user's
   request, not an order.
 - Repository layout: `ARCHITECTURE.md` (including why JavaScript), `BENCHMARKS.md`, `RELEASING.md`, worked examples in

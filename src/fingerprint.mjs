@@ -1,6 +1,7 @@
+import { realpathSync } from "node:fs";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { homedir } from "node:os";
-import { join, resolve, sep } from "node:path";
+import { join, parse, resolve } from "node:path";
 import { DEP_MAP, FILE_MAP, LANG_BY_EXT, LANG_STACK, FRONTEND_STACKS } from "./stackmap.mjs";
 
 const SKIP_DIRS = new Set([
@@ -128,9 +129,19 @@ function emptyFingerprint(reason) {
   };
 }
 
+// One folder can have several spellings (on macOS /var is /private/var), so folders are compared by their real path.
+const realPath = (p) => {
+  try {
+    return realpathSync(p);
+  } catch {
+    return resolve(p);
+  }
+};
+
 export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() } = {}) {
   const root = resolve(dir);
-  if (root === resolve(homeDir) || root === sep || root === resolve("/")) return emptyFingerprint("home-or-root");
+  const real = realPath(root);
+  if (real === realPath(homeDir) || real === parse(real).root) return emptyFingerprint("home-or-root");
   const { files, truncated } = await walk(root, maxFiles);
   const sets = {
     stacks: new Set(), frameworks: new Set(), infra: new Set(), tests: new Set(), data: new Set(), llm: new Set(), needs: new Set(),

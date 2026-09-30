@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -100,6 +100,16 @@ test("the home directory and filesystem root are treated as no project", async (
   assert.equal(f.empty, true);
   assert.equal(f.stacks.length, 0);
   assert.equal((await fingerprint("/", { maxFiles: 10 })).empty, true);
+});
+
+test("the home directory is recognised under another spelling of its path", async () => {
+  // macOS: the temp folder is /var/..., the working directory /private/var/...
+  const dir = mkdtempSync(join(tmpdir(), "rp-home-"));
+  writeFileSync(join(dir, "package.json"), '{"dependencies":{"react":"1"}}');
+  const alias = join(mkdtempSync(join(tmpdir(), "rp-alias-")), "home");
+  symlinkSync(dir, alias, "dir");
+  assert.equal((await fingerprint(dir, { homeDir: alias })).reason, "home-or-root");
+  assert.equal((await fingerprint(alias, { homeDir: dir })).reason, "home-or-root");
 });
 
 test("large projects infer large-codebase", async () => {

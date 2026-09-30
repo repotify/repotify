@@ -122,7 +122,7 @@ test("unexpected errors print one line, not a stack trace", async () => {
 
 test("M1: in the home folder repotify does not install itself or write a lock", () => {
   const home = mkdtempSync(join(tmpdir(), "rp-homedir-"));
-  const r = run(home, [], { CLAUDECODE: "1", HOME: home });
+  const r = run(home, [], { CLAUDECODE: "1", HOME: home, USERPROFILE: home }); // USERPROFILE: the home folder on Windows
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /home folder or filesystem root/);
   assert.equal(existsSync(join(home, ".claude/skills/repotify")), false);

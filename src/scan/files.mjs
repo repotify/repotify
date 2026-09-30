@@ -69,13 +69,15 @@ function binaryFindings(path, buf) {
 }
 
 function symlinkFindings(file) {
-  const target = file.linkTarget ?? "";
+  const raw = file.linkTarget ?? "";
+  // Windows writes link targets with backslashes, so they count as separators on every system.
+  const target = raw.replace(/\\/g, "/");
   if (target.startsWith("/") || /^[A-Za-z]:/.test(target)) {
-    return [finding("symlink", "high", file.path, "-> " + target, "absolute link target")];
+    return [finding("symlink", "high", file.path, "-> " + raw, "absolute link target")];
   }
   const resolved = posix.normalize(posix.join(posix.dirname(file.path), target));
   if (resolved === ".." || resolved.startsWith("../")) {
-    return [finding("symlink", "high", file.path, "-> " + target, "points outside the skill folder")];
+    return [finding("symlink", "high", file.path, "-> " + raw, "points outside the skill folder")];
   }
   return [];
 }

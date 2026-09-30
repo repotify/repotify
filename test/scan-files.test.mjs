@@ -33,6 +33,15 @@ test("symlinks pointing outside the skill folder are quarantined; inside ones ar
   assert.equal(scanFiles([{ path: "docs/a", content: "", isSymlink: true, linkTarget: "../README.md" }]).level, "verified");
 });
 
+test("link targets written with Windows separators are checked the same way", () => {
+  // Node on Windows stores and reads link targets with backslashes.
+  const level = (linkTarget) => scanFiles([{ path: "a", content: "", isSymlink: true, linkTarget }]).level;
+  assert.equal(level("..\\..\\..\\etc\\passwd"), "quarantined");
+  assert.equal(level("\\\\?\\C:\\Users\\me\\.ssh\\id_rsa"), "quarantined");
+  assert.equal(level("\\Windows\\win.ini"), "quarantined");
+  assert.equal(level("docs\\guide.md"), "verified");
+});
+
 test("scanDir reports real symlinks without following them", async () => {
   const dir = mkdtempSync(join(tmpdir(), "rp-scan-"));
   writeFileSync(join(dir, "SKILL.md"), "# ok\n");
