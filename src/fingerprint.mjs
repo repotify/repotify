@@ -83,7 +83,8 @@ export function manifestDeps(name, text) {
         }
         if (section === "project" && /^\s*dependencies\s*=\s*\[/.test(line)) inArray = true;
         if (inArray || section === "project.optional-dependencies" || section === "dependency-groups") {
-          for (const q of quoted(line)) {
+          // `{include-group = "tests"}` names another group, not a package.
+          for (const q of quoted(line.replace(/\{\s*include-group\s*=\s*["'][^"']*["']\s*\}/g, ""))) {
             const n = pyReqName(q);
             if (n) deps.push(n);
           }

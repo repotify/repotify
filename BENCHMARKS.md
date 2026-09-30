@@ -4,17 +4,31 @@ Every number here comes from a command in this repository; how to reproduce each
 
 ## Recommendation quality
 
-The scenario set (`eval/scenarios/`, 42 projects) says, for each kind of project, which items must be in the default
+The scenario set (`eval/scenarios/`, 44 projects) says, for each kind of project, which items must be in the default
 set and which must not. A *violation* is a must-not item that was recommended anyway: a web testing skill in a Flutter
 app, Word and PowerPoint skills in a project whose dependencies only show Excel.
 
 | Engine | Must-include hits | Violations | Cluster duplicates |
 |---|---|---|---|
-| 0.1.0: items scored one by one | 89 / 91 (97.8%) | 14 | 0 |
-| **0.2.0: evidence, platforms, coverage** | **91 / 91 (100%)** | **0** | **0** |
+| 0.1.0: items scored one by one | 89 / 91 (97.8%) on 42 scenarios | 14 | 0 |
+| **0.2.0: evidence, platforms, coverage** | **95 / 95 (100%)** on 44 scenarios | **0** | **0** |
 
-Both engines were run on the same 42 scenarios (the 37 of 0.1.0, five new ones, and stricter must-nots on four). What
-changed is described in [ARCHITECTURE.md](ARCHITECTURE.md#the-recommendation-engine).
+The 0.1.0 row uses the 42 scenarios that existed when the new engine was written (the 37 of 0.1.0, five new ones,
+stricter must-nots on four); two more (command-line tools built with Typer and commander) came from checking real
+repositories. The default set averages 11.4 items and 3,589 of the 6,000 characters of context budget. CI fails below
+97% hits or on any violation. What changed is described in [ARCHITECTURE.md](ARCHITECTURE.md#the-recommendation-engine).
+
+### On real repositories
+
+Spot checks on public projects (fingerprint and default set, beyond the core):
+
+| Repository | Detected | Picks beyond the core |
+|---|---|---|
+| `OpenZeppelin/openzeppelin-contracts` | Solidity, smart contracts | smart-contract review, Semgrep, property-based tests, supply-chain audit |
+| `shadcn-ui/taxonomy`, `vercel/commerce` | Next.js web app | React composition and performance, frontend design, web UI review, web app tests |
+| `fastapi/full-stack-fastapi-template` | FastAPI + React web app | the same web set, property-based tests |
+| `flutter/samples` | Flutter (mobile and web samples) | frontend design, web UI review, property-based tests |
+| `obytes/react-native-template-obytes` | Expo app with a web target | React Native skills plus the web set |
 
 ## Security scanner
 

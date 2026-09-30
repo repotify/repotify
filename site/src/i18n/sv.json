@@ -57,7 +57,7 @@
   "sec_point_2": "Tredjepartsobjekt är låsta till en commit och uppdateras aldrig i tysthet.",
   "sec_point_3": "Verktyg körs aldrig åt dig: Repotify visar stegen.",
   "num_title": "I siffror",
-  "num_1": "av de förväntade objekten rekommenderade i 42 projektscenarier",
+  "num_1": "av de förväntade objekten rekommenderade i 44 projektscenarier",
   "num_2": "felaktiga val",
   "num_3": "avsiktligt skadliga prover upptäckta",
   "num_4": "falsklarm på 127 verkliga skills",

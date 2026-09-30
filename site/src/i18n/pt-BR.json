@@ -57,7 +57,7 @@
   "sec_point_2": "Itens de terceiros são fixados a um commit e nunca se atualizam em silêncio.",
   "sec_point_3": "Ferramentas nunca são executadas por você: o Repotify mostra os passos.",
   "num_title": "Em números",
-  "num_1": "dos itens esperados recomendados em 42 cenários de projeto",
+  "num_1": "dos itens esperados recomendados em 44 cenários de projeto",
   "num_2": "escolhas erradas",
   "num_3": "amostras propositalmente maliciosas detectadas",
   "num_4": "de alarmes falsos em 127 skills reais",

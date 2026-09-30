@@ -17,11 +17,11 @@ test("runEval scores must-include hits, must-not violations and cluster duplicat
   assert.equal(r.clusterDuplicates, 0);
 });
 
-test("the scenario set: at least 30 scenarios, >= 90% must-include hits, no violations, no duplicates", () => {
+test("the scenario set: at least 40 scenarios, >= 97% must-include hits, no violations, no duplicates", () => {
   const scenarios = loadScenarios();
-  assert.ok(scenarios.length >= 30, `${scenarios.length} scenarios`);
+  assert.ok(scenarios.length >= 40, `${scenarios.length} scenarios`);
   const r = runEval(scenarios, catalog);
   assert.equal(r.clusterDuplicates, 0);
   assert.deepEqual(r.violations, []);
-  assert.ok(r.hitRate >= 0.9, `hit rate ${r.hitRate.toFixed(3)}; misses ${JSON.stringify(r.misses)}`);
+  assert.ok(r.hitRate >= 0.97, `hit rate ${r.hitRate.toFixed(3)}; misses ${JSON.stringify(r.misses)}`);
 });

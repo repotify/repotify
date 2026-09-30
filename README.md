@@ -183,7 +183,7 @@ The maintainers rebuild the catalog through this pipeline, and your client alway
 
 | | |
 |---|---|
-| **100%** | expected items recommended across 42 project scenarios, with **0** wrong picks ([benchmarks](BENCHMARKS.md)) |
+| **100%** | expected items recommended across 44 project scenarios, with **0** wrong picks ([benchmarks](BENCHMARKS.md)) |
 | **37 / 37** | deliberately malicious samples caught |
 | **1.6%** | false alarms on 127 real-world skills |
 | **4** | Node.js versions tested on every push (18, 20, 22, 24) |

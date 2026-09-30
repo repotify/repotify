@@ -141,7 +141,7 @@ Katalog bu hat üzerinden bakımcılar tarafından yeniden üretilir ve istemcin
 
 | | |
 |---|---|
-| **%100** | 42 proje senaryosunda beklenen öğelerin önerilme oranı, **0** yanlış öneriyle ([ölçümler](../../BENCHMARKS.md)) |
+| **%100** | 44 proje senaryosunda beklenen öğelerin önerilme oranı, **0** yanlış öneriyle ([ölçümler](../../BENCHMARKS.md)) |
 | **37 / 37** | kasıtlı hazırlanmış zararlı örnek yakalandı |
 | **%1,6** | 127 gerçek skill'de yanlış alarm |
 | **4** | her push'ta test edilen Node.js sürümü (18, 20, 22, 24) |

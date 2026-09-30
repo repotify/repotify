@@ -57,7 +57,7 @@
   "sec_point_2": "Les éléments tiers sont figés sur un commit et ne se mettent jamais à jour en silence.",
   "sec_point_3": "Les outils ne sont jamais lancés à votre place : Repotify montre les étapes.",
   "num_title": "En chiffres",
-  "num_1": "des éléments attendus recommandés sur 42 scénarios de projet",
+  "num_1": "des éléments attendus recommandés sur 44 scénarios de projet",
   "num_2": "mauvais choix",
   "num_3": "échantillons volontairement malveillants détectés",
   "num_4": "de fausses alertes sur 127 skills réels",

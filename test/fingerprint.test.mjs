@@ -131,3 +131,9 @@ test("projects kept inside the project (fixtures, examples, templates) do not ch
   assert.deepEqual(f.inferredNeeds, []);
   assert.deepEqual(f.platforms, []);
 });
+
+test("pyproject dependency groups: included group names are not packages", async () => {
+  const { manifestDeps } = await import("../src/fingerprint.mjs");
+  const deps = manifestDeps("pyproject.toml", '[project]\ndependencies = ["rich>=13"]\n\n[dependency-groups]\ndev = [\n  {include-group = "tests"},\n  "ruff==0.6.0",\n]\ntests = ["pytest"]\n');
+  assert.deepEqual(deps, ["rich", "ruff", "pytest"]);
+});

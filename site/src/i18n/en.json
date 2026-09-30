@@ -57,7 +57,7 @@
   "sec_point_2": "Third-party items are pinned to a commit and never update silently.",
   "sec_point_3": "Tools are never run for you: Repotify shows the steps.",
   "num_title": "By the numbers",
-  "num_1": "expected items recommended across 42 project scenarios",
+  "num_1": "expected items recommended across 44 project scenarios",
   "num_2": "wrong picks",
   "num_3": "deliberately malicious samples caught",
   "num_4": "false alarms on 127 real-world skills",
