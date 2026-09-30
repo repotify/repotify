@@ -1,13 +1,8 @@
 # Changelog
 
-## 0.1.1 (2026-09-30)
-
-- The npm package is `@repotify/repotify`. npm does not accept the unscoped name `repotify` (too similar to
-  `restify` and `reactify`), so 0.1.0 was never published there. The command is still `repotify`.
-
 ## 0.1.0 (2026-09-29)
 
-First public preview.
+First public preview. The npm package is `@repotify/repotify`; the command is `repotify`.
 
 - `repotify` reads a project without reading its code, asks at most three questions and recommends a conflict-free set
   of skills, MCP servers and tools within a context budget.
