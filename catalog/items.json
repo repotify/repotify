@@ -339,6 +339,92 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning",
+      "debugging-method"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "e62be9667aff87958ed94bee2b396433897d1529",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 385,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "6a3b601bb3d7ae8a2a527aad788c7266001feadd5aca43db7e9926af1cda3518"
+      },
+      {
+        "path": "references/object-model-quick-reference.md",
+        "sha256": "83234b798727d2c570a5a822f1221c3bf5f2230c8fa3e7ef8f195ef1a61f3736"
+      },
+      {
+        "path": "scripts/batch-export-png.jsx",
+        "sha256": "f0dc0fb89708d9990c58370db701d76102a31607c848fc46f425ddea60a04596"
+      },
+      {
+        "path": "scripts/create-color-grid.jsx",
+        "sha256": "7d46a7d9e7a62b6c69b00a563c425d114c187e79ddb227ed778f2520e0dd87ae"
+      },
+      {
+        "path": "scripts/find-replace-text.jsx",
+        "sha256": "d5c63429602789eb9fb2cef738d09817328ca375e46ffed425235f0abd92286d"
+      }
+    ],
+    "id": "adobe-illustrator-scripting",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "adobe-illustrator-scripting",
+    "needs": [],
+    "path": "skills/adobe-illustrator-scripting",
+    "repo": "github/awesome-copilot",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 39551
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Write, debug, and optimize Adobe Illustrator automation scripts using ExtendScript (JavaScript/JSX).",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "code-review"
     ],
     "cluster": "code-review",
@@ -1015,6 +1101,240 @@
     ],
     "badges": [],
     "capabilities": [
+      "llm-gateway"
+    ],
+    "cluster": "llm-gateway",
+    "commit": "9fd35ece5d6de65b511bf43b55e42c499e4fc194",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 146,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "3c39831d3a3de45d5ba692efaef554633e4cd73088b55315f930a174d770a8df"
+      }
+    ],
+    "id": "ask",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "ask",
+    "needs": [
+      "llm-calls"
+    ],
+    "path": "skills/ask",
+    "repo": "yeachan-heo/oh-my-claudecode",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 8,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 39471
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides a unified omc ask interface to query various LLMs (Claude, Codex, Gemini, Antigravity, Grok, Cursor) and persist responses as arti…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "workflow-meta"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "9fd35ece5d6de65b511bf43b55e42c499e4fc194",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "batch",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "herdr",
+      "ml-pipeline",
+      "orchestration",
+      "parallel-feature-development",
+      "schedule",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 357,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "45e8fd7d8332122763c075a2b5c5bfd2ac0322e7fe71396374bdacbf329b14f8"
+      }
+    ],
+    "id": "ask-navigator",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "ask-navigator",
+    "needs": [
+      "agent-skills",
+      "github-workflow",
+      "llm-calls"
+    ],
+    "path": "skills/ask-navigator",
+    "repo": "yeachan-heo/oh-my-claudecode",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 8,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 39471
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Helps an agent turn vague goals into tracked decision tickets, working one per session via issue tracker, then hands off a mission brief.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "code-review",
+      "security-review"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "9fd35ece5d6de65b511bf43b55e42c499e4fc194",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 51,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f38138ad04ce347acb970ac5a90d05931745396d33837c99ec9f818dc7f471fc"
+      }
+    ],
+    "id": "autopilot",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "autopilot",
+    "needs": [
+      "agent-skills",
+      "testing"
+    ],
+    "path": "skills/autopilot",
+    "repo": "yeachan-heo/oh-my-claudecode",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 8,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 39471
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Full autonomous execution from idea to working code through requirements analysis, design, planning, implementation, QA, and validation.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "code-review",
       "implementation-planning",
       "workflow-meta"
@@ -1030,6 +1350,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -1812,6 +2133,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "dynamic-workflow",
       "feature-forge",
@@ -4016,6 +4338,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "feature-forge",
@@ -4294,6 +4617,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -5071,6 +5395,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -5971,6 +6296,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -6524,6 +6850,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -6683,6 +7010,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -8661,6 +8989,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -9380,6 +9709,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -9832,6 +10162,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -9923,6 +10254,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -10014,6 +10346,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
@@ -10301,6 +10634,7 @@
       "votes": 0
     },
     "conflicts": [
+      "ask-navigator",
       "batch",
       "context-engineering",
       "dynamic-workflow",
