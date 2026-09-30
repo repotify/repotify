@@ -24,7 +24,13 @@ for (const [label, cmd, args] of steps) {
   const ok = r.status === 0;
   if (!ok) failed++;
   console.log(`${ok ? "✓" : "✗"} ${label.padEnd(24)} ${((Date.now() - t0) / 1000).toFixed(1)}s`);
-  if (!ok) console.log((r.stdout + r.stderr).split("\n").filter((l) => /✖|fail|error|Error/i.test(l)).slice(0, 12).map((l) => `    ${l}`).join("\n"));
+  if (!ok) {
+    // The failing tests by name when there are any (a passing test can have "fail" in its name), else any error line.
+    const lines = (r.stdout + r.stderr).replace(/\x1b\[[0-9;]*m/g, "").split("\n");
+    const failing = [...new Set(lines.filter((l) => /^\s*✖/.test(l) && !/failing tests:/.test(l)).map((l) => l.trim()))];
+    const shown = failing.length ? failing : lines.filter((l) => /fail|error/i.test(l));
+    console.log(shown.slice(0, 12).map((l) => `    ${l}`).join("\n"));
+  }
 }
 rmSync(site, { recursive: true, force: true });
 console.log(failed ? `\n${failed} step(s) failed.` : "\nEverything passed.");
