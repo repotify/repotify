@@ -77,17 +77,25 @@ test("re-review I-3: ordinary download lines are not rejected", () => {
 });
 
 test("re-review I-2: long lines scan in linear time", () => {
-  for (const [label, content, path] of [
-    ["download chain", "curl -o x ;".repeat(20000), "a.sh"],
-    ["pipes", "curl |".repeat(20000), "a.sh"],
-    ["pipes in prose", "curl |".repeat(20000), "SKILL.md"],
-    ["uploads", "curl -F x ".repeat(20000), "a.sh"],
-    ["wget", "wget ".repeat(40000), "SKILL.md"],
-  ]) {
+  // Linear work takes about 4x as long on a line 4x longer; quadratic work about 16x. Comparing two sizes of the same
+  // input keeps the check meaningful on slow machines and under coverage instrumentation, where absolute times grow.
+  const time = (content, path) => {
     const t0 = process.hrtime.bigint();
     scan(content + "\n", path);
-    const ms = Number(process.hrtime.bigint() - t0) / 1e6;
-    assert.ok(ms < 1500, `${label}: ${ms.toFixed(0)} ms`);
+    return Number(process.hrtime.bigint() - t0) / 1e6;
+  };
+  for (const [label, unit, n, path] of [
+    ["download chain", "curl -o x ;", 5000, "a.sh"],
+    ["pipes", "curl |", 5000, "a.sh"],
+    ["pipes in prose", "curl |", 5000, "SKILL.md"],
+    ["uploads", "curl -F x ", 5000, "a.sh"],
+    ["wget", "wget ", 10000, "SKILL.md"],
+  ]) {
+    time(unit.repeat(n), path);
+    const small = Math.max(time(unit.repeat(n), path), 5);
+    const large = time(unit.repeat(n * 4), path);
+    assert.ok(large / small < 9, `${label}: ${small.toFixed(0)} ms at ${n}, ${large.toFixed(0)} ms at ${n * 4}`);
+    assert.ok(large < 10000, `${label}: ${large.toFixed(0)} ms`);
   }
 });
 

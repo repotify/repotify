@@ -54,6 +54,9 @@ The agent is detected automatically; override with `--agent claude-code,cursor,c
 | `repotify remove <id>` | Removes something Repotify installed |
 | `repotify update --check` | Lists catalog updates for what you installed; `--apply` installs scanned updates |
 | `repotify scan <dir>` | Runs the security scanner on any skill folder |
+| `repotify vote <id> up\|down` | Rates an item you installed (at most weekly) |
+| `repotify telemetry status\|on\|off` | Anonymous usage signals; the endpoint is off, so nothing is sent |
+| `repotify guard --self-test` | Checks the package guard; Claude Code runs `repotify guard --hook` itself |
 
 ## What Repotify changes on your machine
 

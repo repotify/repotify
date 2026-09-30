@@ -44,4 +44,4 @@ body:
     id: version
     attributes:
       label: Repotify and Node versions
-      placeholder: "repotify --version: 0.1.0, node --version: v22.x, macOS 15"
+      placeholder: "repotify --version: 0.2.0, node --version: v22.x, macOS 15"

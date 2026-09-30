@@ -20,7 +20,9 @@
   },
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "eval": "node test/eval/run.mjs"
+    "eval": "node test/eval/run.mjs",
+    "check": "node test/check.mjs",
+    "coverage": "node --test --experimental-test-coverage --test-coverage-include=src/** --test-coverage-include=pipeline/** --test-coverage-lines=93 --test-coverage-branches=84 --test-coverage-functions=93 test/*.test.mjs"
   },
   "files": [
     "bin",
