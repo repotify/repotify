@@ -16,6 +16,10 @@
 - The lab now adds vetted skills to the catalog on its own, every 30 minutes, only after the security scan, the jury,
   the scenario set and `npm run check` pass. Four skills it added from a collection of leaked system prompts were
   removed and that source is denylisted: its license is not the uploader's to give.
+- **No skills that only work with one product.** A skill written to drive one tool (a terminal multiplexer, a vendor
+  CLI, an agent add-on) does nothing in a project without it. The jury now names such a product and the lab declines
+  the skill; ten of them left the catalog.
+- The lab searches Codex topics too, and works through the most-starred Claude Code and Codex collections first.
 
 ## 0.2.0 (2026-09-29)
 

@@ -268,163 +268,6 @@
     ],
     "badges": [],
     "capabilities": [
-      "verification-gate"
-    ],
-    "cluster": "verification-gate",
-    "commit": "e62be9667aff87958ed94bee2b396433897d1529",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 346,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "e563c5e334e1dac21a7d6a43ae43abb96721395e7af7b97f49ef764ad8325550"
-      }
-    ],
-    "id": "acreadiness-policy",
-    "jury": {
-      "agreement": 1,
-      "maintenance": 0.9,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "MIT",
-    "name": "acreadiness-policy",
-    "needs": [
-      "ci"
-    ],
-    "path": "skills/acreadiness-policy",
-    "repo": "github/awesome-copilot",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T17:16:03.055Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 39551
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Helps users create, view, or apply AgentRC readiness policies to customize scoring, disable checks, override impacts, set thresholds, and c…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "implementation-planning",
-      "debugging-method"
-    ],
-    "cluster": "implementation-planning",
-    "commit": "e62be9667aff87958ed94bee2b396433897d1529",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 385,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "6a3b601bb3d7ae8a2a527aad788c7266001feadd5aca43db7e9926af1cda3518"
-      },
-      {
-        "path": "references/object-model-quick-reference.md",
-        "sha256": "83234b798727d2c570a5a822f1221c3bf5f2230c8fa3e7ef8f195ef1a61f3736"
-      },
-      {
-        "path": "scripts/batch-export-png.jsx",
-        "sha256": "f0dc0fb89708d9990c58370db701d76102a31607c848fc46f425ddea60a04596"
-      },
-      {
-        "path": "scripts/create-color-grid.jsx",
-        "sha256": "7d46a7d9e7a62b6c69b00a563c425d114c187e79ddb227ed778f2520e0dd87ae"
-      },
-      {
-        "path": "scripts/find-replace-text.jsx",
-        "sha256": "d5c63429602789eb9fb2cef738d09817328ca375e46ffed425235f0abd92286d"
-      }
-    ],
-    "id": "adobe-illustrator-scripting",
-    "jury": {
-      "agreement": 0.8,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 0.9
-    },
-    "license": "MIT",
-    "name": "adobe-illustrator-scripting",
-    "needs": [],
-    "path": "skills/adobe-illustrator-scripting",
-    "repo": "github/awesome-copilot",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T17:16:03.055Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 39551
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Write, debug, and optimize Adobe Illustrator automation scripts using ExtendScript (JavaScript/JSX).",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
       "code-review"
     ],
     "cluster": "code-review",
@@ -937,77 +780,6 @@
     ],
     "badges": [],
     "capabilities": [
-      "llm-gateway"
-    ],
-    "cluster": "llm-gateway",
-    "commit": "9fd35ece5d6de65b511bf43b55e42c499e4fc194",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 146,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "3c39831d3a3de45d5ba692efaef554633e4cd73088b55315f930a174d770a8df"
-      }
-    ],
-    "id": "ask",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "MIT",
-    "name": "ask",
-    "needs": [
-      "llm-calls"
-    ],
-    "path": "skills/ask",
-    "repo": "yeachan-heo/oh-my-claudecode",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T17:16:03.055Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 8,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 39471
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Provides a unified omc ask interface to query various LLMs (Claude, Codex, Gemini, Antigravity, Grok, Cursor) and persist responses as arti…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
       "implementation-planning",
       "workflow-meta"
     ],
@@ -1025,9 +797,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -1082,151 +852,6 @@
       "*"
     ],
     "summary": "Helps an agent turn vague goals into tracked decision tickets, working one per session via issue tracker, then hands off a mission brief.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "implementation-planning",
-      "code-review",
-      "security-review"
-    ],
-    "cluster": "implementation-planning",
-    "commit": "9fd35ece5d6de65b511bf43b55e42c499e4fc194",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 51,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "f38138ad04ce347acb970ac5a90d05931745396d33837c99ec9f818dc7f471fc"
-      }
-    ],
-    "id": "autopilot",
-    "jury": {
-      "agreement": 1,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 0.8
-    },
-    "license": "MIT",
-    "name": "autopilot",
-    "needs": [
-      "agent-skills",
-      "testing"
-    ],
-    "path": "skills/autopilot",
-    "repo": "yeachan-heo/oh-my-claudecode",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T17:16:03.055Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 8,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 39471
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Full autonomous execution from idea to working code through requirements analysis, design, planning, implementation, QA, and validation.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "code-review",
-      "implementation-planning",
-      "debugging-method"
-    ],
-    "cluster": "code-review",
-    "commit": "f42f579cf8bac4918ac9599bece71618afadd846",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 57,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "6cd96ccabb85c4abd7a325ecf7d12678f7e7ce39194920136865bb69ad98cd3c"
-      }
-    ],
-    "id": "blackbox",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.9,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 0.85
-    },
-    "license": "MIT",
-    "name": "blackbox",
-    "needs": [],
-    "path": "optional-skills/autonomous-ai-agents/blackbox",
-    "repo": "nousresearch/hermes-agent",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T14:13:15.077Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 250251
-    },
-    "stacks": [
-      "node"
-    ],
-    "summary": "Delegate coding tasks to Blackbox AI multi-model CLI via terminal commands, supporting one-shot, background, checkpoints, PR review, and mu…",
     "tier": "mission",
     "type": "skill"
   },
@@ -1879,9 +1504,7 @@
       "ask-navigator",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -2181,95 +1804,6 @@
       "*"
     ],
     "summary": "Optimizes database queries and improves performance across PostgreSQL and MySQL systems.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "debugging-method",
-      "browser-automation"
-    ],
-    "cluster": "debugging-method",
-    "commit": "02c0112cd57e4fa4bac31a1e69d7507601773b14",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 439,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "8898b35108b12f73cef83a08964ffff0ebfad429389ffd42cb49a423025657ae"
-      },
-      {
-        "path": "references/elements-and-size.md",
-        "sha256": "a99e9e5f93ad2e5b5b65e84abd2bb220e0560be66cc87059361f1d5f7ef2aed7"
-      },
-      {
-        "path": "references/lcp-breakdown.md",
-        "sha256": "c63bb071fa465c41464446100f4afc069118eab9092cbec0b284dd452404a947"
-      },
-      {
-        "path": "references/lcp-snippets.md",
-        "sha256": "b54d0c26e9df7eea1e58cc118bbbe1ef2037d097a146603ef31c17fe47a6b8b8"
-      },
-      {
-        "path": "references/optimization-strategies.md",
-        "sha256": "786691daf6216f1aacb0e2bafdc08ef8450067a392ab26814337ac9837c048c1"
-      }
-    ],
-    "id": "debug-optimize-lcp",
-    "jury": {
-      "agreement": 0.8,
-      "maintenance": 0.9,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "Apache-2.0",
-    "name": "debug-optimize-lcp",
-    "needs": [
-      "mcp-server",
-      "performance"
-    ],
-    "path": "skills/debug-optimize-lcp",
-    "repo": "chromedevtools/chrome-devtools-mcp",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T15:46:02.715Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 52802
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Guides debugging and optimizing LCP using Chrome DevTools MCP tools to identify bottlenecks and apply fixes for faster main content renderi…",
     "tier": "mission",
     "type": "skill"
   },
@@ -4082,9 +3616,7 @@
       "ask-navigator",
       "context-engineering",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -4359,9 +3891,7 @@
       "ask-navigator",
       "context-engineering",
       "dynamic-workflow",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -5119,90 +4649,6 @@
     ],
     "badges": [],
     "capabilities": [
-      "workflow-meta"
-    ],
-    "cluster": "workflow-meta",
-    "commit": "347f9c99bc95672e5ebcb26753648e85801d3c71",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [
-      "ask-navigator",
-      "context-engineering",
-      "dynamic-workflow",
-      "feature-forge",
-      "ml-pipeline",
-      "orchestration",
-      "parallel-feature-development",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
-    "descriptionChars": 328,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "b16ba0d9a22adbaf259d2022cd323801f8e51d530c94cb0cd23a69069292506b"
-      }
-    ],
-    "id": "herdr",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.9,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "Apache-2.0",
-    "name": "herdr",
-    "needs": [
-      "agent-skills"
-    ],
-    "path": "skills/herdr",
-    "repo": "herdrdev/herdr",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T17:16:03.055Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 41619
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Control Herdr terminal multiplexer to manage panes, tabs, workspaces, start and interact with coding agents, and run commands in isolated t…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
       "design-brainstorming",
       "frontend-design",
       "web-design-review",
@@ -5839,81 +5285,6 @@
     ],
     "badges": [],
     "capabilities": [
-      "debugging-method"
-    ],
-    "cluster": "debugging-method",
-    "commit": "02c0112cd57e4fa4bac31a1e69d7507601773b14",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 221,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "895127ac55a3f2c4e0ca9be496e84165eee6408637c2bcc5516d69170a8de80e"
-      },
-      {
-        "path": "references/common-leaks.md",
-        "sha256": "2d41e075d8d22e69bc420a9eb4bc180eb2466669ffd0939c201723d80b2673a1"
-      }
-    ],
-    "id": "memory-leak-debugging",
-    "jury": {
-      "agreement": 0.8,
-      "maintenance": 0.85,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "Apache-2.0",
-    "name": "memory-leak-debugging",
-    "needs": [
-      "mcp-server"
-    ],
-    "path": "skills/memory-leak-debugging",
-    "repo": "chromedevtools/chrome-devtools-mcp",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T15:46:02.715Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 52802
-    },
-    "stacks": [
-      "node"
-    ],
-    "summary": "Guides debugging JavaScript/Node.js memory leaks using Chrome DevTools MCP heap snapshot tools to capture, compare, and inspect snapshots.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
       "component-architecture",
       "implementation-planning",
       "design-brainstorming",
@@ -6035,8 +5406,6 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -6501,159 +5870,6 @@
     ],
     "badges": [],
     "capabilities": [
-      "code-review"
-    ],
-    "cluster": "code-review",
-    "commit": "a758d9cbfb689937c7857ad64b2dd66adb58c0c2",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 496,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "916934dc1626090d63ef8bd213b7513df24fe7d2a6f2d6d2dfe7b3de8210b778"
-      }
-    ],
-    "id": "open-code-review",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "Apache-2.0",
-    "name": "open-code-review",
-    "needs": [],
-    "path": "plugins/open-code-review/skills/open-code-review",
-    "repo": "alibaba/open-code-review",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T17:16:03.055Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 1,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 42848
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "AI-powered code review for Git changes using ocr CLI, providing line-level comments and optional fixes.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "workflow-meta"
-    ],
-    "cluster": "workflow-meta",
-    "commit": "d74388f8a2dad2bd4bbfe3b937aba66e6648258b",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [
-      "ask-navigator",
-      "context-engineering",
-      "dynamic-workflow",
-      "feature-forge",
-      "herdr",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
-    "descriptionChars": 524,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "cd1b364bf35781bad06bf75ab1766afa8d6cec69cb2060529691d89871a2098a"
-      }
-    ],
-    "id": "orchestration",
-    "jury": {
-      "agreement": 0.7999999999999999,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "MIT",
-    "name": "orchestration",
-    "needs": [
-      "agent-skills"
-    ],
-    "path": "skills/orchestration",
-    "repo": "stablyai/orca",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T15:46:02.715Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 82163
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Coordinates Orca workers via threaded messages, blocking ask/reply, task DAGs, and decision gates using orca-cli for handoffs and terminal …",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
       "debugging-method"
     ],
     "cluster": "debugging-method",
@@ -6745,9 +5961,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -9358,9 +8572,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -9809,9 +9021,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "team-communication-protocols",
@@ -9899,9 +9109,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -9989,9 +9197,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -10275,9 +9481,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
-      "herdr",
       "ml-pipeline",
-      "orchestration",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
