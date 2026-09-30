@@ -1,5 +1,5 @@
-// Repotify site: scroll reveals, the typed terminal, localized count-up numbers, copy buttons, card spotlight,
-// the language menu, a hint towards the visitor's own language, and the live GitHub star count.
+// Repotify site: scroll reveals, the typed terminal, copy buttons, card spotlight, the language menu, a hint towards
+// the visitor's own language, and the live GitHub star count.
 // Everything is progressive: without this file the page is complete, and reduced motion turns the motion off.
 (() => {
   const doc = document.documentElement;
@@ -22,8 +22,6 @@
     if (reduce) el.classList.add("in");
     else once(el, () => el.classList.add("in"), 0.12);
   }
-  const steps = document.querySelector(".steps");
-  if (steps) reduce ? steps.classList.add("drawn") : once(steps, () => steps.classList.add("drawn"), 0.3);
 
   // The terminal types its commands and prints the output line by line.
   const term = document.querySelector("[data-typed]");
@@ -51,28 +49,6 @@
       }
       lines.at(-1).classList.add("caret");
     }, 0.35);
-  }
-
-  // Numbers count up in the page's own locale (Latin digits, like the static text).
-  for (const el of document.querySelectorAll("[data-count]")) {
-    const to = Number(el.dataset.count);
-    if (reduce || !to) continue;
-    const nf = new Intl.NumberFormat(lang, {
-      style: el.dataset.style || "decimal",
-      minimumFractionDigits: Number(el.dataset.decimals || 0),
-      maximumFractionDigits: Number(el.dataset.decimals || 0),
-      numberingSystem: "latn",
-    });
-    const suffix = el.dataset.suffix || "";
-    once(el, () => {
-      const t0 = performance.now();
-      const tick = (t) => {
-        const p = Math.min(1, (t - t0) / 1400);
-        el.textContent = nf.format(to * (1 - Math.pow(1 - p, 3))) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }, 0.5);
   }
 
   // Copy the install command.
@@ -159,7 +135,7 @@
   const star = document.querySelector("[data-stars]");
   if (star) {
     const show = (n) => {
-      if (!(n >= 1)) return;
+      if (!(n >= 100)) return; // a small count says nothing useful yet
       star.textContent = new Intl.NumberFormat(lang, { notation: "compact", maximumFractionDigits: 1, numberingSystem: "latn" }).format(n);
       star.hidden = false;
     };

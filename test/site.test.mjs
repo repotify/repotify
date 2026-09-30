@@ -46,7 +46,7 @@ test("the build writes one localized page per language with SEO metadata", () =>
     assert.equal(ld[1].mainEntity.length, 6);
     assert.equal(ld[0].softwareVersion, version);
   }
-  for (const f of ["styles.css", "app.js", "og.png", "favicon.svg", "apple-touch-icon.png", "space-grotesk-latin.woff2"]) {
+  for (const f of ["styles.css", "app.js", "og.png", "favicon.svg", "apple-touch-icon.png", "jetbrains-mono-latin.woff2", "jetbrains-mono-OFL.txt"]) {
     assert.ok(existsSync(join(out, "assets", f)), f);
   }
   const sitemap = readFileSync(join(out, "sitemap.xml"), "utf8");

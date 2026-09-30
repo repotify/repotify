@@ -7,7 +7,7 @@
 <meta name="description" content="{{attr:meta_description}}">
 <link rel="canonical" href="{{canonical}}">
 {{hreflang}}
-<meta name="theme-color" content="#0a0914">
+<meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="icon" href="{{root}}assets/favicon.svg" type="image/svg+xml">
@@ -20,24 +20,24 @@
 <meta property="og:image" content="{{og_image}}">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="Repotify: your repo's perfect playlist">
+<meta property="og:image:alt" content="Repotify: every skill your repo needs, nothing it doesn't">
 <meta property="og:locale" content="{{attr:og_locale}}">
 {{og_locale_alternates}}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{attr:meta_title}}">
 <meta name="twitter:description" content="{{attr:meta_description}}">
 <meta name="twitter:image" content="{{og_image}}">
-<link rel="preload" href="{{root}}assets/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{root}}assets/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{{root}}assets/styles.css?v={{version}}">
 <script>document.documentElement.classList.add("js")</script>
 <script type="application/ld+json">{{jsonld}}</script>
 </head>
 <body>
 <a class="skip" href="#main">{{skip}}</a>
-<div class="bg" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><span class="grid"></span></div>
+<div class="bg" aria-hidden="true"><span class="grid"></span></div>
 
 <header class="nav">
-  <a class="brand" href="{{home}}">{{logo}}<span>Repotify</span></a>
+  <a class="brand" href="{{home}}">{{logo}}<span>repotify</span></a>
   <nav class="links" aria-label="Main">
     <a href="#how">{{nav_how}}</a>
     <a href="#security">{{nav_security}}</a>
@@ -70,19 +70,24 @@
       </div>
     </div>
     <div class="hero-visual reveal" style="--d:2">
-      <div class="mark" aria-hidden="true">{{logo}}</div>
       <figure class="term" dir="ltr">
         <div class="term-bar" aria-hidden="true"><span></span><span></span><span></span><em>~/my-saas</em></div>
-        <pre class="term-body" data-typed aria-label="repotify: fingerprint, recommend, install"><span class="c">npx -y @repotify/repotify@latest</span>
-<span>Detected agent: claude-code</span>
-<span>Stacks: nextjs, react, typescript · Platforms: web</span>
-<span class="c">repotify recommend</span>
-<span><s>★</s> test-driven-development   <u>core</u></span>
-<span><s>★</s> react-best-practices      <u>stack:nextjs</u></span>
-<span><s>★</s> webapp-testing            <u>cap:webapp-testing</u></span>
-<span><s>★</s> context7 <em>⚙</em>                <u>cap:docs-lookup</u></span>
-<span class="c">repotify install &lt;picked&gt; --yes</span>
-<span><g>✓</g> 12 skills installed · <em>⚙</em> 2 for you to enable</span></pre>
+        <pre class="term-body" data-typed aria-label="An agent session: the user asks to set up Repotify; it reads the project, picks skills for it, keeps two out and installs the rest"><span class="tui"><b>repotify</b> 0.2   <b>~/my-saas</b>
+next.js · react · typescript · stripe</span>
+<span class="c">set up repotify for this project</span>
+<span><i class="a">●</i> <i class="w">Read the project</i> <i class="d">(manifests only)</i></span>
+<span class="d">  └ web app · tests: playwright, vitest</span>
+<span class="gap"></span>
+<span><i class="a">●</i> <i class="w">Picked for this repo</i></span>
+<span>  <i class="a">✓</i> <i class="w">react-best-practices</i>     next.js + react</span>
+<span>  <i class="a">✓</i> <i class="w">webapp-testing</i>           playwright tests</span>
+<span>  <i class="a">✓</i> <i class="w">test-driven-development</i>  core</span>
+<span>  <i class="a">✓</i> <i class="w">differential-review</i>      security review</span>
+<span>  <i class="v">○</i> <i class="w">repotify-guard</i>           <i class="v">you switch it on</i></span>
+<span>  <i class="r">✕</i> <i class="d">react-native-skills      no mobile target</i></span>
+<span>  <i class="r">✕</i> <i class="d">pptx                     no slides here</i></span>
+<span class="gap"></span>
+<span><i class="a">●</i> <i class="w">12 skills installed</i> <i class="d">· pinned · re-scanned</i></span></pre>
       </figure>
     </div>
   </section>
@@ -115,7 +120,7 @@
   <section class="new">
     <h2 class="reveal"><span class="pill">0.2</span> {{new_title}}</h2>
     <div class="cards two">
-      <article class="card feature wide reveal" style="--d:1"><div class="icon">{{icon_smart}}</div><h3>{{new_1_title}}</h3><p>{{new_1_text}}</p><p class="stat">{{new_1_stat}}</p></article>
+      <article class="card feature wide reveal" style="--d:1"><div class="icon">{{icon_smart}}</div><h3>{{new_1_title}}</h3><p>{{new_1_text}}</p></article>
       <article class="card feature reveal" style="--d:2"><div class="icon">{{icon_audit}}</div><h3>{{new_2_title}}</h3><p>{{new_2_text}}</p></article>
       <article class="card feature reveal" style="--d:3"><div class="icon">{{icon_suggest}}</div><h3>{{new_3_title}}</h3><p>{{new_3_text}}</p></article>
       <article class="card feature reveal" style="--d:4"><div class="icon">{{icon_keys}}</div><h3>{{new_4_title}}</h3><p>{{new_4_text}}</p></article>
@@ -138,15 +143,16 @@
     </ul>
   </section>
 
-  <section class="numbers" aria-labelledby="num-title">
-    <h2 id="num-title" class="reveal">{{num_title}}</h2>
-    <dl class="stats">
-      <div class="reveal" style="--d:1"><dt data-count="1" data-style="percent">{{stat_1}}</dt><dd>{{num_1}}</dd></div>
-      <div class="reveal" style="--d:2"><dt data-count="0">0</dt><dd>{{num_2}}</dd></div>
-      <div class="reveal" style="--d:3"><dt data-count="37" data-suffix=" / 37">37 / 37</dt><dd>{{num_3}}</dd></div>
-      <div class="reveal" style="--d:4"><dt data-count="0.016" data-style="percent" data-decimals="1">{{stat_4}}</dt><dd>{{num_4}}</dd></div>
-      <div class="reveal" style="--d:5"><dt data-count="0">0</dt><dd>{{num_5}}</dd></div>
-    </dl>
+  <section id="roadmap" class="roadmap">
+    <h2 class="reveal">{{road_title}}</h2>
+    <p class="section-lead reveal">{{road_lead}}</p>
+    <ul class="road">
+      <li class="done reveal"><span class="box" aria-hidden="true" dir="ltr">[x]</span><span>{{road_done}}</span></li>
+      <li class="reveal" style="--d:1"><span class="box" aria-hidden="true" dir="ltr">[ ]</span><span>{{road_1}}</span></li>
+      <li class="reveal" style="--d:2"><span class="box" aria-hidden="true" dir="ltr">[ ]</span><span>{{road_2}}</span></li>
+      <li class="reveal" style="--d:3"><span class="box" aria-hidden="true" dir="ltr">[ ]</span><span>{{road_3}}</span></li>
+      <li class="reveal" style="--d:4"><span class="box" aria-hidden="true" dir="ltr">[ ]</span><span>{{road_4}}</span></li>
+    </ul>
   </section>
 
   <section id="commands" class="commands">
@@ -188,7 +194,7 @@
 </main>
 
 <footer class="foot">
-  <div class="foot-brand">{{logo}}<div><strong>Repotify</strong><p>{{footer_tagline}}</p></div></div>
+  <div class="foot-brand">{{logo}}<div><strong>repotify</strong><p>{{footer_tagline}}</p></div></div>
   <nav aria-label="Footer">
     <a href="https://github.com/repotify/repotify">GitHub</a>
     <a href="https://www.npmjs.com/package/@repotify/repotify">npm</a>

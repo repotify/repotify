@@ -1,4 +1,4 @@
-<p align="center"><img src="../../assets/banner.png" alt="Repotify — reponun kusursuz çalma listesi" width="100%"></p>
+<p align="center"><img src="../../assets/banner.png" alt="Repotify — reponun ihtiyacı olan her skill, gereksizi yok" width="100%"></p>
 
 <p align="center"><a href="https://repotify.github.io/repotify/tr/"><b>Web sitesi</b></a> · <a href="../../README.md">English</a> · <b>Türkçe</b> · <a href="README.zh-CN.md">简体中文</a></p>
 

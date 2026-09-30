@@ -1,112 +1,132 @@
-<p align="center"><img src="assets/banner.png" alt="Repotify — your repo's perfect playlist" width="100%"></p>
+<p align="center"><img src="assets/banner.png" alt="repotify: every skill your repo needs, nothing it doesn't" width="100%"></p>
+
+<p align="center"><b>Every skill your repo needs. Nothing it doesn't.</b><br>Repotify reads your project, picks the agent skills, MCP servers and tools that fit it, scans every one of them and installs them safely into Claude Code, Cursor, Codex or Gemini CLI.</p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@repotify/repotify"><img alt="npm version" src="https://img.shields.io/npm/v/@repotify/repotify?color=8C78FF&label=npm"></a>
-  <a href="https://github.com/repotify/repotify/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/repotify/repotify/actions/workflows/ci.yml/badge.svg"></a>
-  <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-3FE8B8">
-  <img alt="Node 18 or newer" src="https://img.shields.io/badge/node-%E2%89%A518-8C78FF">
-  <img alt="Zero runtime dependencies" src="https://img.shields.io/badge/dependencies-0-3FE8B8">
+  <a href="https://www.npmjs.com/package/@repotify/repotify"><img alt="npm" src="https://img.shields.io/npm/v/@repotify/repotify?style=flat-square&labelColor=000000&color=3FE8B8&label=npm"></a>
+  <a href="https://github.com/repotify/repotify/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/repotify/repotify/ci.yml?branch=main&style=flat-square&labelColor=000000&label=ci"></a>
+  <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-0-3FE8B8?style=flat-square&labelColor=000000">
+  <img alt="Runs on Linux, macOS and Windows" src="https://img.shields.io/badge/runs_on-linux_%7C_macos_%7C_windows-3FE8B8?style=flat-square&labelColor=000000">
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-3FE8B8?style=flat-square&labelColor=000000"></a>
 </p>
 
-<p align="center">
-  <a href="https://repotify.github.io/repotify/"><b>Website</b></a> (24 languages) · <a href="docs/i18n/README.tr.md">Türkçe</a> · <a href="docs/i18n/README.zh-CN.md">简体中文</a>
-</p>
-
-> ## 🤖 For AI agents
->
-> If the user asked you to set up Repotify for their project, run the published npm package (with provenance) in their project folder:
+> [!NOTE]
+> **🤖 For AI agents.** If the user asked you to set up Repotify for their project, run the published npm package (with provenance) in their project folder:
 >
 > ```
 > npx -y @repotify/repotify@latest
 > ```
 >
-> Then follow the `repotify` skill it installs into your skills folder (for example `.claude/skills/repotify/SKILL.md`, `.cursor/skills/repotify/SKILL.md` or `.agents/skills/repotify/SKILL.md`).
-> Nothing beyond that skill is installed until the user approves it.
+> Then follow the `repotify` skill it installs into your skills folder (for example `.claude/skills/repotify/SKILL.md`, `.cursor/skills/repotify/SKILL.md` or `.agents/skills/repotify/SKILL.md`). Nothing beyond that skill is installed until the user approves it.
 
----
+<p align="center">
+  <a href="#quick-start"><b>Quick start</b></a> &nbsp;·&nbsp;
+  <a href="#see-it-in-action"><b>Demo</b></a> &nbsp;·&nbsp;
+  <a href="#security-you-can-check"><b>Security</b></a> &nbsp;·&nbsp;
+  <a href="#commands"><b>Commands</b></a> &nbsp;·&nbsp;
+  <a href="#roadmap"><b>Roadmap</b></a> &nbsp;·&nbsp;
+  <a href="https://repotify.github.io/repotify/"><b>Website</b></a> &nbsp;·&nbsp;
+  <a href="docs/i18n/README.tr.md">Türkçe</a> &nbsp;·&nbsp;
+  <a href="docs/i18n/README.zh-CN.md">简体中文</a>
+</p>
 
-**Repotify picks a vetted, conflict-free set of agent skills, MCP servers and tools for *your* project, and installs them safely into Claude Code, Cursor, Codex or Gemini.** Think of it as a playlist for your coding agent: the right tracks for this repo, nothing that plays twice, and nothing that shouldn't be there.
+## Why Repotify
 
-**Works with** Claude Code · Cursor · Codex · Gemini CLI · any agent that reads `.agents/skills`
+There are thousands of agent-skill repositories out there. Setting up your agent by hand means guessing what fits,
+trusting strangers' instructions and slowly filling its context with things it never uses. Repotify does it for you,
+in one command.
 
-## Why
+<table>
+<tr>
+<td width="33%" valign="top">
 
-- **Too many choices.** A single discovery pass found 4,377 candidate repositories of agent skills. Which ones fit your project?
-- **A real security risk.** A skill is a set of instructions your agent follows. A malicious one can run commands on your machine.
-- **Context bloat.** Every skill takes room in the agent's context. Useless ones slow it down and distract it.
+**Made for your stack**
+
+It reads manifests and file names, never your code. Excel in your dependencies brings the spreadsheet skill, not Word
+and PowerPoint. Mobile apps never get web-only skills.
+
+</td>
+<td width="33%" valign="top">
+
+**Nothing sketchy gets in**
+
+A scanner reads every skill the way a shell and curl would. Every item is pinned to a commit, hash-checked and scanned
+again on your machine before it lands.
+
+</td>
+<td width="33%" valign="top">
+
+**No bloat, no duplicates**
+
+One best item per job, inside a context budget. Your agent stays fast and focused instead of carrying instructions it
+never uses.
+
+</td>
+</tr>
+</table>
 
 ## Quick start
 
-**Run it yourself** from your project folder:
+Run it in your project folder:
 
 ```bash
-npx -y @repotify/repotify@latest                        # installs the repotify skill, prints the project fingerprint
-npx -y @repotify/repotify@latest recommend              # the candidate table
-npx -y @repotify/repotify@latest install <ids…> --yes
+npx -y @repotify/repotify@latest                        # installs the repotify skill, prints what it found
+npx -y @repotify/repotify@latest recommend              # the picks for this repo
+npx -y @repotify/repotify@latest install <ids…> --yes   # installs the ones you choose
 ```
 
-**Or let your agent do it.** Ask Claude Code, Cursor, Codex or Gemini:
+**Or just ask your agent.** In Claude Code, Cursor, Codex or Gemini CLI:
 
 > Set up Repotify for this project: https://github.com/repotify/repotify
 
-The agent reads the block above and does the rest: it reads your project, asks at most three questions, explains each pick and installs the set you approve.
-
-To run from source instead: `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`, then `node ~/repotify/bin/repotify.mjs`.
+It reads your project, asks at most three questions, explains every pick in one sentence and installs the set you
+approve. To run from source instead: `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`, then
+`node ~/repotify/bin/repotify.mjs`.
 
 ## See it in action
 
-Real output from a clean machine on a Vue dashboard that uses Stripe, exceljs and Playwright, trimmed to fit
-([full walkthrough](examples/nextjs-saas.md)):
+<p align="center"><img src="assets/demo.svg" alt="A terminal: npx @repotify/repotify prints the project fingerprint, repotify recommend lists one pick per job and keeps react-native-skills out, repotify install installs the picks and leaves the guard hook for the user to switch on" width="100%"></p>
 
-```text
-$ npx -y @repotify/repotify@latest
-Repotify 0.2.0
-Detected agent: claude-code
-Installed the repotify skill: .claude/skills/repotify
-Project fingerprint (local scan, code not read or sent):
-- Stacks: node, typescript, vue | Platforms: web
-- Tests: js-tests, playwright, vitest
-- Inferred needs: data-processing, e2e-testing, frontend-ui, office-docs, payments, testing (evidence: spreadsheets)
+A Next.js app with Stripe, Supabase and Playwright, on a clean machine. Full walkthrough with every line of output:
+[examples/nextjs-saas.md](examples/nextjs-saas.md).
 
-$ repotify recommend
-Repotify candidates (★ = default set; ⚙ = hook or MCP server, the user enables it; context 3959/6000 chars)
-★ test-driven-development | skill  | tdd-discipline | 0.73 | ✓💎 | core
-★ repotify-guard          | config | package-guard  | 0.53 | ✓⚙  | core
-★ webapp-testing          | skill  | webapp-testing | 0.56 | ✓💎 | cap:webapp-testing,need:e2e-testing,need:testing
-★ xlsx                    | skill  | spreadsheets   | 0.49 | ⚠💎 | cap:spreadsheets
-· playwright-mcp          | mcp    | browser-automation | 0.42 | ✓⚙ | cap:browser-automation,need:e2e-testing
-  … one item per job; Excel evidence brings the spreadsheet skill, not Word or PowerPoint
+## Clean up what you already have
 
-$ repotify install <picked skills> --yes
-✓ test-driven-development
-✓ webapp-testing
-✓ xlsx ⚠
-• repotify-guard (hook) changes how the agent runs; the user enables it: npx -y @repotify/repotify@latest enable repotify-guard
+`repotify audit` judges the skills already in your project, including the ones Repotify never installed: keep,
+consider removing, or remove, each with the reason and the context it frees.
 
-$ repotify enable repotify-guard          # the user, in their own terminal
-repotify-guard: Adds .claude/hooks/repotify-guard.mjs and a PreToolUse hook in .claude/settings.json. …
-Enable repotify-guard? [y/N] y
-✓ repotify-guard → .claude/hooks/repotify-guard.mjs
-```
+<p align="center"><img src="assets/audit.svg" alt="repotify audit: keeps the skills that serve the project, suggests removing ones for other stacks or duplicate jobs, and flags a skill that fails the security scan" width="100%"></p>
+
+It never deletes anything; your agent asks you first. [The full example](examples/audit-stray-skills.md).
 
 ## How it works
 
-```mermaid
-flowchart LR
-  A["1 · Read<br/>manifests and file names,<br/>never your code"] --> B["2 · Ask<br/>at most 3 questions"]
-  B --> C["3 · Recommend<br/>one best item per job,<br/>within a context budget"]
-  C --> D["4 · Install<br/>pinned commit, SHA-256,<br/>local re-scan, lock file"]
-```
+<p align="center"><img src="assets/how-it-works.svg" alt="Four steps: read the project, ask at most three questions, pick one scanned item per job, install from a pinned commit" width="100%"></p>
 
 1. **Knows your project without spending tokens.** A local script reads manifests and file names (never your code) and writes a ~400-token summary.
 2. **Asks only what it cannot infer.** At most three multiple-choice questions, and only when the project does not already answer them.
-3. **Picks from a vetted catalog, by evidence.** Every item passed a rule-based security gate (plus an OSV advisory check for pinned packages). Every skill is also scored by a three-model LLM jury from three vendor families; tools and MCP servers are editorial picks. Dependencies narrow broad needs (Excel, not every office format), apps without a web target get no web-only skills, and an item joins the default set only if it covers something nothing else does.
+3. **Picks from a vetted catalog, by evidence.** Every item passed a rule-based security gate (plus an OSV advisory check for pinned packages). Every skill is also scored by a three-model LLM jury from three vendor families; tools and MCP servers are editorial picks. Dependencies narrow broad needs, apps without a web target get no web-only skills, and an item joins the default set only if it covers something nothing else does.
 4. **Lets your agent judge.** The agent reads a short candidate table (under 900 tokens), keeps the mandatory core, and writes one sentence per item: why it matters for *your* project.
 5. **Installs safely.** Skill files come from a locked commit, are checked against catalog SHA-256 hashes, re-scanned on your machine, then written to your agent's folder and recorded in `repotify.lock.json`. Hooks and MCP servers change how your agent runs, so only you switch them on (`repotify enable`).
 
 The whole flow costs your agent about 4,700 tokens.
 
-## Supported agents
+## Security you can check
+
+| Level | Meaning | What happens |
+|---|---|---|
+| `verified` | No known risky pattern | Recommended |
+| `caution` | A finding worth a look | Shown with a badge, installed only with explicit consent |
+| `quarantined` | High risk | Not recommended until a human reviews that exact commit |
+| `rejected` | Critical risk | Removed from the catalog |
+
+- A rule-based scanner decides trust. It reads shell commands the way a shell does (pipes, quotes, subshells, line continuations) and parses URLs the way curl does. It looks for remote code execution, credential access, data exfiltration, prompt injection aimed at agents or reviewers, hidden Unicode, obfuscated code, auto-running hooks, install scripts, destructive commands, binaries and symlinks.
+- The LLM jury can only add suspicion, never raise trust.
+- Third-party items are pinned to a commit and never update silently.
+- Tools (for example Graphify) are never executed for you; Repotify shows the steps.
+- Reports: [scanner results on real skills](docs/reports/scan-corpus-report.md), [code reviews](docs/reports/code-review-2026-09-28.md), [0.2.0 security review](docs/reports/security-review-2026-09-30.md), [security audit](docs/reports/security-audit.md). To report a problem, see [SECURITY.md](SECURITY.md).
+
+## Works with
 
 | Agent | Skills folder | MCP config |
 |---|---|---|
@@ -134,7 +154,8 @@ The agent is detected automatically; override with `--agent claude-code,cursor,c
 | `repotify update --check` | Lists catalog updates for what you installed; `--apply` installs scanned updates |
 | `repotify scan <dir>` | Runs the security scanner on any skill folder |
 
-## What Repotify changes on your machine
+<details>
+<summary><b>What Repotify changes on your machine</b></summary>
 
 | Command | Writes |
 |---|---|
@@ -148,26 +169,17 @@ tools are never executed for you. Repotify's flow never has your agent switch ho
 in a terminal (without one it needs `--yes`), and the skill tells agents to hand you the command instead of running it.
 This is a guard rail, not a sandbox: your agent's own permission settings still decide what it may run.
 
-## The mandatory core
+</details>
+
+<details>
+<summary><b>The mandatory core</b></summary>
 
 Every project gets a small core that makes any agent more disciplined: a codebase knowledge graph (Graphify), the Superpowers discipline skills (brainstorming, writing plans, test-driven development, systematic debugging, verification before completion), a security review of every diff, and the **Repotify package guard**, which stops installs of packages that do not exist and asks before brand-new ones (a common attack on agents that invent package names). The guard is a hook, so you switch it on yourself with `repotify enable repotify-guard`.
 
-## Security model
+</details>
 
-| Level | Meaning | What happens |
-|---|---|---|
-| `verified` | No known risky pattern | Recommended |
-| `caution` | A finding worth a look | Shown with a badge, installed only with explicit consent |
-| `quarantined` | High risk | Not recommended until a human reviews that exact commit |
-| `rejected` | Critical risk | Removed from the catalog |
-
-- A rule-based scanner decides trust. It reads shell commands the way a shell does (pipes, quotes, subshells, line continuations) and parses URLs the way curl does. It looks for remote code execution, credential access, data exfiltration, prompt injection aimed at agents or reviewers, hidden Unicode, obfuscated code, auto-running hooks, install scripts, destructive commands, binaries and symlinks.
-- The LLM jury can only add suspicion, never raise trust.
-- Third-party items are pinned to a commit and never update silently.
-- Tools (for example Graphify) are never executed for you; Repotify shows the steps.
-- Reports: [scanner results on real skills](docs/reports/scan-corpus-report.md), [code reviews](docs/reports/code-review-2026-09-28.md), [0.2.0 security review](docs/reports/security-review-2026-09-30.md), [security audit](docs/reports/security-audit.md). To report a problem, see [SECURITY.md](SECURITY.md).
-
-## The catalog
+<details>
+<summary><b>How the catalog is built</b></summary>
 
 ```mermaid
 flowchart LR
@@ -180,21 +192,17 @@ flowchart LR
 
 The maintainers rebuild the catalog through this pipeline, and your client always reads the newest one (ETag-cached, with an offline copy in the package and rollback protection). Installed third-party items stay locked until you approve a scanned update. The package ships a hand-picked starter catalog; discovered items join when the catalog is rebuilt.
 
-## By the numbers
+</details>
 
-| | |
-|---|---|
-| **100%** | expected items recommended across 44 project scenarios, with **0** wrong picks ([benchmarks](BENCHMARKS.md)) |
-| **37 / 37** | deliberately malicious samples caught |
-| **1.6%** | false alarms on 127 real-world skills |
-| **4** | Node.js versions tested on every push (18, 20, 22, 24) |
-| **0** | runtime dependencies |
-
-## Privacy
+<details>
+<summary><b>Privacy</b></summary>
 
 Repotify is designed to learn from anonymous signals (which items were shown, picked, kept after 7 days or removed, and votes). It never collects code, file names, repository names or user names, and never stores IP addresses. The collection endpoint is **not configured yet**, so nothing is sent; events only stay in a local queue. Opt out at any time with `REPOTIFY_TELEMETRY=0` or `DO_NOT_TRACK=1`.
 
-## Official sources
+</details>
+
+<details>
+<summary><b>Official sources</b></summary>
 
 The only official repository is [github.com/repotify/repotify](https://github.com/repotify/repotify), and the website is
 [repotify.github.io/repotify](https://repotify.github.io/repotify/) (built from `site/`). The npm package is published
@@ -202,9 +210,18 @@ as `@repotify/repotify` from this repository, with provenance; npm does not allo
 Packages, forks or catalogs under other names are not affiliated; the agent block at the top of this page is the only
 install instruction.
 
-## Status
+</details>
 
-Preview (`0.2.0`), published on npm as `@repotify/repotify`. The CLI, the scanner, the installer for four agents, the audit of installed skills, the package guard and the catalog pipeline work and are tested. Next: a larger catalog and anonymous analytics. How it is built: [ARCHITECTURE.md](ARCHITECTURE.md); how it is released: [RELEASING.md](RELEASING.md).
+## Roadmap
+
+- [x] **0.2**: an audit of installed skills, picks by evidence, platform and coverage, hooks and MCP servers switched on only by you, Linux, macOS and Windows.
+- [ ] **A catalog of 1,000+ vetted skills, MCP servers and tools**, discovered around the clock by a research lab, checked by the security gate and approved by a person.
+- [ ] **Rankings that learn** from what developers keep and remove (anonymous, opt-out).
+- [ ] **MCP mode**: your agent calls Repotify as a tool instead of a command.
+- [ ] **Every major stack covered**: web, mobile, data, infrastructure, smart contracts and games.
+
+How it is built: [ARCHITECTURE.md](ARCHITECTURE.md). How it is measured: [BENCHMARKS.md](BENCHMARKS.md). How it is
+released: [RELEASING.md](RELEASING.md).
 
 ## Contributing
 
@@ -232,3 +249,7 @@ MIT. Catalog items keep their own licenses and are installed from their source, 
 ---
 
 <p align="center">Built by <b>Ahmet Bilal Deniz</b> · <a href="https://github.com/repotify">@repotify</a></p>
+
+---
+
+<p align="center"><img src="assets/logo-tile.svg" alt="" width="44"><br>Built by <b>Ahmet Bilal Deniz</b> · <a href="https://github.com/repotify">@repotify</a></p>

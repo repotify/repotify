@@ -1,11 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Repotify logo: the letter R with a play symbol inside">
-  <defs>
-    <linearGradient id="rptile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1B1633"/><stop offset="1" stop-color="#0C0A18"/></linearGradient>
-    <linearGradient id="rpink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B3A8FF"/><stop offset="1" stop-color="#6E56FF"/></linearGradient>
-    <linearGradient id="rpplay" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6AF3CB"/><stop offset="1" stop-color="#1FD1A0"/></linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="116" fill="url(#rptile)"/>
-  <rect x="1.5" y="1.5" width="509" height="509" rx="114.5" fill="none" stroke="#2D2650" stroke-width="3"/>
-  <path d="M168 410V104H286C352 104 396 148 396 206C396 264 352 306 286 306H168M276 306L382 410" fill="none" stroke="url(#rpink)" stroke-width="62" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M244 152L244 260L336 206Z" fill="url(#rpplay)" stroke="url(#rpplay)" stroke-width="16" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Repotify logo: headphones drawn as code braces around a play button">
+  <defs><linearGradient id="rpplay" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7DF9D4"/><stop offset="1" stop-color="#22D39E"/></linearGradient></defs>
+  <path d="M192 386C152 386 140 374 140 344V318C140 302 128 294 104 294C128 294 140 286 140 270V242A116 116 0 0 1 372 242V270C372 286 384 294 408 294C384 294 372 302 372 318V344C372 374 360 386 320 386" fill="none" stroke="#F4F4F5" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M230 230V314L300 272Z" fill="url(#rpplay)" stroke="url(#rpplay)" stroke-width="24" stroke-linejoin="round"/>
 </svg>

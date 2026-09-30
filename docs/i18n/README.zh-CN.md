@@ -1,4 +1,4 @@
-<p align="center"><img src="../../assets/banner.png" alt="Repotify — 为你的仓库量身定制的播放列表" width="100%"></p>
+<p align="center"><img src="../../assets/banner.png" alt="Repotify — 仓库需要的技能一个不少，用不上的一个不装" width="100%"></p>
 
 <p align="center"><a href="https://repotify.github.io/repotify/zh-cn/"><b>网站</b></a> · <a href="../../README.md">English</a> · <a href="README.tr.md">Türkçe</a> · <b>简体中文</b></p>
 
