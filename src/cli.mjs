@@ -1,5 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
+import { homedir } from "node:os";
 import { join, resolve } from "node:path";
+import { auditSkills, formatAudit } from "./audit.mjs";
 import { fileURLToPath } from "node:url";
 import { scanDir } from "./scan/index.mjs";
 import { fingerprint, formatFingerprint } from "./fingerprint.mjs";
@@ -135,6 +137,22 @@ async function cmdRecommend(args, io) {
   return 0;
 }
 
+async function cmdAudit(args, io) {
+  const { catalog, notice } = await getCatalog(io, args.flags);
+  const fp = await fingerprint(io.cwd);
+  const needs = resolveNeeds({ fingerprint: fp, answers: answersFrom(args.flags), taxonomy: catalog.taxonomy });
+  const home = io.env?.HOME || homedir();
+  const extraRoots = args.flags.user && resolve(home) !== resolve(io.cwd) ? [{ root: home, scope: "user" }] : [];
+  const report = await auditSkills({ root: io.cwd, catalog, fingerprint: fp, needs, lock: readLock(io.cwd), extraRoots });
+  if (args.flags.json) {
+    out(io, JSON.stringify({ ...report, catalogVersion: catalog.meta.version, notice: notice ?? null }, null, 2));
+  } else {
+    if (notice) out(io, notice);
+    out(io, formatAudit(report));
+  }
+  return 0;
+}
+
 function agentsFrom(flags, io) {
   return flags.agent ? parseAgentList(flags.agent) : detectAgents({ env: io.env ?? {}, cwd: io.cwd });
 }
@@ -262,6 +280,8 @@ async function cmdStart(args, io) {
   await track(io, [{ type: "run", stacks: fp.stacks }, ...kept.events]);
   if (t.enabled && kept.events.length) writeConfig(env, { keptReported: kept.reported });
   lines.push("", formatFingerprint(fp), "");
+  const others = fp.agents.skills.filter((s) => s !== "repotify");
+  if (others.length) lines.push(`This project already has ${others.length} skill${others.length === 1 ? "" : "s"}; \`repotify audit\` shows which ones earn their place and why.`);
   lines.push("Next: follow the repotify skill. In short: `repotify questions --json` (only if needed), then `repotify recommend`, then `repotify install <ids> --yes`.");
   out(io, lines.join("\n"));
   return 0;
@@ -404,6 +424,7 @@ export const COMMANDS = {
   fingerprint: { run: cmdFingerprint, help: "fingerprint [--json]                 Summarize this project (local; code is not read)" },
   questions: { run: cmdQuestions, help: "questions [--json]                   Questions to ask only when the answer is unknown" },
   recommend: { run: cmdRecommend, help: "recommend [--type t] [--needs a,b]   Conflict-free candidate table (--json, --budget N)" },
+  audit: { run: cmdAudit, help: "audit [--user] [--json]              Which installed skills earn their place, which to remove, and why" },
   install: { run: cmdInstall, help: "install <id...> [--yes] [--agent a,b] Install catalog items (hash-checked, re-scanned)" },
   remove: { run: cmdRemove, help: "remove <id>                          Remove an item Repotify installed" },
   scan: { run: cmdScan, help: "scan <dir> [--json]                  Security-scan a skill folder" },
