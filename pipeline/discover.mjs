@@ -13,7 +13,8 @@ export const DEFAULTS = {
   ],
   hnQueries: ["claude skills", "agent skills", "claude code skill", "mcp server", "cursor rules", "codex skills"],
   subreddits: ["ClaudeAI", "cursor", "ChatGPTCoding", "LocalLLaMA"],
-  topics: ["claude-skills", "agent-skills", "claude-code-skills", "mcp-server", "claude-code"],
+  // Claude Code and Codex first; each search returns the 100 most-starred repositories of its topic.
+  topics: ["claude-code", "codex", "claude-skills", "claude-code-skills", "codex-skills", "codex-cli", "agent-skills", "mcp-server"],
 };
 
 export function reposFromText(text) {
@@ -84,7 +85,7 @@ function requireToken(token) {
   return githubHeaders(token);
 }
 
-const repoMeta = (r) => ({ stars: r.stargazers_count ?? null, license: r.license?.spdx_id ?? null, pushedAt: r.pushed_at ?? null, createdAt: r.created_at ?? null });
+const repoMeta = (r) => ({ stars: r.stargazers_count ?? null, license: r.license?.spdx_id ?? null, pushedAt: r.pushed_at ?? null, createdAt: r.created_at ?? null, topics: Array.isArray(r.topics) ? r.topics : [] });
 
 // Repository search also works without a token, at a lower rate limit. The most-starred repositories come first, so a
 // small budget goes to the collections people actually use.

@@ -84,7 +84,7 @@ export async function runPipeline(opts) {
     providers = {}, juryCache = {}, probe, fetchImpl = fetch, noJury = false, reviewed = [], community = null,
     concurrency = 1, denylist = [], freshClones = true, log = () => {},
   } = opts;
-  const stats = { repos: 0, candidates: 0, errors: [], jurors: 0 };
+  const stats = { repos: 0, candidates: 0, errors: [], jurors: 0, more: {} };
   // Names new items must not imitate. A caller that passes an empty seed (to skip re-collecting it) passes them here.
   const known = opts.known ?? seed.items.map((i) => ({ id: i.id, name: i.name, repo: i.repo, stars: Infinity }));
   const discoveredMeta = new Map(discovered.map((d) => [d.repo, d]));
@@ -123,7 +123,12 @@ export async function runPipeline(opts) {
       coUsage: 0,
       mentions30d: meta?.mentions30d ?? 0,
     };
-    for (const snap of collected.skills.slice(0, opts.maxSkillsPerRepo ?? MAX_SKILLS_PER_REPO)) {
+    // A big collection is worked through over several runs: the caller can skip skills it already judged at this commit,
+    // and stats.more says how many are left for next time.
+    const cap = opts.maxSkillsPerRepo ?? MAX_SKILLS_PER_REPO;
+    const fresh = srcs || !opts.skipSkill ? collected.skills : collected.skills.filter((s) => !opts.skipSkill(repo, s.path, collected.commit));
+    if (!srcs && fresh.length > cap) stats.more[repo] = fresh.length - cap;
+    for (const snap of fresh.slice(0, cap)) {
       const src = srcs?.find((s) => (s.path ?? "") === snap.path);
       let id = src?.id;
       if (!id) {
@@ -262,6 +267,11 @@ export async function runPipeline(opts) {
     }
     if (!c.editorial && jury && (jury.quality < QUALITY_BAR.quality || jury.agreement < QUALITY_BAR.agreement)) {
       dropped.push({ id: item.id, repo: item.repo ?? null, commit: item.commit ?? null, path: item.path ?? null, level: "declined", reason: `jury quality ${jury.quality.toFixed(2)}, agreement ${jury.agreement.toFixed(2)} (bar ${QUALITY_BAR.quality}/${QUALITY_BAR.agreement})` });
+      continue;
+    }
+    // A skill that only works with one product (a terminal multiplexer, a vendor CLI) would be wasted on everyone else.
+    if (!c.editorial && jury?.requires) {
+      dropped.push({ id: item.id, repo: item.repo ?? null, commit: item.commit ?? null, path: item.path ?? null, level: "declined", reason: `needs ${jury.requires}` });
       continue;
     }
     if (!item.capabilities.length || !item.summary) {

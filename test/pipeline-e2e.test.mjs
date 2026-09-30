@@ -356,3 +356,58 @@ test("maxSkillsPerRepo caps how many skills of one repository are judged", async
   assert.equal((await run(undefined)).stats.candidates, 2);
   assert.equal((await run(1)).stats.candidates, 1);
 });
+
+test("a discovered skill that needs one particular product is declined; an editorial one is kept", async () => {
+  const root = mkdtempSync(join(tmpdir(), "rp-repos-"));
+  makeRepo(root, "tools", { LICENSE: MIT, "skills/pane/SKILL.md": skillMd("pane-driver", "Drives the Panex terminal multiplexer."), "skills/sheets/SKILL.md": skillMd("sheet-maker", "Builds spreadsheets.") });
+  const providers = {
+    fake: {
+      name: "fake",
+      listModels: async () => ["nvidia/nemotron-3-super-120b-a12b", "google/gemma-4-31b-it", "openai/gpt-oss-20b"],
+      chat: async ({ messages }) => JSON.stringify({
+        summary: "Helper.", capabilities: ["spreadsheets"], needs: ["office-docs"], stacks: ["*"], tier: "mission", quality: 0.9, specificity: 0.8, maintenance: 0.8,
+        requires: messages[1].content.includes("pane-driver") ? "Panex terminal multiplexer" : null, suspicious: false,
+      }),
+    },
+  };
+  const out = mkdtempSync(join(tmpdir(), "rp-out-"));
+  const r = await runPipeline({
+    seed: { items: [], core: [], loadouts: [] }, taxonomy, outDir: out, workDir: mkdtempSync(join(tmpdir(), "rp-work-")), now: NOW,
+    discovered: [{ repo: "acme/tools", sources: ["github-topics"], mentions30d: 0, meta: null }], urlFor: () => join(root, "tools"),
+    providers, juryCache: {}, probe: async () => true,
+  });
+  assert.deepEqual(r.items.map((i) => i.id), ["sheet-maker"]);
+  const declined = JSON.parse(readFileSync(join(out, "rejected.json"), "utf8")).find((d) => d.id === "pane-driver");
+  assert.equal(declined.level, "declined");
+  assert.equal(declined.reason, "needs Panex terminal multiplexer");
+});
+
+test("a big collection is worked through over runs: skipSkill leaves out judged skills, stats.more counts the rest", async () => {
+  const root = mkdtempSync(join(tmpdir(), "rp-repos-"));
+  makeRepo(root, "big", {
+    "skills/one/SKILL.md": skillMd("alpha-sheets", "Builds spreadsheets with formulas."),
+    "skills/two/SKILL.md": skillMd("beta-slides", "Builds slide decks."),
+    "skills/three/SKILL.md": skillMd("gamma-docs", "Writes Word documents."),
+    LICENSE: MIT,
+  });
+  const run = (skipSkill) =>
+    runPipeline({
+      seed: { items: [], core: [], loadouts: [] }, taxonomy, now: NOW, maxSkillsPerRepo: 1, skipSkill,
+      outDir: mkdtempSync(join(tmpdir(), "rp-out-")), workDir: mkdtempSync(join(tmpdir(), "rp-work-")),
+      discovered: [{ repo: "acme/big", sources: ["github-topics"], mentions30d: 0, meta: { stars: 1, license: "MIT" } }],
+      urlFor: () => join(root, "big"), providers: fakeProviders({ calls: 0 }), juryCache: {}, probe: async () => true,
+      fetchImpl: async () => { throw new Error("no network in tests"); },
+    });
+  const first = await run(undefined);
+  assert.deepEqual(first.stats.more, { "acme/big": 2 });
+  const seen = new Set();
+  const second = await run((repo, path) => {
+    assert.equal(repo, "acme/big");
+    return path === "skills/one";
+  });
+  assert.deepEqual(second.stats.more, { "acme/big": 1 }, "one judged, one left after this run");
+  const last = await run((repo, path) => (seen.add(path), path !== "skills/three"));
+  assert.deepEqual(last.stats.more, {}, "nothing left");
+  assert.equal(last.stats.candidates, 1);
+  assert.ok(seen.has("skills/two"));
+});

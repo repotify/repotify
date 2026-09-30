@@ -63,11 +63,22 @@ test("github topic search works without a token and asks for the most-starred re
   const fetchImpl = async (url, init) => {
     assert.equal(init.headers.Authorization, undefined);
     assert.match(url, /sort=stars&order=desc/);
-    return json({ items: [{ full_name: "Big/Collection", stargazers_count: 11000, license: { spdx_id: "MIT" } }] });
+    return json({ items: [{ full_name: "Big/Collection", stargazers_count: 11000, license: { spdx_id: "MIT" }, topics: ["claude-code", "codex"] }] });
   };
   const r = await discover({ sources: ["github-topics"], fetchImpl, now: NOW, topics: ["claude-skills"] });
-  assert.deepEqual(r.candidates.map((c) => [c.repo, c.meta.stars]), [["big/collection", 11000]]);
+  assert.deepEqual(r.candidates.map((c) => [c.repo, c.meta.stars, c.meta.topics]), [["big/collection", 11000, ["claude-code", "codex"]]]);
   assert.deepEqual(r.errors, []);
+});
+
+test("by default the topic search covers Claude Code and Codex first", async () => {
+  const asked = [];
+  const fetchImpl = async (url) => {
+    asked.push(decodeURIComponent(/q=topic%3A([^&]+)/.exec(url)[1]));
+    return json({ items: [] });
+  };
+  await discover({ sources: ["github-topics"], fetchImpl, now: NOW });
+  assert.deepEqual(asked.slice(0, 2), ["claude-code", "codex"]);
+  for (const t of ["claude-skills", "codex-skills", "agent-skills"]) assert.ok(asked.includes(t), t);
 });
 
 test("github topic search uses the token and reads stars and dates", async () => {

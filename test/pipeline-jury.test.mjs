@@ -94,6 +94,20 @@ test("aggregate: medians, majority labels, agreement and any-suspicion", () => {
   assert.equal(solo.agreement, 0.5, "one juror cannot show agreement");
 });
 
+test("requires: the product a skill cannot work without, named by at least half the jurors", () => {
+  const needs = (requires) => parseVerdict(verdictJson({ requires }), taxonomy);
+  assert.equal(needs("  Herdr   terminal multiplexer ").requires, "Herdr terminal multiplexer");
+  for (const none of [null, "", "none", "N/A", "null", 7]) assert.equal(needs(none).requires, null, String(none));
+  assert.equal(parseVerdict(verdictJson(), taxonomy).requires, null, "an old-style verdict needs nothing");
+  const [a, b, c] = [needs("Orca"), needs("Orca CLI"), needs(null)];
+  assert.equal(aggregate([a, b, c], ["m1", "m2", "m3"]).requires, "Orca");
+  assert.equal(aggregate([a, c, needs(null)], ["m1", "m2", "m3"]).requires, null, "one juror of three is not enough");
+  assert.equal(aggregate([c, needs(null)], ["m1", "m2"]).requires, null);
+  const prompt = buildJuryPrompt(item, "x", taxonomy)[0].content;
+  assert.match(prompt, /requires: null, unless the skill exists to operate one particular product/);
+  assert.match(prompt, /general task that uses or mentions tools[^.]*requires nothing/);
+});
+
 test("judgeItem uses the content-hash cache and tolerates a failing juror", async () => {
   let calls = 0;
   const providers = {
