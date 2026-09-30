@@ -427,6 +427,254 @@
     ],
     "badges": [],
     "capabilities": [
+      "design-brainstorming"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "eb9da767b8f78a2bb82ba6fd4f9f02425e186aa9",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 181,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "ce508fac9bdf03ec6a872d0ab0230d404da345d30731e8b70b44478cd307c96b"
+      }
+    ],
+    "id": "artifact-diagramming",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "CC0-1.0",
+    "name": "artifact-diagramming",
+    "needs": [],
+    "path": "Anthropic/claude-code/skills/artifact-diagramming",
+    "repo": "asgeirtj/system_prompts_leaks",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 68654
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guidelines for creating clear, mechanism-focused inline SVG diagrams that work in light and dark themes.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review"
+    ],
+    "cluster": "code-review",
+    "commit": "eb9da767b8f78a2bb82ba6fd4f9f02425e186aa9",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 874,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "320f3fa19df18abc5d4a2dfbf409cf2d77e8fdcb7cf737be772fce262eef2d7a"
+      },
+      {
+        "path": "high.md",
+        "sha256": "516ccdfb079072491f3958f209669327f6258a7504ca00a8f68b43eecb0387f0"
+      },
+      {
+        "path": "low.md",
+        "sha256": "aab0c3accfb83b7fdb28c2a52dbad9aabf8e60e0547519529b8391b870d740a9"
+      },
+      {
+        "path": "max.md",
+        "sha256": "83be9fd7fe19ec141df1a20197cc67b801d202fd351209160d98e4e29faa895a"
+      },
+      {
+        "path": "medium.md",
+        "sha256": "393c737a840ac2aa8a9333f11cbb4eb24be4310701d75ead36fe99cb3cc6b3f9"
+      },
+      {
+        "path": "report-findings-tool.md",
+        "sha256": "a6cdedb06f7f800c41713d916e852544fdd8663f403e799584db0c3a6f830a76"
+      },
+      {
+        "path": "xhigh.md",
+        "sha256": "a2562b061214e5b672d77f950758c160bac6328803d791afd057cc5930dc4163"
+      }
+    ],
+    "id": "asgeirtj-code-review",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "CC0-1.0",
+    "name": "code-review",
+    "needs": [
+      "github-workflow"
+    ],
+    "path": "Anthropic/claude-code/skills/code-review",
+    "repo": "asgeirtj/system_prompts_leaks",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 68654
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Performs a thorough code review of diffs or PRs using multiple angles to find bugs and cleanup opportunities.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review",
+      "implementation-planning",
+      "workflow-meta"
+    ],
+    "cluster": "code-review",
+    "commit": "eb9da767b8f78a2bb82ba6fd4f9f02425e186aa9",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "ml-pipeline",
+      "schedule",
+      "sre-engineer",
+      "the-fool"
+    ],
+    "descriptionChars": 125,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "c34db8207c1613ca80ad69a4c3e906260f8cdfda6878686398358bee445940e6"
+      }
+    ],
+    "id": "batch",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "CC0-1.0",
+    "name": "batch",
+    "needs": [
+      "agent-skills",
+      "github-workflow",
+      "e2e-testing",
+      "large-codebase"
+    ],
+    "path": "Anthropic/claude-code/skills/batch",
+    "repo": "asgeirtj/system_prompts_leaks",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 68654
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Orchestrates large-scale parallel changes across multiple git worktrees, each spawning an agent to research, implement, test, and open a PR…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "code-review",
       "implementation-planning",
       "debugging-method"
@@ -1134,9 +1382,11 @@
       "votes": 0
     },
     "conflicts": [
+      "batch",
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "schedule",
       "sre-engineer",
       "the-fool"
     ],
@@ -2217,9 +2467,11 @@
       "votes": 0
     },
     "conflicts": [
+      "batch",
       "context-engineering",
       "feature-forge",
       "ml-pipeline",
+      "schedule",
       "sre-engineer",
       "the-fool"
     ],
@@ -2487,9 +2739,11 @@
       "votes": 0
     },
     "conflicts": [
+      "batch",
       "context-engineering",
       "dynamic-workflow",
       "ml-pipeline",
+      "schedule",
       "sre-engineer",
       "the-fool"
     ],
@@ -3996,9 +4250,11 @@
       "votes": 0
     },
     "conflicts": [
+      "batch",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "schedule",
       "sre-engineer",
       "the-fool"
     ],
@@ -6270,6 +6526,83 @@
     ],
     "badges": [],
     "capabilities": [
+      "workflow-meta"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "eb9da767b8f78a2bb82ba6fd4f9f02425e186aa9",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "batch",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "ml-pipeline",
+      "sre-engineer",
+      "the-fool"
+    ],
+    "descriptionChars": 207,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "682d93b67369e7517fb21eee4f587fb8ba3a1dc594e21515b1bf71bc33f11a03"
+      }
+    ],
+    "id": "schedule",
+    "jury": {
+      "agreement": 0.7999999999999999,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "CC0-1.0",
+    "name": "schedule",
+    "needs": [],
+    "path": "Anthropic/claude-code/skills/anthropic-skills/schedule",
+    "repo": "asgeirtj/system_prompts_leaks",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 68654
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Create or update scheduled tasks that run automatically based on user timing requests.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "security-review",
       "code-review"
     ],
@@ -6919,10 +7252,12 @@
       "votes": 0
     },
     "conflicts": [
+      "batch",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "schedule",
       "the-fool"
     ],
     "descriptionChars": 381,
@@ -7557,10 +7892,12 @@
       "votes": 0
     },
     "conflicts": [
+      "batch",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "schedule",
       "sre-engineer"
     ],
     "descriptionChars": 191,
