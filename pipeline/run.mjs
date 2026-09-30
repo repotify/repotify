@@ -85,7 +85,8 @@ export async function runPipeline(opts) {
     concurrency = 1, denylist = [], freshClones = true, log = () => {},
   } = opts;
   const stats = { repos: 0, candidates: 0, errors: [], jurors: 0 };
-  const known = seed.items.map((i) => ({ id: i.id, name: i.name, repo: i.repo, stars: Infinity }));
+  // Names new items must not imitate. A caller that passes an empty seed (to skip re-collecting it) passes them here.
+  const known = opts.known ?? seed.items.map((i) => ({ id: i.id, name: i.name, repo: i.repo, stars: Infinity }));
   const discoveredMeta = new Map(discovered.map((d) => [d.repo, d]));
   const candidates = [];
 
@@ -122,7 +123,7 @@ export async function runPipeline(opts) {
       coUsage: 0,
       mentions30d: meta?.mentions30d ?? 0,
     };
-    for (const snap of collected.skills.slice(0, MAX_SKILLS_PER_REPO)) {
+    for (const snap of collected.skills.slice(0, opts.maxSkillsPerRepo ?? MAX_SKILLS_PER_REPO)) {
       const src = srcs?.find((s) => (s.path ?? "") === snap.path);
       let id = src?.id;
       if (!id) {

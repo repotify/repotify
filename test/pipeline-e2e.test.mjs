@@ -320,3 +320,39 @@ test("re-review M-c: the summary filter blocks instructions and bare hosts, not 
     assert.ok(unsafeSummary(bad), bad);
   }
 });
+
+test("a caller that skips the seed can still pass the names new items must not imitate", async () => {
+  const root = fixtureRepos();
+  const run = (known) =>
+    runPipeline({
+      seed: { items: [], core: [], loadouts: [] }, taxonomy, now: NOW, known,
+      outDir: mkdtempSync(join(tmpdir(), "rp-out-")), workDir: mkdtempSync(join(tmpdir(), "rp-work-")),
+      discovered: [{ repo: "acme/found", sources: ["awesome"], mentions30d: 0, meta: { stars: 3, license: "MIT", createdAt: "2026-09-01T00:00:00Z" } }],
+      urlFor: (repo) => join(root, repo.split("/")[1]), providers: fakeProviders({ calls: 0 }), juryCache: {}, probe: async () => true,
+      fetchImpl: async () => { throw new Error("no network in tests"); },
+    });
+  const plain = await run(undefined);
+  assert.ok(!plain.items.find((i) => i.id === "sheet-wizard").security.findings?.some((f) => f.rule === "typosquat"));
+  const guarded = await run([{ id: "sheet-wizards", name: "Sheet Wizards", repo: "famous/sheets", stars: Infinity }]);
+  const finding = guarded.items.find((i) => i.id === "sheet-wizard").security.findings.find((f) => f.rule === "typosquat");
+  assert.match(finding.excerpt, /sheet-wizard ~ sheet-wizards/);
+});
+
+test("maxSkillsPerRepo caps how many skills of one repository are judged", async () => {
+  const root = mkdtempSync(join(tmpdir(), "rp-repos-"));
+  makeRepo(root, "many", {
+    "skills/one/SKILL.md": skillMd("alpha-sheets", "Builds spreadsheets with formulas."),
+    "skills/two/SKILL.md": skillMd("beta-slides", "Builds slide decks."),
+    LICENSE: MIT,
+  });
+  const run = (maxSkillsPerRepo) =>
+    runPipeline({
+      seed: { items: [], core: [], loadouts: [] }, taxonomy, now: NOW, maxSkillsPerRepo,
+      outDir: mkdtempSync(join(tmpdir(), "rp-out-")), workDir: mkdtempSync(join(tmpdir(), "rp-work-")),
+      discovered: [{ repo: "acme/many", sources: ["awesome"], mentions30d: 0, meta: { stars: 1, license: "MIT" } }],
+      urlFor: () => join(root, "many"), providers: fakeProviders({ calls: 0 }), juryCache: {}, probe: async () => true,
+      fetchImpl: async () => { throw new Error("no network in tests"); },
+    });
+  assert.equal((await run(undefined)).stats.candidates, 2);
+  assert.equal((await run(1)).stats.candidates, 1);
+});
