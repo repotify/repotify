@@ -9,6 +9,78 @@
     ],
     "badges": [],
     "capabilities": [
+      "code-review"
+    ],
+    "cluster": "code-review",
+    "commit": "f42f579cf8bac4918ac9599bece71618afadd846",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 55,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f8b1a0cf2392a1da0d3890e1ebc6429b1edb83a8f076e104b8f7c8cb7465d1be"
+      }
+    ],
+    "id": "agent-merge-conflict-arbiter",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "agent-merge-conflict-arbiter",
+    "needs": [
+      "github-workflow",
+      "testing"
+    ],
+    "path": "optional-skills/autonomous-ai-agents/agent-merge-conflict-arbiter",
+    "repo": "nousresearch/hermes-agent",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 250251
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Neutral arbiter for resolving git merge conflicts between two agents' branches using stated intents to guide impartial resolution.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "angular-expertise"
     ],
     "cluster": "angular-expertise",
@@ -86,6 +158,76 @@
     ],
     "summary": "Generates Angular 17+ standalone components, configures routing with lazy loading and guards, implements NgRx state management, applies RxJ…",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "component-architecture",
+      "implementation-planning"
+    ],
+    "cluster": "component-architecture",
+    "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 251,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "5dafd0c44a3aabf11cae5bcb34f6fcc24dfa5c01ba6e0d3176bce997f4d68bc8"
+      }
+    ],
+    "id": "api-and-interface-design",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "api-and-interface-design",
+    "needs": [],
+    "path": "skills/api-and-interface-design",
+    "repo": "addyosmani/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 100058
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guidelines for designing stable APIs and interfaces, covering contracts, error handling, validation, versioning, and TypeScript patterns.",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -272,6 +414,77 @@
       "*"
     ],
     "summary": "Guides a coding agent in designing system architecture, creating ADRs, evaluating patterns, and documenting technology trade-offs.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review",
+      "implementation-planning",
+      "debugging-method"
+    ],
+    "cluster": "code-review",
+    "commit": "f42f579cf8bac4918ac9599bece71618afadd846",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 57,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "6cd96ccabb85c4abd7a325ecf7d12678f7e7ce39194920136865bb69ad98cd3c"
+      }
+    ],
+    "id": "blackbox",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "MIT",
+    "name": "blackbox",
+    "needs": [],
+    "path": "optional-skills/autonomous-ai-agents/blackbox",
+    "repo": "nousresearch/hermes-agent",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 250251
+    },
+    "stacks": [
+      "node"
+    ],
+    "summary": "Delegate coding tasks to Blackbox AI multi-model CLI via terminal commands, supporting one-shot, background, checkpoints, PR review, and mu…",
     "tier": "mission",
     "type": "skill"
   },
@@ -489,6 +702,146 @@
     ],
     "badges": [],
     "capabilities": [
+      "code-review"
+    ],
+    "cluster": "code-review",
+    "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 325,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "d4ec6843e78a8ab2049185d7c2742e2f1e343143c6c915eb5b4f9a3a00a44f94"
+      }
+    ],
+    "id": "code-review-and-quality",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "code-review-and-quality",
+    "needs": [],
+    "path": "skills/code-review-and-quality",
+    "repo": "addyosmani/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 100058
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Performs multi-axis code review covering correctness, readability, architecture, security, and performance before merging changes.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review"
+    ],
+    "cluster": "code-review",
+    "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 244,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f0c5ed754057eb0c1e027e2587f59de816651feb5e837242296c43ea21cf621d"
+      }
+    ],
+    "id": "code-simplification",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "code-simplification",
+    "needs": [
+      "agent-skills"
+    ],
+    "path": "skills/code-simplification",
+    "repo": "addyosmani/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 100058
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides a process for simplifying code while preserving behavior, improving readability and maintainability.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "component-architecture"
     ],
     "cluster": "component-architecture",
@@ -601,6 +954,167 @@
     ],
     "summary": "React composition patterns that scale: compound components, slots and state lifting done right.",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "security-review",
+      "static-analysis",
+      "verification-gate",
+      "ci-security-audit",
+      "skill-authoring"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 880,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "06479d4305f286d23cfb99f5dc85695896785269664e1f6a8d800e3b71e70c10"
+      },
+      {
+        "path": "references/floor-guard.md",
+        "sha256": "a512e64ecdfa0e367b2996051a043887f2aed4389a9c803a71480eb7d30b3926"
+      }
+    ],
+    "id": "constraint-driven-development",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.95,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "constraint-driven-development",
+    "needs": [
+      "ci",
+      "security",
+      "testing",
+      "agent-skills",
+      "dependencies",
+      "docs-writing"
+    ],
+    "path": "skills/constraint-driven-development",
+    "repo": "addyosmani/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 100058
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Creates a project‑wide quality bar by interviewing the user, writing CONSTRAINTS.md, installing required tools, and wiring checks into the …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "workflow-meta"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "dynamic-workflow",
+      "feature-forge",
+      "ml-pipeline",
+      "sre-engineer",
+      "the-fool"
+    ],
+    "descriptionChars": 198,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "8b736cb9e55b82b265ab6ff78349c0e826e8a6df550deddf665b7fb3ff858b63"
+      }
+    ],
+    "id": "context-engineering",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "context-engineering",
+    "needs": [
+      "agent-skills"
+    ],
+    "path": "skills/context-engineering",
+    "repo": "addyosmani/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 100058
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Teaches agents to manage context effectively for better output quality by structuring information hierarchically and managing context windo…",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -1548,6 +2062,88 @@
     ],
     "badges": [],
     "capabilities": [
+      "workflow-meta",
+      "implementation-planning",
+      "verification-gate"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "f42f579cf8bac4918ac9599bece71618afadd846",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "context-engineering",
+      "feature-forge",
+      "ml-pipeline",
+      "sre-engineer",
+      "the-fool"
+    ],
+    "descriptionChars": 55,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a030cce5a966e68b5b283fd530416adbebd6c1dc10c7592edc8d96bcffb2edc6"
+      }
+    ],
+    "id": "dynamic-workflow",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "MIT",
+    "name": "dynamic-workflow",
+    "needs": [
+      "agent-skills",
+      "github-workflow",
+      "large-codebase",
+      "llm-calls"
+    ],
+    "path": "optional-skills/autonomous-ai-agents/dynamic-workflow",
+    "repo": "nousresearch/hermes-agent",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 250251
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Orchestrates large independent task fan-outs with deterministic pre-processing, LLM judgment per unit, adversarial verification, and multi-…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "component-architecture",
       "debugging-method",
       "static-analysis"
@@ -1751,6 +2347,8 @@
       "votes": 0
     },
     "conflicts": [
+      "context-engineering",
+      "dynamic-workflow",
       "ml-pipeline",
       "sre-engineer",
       "the-fool"
@@ -3183,6 +3781,8 @@
       "votes": 0
     },
     "conflicts": [
+      "context-engineering",
+      "dynamic-workflow",
       "feature-forge",
       "sre-engineer",
       "the-fool"
@@ -6104,6 +6704,8 @@
       "votes": 0
     },
     "conflicts": [
+      "context-engineering",
+      "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
       "the-fool"
@@ -6740,6 +7342,8 @@
       "votes": 0
     },
     "conflicts": [
+      "context-engineering",
+      "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
       "sre-engineer"
