@@ -1,7 +1,7 @@
 // Content rules for the security scanner.
 // Each rule inspects one line (or a small window of lines) of a text file. Regexes never use unbounded `[^\n]*`
 // between two parts, so scanning stays linear on long lines; shell structure comes from ./shell.mjs.
-import { splitPipelines, statementSpan, fetchIndex, downloadTarget, runsFile, fetchTargets, runsPipedInput } from "./shell.mjs";
+import { splitPipelines, statementSpan, fetchIndex, downloadTarget, stageRunPaths, runsFileTest, fetchTargets, runsPipedInput } from "./shell.mjs";
 
 export const SCRIPT_EXTENSIONS = new Set([
   ".sh", ".bash", ".zsh", ".fish", ".py", ".js", ".mjs", ".cjs", ".ts", ".mts", ".cts", ".tsx", ".jsx",
@@ -167,6 +167,13 @@ function downloadThenRun(line, ctx) {
   const lines = ctx?.lines ?? [line];
   const i = ctx?.i ?? 0;
   const opts = { comments: Boolean(ctx?.comments), prose: Boolean(ctx?.prose) };
+  // A stage's run paths are worked out once, however many downloads before it look ahead to it.
+  const runPaths = new Map();
+  const pathsOf = (st) => {
+    let paths = runPaths.get(st);
+    if (!paths) runPaths.set(st, (paths = stageRunPaths(st.text)));
+    return paths;
+  };
   for (const pipelines of readingsOf(ctx, line)) {
     const own = pipelines.flat();
     for (let k = 0; k < own.length; k++) {
@@ -179,7 +186,8 @@ function downloadThenRun(line, ctx) {
       for (let j = i + 1; j < Math.min(lines.length, i + 1 + RUN_LOOKAHEAD_LINES) && later.length < RUN_LOOKAHEAD_STAGES; j++) {
         later.push(...splitPipelines(lines[j].slice(0, 2000), opts).flat().slice(0, RUN_LOOKAHEAD_STAGES));
       }
-      if (later.slice(0, RUN_LOOKAHEAD_STAGES).some((st) => runsFile(st.text, file))) {
+      const runs = runsFileTest(file);
+      if (later.slice(0, RUN_LOOKAHEAD_STAGES).some((st) => runs(pathsOf(st)))) {
         return { index: own[k].start + at, length: fetch.trimEnd().length, text: fetch };
       }
     }

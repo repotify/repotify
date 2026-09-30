@@ -253,20 +253,35 @@ export function downloadTarget(fetchText) {
 
 const normPath = (p) => unquote(p).replace(/^\.[\\/]/, "");
 
+// A path as `runsFile` compares it: the normalized path and its base name.
+const runPath = (w) => {
+  const path = normPath(w);
+  return { path, base: baseName(path) };
+};
+
+// The paths a stage would run: its command word (`./file`) and, after an interpreter or `source`/`.`, the first
+// non-option argument (`bash file`). Worked out once per stage, so one stage can be checked against many downloads.
+export function stageRunPaths(stageText) {
+  const words = commandWords(stageText);
+  if (!words.length) return [];
+  const paths = [runPath(words[0])];
+  if (INTERPRETERS.has(baseName(words[0])) || SOURCE_WORDS.has(words[0])) {
+    const arg = words.slice(1).find((w) => !w.startsWith("-"));
+    if (arg) paths.push(runPath(arg));
+  }
+  return paths;
+}
+
+// A test of a stage's run paths (from `stageRunPaths`) for running `file`, built once per downloaded file.
+export function runsFileTest(file) {
+  if (!file) return () => false;
+  const want = runPath(file);
+  return (paths) => paths.some((p) => p.path === want.path || (p.base.length > 0 && p.base === want.base));
+}
+
 // True when the stage runs `file`: `bash file`, `source file`, `. file`, `python3 file` or `./file` itself.
 export function runsFile(stageText, file) {
-  const words = commandWords(stageText);
-  if (!words.length || !file) return false;
-  const target = normPath(file);
-  const same = (w) => {
-    const p = normPath(w);
-    return p === target || (baseName(p).length > 0 && baseName(p) === baseName(target));
-  };
-  if (same(words[0])) return true;
-  const name = baseName(words[0]);
-  if (!INTERPRETERS.has(name) && !SOURCE_WORDS.has(words[0])) return false;
-  const arg = words.slice(1).find((w) => !w.startsWith("-"));
-  return arg ? same(arg) : false;
+  return runsFileTest(file)(stageRunPaths(stageText));
 }
 
 const CURL_VALUE_FLAGS = new Set([
