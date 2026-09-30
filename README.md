@@ -144,8 +144,9 @@ The agent is detected automatically; override with `--agent claude-code,cursor,c
 | `recommend`, `audit`, `suggest`, `scan`, `fingerprint` | Nothing |
 
 It reads manifests and file names, never your code. It downloads the catalog, and skill files at pinned commits;
-tools are never executed for you. Your agent cannot switch hooks or MCP servers on by itself: `enable` asks in a
-terminal, and the skill tells agents to hand you the command.
+tools are never executed for you. Repotify's flow never has your agent switch hooks or MCP servers on: `enable` asks
+in a terminal (without one it needs `--yes`), and the skill tells agents to hand you the command instead of running it.
+This is a guard rail, not a sandbox: your agent's own permission settings still decide what it may run.
 
 ## The mandatory core
 
@@ -164,7 +165,7 @@ Every project gets a small core that makes any agent more disciplined: a codebas
 - The LLM jury can only add suspicion, never raise trust.
 - Third-party items are pinned to a commit and never update silently.
 - Tools (for example Graphify) are never executed for you; Repotify shows the steps.
-- Reports: [scanner results on real skills](docs/reports/scan-corpus-report.md), [code reviews](docs/reports/code-review-2026-09-28.md), [security audit](docs/reports/security-audit.md). To report a problem, see [SECURITY.md](SECURITY.md).
+- Reports: [scanner results on real skills](docs/reports/scan-corpus-report.md), [code reviews](docs/reports/code-review-2026-09-28.md), [0.2.0 security review](docs/reports/security-review-2026-09-30.md), [security audit](docs/reports/security-audit.md). To report a problem, see [SECURITY.md](SECURITY.md).
 
 ## The catalog
 

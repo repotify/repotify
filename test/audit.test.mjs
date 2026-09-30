@@ -128,3 +128,28 @@ test("audit in the home folder judges security and overlaps only, and says so", 
   assert.equal(verdicts(r)["release-notes-b"], "consider");
   assert.match(formatAudit(r), /^Not a project folder/);
 });
+
+test("names a cloned repository controls are shown safely, and only real catalog ids become commands", { skip: process.platform === "win32" }, async () => {
+  const root = mkdtempSync(join(tmpdir(), "repotify-audit-"));
+  writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { next: "15.0.0", react: "19.0.0", "react-dom": "19.0.0" } }));
+  skill(root, ".claude/skills", "odd;name", "Flutter widget patterns for mobile apps.");
+  skill(root, ".claude/skills", "esc\u001bname", "Flutter widget patterns for mobile apps.");
+  skill(root, ".claude/skills", "pptx", "Create and edit PowerPoint slide decks.");
+  const lock = { version: 1, items: { "pptx;x": { type: "skill", targets: [".claude/skills/pptx"] } } };
+  const text = formatAudit(await audit(root, { lock }));
+  assert.ok(!/\u001b/.test(text), "no raw escape character reaches the terminal");
+  assert.match(text, /'esc\\u\{1B\}name'/);
+  assert.match(text, /'\.claude\/skills\/odd;name'/, "a suggested folder is quoted for the shell");
+  assert.doesNotMatch(text, /repotify remove pptx;x/, "a lock key that is not a catalog id never becomes a command");
+});
+
+test("a SKILL.md over 1 MiB is not parsed and is questioned", async () => {
+  const root = mkdtempSync(join(tmpdir(), "repotify-audit-"));
+  writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { next: "15.0.0" } }));
+  mkdirSync(join(root, ".claude/skills/huge"), { recursive: true });
+  writeFileSync(join(root, ".claude/skills/huge/SKILL.md"), "---\nname: huge\ndescription: x\n---\n" + "a".repeat(1024 * 1024 + 10));
+  const r = await audit(root);
+  const huge = r.skills.find((s) => s.id === "huge");
+  assert.equal(huge.verdict, "consider");
+  assert.equal(huge.reasons[0].code, "oversized");
+});

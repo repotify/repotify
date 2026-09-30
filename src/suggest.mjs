@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { parseFrontmatter } from "./frontmatter.mjs";
 import { readTree, scanFiles } from "./scan/index.mjs";
 import { readJsonSafe } from "./util.mjs";
+import { shownName } from "./display.mjs";
 
 export const SUBMISSION_FORM = "https://github.com/repotify/repotify/issues/new";
 // Option labels of .github/ISSUE_TEMPLATE/catalog_submission.yml; a pre-filled dropdown must match one exactly.
@@ -75,8 +76,11 @@ export function skillFolders(dir) {
   return [...new Set(found)].sort();
 }
 
+// A license name as it may appear on a form: an SPDX-like expression, nothing else (the field comes from the project).
+const LICENSE_TEXT = /^[A-Za-z0-9.+\-() ]{1,64}$/;
+
 function licenseOf(dir, pkg) {
-  if (typeof pkg?.license === "string") return pkg.license;
+  if (typeof pkg?.license === "string") return LICENSE_TEXT.test(pkg.license) ? pkg.license : "";
   for (const name of ["LICENSE", "LICENSE.md", "LICENSE.txt", "COPYING"]) {
     let text;
     try {
@@ -166,7 +170,7 @@ export async function buildSuggestion({ cwd, target, kind, why, license, own = t
 export function formatSuggestion(s) {
   if (!s.ok) {
     const lines = [s.error];
-    for (const sc of s.scan?.scans ?? []) for (const f of sc.findings) lines.push(`  ${f.severity} ${f.rule} ${sc.folder === "." ? "" : sc.folder + "/"}${f.file}${f.line ? ":" + f.line : ""}`);
+    for (const sc of s.scan?.scans ?? []) for (const f of sc.findings) lines.push(`  ${f.severity} ${f.rule} ${shownName(`${sc.folder === "." ? "" : sc.folder + "/"}${f.file}`)}${f.line ? ":" + f.line : ""}`);
     return lines.join("\n");
   }
   const scanLine = s.scan

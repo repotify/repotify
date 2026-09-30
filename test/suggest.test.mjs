@@ -92,3 +92,18 @@ test("repotify suggest runs end to end", () => {
   assert.equal(JSON.parse(r.stdout).repo.url, "https://github.com/octo/pdf-skill");
   assert.equal(submissionUrl({ repo: { owner: "a", repo: "b", url: "https://github.com/a/b" }, kind: "tool", why: "x & y", license: "" }).includes("why=x%20%26%20y"), true);
 });
+
+test("a license field that is not a license name is not echoed", async () => {
+  const dir = repo({ license: null, skills: [""] });
+  writeFileSync(join(dir, "package.json"), JSON.stringify({ license: "MIT\u001b[2J" }));
+  const s = await buildSuggestion({ cwd: dir });
+  assert.equal(s.license, "");
+  assert.ok(!/\u001b/.test(formatSuggestion(s)));
+});
+
+test("finding paths in a blocked suggestion are shown safely", async () => {
+  const dir = repo({ skills: [] });
+  cpSync(join(fixtures, "malicious/aws-creds-md"), join(dir, "skills/my tool"), { recursive: true });
+  const text = formatSuggestion(await buildSuggestion({ cwd: dir }));
+  assert.match(text, /'skills\/my tool\/SKILL\.md'/);
+});

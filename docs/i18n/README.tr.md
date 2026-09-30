@@ -95,8 +95,9 @@ Ajan otomatik algılanır; `--agent claude-code,cursor,codex` ile değiştirebil
 | `recommend`, `audit`, `suggest`, `scan`, `fingerprint` | Hiçbir şey |
 
 Manifestleri ve dosya adlarını okur, kodunu asla okumaz. Kataloğu ve sabitlenmiş commit'lerdeki skill dosyalarını indirir;
-araçları senin yerine asla çalıştırmaz. Ajanın kancaları ya da MCP sunucularını kendi başına açamaz: `enable` terminalde
-onay ister, skill de ajanlara komutu sana vermelerini söyler.
+araçları senin yerine asla çalıştırmaz. Repotify'ın akışında kancaları ya da MCP sunucularını ajan açmaz: `enable`
+terminalde onay ister (terminal yoksa `--yes` gerekir), skill de ajanlara komutu çalıştırmak yerine sana vermelerini
+söyler. Bu bir korkuluk, kum havuzu değil: ajanının neyi çalıştırabileceğine yine kendi izin ayarları karar verir.
 
 ## Zorunlu çekirdek
 

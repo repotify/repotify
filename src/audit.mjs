@@ -6,10 +6,14 @@ import { AGENTS } from "./agents.mjs";
 import { parseFrontmatter } from "./frontmatter.mjs";
 import { readTree, scanFiles } from "./scan/index.mjs";
 import { buildDemand, fitScore, platformMismatch, DEFAULT_BUDGET_CHARS } from "./recommend.mjs";
+import { ID_RE } from "./catalog.mjs";
+import { shownName } from "./display.mjs";
 
 export const SKILL_DIRS = [...new Set(Object.values(AGENTS).map((a) => a.skillsDir))];
 const MAX_SCAN_FILES = 400;
 const MAX_SCAN_BYTES = 30 * 1024 * 1024;
+// A SKILL.md this large is not an instruction file anyone should load into an agent; it is not parsed.
+const MAX_SKILL_MD_BYTES = 1024 * 1024;
 const TRUST_RANK = { verified: 2, caution: 1 };
 
 // Stack words a skill's name or first sentence may carry. A skill named for a stack the project does not use is
@@ -42,7 +46,7 @@ const CAP_WORDS = {
 };
 
 // Reasons that make a skill worth questioning; "fits" and "caution" are information only.
-const QUESTIONED = new Set(["delisted", "platform", "stack", "unneeded"]);
+const QUESTIONED = new Set(["delisted", "platform", "stack", "unneeded", "oversized"]);
 
 const firstSentence = (text) => text.split(/(?<=[.!?])\s/, 1)[0].slice(0, 240);
 
@@ -74,6 +78,8 @@ export function findInstalledSkills(root, { scope = "project" } = {}) {
 }
 
 function readSkill(s) {
+  const size = statSync(join(s.abs, "SKILL.md")).size;
+  if (size > MAX_SKILL_MD_BYTES) return { ...s, name: s.id, description: "", alwaysOnChars: 0, bodyChars: size, oversized: true };
   const text = readFileSync(join(s.abs, "SKILL.md"), "utf8");
   const fm = parseFrontmatter(text);
   const name = String(fm.name ?? s.id);
@@ -87,7 +93,8 @@ async function securityOf(abs) {
     const worst = ["critical", "high", "medium"].map((sev) => r.findings.find((f) => f.severity === sev)).find(Boolean);
     return { level: r.level, rule: worst?.rule ?? null };
   } catch (error) {
-    return { level: "caution", rule: `not scanned: ${error.message}` };
+    // The message may carry file names from the skill; the code is enough.
+    return { level: "caution", rule: `not scanned (${error.code ?? "too large"})` };
   }
 }
 
@@ -127,6 +134,7 @@ function judge(skill, { item, lockId }, env) {
     return { verdict: "remove", reasons: [{ code: "security", text: `Security scan: ${skill.security.level}${skill.security.rule ? ` (${skill.security.rule})` : ""}. Remove it.` }] };
   }
   const reasons = [];
+  if (skill.oversized) reasons.push({ code: "oversized", text: `SKILL.md is over ${MAX_SKILL_MD_BYTES / 1024 / 1024} MiB; not read.` });
   if (lockId && !item) reasons.push({ code: "delisted", text: "No longer in the catalog (quarantined or removed upstream)." });
   if (!env.relevance) {
     // No project to judge against (home folder or filesystem root): security and overlaps only.
@@ -208,7 +216,7 @@ function markOverlaps(results) {
     group.sort((a, b) => (TRUST_RANK[b.trust] ?? 0) - (TRUST_RANK[a.trust] ?? 0) || a.alwaysOnChars - b.alwaysOnChars || (a.id < b.id ? -1 : 1));
     for (const r of group.slice(1)) {
       r.verdict = "consider";
-      r.reasons = [{ code: "overlap", text: `Does the same job as ${group[0].id} (${r.jobLabel}); keep one.` }, ...r.reasons.filter((x) => x.code !== "fits")];
+      r.reasons = [{ code: "overlap", text: `Does the same job as ${shownName(group[0].id)} (${r.jobLabel}); keep one.` }, ...r.reasons.filter((x) => x.code !== "fits")];
     }
   }
 }
@@ -236,7 +244,8 @@ export async function auditSkills({ root, catalog, fingerprint: fp, needs, lock 
       catalogId: match.item?.id ?? match.lockId ?? null, trust: match.item?.security?.level ?? null,
       verdict, reasons, job, jobLabel: job ? label(taxonomy, job) : null,
       alwaysOnChars: skill.alwaysOnChars, bodyChars: skill.bodyChars, security: skill.security,
-      removeWith: match.lockId ? `repotify remove ${match.lockId}` : null,
+      // Lock-file keys come from the project; only a real catalog id goes into a command.
+      removeWith: match.lockId && ID_RE.test(match.lockId) ? `repotify remove ${match.lockId}` : null,
     };
     results.push(result);
     texts.set(result, wordsOf(skill.description));
@@ -262,7 +271,7 @@ export function formatAudit(report) {
     const over = t.alwaysOnChars > report.budget ? `, above the ${report.budget}-char budget` : "";
     lines.push(`${dir}: ${t.skills} skill${t.skills === 1 ? "" : "s"}, ${t.alwaysOnChars} chars of always-on context${over}`);
     for (const r of report.skills.filter((x) => x.skillsDir === dir)) {
-      lines.push(`  ${MARK[r.verdict]} ${r.id.padEnd(31)} ${r.reasons.map((x) => x.text).join(" ")}${r.verdict !== "keep" ? `  (-${r.alwaysOnChars} chars)` : ""}`);
+      lines.push(`  ${MARK[r.verdict]} ${shownName(r.id).padEnd(31)} ${r.reasons.map((x) => x.text).join(" ")}${r.verdict !== "keep" ? `  (-${r.alwaysOnChars} chars)` : ""}`);
     }
     if (t.freed) lines.push(`  Removing the suggested ones frees ${t.freed} chars of always-on context.`);
   }
@@ -271,7 +280,7 @@ export function formatAudit(report) {
     const viaRepotify = acts.filter((r) => r.removeWith).map((r) => r.removeWith);
     lines.push("", "Nothing was deleted. Ask the user before removing anything.");
     if (viaRepotify.length) lines.push(`Installed by Repotify: ${viaRepotify.join("; ")}`);
-    const manual = acts.filter((r) => !r.removeWith).map((r) => r.dir);
+    const manual = acts.filter((r) => !r.removeWith).map((r) => shownName(r.dir));
     if (manual.length) lines.push(`Other folders to delete once the user agrees: ${manual.join(", ")}`);
   } else {
     lines.push("", "Every installed skill earns its place.");

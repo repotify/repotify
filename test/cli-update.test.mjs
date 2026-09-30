@@ -62,3 +62,17 @@ test("enableAutoCheck works in a project without a .claude folder", () => {
   assert.equal(enableAutoCheck({ cwd }).written, true);
   assert.ok(existsSync(join(cwd, ".claude/settings.json")));
 });
+
+test("update --apply of a hook or MCP server needs the user, like enable", () => {
+  const mcp = { type: "mcp", repo: "upstash/context7", targets: [".mcp.json#mcpServers.context7"], agents: ["claude-code"], installedAt: "2026-09-01T00:00:00Z", setup: { steps: ["x"], mcp: { command: "npx", args: ["-y", "@upstash/context7-mcp@0.0.1"] } } };
+  const cwd = project({ context7: mcp });
+  writeFileSync(join(cwd, ".mcp.json"), JSON.stringify({ mcpServers: { context7: { command: "npx", args: ["-y", "@upstash/context7-mcp@0.0.1"] } } }));
+  const before = readFileSync(join(cwd, ".mcp.json"), "utf8");
+  const refused = run(cwd, ["update", "--apply", "context7"]);
+  assert.equal(refused.status, 2);
+  assert.match(refused.stderr, /changes how your coding agent runs/);
+  assert.equal(readFileSync(join(cwd, ".mcp.json"), "utf8"), before, "nothing rewritten");
+  const skills = run(project({ "test-driven-development": old }), ["update", "--apply", "test-driven-development"]);
+  assert.doesNotMatch(skills.stderr, /changes how your coding agent runs/, "skill updates are not gated");
+  assert.notEqual(run(cwd, ["update", "--apply", "context7", "--yes"]).status, 2, "--yes typed by the user passes the gate");
+});

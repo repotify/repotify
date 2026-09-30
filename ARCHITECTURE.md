@@ -78,7 +78,8 @@ flowchart LR
   local re-scan before they are written.
 - **Hooks and MCP servers are the user's.** They change how the agent itself runs, so `install` only prints the
   `repotify enable <id>` command. `enable` shows the change and asks in a terminal; without one it needs `--yes`
-  typed by the user. The skill tells agents never to run it.
+  typed by the user. The skill tells agents never to run it. This is a guard rail, not a sandbox: an agent that ignores
+  the skill could pass `--yes`, so the agent's own permission settings remain the real boundary.
 - **Tools are never executed.** Repotify shows their steps.
 - **The LLM jury can only lower trust.** Model output never makes an item safer.
 

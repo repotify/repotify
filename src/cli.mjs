@@ -454,6 +454,16 @@ async function cmdUpdate(args, io) {
   }
   if (args.flags.apply) {
     const ids = csv(typeof args.flags.apply === "string" ? args.flags.apply : args.positionals.join(","));
+    // Updating a hook or an MCP server changes how the agent runs, like enabling one: the same consent applies.
+    const lock = readLock(io.cwd);
+    const agentConfig = ids.filter((id) => AGENT_CONFIG_TYPES.has(lock.items[id]?.type));
+    if (agentConfig.length) {
+      if (userConsentMissing(args, io, `Updating ${agentConfig.join(", ")} (a hook or MCP server)`)) return 2;
+      if (!args.flags.yes && !(await ask(io, `Update ${agentConfig.join(", ")}? This changes how your coding agent runs. [y/N] `))) {
+        out(io, "Nothing changed.");
+        return 0;
+      }
+    }
     const { catalog } = await getCatalog(io, args.flags);
     const results = await applyUpdates(ids, { cwd: io.cwd, catalog, fetchImpl: io.fetchImpl ?? fetch, acceptCaution: Boolean(args.flags["accept-caution"]) });
     out(io, results.map((r) => (r.ok ? `✓ ${r.id} updated` : `✗ ${r.id}: ${r.error}`)).join("\n") || "Nothing to update.");
