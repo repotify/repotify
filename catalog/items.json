@@ -153,6 +153,192 @@
     ],
     "badges": [],
     "capabilities": [
+      "codebase-map"
+    ],
+    "cluster": "codebase-map",
+    "commit": "e62be9667aff87958ed94bee2b396433897d1529",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 366,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a86527533d2ee4df27063af24402b9e1a345c33bba3cf423c96da7cdb3864a60"
+      },
+      {
+        "path": "assets/templates/ARCHITECTURE.md",
+        "sha256": "3b7a958d153c037a6fc19e35e7e9792650d747491340d83ba831714b6ca02b6c"
+      },
+      {
+        "path": "assets/templates/CONCERNS.md",
+        "sha256": "d714bef20a5ed8fee1ab5e01041abd18f1d95b93d455e82b371031a6675b6430"
+      },
+      {
+        "path": "assets/templates/CONVENTIONS.md",
+        "sha256": "c20c1dca3226992b785229b4ba2c08caada775bd0e26a85f1185d0600b6f2a37"
+      },
+      {
+        "path": "assets/templates/INTEGRATIONS.md",
+        "sha256": "60930c9b9aecf63e9c1c19a597bfaba6cab5f44d687e2c751cf034ffe962af25"
+      },
+      {
+        "path": "assets/templates/STACK.md",
+        "sha256": "0faf167cb857c14f4f8fbdbebf58727440d80c275fa483dedd7a08e2ac3ebe12"
+      },
+      {
+        "path": "assets/templates/STRUCTURE.md",
+        "sha256": "29a5a387c894135c41c74a1b3e629ece88707c0a56aa9e4153ec9682f5c0c373"
+      },
+      {
+        "path": "assets/templates/TESTING.md",
+        "sha256": "941a0f400441660a5fb9a28f43318f4a13f1a1c79e8cfac03cdf893cd6c3db85"
+      },
+      {
+        "path": "references/inquiry-checkpoints.md",
+        "sha256": "d06d9de9b30ebfe73a8f1034bfc1f2c4b68e45bd8425d56df8e4d48f06673dce"
+      },
+      {
+        "path": "references/stack-detection.md",
+        "sha256": "9baaaaadbebdfd53099875a9f4920d2fcb236efe040655a2d43217a6a31a4c9f"
+      },
+      {
+        "path": "scripts/scan.py",
+        "sha256": "193d5b9f73a71d6ecc2f39f13f33d96be49d675abe83f5857ddbdc4ae21b7bd9"
+      }
+    ],
+    "id": "acquire-codebase-knowledge",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "acquire-codebase-knowledge",
+    "needs": [
+      "agent-skills",
+      "dependencies",
+      "docs-writing",
+      "onboarding",
+      "large-codebase"
+    ],
+    "path": "skills/acquire-codebase-knowledge",
+    "repo": "github/awesome-copilot",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 39551
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides an agent to map, document, and onboard into an existing codebase by running a scan script, investigating project artifacts, and popu…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "verification-gate"
+    ],
+    "cluster": "verification-gate",
+    "commit": "e62be9667aff87958ed94bee2b396433897d1529",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 346,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "e563c5e334e1dac21a7d6a43ae43abb96721395e7af7b97f49ef764ad8325550"
+      }
+    ],
+    "id": "acreadiness-policy",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "acreadiness-policy",
+    "needs": [
+      "ci"
+    ],
+    "path": "skills/acreadiness-policy",
+    "repo": "github/awesome-copilot",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 39551
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Helps users create, view, or apply AgentRC readiness policies to customize scoring, disable checks, override impacts, set thresholds, and c…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "code-review"
     ],
     "cluster": "code-review",
@@ -850,8 +1036,11 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -1629,8 +1818,11 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -3830,8 +4022,11 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -4105,8 +4300,11 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -4879,8 +5077,11 @@
       "feature-forge",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -5776,8 +5977,11 @@
       "feature-forge",
       "herdr",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -5958,6 +6162,79 @@
       "python"
     ],
     "summary": "Implements monitoring, logging, metrics, tracing, alerting, load testing, profiling, and capacity planning.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review"
+    ],
+    "cluster": "code-review",
+    "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 268,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "30a8e067af085d6ddbf4f3775b212b0b24137ecc431a3e8570e3d6a09823a62a"
+      },
+      {
+        "path": "references/review-dimensions.md",
+        "sha256": "88b8f4eac2cdfeea9a4686aa07eff5ddaed40ecaee0a96b48db2a495cefda45e"
+      }
+    ],
+    "id": "multi-reviewer-patterns",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "multi-reviewer-patterns",
+    "needs": [],
+    "path": "plugins/agent-teams/skills/multi-reviewer-patterns",
+    "repo": "wshobson/agents",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 40109
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Coordinates parallel code reviews across multiple dimensions, deduplicates findings, calibrates severity, and generates consolidated report…",
     "tier": "mission",
     "type": "skill"
   },
@@ -6253,8 +6530,11 @@
       "feature-forge",
       "herdr",
       "ml-pipeline",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -6303,6 +6583,174 @@
       "*"
     ],
     "summary": "Coordinates Orca workers via threaded messages, blocking ask/reply, task DAGs, and decision gates using orca-cli for handoffs and terminal …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "debugging-method"
+    ],
+    "cluster": "debugging-method",
+    "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 272,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "31b6e288504f465cfecb2ff18ec014a836448a246f61f7a8e10c5462df5520d4"
+      },
+      {
+        "path": "references/hypothesis-testing.md",
+        "sha256": "2042eb0d8b358bca9a098ad6d2d5e4091cfd8887e15ec6482232e87737b8c358"
+      }
+    ],
+    "id": "parallel-debugging",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "parallel-debugging",
+    "needs": [],
+    "path": "plugins/agent-teams/skills/parallel-debugging",
+    "repo": "wshobson/agents",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 40109
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Debug complex issues by generating and testing multiple hypotheses in parallel using structured evidence collection and arbitration.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "workflow-meta"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "batch",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "herdr",
+      "ml-pipeline",
+      "orchestration",
+      "schedule",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 627,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "9d39b7d0f3011a8e0f468d000987758f6ac493edc6e6fe73227fa3e75e209458"
+      },
+      {
+        "path": "references/file-ownership.md",
+        "sha256": "cf4fb139ad4284c6432527a5ec51b38037d06ca84c5cfba3ab7b88a47301fd24"
+      },
+      {
+        "path": "references/merge-strategies.md",
+        "sha256": "39129b4947d1f50d85698000dfa464bd5cc42d73a214333fd36888b9a38d78b8"
+      }
+    ],
+    "id": "parallel-feature-development",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "parallel-feature-development",
+    "needs": [
+      "agent-skills",
+      "large-codebase"
+    ],
+    "path": "plugins/agent-teams/skills/parallel-feature-development",
+    "repo": "wshobson/agents",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 40109
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guidelines for splitting feature work among multiple agents, defining file ownership, avoiding conflicts, and integrating parallel implemen…",
     "tier": "mission",
     "type": "skill"
   },
@@ -8220,7 +8668,10 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -8936,7 +9387,10 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns",
       "the-fool"
     ],
@@ -9365,6 +9819,187 @@
     "badges": [],
     "capabilities": [
       "implementation-planning",
+      "workflow-meta"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "batch",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "herdr",
+      "ml-pipeline",
+      "orchestration",
+      "parallel-feature-development",
+      "schedule",
+      "sre-engineer",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 249,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "e6e0c3f64b01f50d549a04d89c9a94128c5f0d24969c6e412952ff8cd9de36d7"
+      },
+      {
+        "path": "references/dependency-graphs.md",
+        "sha256": "0631ea5ef35a6d348b3f8959b039682cdf817a404bda16a319afe0168fe4319f"
+      },
+      {
+        "path": "references/task-decomposition.md",
+        "sha256": "c8b382e0b0a1eda3277ecdc39a7fa7f1394fecc3f16271f1b23c2199c597ba9d"
+      }
+    ],
+    "id": "task-coordination-strategies",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "task-coordination-strategies",
+    "needs": [],
+    "path": "plugins/agent-teams/skills/task-coordination-strategies",
+    "repo": "wshobson/agents",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 40109
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides strategies for decomposing tasks, designing dependency graphs, and coordinating multi-agent work with clear task descriptions and …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "workflow-meta"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "batch",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "herdr",
+      "ml-pipeline",
+      "orchestration",
+      "parallel-feature-development",
+      "schedule",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 546,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "5a356d8814f2b38312b83b6e3b4e5bf06e26423338a8ea568b9ff2ed3266ff1d"
+      },
+      {
+        "path": "references/messaging-patterns.md",
+        "sha256": "0f02b4962a06ad596e55a08492d26887bae24f3e9378c9502c97bb9c2bef9fe6"
+      }
+    ],
+    "id": "team-communication-protocols",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "team-communication-protocols",
+    "needs": [
+      "agent-skills"
+    ],
+    "path": "plugins/agent-teams/skills/team-communication-protocols",
+    "repo": "wshobson/agents",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T17:16:03.055Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 40109
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Structured messaging protocols for agent team communication covering message types, plan approval, shutdown procedures, and anti-patterns.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
       "workflow-meta",
       "skill-authoring"
     ],
@@ -9386,8 +10021,11 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "the-fool"
     ],
     "descriptionChars": 553,
@@ -9670,8 +10308,11 @@
       "herdr",
       "ml-pipeline",
       "orchestration",
+      "parallel-feature-development",
       "schedule",
       "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
       "team-composition-patterns"
     ],
     "descriptionChars": 191,
