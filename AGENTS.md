@@ -9,6 +9,7 @@ The user pasted this repository's link (or asked for Repotify) because they want
 2. Open the `repotify` skill it installed into your skills folder (`.agents/skills/repotify/SKILL.md` for Codex and most agents, `.cursor/skills/repotify/SKILL.md` for Cursor, `.claude/skills/repotify/SKILL.md` for Claude Code) and follow it.
 
 Install only item ids that `repotify recommend` lists. Tools are shown to the user, never run on their behalf.
+Hooks and MCP servers change how you run: the user switches them on with `repotify enable <id>`; never run it yourself.
 
 ## If you are working on this repository
 

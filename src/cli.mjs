@@ -1,5 +1,6 @@
 import { readFileSync, statSync } from "node:fs";
 import { homedir } from "node:os";
+import { createInterface } from "node:readline/promises";
 import { join, resolve } from "node:path";
 import { auditSkills, formatAudit } from "./audit.mjs";
 import { buildSuggestion, formatSuggestion } from "./suggest.mjs";
@@ -172,8 +173,30 @@ function agentsFrom(flags, io) {
 
 const MAX_INSTALL_SUMMARY = 1050;
 
+// Items that change how the agent itself runs: hooks and MCP servers. An agent never switches these on; the user does,
+// with `repotify enable`, after seeing what will be written.
+const AGENT_CONFIG_TYPES = new Set(["mcp", "config"]);
+const launcherOf = (io) => readLock(io.cwd).items.repotify?.launcher ?? detectLauncher();
+
+async function ask(io, question) {
+  const rl = createInterface({ input: io.stdin, output: io.stdout });
+  try {
+    return /^y(es)?$/i.test((await rl.question(question)).trim());
+  } finally {
+    rl.close();
+  }
+}
+
+// Hooks and MCP servers need the user: an interactive terminal where they confirm, or --yes typed by them.
+function userConsentMissing(args, io, what) {
+  if (io.stdin?.isTTY || args.flags.yes) return false;
+  err(io, `${what} changes how your coding agent runs. Run this yourself in a terminal to confirm it, or add --yes if you are the user running it.`);
+  return true;
+}
+
 function summaryLine(r) {
   if (!r.ok) return `✗ ${r.id}: ${r.error}`;
+  if (r.userEnables && !r.written) return `• ${r.id} (${r.type === "mcp" ? "MCP server" : "hook"}) changes how the agent runs; the user enables it: ${r.userEnables}`;
   const warn = r.level === "caution" ? " ⚠ caution" : "";
   if (r.type === "tool") return `• ${r.id} (tool, run it yourself${warn}): ${r.steps.map((s, i) => `${i + 1}) ${s}`).join(" ")}${r.verify ? ` | verify: ${r.verify}` : ""}`;
   if (r.type === "mcp") {
@@ -228,11 +251,12 @@ async function cmdInstall(args, io) {
       continue;
     }
     try {
+      const agentConfig = AGENT_CONFIG_TYPES.has(item.type);
       const r = await installItem(item, {
-        cwd: io.cwd, agents, confirm: Boolean(args.flags.yes), acceptCaution: Boolean(args.flags["accept-caution"]),
+        cwd: io.cwd, agents, confirm: Boolean(args.flags.yes) && !agentConfig, acceptCaution: Boolean(args.flags["accept-caution"]),
         fetchImpl: io.fetchImpl ?? fetch, catalogVersion: catalog.meta.version,
       });
-      results.push({ id, ok: true, level: item.security?.level, ...r });
+      results.push({ id, ok: true, level: item.security?.level, ...r, ...(agentConfig ? { userEnables: `${launcherOf(io)} enable ${id}` } : {}) });
     } catch (e) {
       results.push({ id, ok: false, error: e.message, code: e.code ?? null });
     }
@@ -246,6 +270,56 @@ async function cmdInstall(args, io) {
   if (args.flags.json) out(io, JSON.stringify({ agents, catalogVersion: catalog.meta.version, results }, null, 2));
   else out(io, formatInstallSummary({ agents, results, notice }));
   return results.some((r) => !r.ok) ? 1 : 0;
+}
+
+function describeChange(item, preview) {
+  if (item.type === "mcp") {
+    const files = (preview.snippets ?? []).map((s) => s.file).join(", ") || "no agent with an MCP config";
+    const cmd = [item.setup?.mcp?.command, ...(item.setup?.mcp?.args ?? [])].join(" ");
+    return `${item.id}: adds an MCP server your agent starts itself (\`${cmd}\`) to ${files}.`;
+  }
+  return `${item.id}: ${preview.preview ?? "changes your agent's settings"}. ${item.summary}`;
+}
+
+async function cmdEnable(args, io) {
+  const ids = args.positionals.flatMap((p) => p.split(",")).map((s) => s.trim()).filter(Boolean);
+  if (!ids.length) {
+    err(io, "Usage: repotify enable <id...> [--yes] [--agent a,b] [--accept-caution]   (hooks and MCP servers; the user runs this)");
+    return 2;
+  }
+  if (userConsentMissing(args, io, "`repotify enable`")) return 2;
+  let agents;
+  try {
+    agents = agentsFrom(args.flags, io);
+  } catch (e) {
+    err(io, e.message);
+    return 2;
+  }
+  const { catalog } = await getCatalog(io, args.flags);
+  const byId = new Map(catalog.items.map((i) => [i.id, i]));
+  const opts = { cwd: io.cwd, agents, fetchImpl: io.fetchImpl ?? fetch, catalogVersion: catalog.meta.version, acceptCaution: Boolean(args.flags["accept-caution"]) };
+  let failed = false;
+  for (const id of ids) {
+    const item = byId.get(id);
+    if (!item || !AGENT_CONFIG_TYPES.has(item.type)) {
+      err(io, `✗ ${id}: ${item ? `a ${item.type}, not a hook or MCP server; use \`repotify install ${id}\`` : "not in the catalog"}`);
+      failed = true;
+      continue;
+    }
+    try {
+      out(io, describeChange(item, await installItem(item, { ...opts, confirm: false })));
+      if (!args.flags.yes && !(await ask(io, `Enable ${id}? [y/N] `))) {
+        out(io, `Skipped ${id}; nothing changed.`);
+        continue;
+      }
+      out(io, summaryLine({ id, ok: true, level: item.security?.level, ...(await installItem(item, { ...opts, confirm: true })) }));
+      await track(io, [{ type: "installed", items: [id], catalogVersion: catalog.meta.version }]);
+    } catch (e) {
+      err(io, `✗ ${id}: ${e.message}`);
+      failed = true;
+    }
+  }
+  return failed ? 1 : 0;
 }
 
 async function cmdRemove(args, io) {
@@ -369,6 +443,11 @@ function agentsFromTargets(targets) {
 async function cmdUpdate(args, io) {
   const env = io.env ?? {};
   if (args.flags["enable-auto-check"]) {
+    if (userConsentMissing(args, io, "The weekly update check (a Claude Code SessionStart hook)")) return 2;
+    if (!args.flags.yes && !(await ask(io, "Add a SessionStart hook to .claude/settings.json that checks for vetted updates once a week? [y/N] "))) {
+      out(io, "Nothing changed.");
+      return 0;
+    }
     const r = enableAutoCheck({ cwd: io.cwd, launcher: readLock(io.cwd).items.repotify?.launcher ?? detectLauncher() });
     out(io, r.written ? "Weekly update check enabled (Claude Code SessionStart hook)." : `Could not edit .claude/settings.json (${r.reason}); nothing changed.`);
     return r.written ? 0 : 1;
@@ -439,7 +518,8 @@ export const COMMANDS = {
   recommend: { run: cmdRecommend, help: "recommend [--type t] [--needs a,b]   Conflict-free candidate table (--json, --budget N)" },
   suggest: { run: cmdSuggest, help: "suggest [dir|github-url] [--why text]  Suggest your repo for the catalog (pre-filled form; nothing is sent)" },
   audit: { run: cmdAudit, help: "audit [--user] [--json]              Which installed skills earn their place, which to remove, and why" },
-  install: { run: cmdInstall, help: "install <id...> [--yes] [--agent a,b] Install catalog items (hash-checked, re-scanned)" },
+  install: { run: cmdInstall, help: "install <id...> [--yes] [--agent a,b] Install catalog skills (hash-checked, re-scanned)" },
+  enable: { run: cmdEnable, help: "enable <id...> [--yes]               Hooks and MCP servers: the user switches them on, after a preview" },
   remove: { run: cmdRemove, help: "remove <id>                          Remove an item Repotify installed" },
   scan: { run: cmdScan, help: "scan <dir> [--json]                  Security-scan a skill folder" },
   update: { run: cmdUpdate, help: "update [--check|--apply a,b|--enable-auto-check] Vetted updates for installed items" },

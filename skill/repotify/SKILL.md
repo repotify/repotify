@@ -11,7 +11,7 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 
 ## Flow
 
-1. **Fingerprint.** Run `repotify fingerprint`. Use its summary; do not open source files for this step.
+1. **Fingerprint.** Run `repotify fingerprint`. Use its summary; do not open source files for this step. If it lists installed skills, also run `repotify audit`: it says which ones earn their place and which to remove, with reasons. Show that to the user with your picks; delete nothing without their OK.
 2. **Intent, only if needed.** Run `repotify questions --json`. Answer each question yourself from the fingerprint and from what the user already said. Ask the user only what you cannot infer, at most 3 questions.
    - Claude Code: use the AskUserQuestion tool (project type: single choice; priorities and needs: multiSelect; at most 4 options per question, so offer the 4 most plausible).
    - Other agents: a short numbered list.
@@ -21,10 +21,10 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 5. **Present.**
    - Claude Code: AskUserQuestion with multiSelect, grouped as "Core", "For your stack", "For your mission" (add a fourth group only if needed), at most 4 options per question. Label = item name; description = your one-sentence reason plus badges: ✓ verified, ⚠ caution (say plainly what it does), 💎 gem, 🔥 trending. Open with "Repotify picked these for your project because…".
    - Other agents: a numbered list; the user replies "all" or "1,3,5".
-6. **Install.** Run `repotify install <ids...> --yes`.
+6. **Install.** Run `repotify install <ids...> --yes`. It installs skills.
+   - ⚙ items (hooks, MCP servers) change how you yourself run, so you never switch them on. The install output prints `repotify enable <id>`: give the user that command to run themselves (in Claude Code they can type `! <command>`). After an MCP server is enabled, the agent needs a restart.
    - ⚠ caution items need the user's explicit OK for that item: show the finding first, then add `--accept-caution`.
    - Tools are never run automatically: show their steps and let the user run them.
-   - MCP servers are written to the agent's MCP config; tell the user to restart the agent.
    - If an id fails, report the reason; do not retry with other names.
 7. **Report.** One short summary: what was installed where, and any manual step left.
 
@@ -32,11 +32,13 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 
 - Install only ids that appear in `repotify recommend` output. Never install other packages or skills through Repotify.
 - Never bypass the security gate, and never edit `repotify.lock.json` by hand.
+- Never run `repotify enable` or `repotify update --enable-auto-check` yourself: they belong to the user.
 - To take something out again: `repotify remove <id>`.
 - Keep it brief: the user wants a great setup, not a lecture.
 
 ## Later sessions
 
-- `repotify update --check` lists vetted updates for installed items and items that left the catalog. Apply only with the user's OK: `repotify update --apply <ids>`. Offer `repotify update --enable-auto-check` once if the user wants a weekly reminder.
+- `repotify update --check` lists vetted updates for installed items and items that left the catalog. Apply only with the user's OK: `repotify update --apply <ids>`. If the user wants a weekly reminder, give them `repotify update --enable-auto-check` to run once.
+- If the user wants their own skill or repository in the catalog, run `repotify suggest` in it and give them the link it prints: nothing is sent until they submit the form.
 - At most once a week, after the user has actually used an installed item: if `repotify vote --due` prints `due`, ask one quick question ("Did <item> help? 👍/👎") and record it with `repotify vote <id> up|down`, or `repotify vote --dismiss` if they skip.
 - Repotify sends anonymous usage signals (item ids, stack and need categories, votes; never code, file names or repo names) to rank items. The user can turn this off with `repotify telemetry off`.
