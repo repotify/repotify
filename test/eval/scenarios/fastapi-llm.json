@@ -20,12 +20,14 @@
   "answers": {},
   "mustInclude": [
     "context7",
-    "semgrep"
+    "semgrep",
+    "fastapi-expert"
   ],
   "mustNotInclude": [
     "react-best-practices",
     "frontend-design",
     "react-native-skills",
-    "omniroute"
+    "omniroute",
+    "django-expert"
   ]
 }

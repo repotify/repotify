@@ -7,6 +7,9 @@
     "generic"
   ],
   "capabilities": {
+    "angular-expertise": {
+      "label": "Angular expertise"
+    },
     "browser-automation": {
       "label": "Browser automation"
     },
@@ -22,6 +25,9 @@
     "component-architecture": {
       "label": "React component architecture"
     },
+    "cpp-expertise": {
+      "label": "C and C++ expertise"
+    },
     "debugging-method": {
       "label": "Systematic debugging"
     },
@@ -32,11 +38,20 @@
     "design-brainstorming": {
       "label": "Design brainstorming before coding"
     },
+    "django-expertise": {
+      "label": "Django expertise"
+    },
     "docs-lookup": {
       "label": "Up-to-date library docs lookup"
     },
     "docx-documents": {
       "label": "Word documents"
+    },
+    "fastapi-expertise": {
+      "label": "FastAPI expertise"
+    },
+    "flutter-expertise": {
+      "label": "Flutter expertise"
     },
     "frontend-design": {
       "label": "Distinctive frontend design"
@@ -44,8 +59,20 @@
     "github-integration": {
       "label": "GitHub issues, PRs and repos"
     },
+    "go-expertise": {
+      "label": "Go expertise"
+    },
     "implementation-planning": {
       "label": "Implementation planning"
+    },
+    "java-expertise": {
+      "label": "Java and Spring expertise"
+    },
+    "kotlin-expertise": {
+      "label": "Kotlin expertise"
+    },
+    "laravel-expertise": {
+      "label": "Laravel expertise"
     },
     "llm-gateway": {
       "label": "LLM gateway with free-model fallback"
@@ -53,11 +80,17 @@
     "mcp-development": {
       "label": "Building MCP servers"
     },
+    "nestjs-expertise": {
+      "label": "NestJS expertise"
+    },
     "package-guard": {
       "label": "Hallucinated-package guard"
     },
     "pdf-processing": {
       "label": "PDF reading and generation"
+    },
+    "php-expertise": {
+      "label": "PHP expertise"
     },
     "presentations": {
       "label": "Slide decks"
@@ -65,8 +98,14 @@
     "property-testing": {
       "label": "Property-based testing"
     },
+    "python-expertise": {
+      "label": "Python expertise"
+    },
     "python-tooling": {
       "label": "Modern Python tooling"
+    },
+    "rails-expertise": {
+      "label": "Ruby on Rails expertise"
     },
     "react-native": {
       "label": "React Native and Expo"
@@ -74,6 +113,9 @@
     "react-performance": {
       "label": "React and Next.js performance",
       "platform": "web"
+    },
+    "rust-expertise": {
+      "label": "Rust expertise"
     },
     "security-review": {
       "label": "Security review of changes"
@@ -93,11 +135,17 @@
     "supply-chain-audit": {
       "label": "Dependency supply-chain audit"
     },
+    "swift-expertise": {
+      "label": "Swift and iOS expertise"
+    },
     "tdd-discipline": {
       "label": "Test-driven development discipline"
     },
     "verification-gate": {
       "label": "Verify before claiming done"
+    },
+    "vue-expertise": {
+      "label": "Vue and Nuxt expertise"
     },
     "web-design-review": {
       "label": "UI and accessibility review",

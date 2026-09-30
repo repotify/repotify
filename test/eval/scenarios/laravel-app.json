@@ -1,14 +1,15 @@
 {
-  "name": "flask-api",
-  "note": "",
+  "name": "laravel-app",
+  "note": "Laravel web app: the Laravel and PHP experts, never another framework's.",
   "fingerprint": {
     "empty": false,
     "stacks": [
-      "python",
-      "flask"
+      "php",
+      "laravel"
     ],
     "inferredNeeds": [
-      "testing"
+      "testing",
+      "auth"
     ],
     "frameworks": [],
     "agents": {
@@ -18,13 +19,13 @@
   },
   "answers": {},
   "mustInclude": [
-    "semgrep",
-    "supply-chain-risk-auditor"
+    "laravel-specialist",
+    "php-pro"
   ],
   "mustNotInclude": [
-    "react-best-practices",
-    "composition-patterns",
+    "rails-expert",
     "django-expert",
-    "fastapi-expert"
+    "python-pro",
+    "react-best-practices"
   ]
 }

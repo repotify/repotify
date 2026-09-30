@@ -20,10 +20,14 @@
   "answers": {},
   "mustInclude": [
     "semgrep",
-    "property-based-testing"
+    "property-based-testing",
+    "django-expert"
   ],
   "mustNotInclude": [
     "react-best-practices",
-    "react-native-skills"
+    "react-native-skills",
+    "fastapi-expert",
+    "rails-expert",
+    "laravel-specialist"
   ]
 }

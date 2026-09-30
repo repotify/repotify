@@ -20,12 +20,15 @@
   "answers": {},
   "mustInclude": [
     "frontend-design",
-    "test-driven-development"
+    "test-driven-development",
+    "flutter-expert"
   ],
   "mustNotInclude": [
     "react-best-practices",
     "react-native-skills",
     "web-design-guidelines",
-    "webapp-testing"
+    "webapp-testing",
+    "swift-expert",
+    "kotlin-specialist"
   ]
 }

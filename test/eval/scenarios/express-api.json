@@ -25,6 +25,8 @@
   "mustNotInclude": [
     "react-best-practices",
     "react-native-skills",
-    "agentic-actions-auditor"
+    "agentic-actions-auditor",
+    "nestjs-expert",
+    "python-pro"
   ]
 }

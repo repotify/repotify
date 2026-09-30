@@ -20,10 +20,13 @@
   "answers": {},
   "mustInclude": [
     "property-based-testing",
-    "supply-chain-risk-auditor"
+    "supply-chain-risk-auditor",
+    "golang-pro"
   ],
   "mustNotInclude": [
     "frontend-design",
-    "react-best-practices"
+    "react-best-practices",
+    "rust-engineer",
+    "python-pro"
   ]
 }

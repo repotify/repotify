@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- **Stack experts for many more stacks.** Angular, Vue and Nuxt, Django, FastAPI, Python, Go, Rust, Java and Spring,
+  Kotlin, Swift, Flutter, PHP, Laravel, Rails, C# and .NET, C and C++, and NestJS projects now get an expert skill for
+  their stack, from [jeffallan/claude-skills](https://github.com/jeffallan/claude-skills) (MIT), security-scanned and
+  scored by the jury. Each one has its own capability, so it is picked only for its stack and never takes the place of
+  a core item. The catalog updates without a new npm release.
+- The scenario set gains Angular, Laravel, Rails and Java projects; the Django, FastAPI, Go, Rust, Vue and Flutter
+  scenarios require their expert, and scenarios on other stacks must not get it.
+- **Fewer false alarms from the jury.** Jurors flagged skills as suspicious for giving their agent instructions, which
+  is what a skill is for, and about a fifth of new findings lost their verified mark. Now only content aimed at the
+  jury itself counts: asking for a score, telling it to ignore its rules, posing as a system message.
+- `npm run check` names the failing tests.
+
 ## 0.2.0 (2026-09-29)
 
 Smarter picks, an audit of what is already installed, and a setup your agent's safety layer can trust.

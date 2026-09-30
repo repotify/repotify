@@ -38,6 +38,10 @@
     "react-native-skills",
     "guidelines-advisor",
     "mcp-builder",
-    "omniroute"
+    "omniroute",
+    "vue-expert",
+    "angular-architect",
+    "nestjs-expert",
+    "python-pro"
   ]
 }

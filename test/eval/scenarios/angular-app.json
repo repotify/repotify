@@ -1,17 +1,16 @@
 {
-  "name": "react-native-bare",
-  "note": "Bare React Native app (no Expo, no web target).",
+  "name": "angular-app",
+  "note": "Angular web app: the Angular expert, never another framework's.",
   "fingerprint": {
     "empty": false,
     "stacks": [
       "node",
-      "react",
-      "react-native",
-      "typescript"
+      "typescript",
+      "angular"
     ],
     "inferredNeeds": [
       "frontend-ui",
-      "mobile"
+      "testing"
     ],
     "frameworks": [],
     "agents": {
@@ -21,13 +20,13 @@
   },
   "answers": {},
   "mustInclude": [
-    "react-native-skills",
+    "angular-architect",
     "frontend-design"
   ],
   "mustNotInclude": [
-    "webapp-testing",
-    "web-design-guidelines",
     "react-best-practices",
-    "flutter-expert"
+    "react-native-skills",
+    "vue-expert",
+    "nestjs-expert"
   ]
 }

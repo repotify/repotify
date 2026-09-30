@@ -1,17 +1,15 @@
 {
-  "name": "rust-cli",
-  "note": "",
+  "name": "spring-java",
+  "note": "Java service (Spring): the Java expert, not Kotlin's or C#'s.",
   "fingerprint": {
     "empty": false,
     "stacks": [
-      "rust"
+      "java"
     ],
     "inferredNeeds": [
       "testing"
     ],
-    "frameworks": [
-      "clap"
-    ],
+    "frameworks": [],
     "agents": {
       "configured": [],
       "skills": []
@@ -19,13 +17,12 @@
   },
   "answers": {},
   "mustInclude": [
-    "property-based-testing",
-    "rust-engineer"
+    "java-architect"
   ],
   "mustNotInclude": [
-    "frontend-design",
-    "react-native-skills",
-    "golang-pro",
-    "cpp-pro"
+    "kotlin-specialist",
+    "csharp-developer",
+    "python-pro",
+    "frontend-design"
   ]
 }

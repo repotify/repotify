@@ -23,10 +23,12 @@
   "mustInclude": [
     "frontend-design",
     "web-design-guidelines",
-    "webapp-testing"
+    "webapp-testing",
+    "vue-expert"
   ],
   "mustNotInclude": [
     "react-best-practices",
-    "react-native-skills"
+    "react-native-skills",
+    "angular-architect"
   ]
 }
