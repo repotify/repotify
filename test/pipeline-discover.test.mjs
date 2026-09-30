@@ -56,7 +56,18 @@ test("discover merges sources, dedupes and never lets one failing source stop th
   assert.deepEqual(repos, ["a/one", "x/skill-pack"]);
   assert.deepEqual(r.candidates.find((c) => c.repo === "x/skill-pack").sources.sort(), ["awesome", "hn"]);
   assert.ok(r.errors.some((e) => e.source === "reddit" && /403/.test(e.message)));
-  assert.ok(r.errors.some((e) => e.source === "github-topics" && /GITHUB_TOKEN/.test(e.message)));
+  assert.ok(r.errors.some((e) => e.source === "github-topics"), "a failing topic search is reported, not fatal");
+});
+
+test("github topic search works without a token and asks for the most-starred repositories", async () => {
+  const fetchImpl = async (url, init) => {
+    assert.equal(init.headers.Authorization, undefined);
+    assert.match(url, /sort=stars&order=desc/);
+    return json({ items: [{ full_name: "Big/Collection", stargazers_count: 11000, license: { spdx_id: "MIT" } }] });
+  };
+  const r = await discover({ sources: ["github-topics"], fetchImpl, now: NOW, topics: ["claude-skills"] });
+  assert.deepEqual(r.candidates.map((c) => [c.repo, c.meta.stars]), [["big/collection", 11000]]);
+  assert.deepEqual(r.errors, []);
 });
 
 test("github topic search uses the token and reads stars and dates", async () => {

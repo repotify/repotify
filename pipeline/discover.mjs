@@ -73,18 +73,26 @@ async function discoverAwesome({ fetchImpl, awesomeLists = DEFAULTS.awesomeLists
   return repos.map((repo) => ({ repo, sources: ["awesome"], mentions30d: 0, meta: null }));
 }
 
+function githubHeaders(token) {
+  const headers = { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+}
+
 function requireToken(token) {
   if (!token) throw new Error("GITHUB_TOKEN required for GitHub API sources");
-  return { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
+  return githubHeaders(token);
 }
 
 const repoMeta = (r) => ({ stars: r.stargazers_count ?? null, license: r.license?.spdx_id ?? null, pushedAt: r.pushed_at ?? null, createdAt: r.created_at ?? null });
 
+// Repository search also works without a token, at a lower rate limit. The most-starred repositories come first, so a
+// small budget goes to the collections people actually use.
 async function discoverGithubTopics({ fetchImpl, githubToken, topics = DEFAULTS.topics }) {
-  const headers = requireToken(githubToken);
+  const headers = githubHeaders(githubToken);
   const out = [];
   for (const topic of topics) {
-    const doc = await getJson(`https://api.github.com/search/repositories?q=${encodeURIComponent(`topic:${topic}`)}&sort=updated&per_page=100`, { fetchImpl, headers });
+    const doc = await getJson(`https://api.github.com/search/repositories?q=${encodeURIComponent(`topic:${topic}`)}&sort=stars&order=desc&per_page=100`, { fetchImpl, headers });
     for (const r of doc.items ?? []) out.push({ repo: r.full_name.toLowerCase(), sources: ["github-topics"], mentions30d: 0, meta: repoMeta(r) });
   }
   return out;
