@@ -1,6 +1,6 @@
-<p align="center"><img src="assets/banner.png" alt="Repotify — reponun kusursuz çalma listesi" width="100%"></p>
+<p align="center"><img src="../../assets/banner.png" alt="Repotify — reponun kusursuz çalma listesi" width="100%"></p>
 
-<p align="center"><a href="README.md">English</a> · <b>Türkçe</b> · <a href="README.zh-CN.md">简体中文</a></p>
+<p align="center"><a href="../../README.md">English</a> · <b>Türkçe</b> · <a href="README.zh-CN.md">简体中文</a></p>
 
 > ## 🤖 Yapay zekâ ajanları için
 >
@@ -38,7 +38,7 @@ Ajan yukarıdaki bloğu okur ve gerisini yapar: projeni tanır, en fazla üç so
 
 Kaynaktan çalıştırmak istersen: `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`, ardından `node ~/repotify/bin/repotify.mjs`.
 
-Bir Next.js projesindeki gerçek çıktının adım adım anlatımı: [docs/example-nextjs.md](docs/example-nextjs.md) (İngilizce).
+Bir Next.js projesindeki gerçek çıktının adım adım anlatımı: [examples/nextjs-saas.md](../../examples/nextjs-saas.md) (İngilizce).
 
 ## Nasıl çalışır
 
@@ -51,9 +51,9 @@ flowchart LR
 
 1. **Token harcamadan projeni tanır.** Yerel bir betik sadece manifestlere ve dosya adlarına bakar (kodun okunmaz, gönderilmez) ve ~400 token'lık bir özet yazar.
 2. **Sadece bilemediğini sorar.** En fazla üç çoktan seçmeli soru; proje cevabı zaten veriyorsa hiç sormaz.
-3. **Denetlenmiş katalogdan seçer.** Her öğe kurallı bir güvenlik kapısından (sabitlenmiş paketler için OSV açık kontrolüyle) geçer. Her skill ayrıca üç farklı üreticiden üç modelli bir LLM jürisiyle puanlanır; araçlar ve MCP sunucuları editoryal seçimdir. Öğeler yeteneğe göre kümelenir; aynı işi yapan iki öğe asla birlikte gelmez.
+3. **Denetlenmiş katalogdan, kanıta göre seçer.** Her öğe kurallı bir güvenlik kapısından (sabitlenmiş paketler için OSV açık kontrolüyle) geçer. Her skill ayrıca üç farklı üreticiden üç modelli bir LLM jürisiyle puanlanır; araçlar ve MCP sunucuları editoryal seçimdir. Bağımlılıklar geniş ihtiyaçları daraltır (her ofis formatı değil, Excel), web hedefi olmayan uygulamalara sadece-web skill'leri gelmez ve bir öğe varsayılan sete ancak başka hiçbir öğenin karşılamadığı bir şeyi karşılıyorsa girer.
 4. **Kararı ajana bırakır.** Ajan kısa aday tablosunu (900 token'ın altında) okur, zorunlu çekirdeği korur ve her öğe için "bu projede neden işe yarar" cümlesini yazar.
-5. **Güvenle kurar.** Dosyalar kilitli bir commit'ten iner, katalogdaki SHA-256 özetleriyle karşılaştırılır, senin bilgisayarında yeniden taranır, ajanının klasörüne yazılır ve `repotify.lock.json` dosyasına kaydedilir.
+5. **Güvenle kurar.** Skill dosyaları kilitli bir commit'ten iner, katalogdaki SHA-256 özetleriyle karşılaştırılır, senin bilgisayarında yeniden taranır, ajanının klasörüne yazılır ve `repotify.lock.json` dosyasına kaydedilir. Kancalar (hook) ve MCP sunucuları ajanının çalışma şeklini değiştirir; onları sadece sen açarsın (`repotify enable`).
 
 Tüm akış ajanına yaklaşık 4.700 token'a mal olur.
 
@@ -77,11 +77,26 @@ Ajan otomatik algılanır; `--agent claude-code,cursor,codex` ile değiştirebil
 | `repotify fingerprint` | Proje özeti (makineler için `--json`) |
 | `repotify questions` | Sadece proje özetinin cevaplayamadığı sorular |
 | `repotify recommend` | Çakışmasız aday tablosu (`--type`, `--needs`, `--priorities`, `--budget`, `--json`) |
-| `repotify install <id…> --yes` | Katalog öğelerini kurar; dikkat seviyesindekiler için `--accept-caution` da gerekir |
+| `repotify install <id…> --yes` | Katalog skill'lerini kurar; dikkat seviyesindekiler için `--accept-caution` da gerekir |
+| `repotify enable <id…>` | Bir kancayı ya da MCP sunucusunu, değişikliği önce gösterip açar; ajanın değil, senin içindir |
+| `repotify audit` | Kurulu skill'leri değerlendirir: tut, kaldırmayı düşün ya da kaldır, gerekçesiyle |
+| `repotify suggest` | Kendi skill'ini ya da reponu kataloğa önerir: önceden doldurulmuş form, hiçbir şey gönderilmez |
 | `repotify remove <id>` | Repotify'ın kurduğu bir şeyi kaldırır |
 | `repotify update --check` | Kurduklarının güncellemelerini listeler; `--apply` taranmış güncellemeleri kurar |
 | `repotify scan <klasör>` | Güvenlik tarayıcısını herhangi bir skill klasöründe çalıştırır |
-| `repotify guard --hook` | Claude Code kancası olarak paket bekçisi |
+
+## Repotify bilgisayarında neyi değiştirir
+
+| Komut | Yazdığı |
+|---|---|
+| `repotify` | Ajanının `skills/repotify/` klasörü ve `repotify.lock.json`; başka hiçbir şey |
+| `install` | Ajanının skill klasöründeki skill klasörleri ve kilit dosyası |
+| `enable` | Sadece önce sana gösterdiği şey: `.claude/settings.json` içinde bir kanca ya da ajanının MCP ayarında bir kayıt |
+| `recommend`, `audit`, `suggest`, `scan`, `fingerprint` | Hiçbir şey |
+
+Manifestleri ve dosya adlarını okur, kodunu asla okumaz. Kataloğu ve sabitlenmiş commit'lerdeki skill dosyalarını indirir;
+araçları senin yerine asla çalıştırmaz. Ajanın kancaları ya da MCP sunucularını kendi başına açamaz: `enable` terminalde
+onay ister, skill de ajanlara komutu sana vermelerini söyler.
 
 ## Zorunlu çekirdek
 
@@ -89,7 +104,7 @@ Her projeye, ajanı daha disiplinli yapan küçük bir çekirdek önerilir:
 - kod tabanı bilgi grafiği (Graphify);
 - Superpowers disiplin skill'leri: beyin fırtınası, plan yazma, test güdümlü geliştirme, sistematik hata ayıklama ve bitirmeden önce doğrulama;
 - her değişikliğin güvenlik incelemesi;
-- **Repotify paket bekçisi:** var olmayan paketlerin kurulmasını durdurur, çok yeni paketlerde önce sorar. Bu, paket adı uyduran ajanlara karşı yaygın bir saldırıdır.
+- **Repotify paket bekçisi:** var olmayan paketlerin kurulmasını durdurur, çok yeni paketlerde önce sorar. Bu, paket adı uyduran ajanlara karşı yaygın bir saldırıdır. Bekçi bir kanca olduğu için onu sen açarsın: `repotify enable repotify-guard`.
 
 ## Güvenlik modeli
 
@@ -107,7 +122,7 @@ Her projeye, ajanı daha disiplinli yapan küçük bir çekirdek önerilir:
 - **LLM jürisi güveni asla yükseltemez**, yalnızca şüphe ekleyebilir.
 - **Üçüncü taraf öğeler bir commit'e sabitlenir** ve sessizce güncellenmez.
 - **Araçlar (örneğin Graphify) senin yerine çalıştırılmaz**; Repotify adımları gösterir.
-- **Raporlar:** [gerçek skill'lerde tarayıcı sonuçları](docs/scan-corpus-report.md), [kod incelemeleri](docs/code-review-2026-09-28.md), [güvenlik denetimi](docs/security-audit.md). Bir sorun bildirmek için [SECURITY.md](SECURITY.md).
+- **Raporlar:** [gerçek skill'lerde tarayıcı sonuçları](../reports/scan-corpus-report.md), [kod incelemeleri](../reports/code-review-2026-09-28.md), [güvenlik denetimi](../reports/security-audit.md). Bir sorun bildirmek için [SECURITY.md](../../SECURITY.md).
 
 ## Katalog
 
@@ -126,10 +141,10 @@ Katalog bu hat üzerinden bakımcılar tarafından yeniden üretilir ve istemcin
 
 | | |
 |---|---|
-| **300** | otomatik test; Node 18, 20 ve 22'de |
+| **%100** | 42 proje senaryosunda beklenen öğelerin önerilme oranı, **0** yanlış öneriyle ([ölçümler](../../BENCHMARKS.md)) |
 | **37 / 37** | kasıtlı hazırlanmış zararlı örnek yakalandı |
-| **%98,8** | 37 proje senaryosunda beklenen öğelerin önerilme oranı |
 | **%1,6** | 127 gerçek skill'de yanlış alarm |
+| **4** | her push'ta test edilen Node.js sürümü (18, 20, 22, 24) |
 | **0** | çalışma zamanı bağımlılığı |
 
 ## Gizlilik
@@ -145,13 +160,13 @@ ilgili değildir; tek kurulum talimatı bu sayfanın başındaki ajan bloğudur.
 
 ## Durum
 
-Önizleme (`0.1.0`), npm'de `@repotify/repotify` adıyla yayında. Komut satırı aracı, tarayıcı, dört ajan için kurulum, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: daha büyük bir katalog ve anonim analitik.
+Önizleme (`0.2.0`), npm'de `@repotify/repotify` adıyla yayında. Komut satırı aracı, tarayıcı, dört ajan için kurulum, kurulu skill denetimi, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: daha büyük bir katalog ve anonim analitik. Nasıl kurulduğu: [ARCHITECTURE.md](../../ARCHITECTURE.md); nasıl yayımlandığı: [RELEASING.md](../../RELEASING.md).
 
 ## Katkı
 
-- **Güzel bir skill mi biliyorsun?** [Kataloğa öner](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml); o da aynı güvenlik kapısından ve jüriden geçer.
-- **Yanlış alarm ya da hata mı buldun?** [SUPPORT.md](SUPPORT.md) dosyasına bak. Güvenlik sorunları gizli bildirimle ([SECURITY.md](SECURITY.md)).
-- **Kod yazmak mı istiyorsun?** [CONTRIBUTING.md](CONTRIBUTING.md) ile başla. Her sürümde ne değişti: [CHANGELOG.md](CHANGELOG.md).
+- **Güzel bir skill mi biliyorsun, ya da sen mi yazdın?** Reposunda `repotify suggest` çalıştır ya da [formu kullan](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml); o da aynı güvenlik kapısından ve jüriden geçer.
+- **Yanlış alarm ya da hata mı buldun?** [SUPPORT.md](../../SUPPORT.md) dosyasına bak. Güvenlik sorunları gizli bildirimle ([SECURITY.md](../../SECURITY.md)).
+- **Kod yazmak mı istiyorsun?** [CONTRIBUTING.md](../../CONTRIBUTING.md) ile başla. Her sürümde ne değişti: [CHANGELOG.md](../../CHANGELOG.md).
 
 ⭐ Repotify ajanını kötü bir skill'den koruduysa, bir yıldız başka geliştiricilerin de onu bulmasını sağlar.
 
@@ -164,7 +179,7 @@ npm test          # birim, entegrasyon ve uçtan uca testler
 npm run eval      # senaryo setinde öneri kalitesi
 ```
 
-Katalog hattı `pipeline/` klasöründe; nasıl çalıştırılıp inceleneceği [docs/operations.md](docs/operations.md) dosyasında.
+Katalog hattı `pipeline/` klasöründe; nasıl çalıştırılıp inceleneceği [docs/guides/operations.md](../guides/operations.md) dosyasında.
 
 ## Lisans
 

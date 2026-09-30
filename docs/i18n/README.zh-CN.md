@@ -1,6 +1,6 @@
-<p align="center"><img src="assets/banner.png" alt="Repotify — 为你的仓库量身定制的播放列表" width="100%"></p>
+<p align="center"><img src="../../assets/banner.png" alt="Repotify — 为你的仓库量身定制的播放列表" width="100%"></p>
 
-<p align="center"><a href="README.md">English</a> · <a href="README.tr.md">Türkçe</a> · <b>简体中文</b></p>
+<p align="center"><a href="../../README.md">English</a> · <a href="README.tr.md">Türkçe</a> · <b>简体中文</b></p>
 
 > ## 🤖 给 AI 代理
 >
@@ -41,15 +41,15 @@ npx -y @repotify/repotify@latest install <ids…> --yes
 
 代理会读取上面的说明并完成其余工作：了解你的项目、最多问三个问题、解释每一项选择，并安装你批准的那一套。
 
-想从源码运行：先 `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`，再 `node ~/repotify/bin/repotify.mjs`。在一个 Next.js 项目上的真实输出：[docs/example-nextjs.md](docs/example-nextjs.md)（英文）。
+想从源码运行：先 `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`，再 `node ~/repotify/bin/repotify.mjs`。在一个 Next.js 项目上的真实输出：[examples/nextjs-saas.md](../../examples/nextjs-saas.md)（英文）。
 
 ## 工作原理
 
 1. **不花 token 就能了解你的项目。** 本地脚本只读取清单文件和文件名（从不读取你的代码），并生成约 400 token 的摘要。
 2. **只问它推断不出来的。** 最多三个选择题；如果项目本身已经给出答案，就一个都不问。
-3. **从经过审查的目录中挑选。** 每一项都通过了基于规则的安全关卡（对锁定版本的软件包还会检查 OSV 漏洞公告）。每个技能还由来自三家不同厂商的三个大模型组成的评审团打分；工具和 MCP 服务器由编辑挑选。条目按能力聚类，同一类工作永远不会出现两个条目。
+3. **依据证据，从经过审查的目录中挑选。** 每一项都通过了基于规则的安全关卡（对锁定版本的软件包还会检查 OSV 漏洞公告）。每个技能还由来自三家不同厂商的三个大模型组成的评审团打分；工具和 MCP 服务器由编辑挑选。依赖会把宽泛的需求收窄（是 Excel，而不是所有办公格式），没有 Web 目标的应用不会得到仅限 Web 的技能，而且只有当一个条目覆盖了其他条目都没有覆盖的内容时，它才会进入默认集合。
 4. **让你的代理来判断。** 代理阅读一张简短的候选表（不到 900 token），保留必选核心，并为每一项写一句话：它为什么对*你的*项目有用。
-5. **安全安装。** 文件来自锁定的提交，与目录中的 SHA-256 哈希核对，在你的机器上重新扫描，然后写入代理的目录，并记录在 `repotify.lock.json` 中。
+5. **安全安装。** 技能文件来自锁定的提交，与目录中的 SHA-256 哈希核对，在你的机器上重新扫描，然后写入代理的目录，并记录在 `repotify.lock.json` 中。钩子和 MCP 服务器会改变代理的运行方式，所以只能由你来开启（`repotify enable`）。
 
 整个流程大约只花费你的代理 4,700 个 token。
 
@@ -65,6 +65,31 @@ npx -y @repotify/repotify@latest install <ids…> --yes
 
 代理会被自动识别；也可以用 `--agent claude-code,cursor,codex` 指定。
 
+## 命令
+
+| 命令 | 作用 |
+|---|---|
+| `repotify` | 为你的代理安装 repotify 技能，并打印项目指纹 |
+| `repotify recommend` | 无冲突的候选表（`--type`、`--needs`、`--priorities`、`--budget`、`--json`） |
+| `repotify install <ids…> --yes` | 安装目录中的技能；caution 级别的条目还需要 `--accept-caution` |
+| `repotify enable <ids…>` | 先展示改动，再开启钩子或 MCP 服务器；由你来运行，而不是你的代理 |
+| `repotify audit` | 评估已安装的技能：保留、考虑移除或移除，并说明理由 |
+| `repotify suggest` | 把你自己的技能或仓库推荐给目录：预填好的表单，不会发送任何内容 |
+| `repotify remove <id>` | 移除 Repotify 安装的内容 |
+| `repotify update --check` | 列出已安装内容的更新；`--apply` 安装扫描过的更新 |
+| `repotify scan <目录>` | 对任意技能目录运行安全扫描器 |
+
+## Repotify 会改动你机器上的什么
+
+| 命令 | 写入内容 |
+|---|---|
+| `repotify` | 代理的 `skills/repotify/` 目录和 `repotify.lock.json`，别无其他 |
+| `install` | 代理技能目录中的技能文件夹，以及锁文件 |
+| `enable` | 只写入它先给你看过的内容：`.claude/settings.json` 中的一个钩子，或代理 MCP 配置中的一条记录 |
+| `recommend`、`audit`、`suggest`、`scan`、`fingerprint` | 不写入任何内容 |
+
+它只读取清单文件和文件名，从不读取你的代码。它会下载目录，以及锁定提交中的技能文件；工具永远不会替你运行。你的代理无法自行开启钩子或 MCP 服务器：`enable` 会在终端中请求确认，技能也会要求代理把命令交给你来运行。
+
 ## 安全模型
 
 | 级别 | 含义 | 处理方式 |
@@ -78,16 +103,16 @@ npx -y @repotify/repotify@latest install <ids…> --yes
 - 大模型评审团只能增加怀疑，永远不能提高信任级别。
 - 第三方条目锁定到某个提交，绝不会悄悄更新。
 - 工具（例如 Graphify）永远不会替你运行；Repotify 只展示步骤。
-- **包守卫**（Claude Code 钩子）会阻止安装不存在的软件包，并在安装刚刚发布的软件包前先询问你。这是针对会"编造"包名的代理的常见攻击。
+- **包守卫**（Claude Code 钩子）会阻止安装不存在的软件包，并在安装刚刚发布的软件包前先询问你。这是针对会"编造"包名的代理的常见攻击。它是一个钩子，所以由你来开启：`repotify enable repotify-guard`。
 
 ## 数据一览
 
 | | |
 |---|---|
-| **300** | 个自动化测试，覆盖 Node 18、20 和 22 |
+| **100%** | 在 42 个项目场景中推荐出预期条目的比例，且 **0** 个错误推荐（[基准测试](../../BENCHMARKS.md)） |
 | **37 / 37** | 个刻意构造的恶意样本全部被拦截 |
-| **98.8%** | 在 37 个项目场景中推荐出预期条目的比例 |
 | **1.6%** | 在 127 个真实技能上的误报率 |
+| **4** | 个每次推送都测试的 Node.js 版本（18、20、22、24） |
 | **0** | 个运行时依赖 |
 
 ## 隐私
@@ -100,9 +125,9 @@ Repotify 的设计是从匿名信号中学习（哪些条目被展示、被选�
 
 ## 参与贡献
 
-- **知道一个好技能？** [推荐它加入目录](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml)，它会经过同样的安全关卡和评审团。
-- **发现误报或 bug？** 请看 [SUPPORT.md](SUPPORT.md)。安全问题请私下报告（[SECURITY.md](SECURITY.md)）。
-- **想写代码？** 从 [CONTRIBUTING.md](CONTRIBUTING.md) 开始。
+- **知道一个好技能，或者是你自己写的？** 在它的仓库里运行 `repotify suggest`，或者[使用表单](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml)，它会经过同样的安全关卡和评审团。
+- **发现误报或 bug？** 请看 [SUPPORT.md](../../SUPPORT.md)。安全问题请私下报告（[SECURITY.md](../../SECURITY.md)）。
+- **想写代码？** 从 [CONTRIBUTING.md](../../CONTRIBUTING.md) 开始；架构见 [ARCHITECTURE.md](../../ARCHITECTURE.md)。
 
 ⭐ 如果 Repotify 帮你的代理挡住了一个坏技能，点个 star 能让更多开发者发现它。
 

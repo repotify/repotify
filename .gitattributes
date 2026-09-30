@@ -1,0 +1,9 @@
+# Normalize line endings; scripts and hooks must keep LF on every platform.
+* text=auto eol=lf
+*.png binary
+*.ttf binary
+test/fixtures/malicious/elf-binary/bin/helper binary
+
+# Keep GitHub's language stats about Repotify itself, not its test fixtures and generated catalog.
+test/fixtures/** linguist-vendored
+catalog/*.json linguist-generated

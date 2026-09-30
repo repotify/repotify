@@ -1,13 +1,32 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (2026-09-29)
 
-- Scanner: a long line with many downloads is scanned about four times faster. Each command is read once instead of
-  once per earlier download, so the linear-time test passes on slower machines and on Node 18, where CI was failing.
-- README (all three languages) and AGENTS.md: the npm package is the primary install path; cloning stays as the
-  from-source option. The agent block is phrased as a request from the user, not an order, and says that nothing
-  beyond the skill is installed without the user's approval.
-- `.gitignore` covers `.env` files, `.npmrc` and `*.pem`, so local keys are not committed by `git add -A`.
+Smarter picks, an audit of what is already installed, and a setup your agent's safety layer can trust.
+
+- **Recommendations by evidence, platform and coverage.** Dependencies narrow broad needs (openpyxl: spreadsheets, not
+  every office format); apps without a web target get no web-only skills; needs are weighted by how sure Repotify is;
+  an optional item joins the default set only if it covers something nothing else does, and the table says which item
+  covers the rest (`covered-by:`). On 42 scenarios: must-include hits 89/91 → 91/91, wrong picks 14 → 0.
+- **`repotify audit`** judges the skills already installed, including ones Repotify did not install: keep, consider
+  removing (another stack, a job nothing here needs, the same job twice, delisted) or remove (fails the security scan),
+  each with the reason and the context it frees. It never deletes anything.
+- **`repotify suggest`** offers your own skill or repository to the catalog: it scans it locally and prints a pre-filled
+  submission form; nothing is sent.
+- **Hooks and MCP servers are the user's to switch on.** `install` installs skills only and prints `repotify enable <id>`
+  for hooks and MCP servers; `enable` shows the change and asks in a terminal, and needs `--yes` typed by the user
+  without one. `update --enable-auto-check` follows the same rule. Breaking: scripts that installed MCP servers or the
+  guard with `install --yes` now need `enable <id> --yes`.
+- The fingerprint reports platforms and capability evidence; the table marks hooks and MCP servers with ⚙.
+- Scanner: a long line with many downloads scans about four times faster (CI was failing on Node 18); verdicts on the
+  127-skill corpus are unchanged.
+- The npm package is the primary install path in every README and in AGENTS.md; the agent block reads as the user's
+  request, not an order.
+- Repository layout: `ARCHITECTURE.md` (including why JavaScript), `BENCHMARKS.md`, `RELEASING.md`, worked examples in
+  `examples/`, translations in `docs/i18n/`, reports in `docs/reports/`; a test keeps documentation links working.
+- Taxonomy: capabilities can be marked `platform: web`; building an MCP server also wants docs lookup.
+  `pipeline/rehash.mjs` rewrites the hashes after a taxonomy edit.
+- CI also runs on Node 24; `.gitignore` covers `.env` files, `.npmrc` and `*.pem`.
 
 ## 0.1.0 (2026-09-29)
 

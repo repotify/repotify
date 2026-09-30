@@ -1,6 +1,6 @@
 {
   "name": "@repotify/repotify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Your repo's perfect playlist: a vetted, conflict-free set of agent skills, MCP servers and tools for Claude Code, Cursor, Codex and Gemini.",
   "author": "Ahmet Bilal Deniz",
   "homepage": "https://github.com/repotify/repotify#readme",

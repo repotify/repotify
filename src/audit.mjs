@@ -84,7 +84,7 @@ function readSkill(s) {
 async function securityOf(abs) {
   try {
     const r = scanFiles(await readTree(abs, { maxFiles: MAX_SCAN_FILES, maxBytes: MAX_SCAN_BYTES }));
-    const worst = r.findings.find((f) => f.severity === "critical") ?? r.findings.find((f) => f.severity === "high");
+    const worst = ["critical", "high", "medium"].map((sev) => r.findings.find((f) => f.severity === sev)).find(Boolean);
     return { level: r.level, rule: worst?.rule ?? null };
   } catch (error) {
     return { level: "caution", rule: `not scanned: ${error.message}` };
@@ -105,6 +105,19 @@ function projectStacks(stacks) {
 }
 
 const label = (taxonomy, cap) => taxonomy.capabilities?.[cap]?.label ?? cap;
+// Mid-sentence form of a label: "Distinctive frontend design" -> "distinctive …", but "UI and …" and "PDF …" stay.
+const inSentence = (text) => (/^[A-Z][a-z]/.test(text) ? text[0].toLowerCase() + text.slice(1) : text);
+
+// What a catalog item does for this project, in words: the wanted jobs it serves, else the stack or needs it helps with.
+function whyItFits(item, { taxonomy, ctx, stacks }) {
+  const jobs = item.capabilities.filter((c) => ctx.capabilitiesWanted.includes(c));
+  if (jobs.length) return `Serves ${jobs.map((c) => inSentence(label(taxonomy, c))).join(", ")}.`;
+  const used = item.stacks.filter((s) => s !== "*" && stacks.has(s));
+  if (used.length) return `Expertise for ${used.join(", ")}, which this project uses.`;
+  const needs = (item.needs ?? []).filter((n) => ctx.needs.includes(n));
+  if (needs.length) return `Helps with ${needs.map((n) => taxonomy.needs?.[n]?.label?.toLowerCase() ?? n).join(", ")}.`;
+  return "Fits this project.";
+}
 
 // Why a skill is or is not worth keeping here: [{code, text}], most important first.
 function judge(skill, { item, lockId }, env) {
@@ -139,12 +152,13 @@ function judge(skill, { item, lockId }, env) {
     } else if (jobs.length && !jobs.some((c) => ctx.capabilitiesWanted.includes(c))) {
       reasons.push({ code: "unneeded", text: `${jobs.map((c) => label(taxonomy, c)).join(", ")}: nothing in this project needs it.` });
     } else if (jobs.length) {
-      reasons.push({ code: "fits", text: `Serves ${jobs.filter((c) => ctx.capabilitiesWanted.includes(c)).map((c) => label(taxonomy, c)).join(", ")}.` });
+      reasons.push({ code: "fits", text: `Serves ${jobs.filter((c) => ctx.capabilitiesWanted.includes(c)).map((c) => inSentence(label(taxonomy, c))).join(", ")}.` });
     }
   }
   if (skill.security.level === "caution") reasons.push({ code: "caution", text: `Security scan: caution${skill.security.rule ? ` (${skill.security.rule})` : ""}.` });
   const blocking = reasons.some((r) => QUESTIONED.has(r.code));
-  return { verdict: blocking ? "consider" : "keep", reasons: reasons.length ? reasons : [{ code: "fits", text: item ? "Fits this project." : "No sign it is out of place here." }] };
+  if (!blocking && !reasons.some((r) => r.code === "fits")) reasons.unshift({ code: "fits", text: item ? whyItFits(item, env) : "No sign it is out of place here." });
+  return { verdict: blocking ? "consider" : "keep", reasons };
 }
 
 const STOP = new Set([
@@ -248,7 +262,7 @@ export function formatAudit(report) {
     const over = t.alwaysOnChars > report.budget ? `, above the ${report.budget}-char budget` : "";
     lines.push(`${dir}: ${t.skills} skill${t.skills === 1 ? "" : "s"}, ${t.alwaysOnChars} chars of always-on context${over}`);
     for (const r of report.skills.filter((x) => x.skillsDir === dir)) {
-      lines.push(`  ${MARK[r.verdict]} ${r.id.padEnd(28)} ${r.reasons.map((x) => x.text).join(" ")}${r.verdict !== "keep" ? `  (-${r.alwaysOnChars} chars)` : ""}`);
+      lines.push(`  ${MARK[r.verdict]} ${r.id.padEnd(31)} ${r.reasons.map((x) => x.text).join(" ")}${r.verdict !== "keep" ? `  (-${r.alwaysOnChars} chars)` : ""}`);
     }
     if (t.freed) lines.push(`  Removing the suggested ones frees ${t.freed} chars of always-on context.`);
   }

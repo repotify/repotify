@@ -30,7 +30,7 @@ node pipeline/run.mjs --out $RUN/out --work $RUN/work --cache $RUN/jury-cache.js
 4. **Duplicate names inside one repository.** `onsi/biloba` ships the same skill for Go and for Vitest
    (`plugins/biloba-go/skills/flake-hunt` and `plugins/biloba-vitest/skills/flake-hunt`).
 5. **OmniRoute.** The same day, the supply-chain audit found GHSA-hf57-cqmx-p4gr (critical, unauthenticated RCE) in the
-   `omniroute@3.8.50` package the catalog recommended. See `docs/audits/supply-chain-omniroute-3.8.50.md`.
+   `omniroute@3.8.50` package the catalog recommended. See `docs/reports/supply-chain-omniroute-3.8.50.md`.
 
 ### Fixes
 

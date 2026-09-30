@@ -5,7 +5,7 @@
   <img alt="Node 18 or newer" src="https://img.shields.io/badge/node-%E2%89%A518-F08A3C">
   <img alt="Zero runtime dependencies" src="https://img.shields.io/badge/dependencies-0-7AA8F5">
   <img alt="Status: preview" src="https://img.shields.io/badge/status-preview-C96DB0">
-  · <a href="README.tr.md">Türkçe</a> · <a href="README.zh-CN.md">简体中文</a>
+  · <a href="docs/i18n/README.tr.md">Türkçe</a> · <a href="docs/i18n/README.zh-CN.md">简体中文</a>
 </p>
 
 > ## 🤖 For AI agents
@@ -51,31 +51,38 @@ To run from source instead: `git clone --depth 1 https://github.com/repotify/rep
 
 ## See it in action
 
-Real output on a Next.js SaaS project, trimmed to fit ([full walkthrough](docs/example-nextjs.md)):
+Real output from a clean machine on a Vue dashboard that uses Stripe, exceljs and Playwright, trimmed to fit
+([full walkthrough](examples/nextjs-saas.md)):
 
 ```text
-$ repotify
+$ npx -y @repotify/repotify@latest
+Repotify 0.2.0
 Detected agent: claude-code
+Installed the repotify skill: .claude/skills/repotify
 Project fingerprint (local scan, code not read or sent):
-- Stacks: docker, nextjs, node, react, typescript, vercel
-- Tests: playwright, vitest | Data: prisma | LLM SDKs: openai
-- Inferred needs: auth, ci, deploy, e2e-testing, frontend-ui, llm-calls, payments, testing
+- Stacks: node, typescript, vue | Platforms: web
+- Tests: js-tests, playwright, vitest
+- Inferred needs: data-processing, e2e-testing, frontend-ui, office-docs, payments, testing (evidence: spreadsheets)
 
 $ repotify recommend
-Repotify candidates (★ = default set; context 4350/6000 chars)
-★ test-driven-development | skill | tdd-discipline    | 0.73 | ✓💎 | core
-★ react-best-practices    | skill | react-performance | 0.57 | ✓💎 | need:frontend-ui,stack:react,stack:nextjs
-★ webapp-testing          | skill | webapp-testing    | 0.56 | ✓💎 | cap:webapp-testing,need:e2e-testing
-★ context7                | mcp   | docs-lookup       | 0.42 | ✓   | cap:docs-lookup,need:llm-calls
-· playwright-mcp          | mcp   | browser-automation| 0.42 | ✓   | cap:browser-automation,need:e2e-testing
-  … 18 candidates in total, one per job
+Repotify candidates (★ = default set; ⚙ = hook or MCP server, the user enables it; context 3959/6000 chars)
+★ test-driven-development | skill  | tdd-discipline | 0.73 | ✓💎 | core
+★ repotify-guard          | config | package-guard  | 0.53 | ✓⚙  | core
+★ webapp-testing          | skill  | webapp-testing | 0.56 | ✓💎 | cap:webapp-testing,need:e2e-testing,need:testing
+★ xlsx                    | skill  | spreadsheets   | 0.49 | ⚠💎 | cap:spreadsheets
+· playwright-mcp          | mcp    | browser-automation | 0.42 | ✓⚙ | cap:browser-automation,need:e2e-testing
+  … one item per job; Excel evidence brings the spreadsheet skill, not Word or PowerPoint
 
-$ repotify install <default set> --yes
+$ repotify install <picked skills> --yes
 ✓ test-driven-development
-✓ react-best-practices
+✓ webapp-testing
+✓ xlsx ⚠
+• repotify-guard (hook) changes how the agent runs; the user enables it: npx -y @repotify/repotify@latest enable repotify-guard
+
+$ repotify enable repotify-guard          # the user, in their own terminal
+repotify-guard: Adds .claude/hooks/repotify-guard.mjs and a PreToolUse hook in .claude/settings.json. …
+Enable repotify-guard? [y/N] y
 ✓ repotify-guard → .claude/hooks/repotify-guard.mjs
-✓ context7 → .mcp.json
-• graphify (tool, run it yourself): 1) uv tool install graphifyy==0.9.71 2) graphify install
 ```
 
 ## How it works
@@ -89,9 +96,9 @@ flowchart LR
 
 1. **Knows your project without spending tokens.** A local script reads manifests and file names (never your code) and writes a ~400-token summary.
 2. **Asks only what it cannot infer.** At most three multiple-choice questions, and only when the project does not already answer them.
-3. **Picks from a vetted catalog.** Every item passed a rule-based security gate (plus an OSV advisory check for pinned packages). Every skill is also scored by a three-model LLM jury from three vendor families; tools and MCP servers are editorial picks. Items are clustered by capability so two items never do the same job.
+3. **Picks from a vetted catalog, by evidence.** Every item passed a rule-based security gate (plus an OSV advisory check for pinned packages). Every skill is also scored by a three-model LLM jury from three vendor families; tools and MCP servers are editorial picks. Dependencies narrow broad needs (Excel, not every office format), apps without a web target get no web-only skills, and an item joins the default set only if it covers something nothing else does.
 4. **Lets your agent judge.** The agent reads a short candidate table (under 900 tokens), keeps the mandatory core, and writes one sentence per item: why it matters for *your* project.
-5. **Installs safely.** Files come from a locked commit, are checked against catalog SHA-256 hashes, re-scanned on your machine, then written to your agent's folder and recorded in `repotify.lock.json`.
+5. **Installs safely.** Skill files come from a locked commit, are checked against catalog SHA-256 hashes, re-scanned on your machine, then written to your agent's folder and recorded in `repotify.lock.json`. Hooks and MCP servers change how your agent runs, so only you switch them on (`repotify enable`).
 
 The whole flow costs your agent about 4,700 tokens.
 
@@ -115,15 +122,30 @@ The agent is detected automatically; override with `--agent claude-code,cursor,c
 | `repotify fingerprint` | Project summary (`--json` for machines) |
 | `repotify questions` | Only the questions the fingerprint cannot answer |
 | `repotify recommend` | Conflict-free candidate table (`--type`, `--needs`, `--priorities`, `--budget`, `--json`) |
-| `repotify install <ids…> --yes` | Installs catalog items; caution items also need `--accept-caution` |
+| `repotify install <ids…> --yes` | Installs catalog skills; caution items also need `--accept-caution` |
+| `repotify enable <ids…>` | Switches on a hook or MCP server after showing the change; for you, not your agent |
+| `repotify audit` | Judges the skills already installed: keep, consider removing or remove, with the reason |
+| `repotify suggest` | Offers your own skill or repository to the catalog: a pre-filled form, nothing is sent |
 | `repotify remove <id>` | Removes something Repotify installed |
 | `repotify update --check` | Lists catalog updates for what you installed; `--apply` installs scanned updates |
 | `repotify scan <dir>` | Runs the security scanner on any skill folder |
-| `repotify guard --hook` | Package guard used as a Claude Code hook |
+
+## What Repotify changes on your machine
+
+| Command | Writes |
+|---|---|
+| `repotify` | Your agent's `skills/repotify/` folder and `repotify.lock.json`; nothing else |
+| `install` | Skill folders in your agent's skills directory, and the lock file |
+| `enable` | Only what it shows you first: a hook in `.claude/settings.json` or an entry in your agent's MCP config |
+| `recommend`, `audit`, `suggest`, `scan`, `fingerprint` | Nothing |
+
+It reads manifests and file names, never your code. It downloads the catalog, and skill files at pinned commits;
+tools are never executed for you. Your agent cannot switch hooks or MCP servers on by itself: `enable` asks in a
+terminal, and the skill tells agents to hand you the command.
 
 ## The mandatory core
 
-Every project gets a small core that makes any agent more disciplined: a codebase knowledge graph (Graphify), the Superpowers discipline skills (brainstorming, writing plans, test-driven development, systematic debugging, verification before completion), a security review of every diff, and the **Repotify package guard**, which stops installs of packages that do not exist and asks before brand-new ones (a common attack on agents that invent package names).
+Every project gets a small core that makes any agent more disciplined: a codebase knowledge graph (Graphify), the Superpowers discipline skills (brainstorming, writing plans, test-driven development, systematic debugging, verification before completion), a security review of every diff, and the **Repotify package guard**, which stops installs of packages that do not exist and asks before brand-new ones (a common attack on agents that invent package names). The guard is a hook, so you switch it on yourself with `repotify enable repotify-guard`.
 
 ## Security model
 
@@ -138,7 +160,7 @@ Every project gets a small core that makes any agent more disciplined: a codebas
 - The LLM jury can only add suspicion, never raise trust.
 - Third-party items are pinned to a commit and never update silently.
 - Tools (for example Graphify) are never executed for you; Repotify shows the steps.
-- Reports: [scanner results on real skills](docs/scan-corpus-report.md), [code reviews](docs/code-review-2026-09-28.md), [security audit](docs/security-audit.md). To report a problem, see [SECURITY.md](SECURITY.md).
+- Reports: [scanner results on real skills](docs/reports/scan-corpus-report.md), [code reviews](docs/reports/code-review-2026-09-28.md), [security audit](docs/reports/security-audit.md). To report a problem, see [SECURITY.md](SECURITY.md).
 
 ## The catalog
 
@@ -157,10 +179,10 @@ The maintainers rebuild the catalog through this pipeline, and your client alway
 
 | | |
 |---|---|
-| **300** | automated tests, on Node 18, 20 and 22 |
+| **100%** | expected items recommended across 42 project scenarios, with **0** wrong picks ([benchmarks](BENCHMARKS.md)) |
 | **37 / 37** | deliberately malicious samples caught |
-| **98.8%** | expected items recommended across 37 project scenarios |
 | **1.6%** | false alarms on 127 real-world skills |
+| **4** | Node.js versions tested on every push (18, 20, 22, 24) |
 | **0** | runtime dependencies |
 
 ## Privacy
@@ -176,11 +198,11 @@ install instruction.
 
 ## Status
 
-Preview (`0.1.0`), published on npm as `@repotify/repotify`. The CLI, the scanner, the installer for four agents, the package guard and the catalog pipeline work and are tested. Next: a larger catalog and anonymous analytics.
+Preview (`0.2.0`), published on npm as `@repotify/repotify`. The CLI, the scanner, the installer for four agents, the audit of installed skills, the package guard and the catalog pipeline work and are tested. Next: a larger catalog and anonymous analytics. How it is built: [ARCHITECTURE.md](ARCHITECTURE.md); how it is released: [RELEASING.md](RELEASING.md).
 
 ## Contributing
 
-- **Know a great skill?** [Suggest it for the catalog](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml); it goes through the same security gate and jury.
+- **Know a great skill, or wrote one?** Run `repotify suggest` in its repository, or [use the form](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml); it goes through the same security gate and jury.
 - **Found a false alarm or a bug?** See [SUPPORT.md](SUPPORT.md). Security problems go to a private advisory ([SECURITY.md](SECURITY.md)).
 - **Want to code?** Start with [CONTRIBUTING.md](CONTRIBUTING.md). What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
@@ -195,7 +217,7 @@ npm test          # unit, integration and end-to-end tests
 npm run eval      # recommendation quality on the scenario set
 ```
 
-The catalog pipeline lives in `pipeline/`; how to run and review it is in [docs/operations.md](docs/operations.md).
+The catalog pipeline lives in `pipeline/`; how to run and review it is in [docs/guides/operations.md](docs/guides/operations.md).
 
 ## License
 

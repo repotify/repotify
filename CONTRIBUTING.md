@@ -27,17 +27,22 @@ node bin/repotify.mjs scan skill/repotify   # our own skill must stay "verified"
 
 | Folder | What it holds |
 |---|---|
-| `bin/`, `src/` | The CLI: fingerprint, questions, recommendations, installers, update flow, package guard |
+| `bin/`, `src/` | The CLI: fingerprint, questions, recommendations, audit, suggestions, installers, update flow, package guard |
 | `src/scan/` | The security scanner (`rules.mjs`, `shell.mjs`, `files.mjs`) |
 | `catalog/` | The published catalog and its hashes (`meta.json`) |
 | `pipeline/` | Discovery, the security gate, the LLM jury and catalog publishing |
 | `skill/repotify/` | The skill Repotify installs into the user's agent |
 | `test/`, `eval/` | Tests, malicious and benign fixtures, evaluation scenarios |
+| `examples/` | Worked examples with real output |
+| `docs/` | Maintainer guide, reports, translations of the README |
 | `worker/` | The anonymous analytics endpoint (not deployed yet) |
+
+[ARCHITECTURE.md](ARCHITECTURE.md) explains how the pieces fit and where to add things.
 
 ## Rules for changes
 
 - **Tests first.** A bug fix starts with a failing test; a feature comes with tests for its edge cases.
+- **Documentation links are tested.** Keep relative links pointing at files that exist (`test/docs-links.test.mjs`).
 - **Zero runtime dependencies.** Use Node built-ins only.
 - **Scanner changes** need a malicious fixture for what they catch, a benign one for what they must not flag, and a
   corpus run (`node eval/scan-corpus.mjs <clones> --details`) that keeps the false-alarm rate at or below 5%. Regexes
@@ -45,7 +50,8 @@ node bin/repotify.mjs scan skill/repotify   # our own skill must stay "verified"
 - **The LLM jury may lower trust, never raise it.** No change may let model output make an item safer.
 - **Never commit keys or tokens.** CI secrets live in GitHub Actions secrets.
 - **Catalog files are generated.** Change `pipeline/seed-sources.json` or the pipeline, then rebuild; do not edit
-  `catalog/*.json` by hand (their hashes are checked).
+  `catalog/*.json` by hand (their hashes are checked). The taxonomy is the exception: edit `catalog/taxonomy.json`,
+  then run `node pipeline/rehash.mjs` and add an evaluation scenario for the change.
 
 ## Commits and pull requests
 

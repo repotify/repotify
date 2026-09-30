@@ -2,17 +2,19 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 const bin = fileURLToPath(new URL("../bin/repotify.mjs", import.meta.url));
+const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const run = (...args) => spawnSync(process.execPath, [bin, ...args], { encoding: "utf8" });
 
 test("--version prints the package version", () => {
   const r = run("--version");
   assert.equal(r.status, 0);
-  assert.equal(r.stdout, "0.1.0\n");
+  assert.equal(r.stdout, `${pkg.version}\n`);
+  assert.match(pkg.version, /^\d+\.\d+\.\d+$/);
 });
 
 test("unknown command exits 2 with a message", () => {

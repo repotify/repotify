@@ -3,7 +3,7 @@
 ## Repository
 
 Repotify lives at `repotify/repotify`. The catalog URL (`DEFAULT_CATALOG_URL` in `src/config.mjs`) and the clone
-instructions in `README.md`, `README.tr.md` and `AGENTS.md` point there; a fork must update them. `ci.yml` runs on every
+instructions in `README.md`, `docs/i18n/README.tr.md` and `AGENTS.md` point there; a fork must update them. `ci.yml` runs on every
 push; the catalog is rebuilt only by hand (see [Building the catalog](#building-the-catalog)).
 
 ## Building the catalog

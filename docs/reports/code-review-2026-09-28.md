@@ -11,7 +11,7 @@ after both rounds. Most fixes are pinned by a test named after the finding (`gre
 
 After both rounds: tests 300/300 on Node 22 (294 plus 6 skipped `node:sqlite` tests on Node 18 and 20), evaluation 80/81
 must-include hits with 0 violations, real-corpus blocked rate 6.3% (2 of the 8 blocked skills are false alarms; see
-`docs/scan-corpus-report.md`).
+`docs/reports/scan-corpus-report.md`).
 
 ## Critical
 
@@ -31,7 +31,7 @@ must-include hits with 0 violations, real-corpus blocked rate 6.3% (2 of the 8 b
 | I5 | Jury summaries of discovered items were published unchecked (second-order prompt injection). | Summaries with links, code or shell syntax, or with any scanner finding, are declined. |
 | I6 | An item the scanner passed could not be pulled, although SECURITY.md promised quarantine. | `pipeline/denylist.json` (repo, optional path and commit) quarantines items before publishing. |
 | I7 | The npm name `repotify` is unclaimed, yet every instruction started with `npx -y repotify@latest`. | README, README.tr, AGENTS.md and SKILL.md are clone-first until the package is published. The launcher actually used is recorded in the lock, and the skill and hook call it. **Still open for the maintainer: reserve the npm name.** |
-| I8 | The real-run report was missing, the README claimed a jury score for items that had none, and the design notes were incomplete. | `docs/pipeline-run-2026-09-28.md` has been added. All 24 bundled skills now carry three-juror verdicts. The README says tools and MCP servers are editorial picks that only the gate checks. The deviations section of the plan was completed. |
+| I8 | The real-run report was missing, the README claimed a jury score for items that had none, and the design notes were incomplete. | `docs/reports/pipeline-run-2026-09-28.md` has been added. All 24 bundled skills now carry three-juror verdicts. The README says tools and MCP servers are editorial picks that only the gate checks. The deviations section of the plan was completed. |
 | I9 | Words such as "example", quotes or inline code on the same line demoted critical findings in Markdown. | A documentation word must come before the match, or the match must be quoted. Inline code alone and shell fences never demote. Descriptive security vocabulary keeps attack write-ups at caution. `agentic-actions-auditor` is now rejected for attack prose in a reference file and left the catalog (see the corpus report). |
 
 ## Minor
@@ -95,7 +95,7 @@ new rules. Verdict: **with fixes**. Every item below is fixed and pinned by
 | M-h | `inInlineCode` was dead code. | Removed. |
 | M-i | npm aliases were looked up by alias name; only the project `.npmrc` was read. | Aliases resolve to the real package; `~/.npmrc` scopes are respected. |
 
-Plan issue raised by the reviewer: an implementing agent must not approve its own exceptions. `docs/operations.md` now
+Plan issue raised by the reviewer: an implementing agent must not approve its own exceptions. `docs/guides/operations.md` now
 says approvals in `pipeline/reviewed.json` are a maintainer's decision, and none is present.
 
 ## Declined by the reviewers

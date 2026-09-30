@@ -1,4 +1,4 @@
-# Catalog build, started by hand: Actions → catalog-build → Run workflow (see docs/operations.md).
+# Catalog build, started by hand: Actions → catalog-build → Run workflow (see docs/guides/operations.md).
 # Two jobs on purpose: `build` holds the LLM keys but can only read the repository;
 # `publish` can push but never sees an LLM key. Every action is pinned to a commit SHA.
 name: catalog-build

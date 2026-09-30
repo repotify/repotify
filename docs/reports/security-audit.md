@@ -42,7 +42,7 @@ nothing must not report that nothing is wrong." The package declares no `depende
 
 ### OmniRoute 3.8.50 (catalog pipeline, optional jury fallback)
 
-Full report: `docs/audits/supply-chain-omniroute-3.8.50.md` (1,241 registry-verified packages in the lockfile).
+Full report: `docs/reports/supply-chain-omniroute-3.8.50.md` (1,241 registry-verified packages in the lockfile).
 
 - `omniroute` 3.8.50 is affected by **GHSA-hf57-cqmx-p4gr** ("OmniRoute ACP Custom-Agent Remote Code
   Execution (RCE)", CVSS 4.0 vector `AV:N/AC:L/AT:P/PR:N/UI:N`, severity CRITICAL). OSV lists
