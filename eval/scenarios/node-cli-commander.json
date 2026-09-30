@@ -1,0 +1,31 @@
+{
+  "name": "node-cli-commander",
+  "note": "Node command-line tool built with commander.",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "node",
+      "typescript"
+    ],
+    "inferredNeeds": [
+      "testing"
+    ],
+    "frameworks": [
+      "commander"
+    ],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "property-based-testing",
+    "supply-chain-risk-auditor"
+  ],
+  "mustNotInclude": [
+    "webapp-testing",
+    "react-best-practices",
+    "frontend-design"
+  ]
+}

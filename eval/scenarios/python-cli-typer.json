@@ -1,0 +1,31 @@
+{
+  "name": "python-cli-typer",
+  "note": "Python command-line tool built with Typer (on Click).",
+  "fingerprint": {
+    "empty": false,
+    "stacks": [
+      "python"
+    ],
+    "inferredNeeds": [
+      "testing"
+    ],
+    "frameworks": [
+      "click",
+      "typer"
+    ],
+    "agents": {
+      "configured": [],
+      "skills": []
+    }
+  },
+  "answers": {},
+  "mustInclude": [
+    "property-based-testing",
+    "supply-chain-risk-auditor"
+  ],
+  "mustNotInclude": [
+    "webapp-testing",
+    "react-best-practices",
+    "frontend-design"
+  ]
+}
