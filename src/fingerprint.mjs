@@ -6,6 +6,8 @@ import { DEP_MAP, FILE_MAP, LANG_BY_EXT, LANG_STACK, FRONTEND_STACKS } from "./s
 const SKIP_DIRS = new Set([
   "node_modules", ".git", "dist", "build", "out", ".next", ".nuxt", ".svelte-kit", ".venv", "venv", "env",
   "__pycache__", "target", "vendor", ".turbo", "coverage", ".cache", ".gradle", "Pods", ".dart_tool", ".idea",
+  // Other projects kept inside this one (test fixtures, examples, templates): their manifests describe them, not it.
+  "fixtures", "__fixtures__", "testdata", "test-data", "examples", "example", "samples", "templates",
 ]);
 const MANIFESTS = new Set(["package.json", "pyproject.toml", "Pipfile", "go.mod", "Cargo.toml", "Gemfile", "composer.json", "pubspec.yaml"]);
 const SKILL_DIRS = [".claude/skills", ".cursor/skills", ".agents/skills", ".gemini/skills"];

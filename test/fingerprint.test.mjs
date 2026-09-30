@@ -117,3 +117,17 @@ test("formatFingerprint stays within 1400 characters", async () => {
     assert.match(text, /Stacks:/);
   }
 });
+
+test("projects kept inside the project (fixtures, examples, templates) do not change its stacks", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "repotify-fp-"));
+  writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "cli-tool", bin: "cli.mjs" }));
+  for (const sub of ["test/fixtures/web", "examples/next-demo", "templates/flutter-app", "internal/testdata/py"]) mkdirSync(join(dir, sub), { recursive: true });
+  writeFileSync(join(dir, "test/fixtures/web/package.json"), JSON.stringify({ dependencies: { react: "19.0.0", stripe: "17.0.0" } }));
+  writeFileSync(join(dir, "examples/next-demo/package.json"), JSON.stringify({ dependencies: { next: "15.0.0" } }));
+  writeFileSync(join(dir, "templates/flutter-app/pubspec.yaml"), "name: x\ndependencies:\n  flutter:\n    sdk: flutter\n");
+  writeFileSync(join(dir, "internal/testdata/py/requirements.txt"), "fastapi\n");
+  const f = await fingerprint(dir);
+  assert.deepEqual(f.stacks, ["node"]);
+  assert.deepEqual(f.inferredNeeds, []);
+  assert.deepEqual(f.platforms, []);
+});
