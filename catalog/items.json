@@ -98,6 +98,99 @@
     ],
     "badges": [],
     "capabilities": [
+      "design-brainstorming",
+      "component-architecture",
+      "implementation-planning"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 203,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "75a1d0df12641ef02803a1c8dba1e079f0b4cd7b238dd53ab4c257fad5b49e93"
+      },
+      {
+        "path": "references/error-handling.md",
+        "sha256": "f4f53b35360da99e4abd5edc86e53d1a34adc77f5172fa7ba8c50acff8df9c87"
+      },
+      {
+        "path": "references/openapi.md",
+        "sha256": "cef05ac175cb3f69e3ff247fba5b05838229d3644ad7f9f4e53b1eff1750988f"
+      },
+      {
+        "path": "references/pagination.md",
+        "sha256": "6f12180b54539525048610ab2cbc22a3c09792623f4b64be85b4cb335213ea6b"
+      },
+      {
+        "path": "references/rest-patterns.md",
+        "sha256": "d1d493065f10387a5c9198ea5c0c1d45c7757daf188aff763e582f342c8ce21b"
+      },
+      {
+        "path": "references/versioning.md",
+        "sha256": "7abc655037778fbf09a575f7b245a18710d49a11e340ca0eee62e97fcd76a034"
+      }
+    ],
+    "id": "api-designer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "api-designer",
+    "needs": [
+      "docs-writing",
+      "security"
+    ],
+    "path": "skills/api-designer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides detailed guidance and templates for designing REST/GraphQL APIs with OpenAPI 3.1, including resource modeling, endpoint design, er…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "component-architecture",
       "implementation-planning"
     ],
@@ -288,6 +381,102 @@
     ],
     "summary": "Turns a rough idea into an approved design through focused questions and trade-offs before any code is written.",
     "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming",
+      "implementation-planning",
+      "security-review"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 402,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "ddf5e3ca3d9092f869df140696856ccf3a555e0d01550d1f0fef9c3f935a8f3e"
+      },
+      {
+        "path": "references/aws.md",
+        "sha256": "9287e5abec7fe478a98ecc3a4e3808c91e09daa395c51e3b7cea976f15bf7c92"
+      },
+      {
+        "path": "references/azure.md",
+        "sha256": "46bc118a0baf8143a291a2455d53c1fa415b9f71e2fedcc11c5093c0191e1d90"
+      },
+      {
+        "path": "references/cost.md",
+        "sha256": "bafaaa1ea6c51648d06e1d34cdb5afdcb26dc136054f0424c0cd8a2071548abf"
+      },
+      {
+        "path": "references/gcp.md",
+        "sha256": "963b2cc473222b423e98b8d0bf08394847d759b6a39929c27059ca30c261b8ff"
+      },
+      {
+        "path": "references/multi-cloud.md",
+        "sha256": "b60a27e9ec7e6304e1ba85af4fd1dc451527efd48b97b55209cc44f244c6baa2"
+      }
+    ],
+    "id": "cloud-architect",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.825,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.7
+    },
+    "license": "MIT",
+    "name": "cloud-architect",
+    "needs": [
+      "agent-skills",
+      "deploy",
+      "docs-writing",
+      "security",
+      "ci"
+    ],
+    "path": "skills/cloud-architect",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides a comprehensive framework for designing, migrating, optimizing, and securing multi‑cloud architectures across AWS, Azure, and GCP,…",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -1359,6 +1548,102 @@
     ],
     "badges": [],
     "capabilities": [
+      "component-architecture",
+      "debugging-method",
+      "static-analysis"
+    ],
+    "cluster": "component-architecture",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 296,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "16845321aee2bf735be7fec4cbbd0f397e210ac6fec77f151277c5cae87c5d07"
+      },
+      {
+        "path": "references/communication-protocols.md",
+        "sha256": "c11b9462c6bdc07aa82fe9a0d7c991e84c80416351328efb8006b33580e7da32"
+      },
+      {
+        "path": "references/memory-optimization.md",
+        "sha256": "573eb22555200e5446dbf0c69bbb9c31b0e1e8c8f5061fc3cdd7c96a7b8668a6"
+      },
+      {
+        "path": "references/microcontroller-programming.md",
+        "sha256": "d35352d4e3a0d573e2f10037895c0658dbf44a710b6c57777ce10080ec1a1ce6"
+      },
+      {
+        "path": "references/power-optimization.md",
+        "sha256": "935d9bb0d93e8935479beff2eb986fac4538d965ad0dddb43bee6a48b05466a9"
+      },
+      {
+        "path": "references/rtos-patterns.md",
+        "sha256": "feab7e2d9a8026c602ea92cb0ac4d6ad47714291d373ab18201979b7ac4f2931"
+      }
+    ],
+    "id": "embedded-systems",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "embedded-systems",
+    "needs": [
+      "agent-skills",
+      "dependencies",
+      "docs-writing",
+      "testing",
+      "performance"
+    ],
+    "path": "skills/embedded-systems",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "cpp"
+    ],
+    "summary": "Embedded systems skill for firmware, RTOS, microcontroller programming, power optimization, peripheral drivers, interrupt handling, DMA, an…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "fastapi-expertise"
     ],
     "cluster": "fastapi-expertise",
@@ -1466,7 +1751,8 @@
       "votes": 0
     },
     "conflicts": [
-      "ml-pipeline"
+      "ml-pipeline",
+      "the-fool"
     ],
     "descriptionChars": 403,
     "files": [
@@ -2896,7 +3182,8 @@
       "votes": 0
     },
     "conflicts": [
-      "feature-forge"
+      "feature-forge",
+      "the-fool"
     ],
     "descriptionChars": 604,
     "files": [
@@ -2966,6 +3253,115 @@
       "python"
     ],
     "summary": "Designs and implements production-grade ML pipeline infrastructure including experiment tracking, orchestration, feature stores, and model …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "debugging-method",
+      "webapp-testing"
+    ],
+    "cluster": "debugging-method",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 537,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "dc69392186b8cc9b3db6e66bb3b8c5fd11f2483e346b544e77dbb3cb09488d01"
+      },
+      {
+        "path": "references/alerting-rules.md",
+        "sha256": "0b8d94c81c09ce121ad00e399f204db9d7603ea08277e7587cbf2965940bb8c1"
+      },
+      {
+        "path": "references/application-profiling.md",
+        "sha256": "db873957f8268ca329e86bdc216de556be68ff231d8b4147b65168333af5a51f"
+      },
+      {
+        "path": "references/capacity-planning.md",
+        "sha256": "8f9cdd499931ab20fffbc89f7325ba3b1336463fbfacaf6d7bb754fc40a9c716"
+      },
+      {
+        "path": "references/dashboards.md",
+        "sha256": "283607d4b1b94c4abdb8d1ed09668442ea048620f741127367ae52c9cacbcc9c"
+      },
+      {
+        "path": "references/opentelemetry.md",
+        "sha256": "2f2cf89ca63ed14f9db16a64865e31114134de10e5f9e45ea598a51acaf4623c"
+      },
+      {
+        "path": "references/performance-testing.md",
+        "sha256": "35ba1c05287ccb5fe6b2f62704cd9b99a90a6882c6bc94b8873af54f9f86dc55"
+      },
+      {
+        "path": "references/prometheus-metrics.md",
+        "sha256": "f1c5d9271a599d5e34ac5e06ee2efddd20d08fc327f08a44722da1e51563321e"
+      },
+      {
+        "path": "references/structured-logging.md",
+        "sha256": "2d17ee1782d39cd07add6961dcba3ee24bd8a6fc0d88e7a8643941b433fdcf80"
+      }
+    ],
+    "id": "monitoring-expert",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "MIT",
+    "name": "monitoring-expert",
+    "needs": [
+      "dependencies",
+      "testing",
+      "performance",
+      "security"
+    ],
+    "path": "skills/monitoring-expert",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "node",
+      "typescript",
+      "python"
+    ],
+    "summary": "Implements monitoring, logging, metrics, tracing, alerting, load testing, profiling, and capacity planning.",
     "tier": "mission",
     "type": "skill"
   },
@@ -3059,6 +3455,108 @@
     ],
     "summary": "Provides detailed guidance and code templates for building secure, testable NestJS modules, controllers, services, DTOs, guards, and interc…",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "component-architecture",
+      "implementation-planning",
+      "react-performance",
+      "deploy-vercel",
+      "frontend-design"
+    ],
+    "cluster": "component-architecture",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 492,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a8631cf7789732d8f9924ec763d5f9b99ddb35b793929a2d067a72088c96de70"
+      },
+      {
+        "path": "references/app-router.md",
+        "sha256": "6ad5dcb2db0c98b13e87846936670c861da27346edebe75bf096cb08b78f6330"
+      },
+      {
+        "path": "references/data-fetching.md",
+        "sha256": "abbea7c3351c7ad77ca820e48e6f27cd68f29638b82e39dc65560a75f5151255"
+      },
+      {
+        "path": "references/deployment.md",
+        "sha256": "ff554f01556c5c07125e9931dee8645461fae9b42f172d84107f2f492035b06c"
+      },
+      {
+        "path": "references/server-actions.md",
+        "sha256": "c708b825296d525744e517d630402d7d73fb64df7db02882f0107a1abc4cb549"
+      },
+      {
+        "path": "references/server-components.md",
+        "sha256": "c03e919c56f4588840cd4141e015f900fa6993567d3720d4736e3a3063663cc9"
+      }
+    ],
+    "id": "nextjs-developer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8500000000000001,
+      "models": [
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.875,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "nextjs-developer",
+    "needs": [
+      "agent-skills",
+      "frontend-ui",
+      "deploy",
+      "docs-writing",
+      "seo",
+      "performance"
+    ],
+    "path": "skills/nextjs-developer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "react",
+      "typescript",
+      "nextjs",
+      "vercel"
+    ],
+    "summary": "Provides detailed guidance for building and deploying Next.js 14+ apps with App Router, server components, server actions, SEO, and Vercel …",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -5004,6 +5502,95 @@
       "gemini-cli",
       "generic"
     ],
+    "badges": [],
+    "capabilities": [
+      "codebase-map",
+      "static-analysis"
+    ],
+    "cluster": "codebase-map",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 574,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "0deb55afcc6c776497cec782d1590474242a5f6ab70b4db2a4a8ed2b2fe2a6fd"
+      },
+      {
+        "path": "references/analysis-checklist.md",
+        "sha256": "8334f60727e76fc84f969e061a274442db4ca1a1de7615c73ee3c53ca8ed6c14"
+      },
+      {
+        "path": "references/analysis-process.md",
+        "sha256": "6581c95ad9fbb044647c442b3882b241a00c49cf3bb93ca5fc4afff82f06ff84"
+      },
+      {
+        "path": "references/ears-format.md",
+        "sha256": "5b16a62c5435fac00d582bb727f18b1cad6b5984e1b47d8dfad2da2e22ecc7ed"
+      },
+      {
+        "path": "references/specification-template.md",
+        "sha256": "143b0dd19d3ed37122ce0f0b9612b85de89df05e06130027b4a0b4860090f73b"
+      }
+    ],
+    "id": "spec-miner",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "spec-miner",
+    "needs": [
+      "large-codebase",
+      "docs-writing"
+    ],
+    "path": "skills/spec-miner",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Reverse-engineers specifications from existing codebases by mapping structure, tracing data flows, and documenting observed behavior in EAR…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
     "badges": [
       "caution"
     ],
@@ -5407,6 +5994,199 @@
     ],
     "summary": "Enforces red-green-refactor: no production code without a failing test first.",
     "tier": "core",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "workflow-meta",
+      "code-review",
+      "verification-gate"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "feature-forge",
+      "ml-pipeline"
+    ],
+    "descriptionChars": 191,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "adc3352be9a0b6a2b0ea26f0c080d68415e02a60c720099af5ca751e28cbbdce"
+      },
+      {
+        "path": "references/dialectic-synthesis.md",
+        "sha256": "9c28a1ed00432e8a217f7a4d05c7cf0a649c4c137d2c99d1bac7276569f47e5a"
+      },
+      {
+        "path": "references/evidence-audit.md",
+        "sha256": "9e39b8c7f09c099ab0eda536524dee0d4091f57b9d9aeb35576645a84f3e0728"
+      },
+      {
+        "path": "references/mode-selection-guide.md",
+        "sha256": "e578e48d97a91b4032d254746c5857d9442d077dc12d929fd564815d6f138c26"
+      },
+      {
+        "path": "references/pre-mortem-analysis.md",
+        "sha256": "298c2db8f93deb8fb586f89583ecd563d3ec5ac8836d3e25790952f86e8717de"
+      },
+      {
+        "path": "references/red-team-adversarial.md",
+        "sha256": "bc9a3ebf335b56b64207bc9ca2e672c409f3cab32d9373e4f6375ad59e677fb2"
+      },
+      {
+        "path": "references/socratic-questioning.md",
+        "sha256": "88b0567e0cee8a7356adcdb312e5e76a39792add097298131be079161980ae3f"
+      }
+    ],
+    "id": "the-fool",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8500000000000001,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8500000000000001
+    },
+    "license": "MIT",
+    "name": "the-fool",
+    "needs": [
+      "agent-skills",
+      "docs-writing"
+    ],
+    "path": "skills/the-fool",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides structured critical reasoning to challenge ideas, plans, or decisions using five modes like Socratic questioning, red teaming, and…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "static-analysis",
+      "code-review"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 329,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "5f5bc47c167f0485c01a3b5a14b9999141b1e7c54e7775aecf73ad16f114c066"
+      },
+      {
+        "path": "references/advanced-types.md",
+        "sha256": "273042ee8dba7fe809085856cea8e71eaa363d2cd19d2ba021d852d971777f20"
+      },
+      {
+        "path": "references/configuration.md",
+        "sha256": "4ba4a37687c20a4936b4db872fea1cbeac31ec6ee19c9b959c9d475d255f0b5b"
+      },
+      {
+        "path": "references/patterns.md",
+        "sha256": "1a3cec402f39c71b8fe6004b98b85c134d09bbed8141c82b86b9109b238e8ddd"
+      },
+      {
+        "path": "references/type-guards.md",
+        "sha256": "4d6c898d2a7dc2d4d3e762969c9a01d158301147153a6692c84e76db37d714b3"
+      },
+      {
+        "path": "references/utility-types.md",
+        "sha256": "10e11832c61564f63ee240fa8cca40c1dc32f9a27cde09c750077b0ec248efba"
+      }
+    ],
+    "id": "typescript-pro",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "typescript-pro",
+    "needs": [
+      "dependencies"
+    ],
+    "path": "skills/typescript-pro",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Implements advanced TypeScript type systems, custom type guards, utility types, branded types, and tRPC configuration for type safety.",
+    "tier": "mission",
     "type": "skill"
   },
   {
