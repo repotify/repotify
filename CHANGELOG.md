@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Scanner: a long line with many downloads is scanned about four times faster. Each command is read once instead of
+  once per earlier download, so the linear-time test passes on slower machines and on Node 18, where CI was failing.
+- README (all three languages) and AGENTS.md: the npm package is the primary install path; cloning stays as the
+  from-source option. The agent block is phrased as a request from the user, not an order, and says that nothing
+  beyond the skill is installed without the user's approval.
+- `.gitignore` covers `.env` files, `.npmrc` and `*.pem`, so local keys are not committed by `git add -A`.
+
 ## 0.1.0 (2026-09-29)
 
 First public preview. The npm package is `@repotify/repotify`; the command is `repotify`.

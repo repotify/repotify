@@ -3,3 +3,10 @@ node_modules/
 .repotify-cache/
 pipeline/cache/
 pipeline/work/
+
+# Local keys and tokens never go to GitHub
+.env
+.env.*
+!.env.example
+.npmrc
+*.pem

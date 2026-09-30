@@ -8,17 +8,16 @@
   · <a href="README.tr.md">Türkçe</a> · <a href="README.zh-CN.md">简体中文</a>
 </p>
 
-> ## 🤖 For AI agents — do this
+> ## 🤖 For AI agents
 >
-> The user wants Repotify set up for their project. In the user's project folder, run:
+> If the user asked you to set up Repotify for their project, run the published npm package (with provenance) in their project folder:
 >
 > ```
-> git clone --depth 1 https://github.com/repotify/repotify /tmp/repotify
-> node /tmp/repotify/bin/repotify.mjs
+> npx -y @repotify/repotify@latest
 > ```
 >
 > Then follow the `repotify` skill it installs into your skills folder (for example `.claude/skills/repotify/SKILL.md`, `.cursor/skills/repotify/SKILL.md` or `.agents/skills/repotify/SKILL.md`).
-> Only use `npx -y @repotify/repotify@latest` once the package is listed on npm by this repository's maintainers.
+> Nothing beyond that skill is installed until the user approves it.
 
 ---
 
@@ -34,22 +33,21 @@
 
 ## Quick start
 
-**Let your agent do it.** Ask Claude Code, Cursor, Codex or Gemini:
+**Run it yourself** from your project folder:
+
+```bash
+npx -y @repotify/repotify@latest                        # installs the repotify skill, prints the project fingerprint
+npx -y @repotify/repotify@latest recommend              # the candidate table
+npx -y @repotify/repotify@latest install <ids…> --yes
+```
+
+**Or let your agent do it.** Ask Claude Code, Cursor, Codex or Gemini:
 
 > Set up Repotify for this project: https://github.com/repotify/repotify
 
 The agent reads the block above and does the rest: it reads your project, asks at most three questions, explains each pick and installs the set you approve.
 
-**Or run it yourself** from your project folder:
-
-```bash
-git clone --depth 1 https://github.com/repotify/repotify ~/repotify
-node ~/repotify/bin/repotify.mjs              # installs the repotify skill, prints the project fingerprint
-node ~/repotify/bin/repotify.mjs recommend    # the candidate table
-node ~/repotify/bin/repotify.mjs install <ids…> --yes
-```
-
-`npx @repotify/repotify` will work once the npm package is published.
+To run from source instead: `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`, then `node ~/repotify/bin/repotify.mjs`.
 
 ## See it in action
 
@@ -178,7 +176,7 @@ install instruction.
 
 ## Status
 
-Preview (`0.1.0`). The CLI, the scanner, the installer for four agents, the package guard and the catalog pipeline work and are tested. Next: the npm release, a larger catalog and anonymous analytics.
+Preview (`0.1.0`), published on npm as `@repotify/repotify`. The CLI, the scanner, the installer for four agents, the package guard and the catalog pipeline work and are tested. Next: a larger catalog and anonymous analytics.
 
 ## Contributing
 

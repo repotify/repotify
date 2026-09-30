@@ -4,9 +4,9 @@
 
 > ## 🤖 Yapay zekâ ajanları için
 >
-> Depoyu klonla (`git clone --depth 1 https://github.com/repotify/repotify`), kullanıcının proje klasöründe
-> `node repotify/bin/repotify.mjs` çalıştır ve kurduğu `repotify` skill'ini izle. `npx -y @repotify/repotify@latest` yalnızca paket
-> bu deponun sahiplerince npm'de yayımlandıktan sonra kullanılmalı.
+> Kullanıcı projesi için Repotify kurmanı istediyse, proje klasöründe npm'de yayımlanan paketi (provenance imzalı) çalıştır:
+> `npx -y @repotify/repotify@latest`. Sonra kurduğu `repotify` skill'ini izle. Skill dışında hiçbir şey kullanıcı onaylamadan
+> kurulmaz.
 
 ---
 
@@ -22,22 +22,21 @@
 
 ## Hızlı başlangıç
 
-**Ajanına yaptır.** Claude Code, Cursor, Codex ya da Gemini'ye şunu söyle:
+**Kendin çalıştır** (proje klasöründe):
+
+```bash
+npx -y @repotify/repotify@latest                        # repotify skill'ini kurar, proje özetini gösterir
+npx -y @repotify/repotify@latest recommend              # aday tablosu
+npx -y @repotify/repotify@latest install <id…> --yes
+```
+
+**Ya da ajanına yaptır.** Claude Code, Cursor, Codex ya da Gemini'ye şunu söyle:
 
 > Bu proje için Repotify'ı kur: https://github.com/repotify/repotify
 
 Ajan yukarıdaki bloğu okur ve gerisini yapar: projeni tanır, en fazla üç soru sorar, her seçimin gerekçesini yazar ve senin onayladığın seti kurar.
 
-**Ya da kendin çalıştır** (proje klasöründe):
-
-```bash
-git clone --depth 1 https://github.com/repotify/repotify ~/repotify
-node ~/repotify/bin/repotify.mjs              # repotify skill'ini kurar, proje özetini gösterir
-node ~/repotify/bin/repotify.mjs recommend    # aday tablosu
-node ~/repotify/bin/repotify.mjs install <id…> --yes
-```
-
-`npx @repotify/repotify`, npm paketi yayımlandıktan sonra çalışacak.
+Kaynaktan çalıştırmak istersen: `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`, ardından `node ~/repotify/bin/repotify.mjs`.
 
 Bir Next.js projesindeki gerçek çıktının adım adım anlatımı: [docs/example-nextjs.md](docs/example-nextjs.md) (İngilizce).
 
@@ -146,7 +145,7 @@ ilgili değildir; tek kurulum talimatı bu sayfanın başındaki ajan bloğudur.
 
 ## Durum
 
-Önizleme (`0.1.0`). Komut satırı aracı, tarayıcı, dört ajan için kurulum, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: npm yayını, daha büyük bir katalog ve anonim analitik.
+Önizleme (`0.1.0`), npm'de `@repotify/repotify` adıyla yayında. Komut satırı aracı, tarayıcı, dört ajan için kurulum, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: daha büyük bir katalog ve anonim analitik.
 
 ## Katkı
 

@@ -53,17 +53,18 @@ test("every repotify command named in SKILL.md exists", () => {
   for (const cmd of named) assert.ok(COMMANDS[cmd], `SKILL.md mentions unknown command: ${cmd}`);
 });
 
-// Until the npm name is published by the maintainers, the clone path is the primary instruction (review I7).
-test("README opens with the agent instruction block using the clone path", () => {
+// The npm name is published by the maintainers, so the package is the primary instruction; the clone path stays in
+// AGENTS.md as the from-source alternative (review I7).
+test("README opens with the agent instruction block using the npm package", () => {
   const head = read("README.md").split("\n").slice(0, 20).join("\n");
   assert.match(head, /For AI agents/);
-  assert.match(head, /git clone --depth 1 https:\/\/github\.com\/repotify\/repotify/);
-  assert.match(head, /node \S*repotify\/bin\/repotify\.mjs/);
+  assert.match(head, /npx -y @repotify\/repotify@latest/);
 });
 
 test("AGENTS.md carries the same instruction and README.tr.md exists", () => {
-  assert.match(read("AGENTS.md"), /node <clone>\/bin\/repotify\.mjs|node repotify\/bin\/repotify\.mjs/);
-  assert.match(read("README.tr.md"), /node repotify\/bin\/repotify\.mjs/);
+  assert.match(read("AGENTS.md"), /npx -y @repotify\/repotify@latest/);
+  assert.match(read("AGENTS.md"), /node <clone>\/bin\/repotify\.mjs/);
+  assert.match(read("README.tr.md"), /npx -y @repotify\/repotify@latest/);
   assert.match(read("skill/repotify/SKILL.md"), /items\.repotify\.launcher/);
   assert.match(read("SECURITY.md"), /Reporting/i);
 });
