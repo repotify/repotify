@@ -128,3 +128,15 @@ test("M1: in the home folder repotify does not install itself or write a lock", 
   assert.equal(existsSync(join(home, ".claude/skills/repotify")), false);
   assert.equal(existsSync(join(home, "repotify.lock.json")), false);
 });
+
+test("the first install that writes something thanks the user once, and never again", () => {
+  const cwd = project();
+  const home = join(cwd, ".home");
+  const env = { CLAUDECODE: "1", REPOTIFY_HOME: home };
+  const first = run(cwd, ["install", "graphify", "--yes"], env); // a tool: nothing is downloaded
+  assert.equal(first.status, 0, first.stderr);
+  assert.match(first.stdout, /A star on GitHub helps other developers find it/);
+  const second = run(cwd, ["install", "graphify", "--yes"], env);
+  assert.equal(second.status, 0, second.stderr);
+  assert.doesNotMatch(second.stdout, /A star on GitHub/);
+});

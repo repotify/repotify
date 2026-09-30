@@ -39,8 +39,9 @@ Smarter picks, an audit of what is already installed, and a setup your agent's s
   page per language with hreflang, Open Graph, Twitter cards and JSON-LD, a sitemap, no trackers and no framework
   (`site/`, deployed by `.github/workflows/pages.yml`).
 - A new look: the logo is a pair of code braces drawn as headphones around a play button; the README and the website
-  are black and terminal-style, with the tagline "Every skill your repo needs. Nothing it doesn't." The website uses
-  JetBrains Mono and shows a roadmap instead of test figures.
+  are black and terminal-style, with the tagline "Thousands of agent skills. The right ones for your repo." The README
+  is short, with the details in `docs/GUIDE.md`; the website uses JetBrains Mono and shows a roadmap.
+- After the first install that writes something, the CLI thanks the user once and points to the GitHub star button.
 - The fingerprint ignores test fixtures, examples and templates inside a project (Repotify's own repository looked
   like a 14-stack project). Repotify develops itself with its own recommendations; three project subagents live in
   `.claude/agents/`.

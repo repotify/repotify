@@ -268,9 +268,19 @@ async function cmdInstall(args, io) {
     ...(done.length ? [{ type: "installed", items: done, catalogVersion: catalog.meta.version }] : []),
   ]);
   if (args.flags.json) out(io, JSON.stringify({ agents, catalogVersion: catalog.meta.version, results }, null, 2));
-  else out(io, formatInstallSummary({ agents, results, notice }));
+  else {
+    out(io, formatInstallSummary({ agents, results, notice }));
+    // Once per machine, after the first install that wrote something: a one-line thank-you, never repeated.
+    const env = io.env ?? process.env;
+    if (done.length && !readConfig(env).starHintShown) {
+      out(io, `\n${STAR_HINT}`);
+      writeConfig(env, { starHintShown: true });
+    }
+  }
   return results.some((r) => !r.ok) ? 1 : 0;
 }
+
+export const STAR_HINT = "★ Did Repotify help? A star on GitHub helps other developers find it: https://github.com/repotify/repotify";
 
 function describeChange(item, preview) {
   if (item.type === "mcp") {
