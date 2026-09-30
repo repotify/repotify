@@ -4,5 +4,5 @@ contact_links:
     url: https://github.com/repotify/repotify/security/advisories/new
     about: Vulnerabilities and malicious catalog items go here, privately. Please do not open a public issue.
   - name: Getting help
-    url: https://github.com/repotify/repotify/blob/main/SUPPORT.md
+    url: https://github.com/repotify/repotify/blob/main/.github/SUPPORT.md
     about: Where to ask questions and how to write a report that gets fixed fast.

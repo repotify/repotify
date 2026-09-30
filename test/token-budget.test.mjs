@@ -66,7 +66,7 @@ test("AGENTS.md carries the same instruction and docs/i18n/README.tr.md exists",
   assert.match(read("AGENTS.md"), /node <clone>\/bin\/repotify\.mjs/);
   assert.match(read("docs/i18n/README.tr.md"), /npx -y @repotify\/repotify@latest/);
   assert.match(read("skill/repotify/SKILL.md"), /items\.repotify\.launcher/);
-  assert.match(read("SECURITY.md"), /Reporting/i);
+  assert.match(read(".github/SECURITY.md"), /Reporting/i);
 });
 
 test("our own agent-facing files pass our scanner", () => {

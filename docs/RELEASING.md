@@ -4,7 +4,7 @@ Releases go to npm as `@repotify/repotify`, with provenance, from GitHub Actions
 
 1. **Check.** `npm test`, `npm run eval`, `node pipeline/verify.mjs catalog` and `npm pack --dry-run` all pass on `main`.
 2. **Version.** Bump `version` in `package.json` (semver; while in 0.x, a minor bump may break) and move the
-   `Unreleased` section of [CHANGELOG.md](CHANGELOG.md) under the new version with today's date.
+   `Unreleased` section of [CHANGELOG.md](../CHANGELOG.md) under the new version with today's date.
 3. **Commit and push** to `main`, and wait for `ci` to go green on every Node version.
 4. **Release.** On GitHub: Releases → Draft a new release → tag `v<version>` (create it on publish, target `main`),
    title `Repotify <version>`, notes from the changelog → Publish. The tag starts `release.yml`, which runs the tests,

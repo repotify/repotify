@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // Recommendation quality on the scenario set.
 // "Hit" = a must-include id is in the recommended default set; a violation = a must-not id is in it.
-import { isMain } from "../src/util.mjs";
+import { isMain } from "../../src/util.mjs";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recommend } from "../src/recommend.mjs";
-import { resolveNeeds } from "../src/needs.mjs";
+import { recommend } from "../../src/recommend.mjs";
+import { resolveNeeds } from "../../src/needs.mjs";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
 
@@ -47,7 +47,7 @@ export function runEval(scenarios, catalog) {
 }
 
 if (isMain(import.meta.url)) {
-  const read = (f) => JSON.parse(readFileSync(join(here, "..", "catalog", f), "utf8"));
+  const read = (f) => JSON.parse(readFileSync(join(here, "..", "..", "catalog", f), "utf8"));
   const catalog = { items: read("items.json"), taxonomy: read("taxonomy.json"), loadouts: read("loadouts.json"), core: read("core.json") };
   const r = runEval(loadScenarios(), catalog);
   console.log(`scenarios: ${r.perScenario.length}  must-include hits: ${r.hits}/${r.total} (${(r.hitRate * 100).toFixed(1)}%)  violations: ${r.violations.length}  cluster duplicates: ${r.clusterDuplicates}  avg default set: ${r.avgDefaults.toFixed(1)} items, ${Math.round(r.avgBudget)} chars`);

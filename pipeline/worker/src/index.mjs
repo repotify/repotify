@@ -1,6 +1,6 @@
 // Repotify analytics endpoint (Cloudflare Worker + D1). Deployed only once the owner configures it;
 // the client ships with the endpoint disabled.
-import { validateEvent } from "../../src/telemetry-schema.mjs";
+import { validateEvent } from "../../../src/telemetry-schema.mjs";
 
 export const DAILY_LIMIT = 500;
 const MAX_BATCH = 100;

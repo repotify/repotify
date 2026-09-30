@@ -20,7 +20,7 @@
   },
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "eval": "node eval/run.mjs"
+    "eval": "node test/eval/run.mjs"
   },
   "files": [
     "bin",
@@ -29,7 +29,6 @@
     "catalog",
     "README.md",
     "LICENSE",
-    "SECURITY.md",
     "AGENTS.md"
   ],
   "keywords": [

@@ -65,7 +65,7 @@ test("M10: entry scripts run when started through a path with spaces or a symlin
   const dir = join(tmp(), "with space");
   mkdirSync(dir);
   symlinkSync(root, join(dir, "repo"));
-  const r = spawnSync(process.execPath, [join(dir, "repo", "eval", "run.mjs")], { encoding: "utf8" });
+  const r = spawnSync(process.execPath, [join(dir, "repo", "test", "eval", "run.mjs")], { encoding: "utf8" });
   assert.match(r.stdout, /scenarios: \d+/);
 });
 

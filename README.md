@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/banner.png" alt="repotify: every skill your repo needs, nothing it doesn't" width="100%"></p>
+<p align="center"><img src=".github/assets/banner.png" alt="repotify: every skill your repo needs, nothing it doesn't" width="100%"></p>
 
 <p align="center"><b>Every skill your repo needs. Nothing it doesn't.</b><br>Repotify reads your project, picks the agent skills, MCP servers and tools that fit it, scans every one of them and installs them safely into Claude Code, Cursor, Codex or Gemini CLI.</p>
 
@@ -85,23 +85,23 @@ approve. To run from source instead: `git clone --depth 1 https://github.com/rep
 
 ## See it in action
 
-<p align="center"><img src="assets/demo.svg" alt="A terminal: npx @repotify/repotify prints the project fingerprint, repotify recommend lists one pick per job and keeps react-native-skills out, repotify install installs the picks and leaves the guard hook for the user to switch on" width="100%"></p>
+<p align="center"><img src=".github/assets/demo.svg" alt="A terminal: npx @repotify/repotify prints the project fingerprint, repotify recommend lists one pick per job and keeps react-native-skills out, repotify install installs the picks and leaves the guard hook for the user to switch on" width="100%"></p>
 
 A Next.js app with Stripe, Supabase and Playwright, on a clean machine. Full walkthrough with every line of output:
-[examples/nextjs-saas.md](examples/nextjs-saas.md).
+[examples/nextjs-saas.md](docs/examples/nextjs-saas.md).
 
 ## Clean up what you already have
 
 `repotify audit` judges the skills already in your project, including the ones Repotify never installed: keep,
 consider removing, or remove, each with the reason and the context it frees.
 
-<p align="center"><img src="assets/audit.svg" alt="repotify audit: keeps the skills that serve the project, suggests removing ones for other stacks or duplicate jobs, and flags a skill that fails the security scan" width="100%"></p>
+<p align="center"><img src=".github/assets/audit.svg" alt="repotify audit: keeps the skills that serve the project, suggests removing ones for other stacks or duplicate jobs, and flags a skill that fails the security scan" width="100%"></p>
 
-It never deletes anything; your agent asks you first. [The full example](examples/audit-stray-skills.md).
+It never deletes anything; your agent asks you first. [The full example](docs/examples/audit-stray-skills.md).
 
 ## How it works
 
-<p align="center"><img src="assets/how-it-works.svg" alt="Four steps: read the project, ask at most three questions, pick one scanned item per job, install from a pinned commit" width="100%"></p>
+<p align="center"><img src=".github/assets/how-it-works.svg" alt="Four steps: read the project, ask at most three questions, pick one scanned item per job, install from a pinned commit" width="100%"></p>
 
 1. **Knows your project without spending tokens.** A local script reads manifests and file names (never your code) and writes a ~400-token summary.
 2. **Asks only what it cannot infer.** At most three multiple-choice questions, and only when the project does not already answer them.
@@ -124,7 +124,7 @@ The whole flow costs your agent about 4,700 tokens.
 - The LLM jury can only add suspicion, never raise trust.
 - Third-party items are pinned to a commit and never update silently.
 - Tools (for example Graphify) are never executed for you; Repotify shows the steps.
-- Reports: [scanner results on real skills](docs/reports/scan-corpus-report.md), [code reviews](docs/reports/code-review-2026-09-28.md), [0.2.0 security review](docs/reports/security-review-2026-09-30.md), [security audit](docs/reports/security-audit.md). To report a problem, see [SECURITY.md](SECURITY.md).
+- Reports: [scanner results on real skills](docs/reports/scan-corpus-report.md), [code reviews](docs/reports/code-review-2026-09-28.md), [0.2.0 security review](docs/reports/security-review-2026-09-30.md), [security audit](docs/reports/security-audit.md). To report a problem, see [SECURITY.md](.github/SECURITY.md).
 
 ## Works with
 
@@ -220,14 +220,14 @@ install instruction.
 - [ ] **MCP mode**: your agent calls Repotify as a tool instead of a command.
 - [ ] **Every major stack covered**: web, mobile, data, infrastructure, smart contracts and games.
 
-How it is built: [ARCHITECTURE.md](ARCHITECTURE.md). How it is measured: [BENCHMARKS.md](BENCHMARKS.md). How it is
-released: [RELEASING.md](RELEASING.md).
+How it is built: [ARCHITECTURE.md](docs/ARCHITECTURE.md). How it is measured: [BENCHMARKS.md](docs/BENCHMARKS.md). How it is
+released: [RELEASING.md](docs/RELEASING.md).
 
 ## Contributing
 
 - **Know a great skill, or wrote one?** Run `repotify suggest` in its repository, or [use the form](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml); it goes through the same security gate and jury.
-- **Found a false alarm or a bug?** See [SUPPORT.md](SUPPORT.md). Security problems go to a private advisory ([SECURITY.md](SECURITY.md)).
-- **Want to code?** Start with [CONTRIBUTING.md](CONTRIBUTING.md). What changed in each release: [CHANGELOG.md](CHANGELOG.md).
+- **Found a false alarm or a bug?** See [SUPPORT.md](.github/SUPPORT.md). Security problems go to a private advisory ([SECURITY.md](.github/SECURITY.md)).
+- **Want to code?** Start with [CONTRIBUTING.md](.github/CONTRIBUTING.md). What changed in each release: [CHANGELOG.md](CHANGELOG.md).
 
 ⭐ If Repotify kept a bad skill away from your agent, a star helps other developers find it.
 
@@ -252,4 +252,4 @@ MIT. Catalog items keep their own licenses and are installed from their source, 
 
 ---
 
-<p align="center"><img src="assets/logo-tile.svg" alt="" width="44"><br>Built by <b>Ahmet Bilal Deniz</b> · <a href="https://github.com/repotify">@repotify</a></p>
+<p align="center"><img src=".github/assets/logo-tile.svg" alt="" width="44"><br>Built by <b>Ahmet Bilal Deniz</b> · <a href="https://github.com/repotify">@repotify</a></p>

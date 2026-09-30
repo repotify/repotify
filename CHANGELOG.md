@@ -25,8 +25,9 @@ Smarter picks, an audit of what is already installed, and a setup your agent's s
   could install itself into a home folder reached through a symlink).
 - The npm package is the primary install path in every README and in AGENTS.md; the agent block reads as the user's
   request, not an order.
-- Repository layout: `ARCHITECTURE.md` (including why JavaScript), `BENCHMARKS.md`, `RELEASING.md`, worked examples in
-  `examples/`, translations in `docs/i18n/`, reports in `docs/reports/`; a test keeps documentation links working.
+- Repository layout: a short root; documentation in `docs/` (`ARCHITECTURE.md` with why JavaScript, `BENCHMARKS.md`,
+  `RELEASING.md`, worked examples, translations, reports), community files and README images in `.github/`, the
+  evaluation in `test/eval/`, the analytics worker in `pipeline/worker/`; a test keeps documentation links working.
 - Taxonomy: capabilities can be marked `platform: web`; building an MCP server also wants docs lookup.
   `pipeline/rehash.mjs` rewrites the hashes after a taxonomy edit.
 - CI also runs on Node 24, and on Windows and macOS; `.gitignore` covers `.env` files, `.npmrc` and `*.pem`.

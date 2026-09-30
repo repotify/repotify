@@ -31,7 +31,7 @@ The workflow's `GITHUB_TOKEN` is used read-only for discovery and issue submissi
 
 ## Turning analytics on (after the Cloudflare account is available)
 
-Follow `worker/README.md`, then set `TELEMETRY_ENDPOINT` in `src/config.mjs` to the Worker URL, release a new version,
+Follow `pipeline/worker/README.md`, then set `TELEMETRY_ENDPOINT` in `src/config.mjs` to the Worker URL, release a new version,
 and set `REPOTIFY_STATS_URL`. Until then the client only keeps a local queue and sends nothing.
 
 ## Publishing to npm

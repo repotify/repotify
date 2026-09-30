@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // Measures scanner false alarms on real, trusted skill repositories.
-// Usage: node eval/scan-corpus.mjs <clone-dir>... [--json] [--details]
-import { isMain } from "../src/util.mjs";
+// Usage: node test/eval/scan-corpus.mjs <clone-dir>... [--json] [--details]
+import { isMain } from "../../src/util.mjs";
 import { readdir, stat } from "node:fs/promises";
 import { join, relative, dirname } from "node:path";
-import { scanDir } from "../src/scan/index.mjs";
+import { scanDir } from "../../src/scan/index.mjs";
 
 const SKIP = new Set([".git", "node_modules", "tests", "test", "fixtures", "evals", "evals-extra"]);
 

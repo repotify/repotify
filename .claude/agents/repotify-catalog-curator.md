@@ -20,7 +20,7 @@ catalog verifiable by clients.
 
 ## Rules
 
-- Every behaviour change comes with an evaluation scenario in `eval/scenarios/` (`mustInclude`, `mustNotInclude`).
+- Every behaviour change comes with an evaluation scenario in `test/eval/scenarios/` (`mustInclude`, `mustNotInclude`).
   Never loosen a scenario to make a change pass; if a scenario was wrong, say why in the commit.
 - The LLM jury can only lower trust. Discovered items must pass the quality bar; summaries stay plain prose.
 - Keep the agent's reading within budget: `test/token-budget.test.mjs`.

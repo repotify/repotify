@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import worker, { DAILY_LIMIT } from "../worker/src/index.mjs";
+import worker, { DAILY_LIMIT } from "../pipeline/worker/src/index.mjs";
 
 let sqlite = null;
 try {
@@ -9,7 +9,7 @@ try {
 } catch {
   // node:sqlite ships with Node 22+; on older runtimes these tests are skipped.
 }
-const schema = readFileSync(new URL("../worker/schema.sql", import.meta.url), "utf8");
+const schema = readFileSync(new URL("../pipeline/worker/schema.sql", import.meta.url), "utf8");
 
 // Minimal Cloudflare D1 binding backed by node:sqlite, so the Worker's real SQL is exercised.
 function d1() {

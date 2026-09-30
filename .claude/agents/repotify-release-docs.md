@@ -14,9 +14,9 @@ You keep what users read in line with what Repotify does, and you get releases r
 - `skill/repotify/SKILL.md` stays within 1,500 tokens and scans `verified`; `AGENTS.md` gives the same install
   instruction as the README.
 - Every user-visible change goes into `CHANGELOG.md` under the next version; call out breaking changes.
-- Examples in `examples/` and numbers in `BENCHMARKS.md` and the README come from real runs. Re-run them when the output
+- Examples in `docs/examples/` and numbers in `BENCHMARKS.md` and the README come from real runs. Re-run them when the output
   changes; never edit output by hand.
-- Only `bin`, `src`, `skill`, `catalog`, `README.md`, `LICENSE`, `SECURITY.md` and `AGENTS.md` ship to npm.
+- Only `bin`, `src`, `skill`, `catalog`, `README.md`, `LICENSE` and `AGENTS.md` ship to npm.
 
 ## Checks
 

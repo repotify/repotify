@@ -45,11 +45,11 @@ flowchart LR
 | `pipeline/` | Discovery, collection, security gate, LLM jury, clustering, publishing; `rehash.mjs` after a taxonomy edit |
 | `catalog/` | The published catalog. Generated; `meta.json` holds the hashes clients verify |
 | `skill/repotify/SKILL.md` | The skill Repotify installs into the user's agent |
-| `eval/` | Recommendation scenarios (`eval/scenarios/`) and the scanner corpus run |
+| `test/eval/` | Recommendation scenarios (`test/eval/scenarios/`) and the scanner corpus run |
 | `test/` | `node:test` suites, malicious and benign scanner fixtures, fixture projects |
-| `worker/` | Cloudflare Worker for anonymous analytics (not deployed yet) |
+| `pipeline/worker/` | Cloudflare Worker for anonymous analytics (not deployed yet) |
 | `docs/` | Maintainer guide (`guides/`), reports (`reports/`), translations (`i18n/`) |
-| `examples/` | Worked examples with real output |
+| `docs/examples/` | Worked examples with real output |
 | `site/` | The website: `node site/build.mjs` builds one static page per language into `site/dist` (GitHub Pages) |
 
 ## The recommendation engine
@@ -115,6 +115,6 @@ to keep running.
 |---|---|
 | A dependency or file signal | Add an entry to `src/stackmap.mjs` (`stacks`, `needs`, `caps`, `platforms`) and a fingerprint test |
 | A capability, need or platform | Edit `catalog/taxonomy.json`, run `node pipeline/rehash.mjs`, add an eval scenario |
-| A catalog item | Edit `pipeline/seed-sources.json` and rebuild (see [docs/guides/operations.md](docs/guides/operations.md)) |
-| A scanner rule | `src/scan/rules.mjs` plus a malicious and a benign fixture and a corpus run (see [CONTRIBUTING.md](CONTRIBUTING.md)) |
+| A catalog item | Edit `pipeline/seed-sources.json` and rebuild (see [docs/guides/operations.md](guides/operations.md)) |
+| A scanner rule | `src/scan/rules.mjs` plus a malicious and a benign fixture and a corpus run (see [CONTRIBUTING.md](../.github/CONTRIBUTING.md)) |
 | A command | A module in `src/`, the command in `src/cli.mjs`, tests for its edge cases |

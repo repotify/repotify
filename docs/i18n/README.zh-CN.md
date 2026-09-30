@@ -1,4 +1,4 @@
-<p align="center"><img src="../../assets/banner.png" alt="Repotify — 仓库需要的技能一个不少，用不上的一个不装" width="100%"></p>
+<p align="center"><img src="../../.github/assets/banner.png" alt="Repotify — 仓库需要的技能一个不少，用不上的一个不装" width="100%"></p>
 
 <p align="center"><a href="https://repotify.github.io/repotify/zh-cn/"><b>网站</b></a> · <a href="../../README.md">English</a> · <a href="README.tr.md">Türkçe</a> · <b>简体中文</b></p>
 
@@ -41,7 +41,7 @@ npx -y @repotify/repotify@latest install <ids…> --yes
 
 代理会读取上面的说明并完成其余工作：了解你的项目、最多问三个问题、解释每一项选择，并安装你批准的那一套。
 
-想从源码运行：先 `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`，再 `node ~/repotify/bin/repotify.mjs`。在一个 Next.js 项目上的真实输出：[examples/nextjs-saas.md](../../examples/nextjs-saas.md)（英文）。
+想从源码运行：先 `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`，再 `node ~/repotify/bin/repotify.mjs`。在一个 Next.js 项目上的真实输出：[examples/nextjs-saas.md](../examples/nextjs-saas.md)（英文）。
 
 ## 工作原理
 
@@ -109,7 +109,7 @@ npx -y @repotify/repotify@latest install <ids…> --yes
 
 | | |
 |---|---|
-| **100%** | 在 44 个项目场景中推荐出预期条目的比例，且 **0** 个错误推荐（[基准测试](../../BENCHMARKS.md)） |
+| **100%** | 在 44 个项目场景中推荐出预期条目的比例，且 **0** 个错误推荐（[基准测试](../BENCHMARKS.md)） |
 | **37 / 37** | 个刻意构造的恶意样本全部被拦截 |
 | **1.6%** | 在 127 个真实技能上的误报率 |
 | **4** | 个每次推送都测试的 Node.js 版本（18、20、22、24） |
@@ -126,8 +126,8 @@ Repotify 的设计是从匿名信号中学习（哪些条目被展示、被选�
 ## 参与贡献
 
 - **知道一个好技能，或者是你自己写的？** 在它的仓库里运行 `repotify suggest`，或者[使用表单](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml)，它会经过同样的安全关卡和评审团。
-- **发现误报或 bug？** 请看 [SUPPORT.md](../../SUPPORT.md)。安全问题请私下报告（[SECURITY.md](../../SECURITY.md)）。
-- **想写代码？** 从 [CONTRIBUTING.md](../../CONTRIBUTING.md) 开始；架构见 [ARCHITECTURE.md](../../ARCHITECTURE.md)。
+- **发现误报或 bug？** 请看 [SUPPORT.md](../../.github/SUPPORT.md)。安全问题请私下报告（[SECURITY.md](../../.github/SECURITY.md)）。
+- **想写代码？** 从 [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) 开始；架构见 [ARCHITECTURE.md](../ARCHITECTURE.md)。
 
 ⭐ 如果 Repotify 帮你的代理挡住了一个坏技能，点个 star 能让更多开发者发现它。
 

@@ -9,7 +9,7 @@ first, and every change carries a test.
   It goes through the same security gate and LLM jury as everything else.
 - **Report a scanner false alarm or a miss.** Include the smallest file that shows it. Misses (something malicious that
   passed) belong in a [private advisory](SECURITY.md), not a public issue.
-- **Add an evaluation scenario** in `eval/scenarios/` for a kind of project Repotify serves badly today.
+- **Add an evaluation scenario** in `test/eval/scenarios/` for a kind of project Repotify serves badly today.
 
 ## Development setup
 
@@ -47,13 +47,13 @@ releases.
 | `catalog/` | The published catalog and its hashes (`meta.json`) |
 | `pipeline/` | Discovery, the security gate, the LLM jury and catalog publishing |
 | `skill/repotify/` | The skill Repotify installs into the user's agent |
-| `test/`, `eval/` | Tests, malicious and benign fixtures, evaluation scenarios |
-| `examples/` | Worked examples with real output |
+| `test/`, `test/eval/` | Tests, malicious and benign fixtures, evaluation scenarios |
+| `docs/examples/` | Worked examples with real output |
 | `site/` | The website in 24 languages (`node site/build.mjs`; strings in `site/src/i18n/`) |
 | `docs/` | Maintainer guide, reports, translations of the README |
-| `worker/` | The anonymous analytics endpoint (not deployed yet) |
+| `pipeline/worker/` | The anonymous analytics endpoint (not deployed yet) |
 
-[ARCHITECTURE.md](ARCHITECTURE.md) explains how the pieces fit and where to add things.
+[ARCHITECTURE.md](../docs/ARCHITECTURE.md) explains how the pieces fit and where to add things.
 
 ## Rules for changes
 
@@ -61,7 +61,7 @@ releases.
 - **Documentation links are tested.** Keep relative links pointing at files that exist (`test/docs-links.test.mjs`).
 - **Zero runtime dependencies.** Use Node built-ins only.
 - **Scanner changes** need a malicious fixture for what they catch, a benign one for what they must not flag, and a
-  corpus run (`node eval/scan-corpus.mjs <clones> --details`) that keeps the false-alarm rate at or below 5%. Regexes
+  corpus run (`node test/eval/scan-corpus.mjs <clones> --details`) that keeps the false-alarm rate at or below 5%. Regexes
   may not use an unbounded `[^\n]*` between two parts; there is a timing test.
 - **The LLM jury may lower trust, never raise it.** No change may let model output make an item safer.
 - **Never commit keys or tokens.** CI secrets live in GitHub Actions secrets.

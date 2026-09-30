@@ -1,4 +1,4 @@
-<p align="center"><img src="../../assets/banner.png" alt="Repotify — reponun ihtiyacı olan her skill, gereksizi yok" width="100%"></p>
+<p align="center"><img src="../../.github/assets/banner.png" alt="Repotify — reponun ihtiyacı olan her skill, gereksizi yok" width="100%"></p>
 
 <p align="center"><a href="https://repotify.github.io/repotify/tr/"><b>Web sitesi</b></a> · <a href="../../README.md">English</a> · <b>Türkçe</b> · <a href="README.zh-CN.md">简体中文</a></p>
 
@@ -38,7 +38,7 @@ Ajan yukarıdaki bloğu okur ve gerisini yapar: projeni tanır, en fazla üç so
 
 Kaynaktan çalıştırmak istersen: `git clone --depth 1 https://github.com/repotify/repotify ~/repotify`, ardından `node ~/repotify/bin/repotify.mjs`.
 
-Bir Next.js projesindeki gerçek çıktının adım adım anlatımı: [examples/nextjs-saas.md](../../examples/nextjs-saas.md) (İngilizce).
+Bir Next.js projesindeki gerçek çıktının adım adım anlatımı: [examples/nextjs-saas.md](../examples/nextjs-saas.md) (İngilizce).
 
 ## Nasıl çalışır
 
@@ -123,7 +123,7 @@ Her projeye, ajanı daha disiplinli yapan küçük bir çekirdek önerilir:
 - **LLM jürisi güveni asla yükseltemez**, yalnızca şüphe ekleyebilir.
 - **Üçüncü taraf öğeler bir commit'e sabitlenir** ve sessizce güncellenmez.
 - **Araçlar (örneğin Graphify) senin yerine çalıştırılmaz**; Repotify adımları gösterir.
-- **Raporlar:** [gerçek skill'lerde tarayıcı sonuçları](../reports/scan-corpus-report.md), [kod incelemeleri](../reports/code-review-2026-09-28.md), [güvenlik denetimi](../reports/security-audit.md). Bir sorun bildirmek için [SECURITY.md](../../SECURITY.md).
+- **Raporlar:** [gerçek skill'lerde tarayıcı sonuçları](../reports/scan-corpus-report.md), [kod incelemeleri](../reports/code-review-2026-09-28.md), [güvenlik denetimi](../reports/security-audit.md). Bir sorun bildirmek için [SECURITY.md](../../.github/SECURITY.md).
 
 ## Katalog
 
@@ -142,7 +142,7 @@ Katalog bu hat üzerinden bakımcılar tarafından yeniden üretilir ve istemcin
 
 | | |
 |---|---|
-| **%100** | 44 proje senaryosunda beklenen öğelerin önerilme oranı, **0** yanlış öneriyle ([ölçümler](../../BENCHMARKS.md)) |
+| **%100** | 44 proje senaryosunda beklenen öğelerin önerilme oranı, **0** yanlış öneriyle ([ölçümler](../BENCHMARKS.md)) |
 | **37 / 37** | kasıtlı hazırlanmış zararlı örnek yakalandı |
 | **%1,6** | 127 gerçek skill'de yanlış alarm |
 | **4** | her push'ta test edilen Node.js sürümü (18, 20, 22, 24) |
@@ -162,13 +162,13 @@ ilgili değildir; tek kurulum talimatı bu sayfanın başındaki ajan bloğudur.
 
 ## Durum
 
-Önizleme (`0.2.0`), npm'de `@repotify/repotify` adıyla yayında. Komut satırı aracı, tarayıcı, dört ajan için kurulum, kurulu skill denetimi, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: daha büyük bir katalog ve anonim analitik. Nasıl kurulduğu: [ARCHITECTURE.md](../../ARCHITECTURE.md); nasıl yayımlandığı: [RELEASING.md](../../RELEASING.md).
+Önizleme (`0.2.0`), npm'de `@repotify/repotify` adıyla yayında. Komut satırı aracı, tarayıcı, dört ajan için kurulum, kurulu skill denetimi, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: daha büyük bir katalog ve anonim analitik. Nasıl kurulduğu: [ARCHITECTURE.md](../ARCHITECTURE.md); nasıl yayımlandığı: [RELEASING.md](../RELEASING.md).
 
 ## Katkı
 
 - **Güzel bir skill mi biliyorsun, ya da sen mi yazdın?** Reposunda `repotify suggest` çalıştır ya da [formu kullan](https://github.com/repotify/repotify/issues/new?template=catalog_submission.yml); o da aynı güvenlik kapısından ve jüriden geçer.
-- **Yanlış alarm ya da hata mı buldun?** [SUPPORT.md](../../SUPPORT.md) dosyasına bak. Güvenlik sorunları gizli bildirimle ([SECURITY.md](../../SECURITY.md)).
-- **Kod yazmak mı istiyorsun?** [CONTRIBUTING.md](../../CONTRIBUTING.md) ile başla. Her sürümde ne değişti: [CHANGELOG.md](../../CHANGELOG.md).
+- **Yanlış alarm ya da hata mı buldun?** [SUPPORT.md](../../.github/SUPPORT.md) dosyasına bak. Güvenlik sorunları gizli bildirimle ([SECURITY.md](../../.github/SECURITY.md)).
+- **Kod yazmak mı istiyorsun?** [CONTRIBUTING.md](../../.github/CONTRIBUTING.md) ile başla. Her sürümde ne değişti: [CHANGELOG.md](../../CHANGELOG.md).
 
 ⭐ Repotify ajanını kötü bir skill'den koruduysa, bir yıldız başka geliştiricilerin de onu bulmasını sağlar.
 

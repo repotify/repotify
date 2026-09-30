@@ -24,7 +24,7 @@ rule is a security bug and a noisy rule blocks good skills.
 1. `npm test`
 2. `node bin/repotify.mjs scan skill/repotify` stays `verified`.
 3. For rule changes, the real-world corpus: clone the four collections at the commits in
-   `docs/reports/scan-corpus-report.md` and run `node eval/scan-corpus.mjs <clones> --details`. False alarms stay at or
+   `docs/reports/scan-corpus-report.md` and run `node test/eval/scan-corpus.mjs <clones> --details`. False alarms stay at or
    below 5%; explain every verdict that changed.
 
 Report what changed, which fixtures you added, and the test and corpus results.

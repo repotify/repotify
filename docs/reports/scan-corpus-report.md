@@ -1,6 +1,6 @@
 # Scanner false-alarm report (real corpus)
 
-Date: 2026-09-28 · Scanner 1.2.0 · Command: `node eval/scan-corpus.mjs <clones> --details`
+Date: 2026-09-28 · Scanner 1.2.0 · Command: `node test/eval/scan-corpus.mjs <clones> --details`
 
 Sources (shallow clones at HEAD, the same commits as the 1.0.0 report):
 

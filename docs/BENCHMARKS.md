@@ -4,7 +4,7 @@ Every number here comes from a command in this repository; how to reproduce each
 
 ## Recommendation quality
 
-The scenario set (`eval/scenarios/`, 44 projects) says, for each kind of project, which items must be in the default
+The scenario set (`test/eval/scenarios/`, 44 projects) says, for each kind of project, which items must be in the default
 set and which must not. A *violation* is a must-not item that was recommended anyway: a web testing skill in a Flutter
 app, Word and PowerPoint skills in a project whose dependencies only show Excel.
 
@@ -40,7 +40,7 @@ Spot checks on public projects (fingerprint and default set, beyond the core):
 | False alarms on those real skills | 2 / 127 (1.6%); target ≤ 5% |
 
 The corpus is `anthropics/skills`, `obra/superpowers`, `trailofbits/skills` and `vercel-labs/agent-skills` at the
-commits listed in [the corpus report](docs/reports/scan-corpus-report.md). The 0.2.0 scanner gives exactly the same
+commits listed in [the corpus report](reports/scan-corpus-report.md). The 0.2.0 scanner gives exactly the same
 verdicts as 1.2.0 on all 127 skills (re-run on 2026-09-29).
 
 ### Scanning long lines
@@ -69,5 +69,5 @@ on Node 18 in CI and on slower machines.
 ```bash
 npm test                                   # includes the timing and token-budget tests
 npm run eval -- --verbose                  # recommendation quality, per scenario
-node eval/scan-corpus.mjs <clones> --details   # scanner on real skills (clone the four collections first)
+node test/eval/scan-corpus.mjs <clones> --details   # scanner on real skills (clone the four collections first)
 ```
