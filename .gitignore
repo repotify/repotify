@@ -20,3 +20,6 @@ pipeline/work/
 repotify.lock.json
 .claude/agents/*
 !.claude/agents/repotify-*.md
+
+# Built website (site/build.mjs)
+site/dist/

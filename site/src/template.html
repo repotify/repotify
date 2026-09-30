@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="{{lang}}" dir="{{dir}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{attr:meta_title}}</title>
+<meta name="description" content="{{attr:meta_description}}">
+<link rel="canonical" href="{{canonical}}">
+{{hreflang}}
+<meta name="theme-color" content="#0e1117">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="icon" href="{{root}}assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{root}}assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Repotify">
+<meta property="og:title" content="{{attr:meta_title}}">
+<meta property="og:description" content="{{attr:meta_description}}">
+<meta property="og:url" content="{{canonical}}">
+<meta property="og:image" content="{{og_image}}">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="Repotify: your repo's perfect playlist">
+<meta property="og:locale" content="{{attr:og_locale}}">
+{{og_locale_alternates}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{attr:meta_title}}">
+<meta name="twitter:description" content="{{attr:meta_description}}">
+<meta name="twitter:image" content="{{og_image}}">
+<link rel="preload" href="{{root}}assets/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{root}}assets/styles.css?v={{version}}">
+<script>document.documentElement.classList.add("js")</script>
+<script type="application/ld+json">{{jsonld}}</script>
+</head>
+<body>
+<a class="skip" href="#main">{{skip}}</a>
+<div class="bg" aria-hidden="true"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><span class="grid"></span></div>
+
+<header class="nav">
+  <a class="brand" href="{{home}}">{{logo}}<span>Repotify</span></a>
+  <nav class="links" aria-label="Main">
+    <a href="#how">{{nav_how}}</a>
+    <a href="#security">{{nav_security}}</a>
+    <a href="#commands">{{nav_commands}}</a>
+    <a href="#faq">{{nav_faq}}</a>
+  </nav>
+  <div class="nav-end">
+    <details class="lang">
+      <summary><span class="globe" aria-hidden="true">{{globe}}</span><span class="sr">{{lang_label}}: </span>{{lang_name}}</summary>
+      <ul>{{langmenu}}</ul>
+    </details>
+    <a class="gh" href="https://github.com/repotify/repotify">{{github}}<span>GitHub</span><b data-stars hidden></b></a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow reveal">{{hero_eyebrow}}</p>
+      <h1 class="reveal" style="--d:1"><span>{{hero_title_a}}</span> <span class="grad">{{hero_title_b}}</span></h1>
+      <p class="lead reveal" style="--d:2">{{hero_lead}}</p>
+      <div class="install reveal" style="--d:3" dir="ltr">
+        <span class="prompt" aria-hidden="true">$</span><code>npx -y @repotify/repotify@latest</code>
+        <button class="copy" type="button" data-copy="npx -y @repotify/repotify@latest" data-done="{{attr:copied}}">{{copy}}</button>
+      </div>
+      <p class="hint reveal" style="--d:3">{{hero_hint}}</p>
+      <div class="ctas reveal" style="--d:4">
+        <a class="btn primary" href="https://github.com/repotify/repotify"><span aria-hidden="true">★</span> {{cta_github}}</a>
+        <a class="btn ghost" href="#how">{{cta_how}} <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="hero-visual reveal" style="--d:2">
+      <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <figure class="term" dir="ltr">
+        <div class="term-bar" aria-hidden="true"><span></span><span></span><span></span><em>~/my-saas</em></div>
+        <pre class="term-body" data-typed aria-label="repotify: fingerprint, recommend, install"><span class="c">npx -y @repotify/repotify@latest</span>
+<span>Detected agent: claude-code</span>
+<span>Stacks: nextjs, react, typescript · Platforms: web</span>
+<span class="c">repotify recommend</span>
+<span><s>★</s> test-driven-development   <u>core</u></span>
+<span><s>★</s> react-best-practices      <u>stack:nextjs</u></span>
+<span><s>★</s> webapp-testing            <u>cap:webapp-testing</u></span>
+<span><s>★</s> context7 <em>⚙</em>                <u>cap:docs-lookup</u></span>
+<span class="c">repotify install &lt;picked&gt; --yes</span>
+<span><g>✓</g> 12 skills installed · <em>⚙</em> 2 for you to enable</span></pre>
+      </figure>
+    </div>
+  </section>
+
+  <section class="works reveal" aria-label="{{attr:works_with}}">
+    <span>{{works_with}}</span>
+    <ul><li>Claude Code</li><li>Cursor</li><li>Codex</li><li>Gemini CLI</li><li>{{any_agent}}</li></ul>
+  </section>
+
+  <section class="why">
+    <h2 class="reveal">{{why_title}}</h2>
+    <div class="cards three">
+      <article class="card reveal" style="--d:1"><div class="icon">{{icon_choice}}</div><h3>{{why_1_title}}</h3><p>{{why_1_text}}</p></article>
+      <article class="card reveal" style="--d:2"><div class="icon">{{icon_risk}}</div><h3>{{why_2_title}}</h3><p>{{why_2_text}}</p></article>
+      <article class="card reveal" style="--d:3"><div class="icon">{{icon_context}}</div><h3>{{why_3_title}}</h3><p>{{why_3_text}}</p></article>
+    </div>
+  </section>
+
+  <section id="how" class="how">
+    <h2 class="reveal">{{how_title}}</h2>
+    <p class="section-lead reveal">{{how_lead}}</p>
+    <ol class="steps">
+      <li class="step reveal" style="--d:1"><span class="node">1</span><h3>{{step_1_title}}</h3><p>{{step_1_text}}</p></li>
+      <li class="step reveal" style="--d:2"><span class="node">2</span><h3>{{step_2_title}}</h3><p>{{step_2_text}}</p></li>
+      <li class="step reveal" style="--d:3"><span class="node">3</span><h3>{{step_3_title}}</h3><p>{{step_3_text}}</p></li>
+      <li class="step reveal" style="--d:4"><span class="node">4</span><h3>{{step_4_title}}</h3><p>{{step_4_text}}</p></li>
+    </ol>
+  </section>
+
+  <section class="new">
+    <h2 class="reveal"><span class="pill">0.2</span> {{new_title}}</h2>
+    <div class="cards two">
+      <article class="card feature wide reveal" style="--d:1"><div class="icon">{{icon_smart}}</div><h3>{{new_1_title}}</h3><p>{{new_1_text}}</p><p class="stat">{{new_1_stat}}</p></article>
+      <article class="card feature reveal" style="--d:2"><div class="icon">{{icon_audit}}</div><h3>{{new_2_title}}</h3><p>{{new_2_text}}</p></article>
+      <article class="card feature reveal" style="--d:3"><div class="icon">{{icon_suggest}}</div><h3>{{new_3_title}}</h3><p>{{new_3_text}}</p></article>
+      <article class="card feature reveal" style="--d:4"><div class="icon">{{icon_keys}}</div><h3>{{new_4_title}}</h3><p>{{new_4_text}}</p></article>
+    </div>
+  </section>
+
+  <section id="security" class="security">
+    <h2 class="reveal">{{sec_title}}</h2>
+    <p class="section-lead reveal">{{sec_lead}}</p>
+    <ul class="levels">
+      <li class="lv verified reveal" style="--d:1"><code dir="ltr">verified</code><span>{{level_verified}}</span></li>
+      <li class="lv caution reveal" style="--d:2"><code dir="ltr">caution</code><span>{{level_caution}}</span></li>
+      <li class="lv quarantined reveal" style="--d:3"><code dir="ltr">quarantined</code><span>{{level_quarantined}}</span></li>
+      <li class="lv rejected reveal" style="--d:4"><code dir="ltr">rejected</code><span>{{level_rejected}}</span></li>
+    </ul>
+    <ul class="points">
+      <li class="reveal">{{sec_point_1}}</li>
+      <li class="reveal" style="--d:1">{{sec_point_2}}</li>
+      <li class="reveal" style="--d:2">{{sec_point_3}}</li>
+    </ul>
+  </section>
+
+  <section class="numbers" aria-labelledby="num-title">
+    <h2 id="num-title" class="reveal">{{num_title}}</h2>
+    <dl class="stats">
+      <div class="reveal" style="--d:1"><dt data-count="1" data-style="percent">{{stat_1}}</dt><dd>{{num_1}}</dd></div>
+      <div class="reveal" style="--d:2"><dt data-count="0">0</dt><dd>{{num_2}}</dd></div>
+      <div class="reveal" style="--d:3"><dt data-count="37" data-suffix=" / 37">37 / 37</dt><dd>{{num_3}}</dd></div>
+      <div class="reveal" style="--d:4"><dt data-count="0.016" data-style="percent" data-decimals="1">{{stat_4}}</dt><dd>{{num_4}}</dd></div>
+      <div class="reveal" style="--d:5"><dt data-count="0">0</dt><dd>{{num_5}}</dd></div>
+    </dl>
+  </section>
+
+  <section id="commands" class="commands">
+    <h2 class="reveal">{{cmd_title}}</h2>
+    <ul class="cmds" dir="auto">
+      <li class="reveal"><code dir="ltr">repotify</code><span>{{cmd_start}}</span></li>
+      <li class="reveal"><code dir="ltr">repotify recommend</code><span>{{cmd_recommend}}</span></li>
+      <li class="reveal"><code dir="ltr">repotify install &lt;ids&gt; --yes</code><span>{{cmd_install}}</span></li>
+      <li class="reveal"><code dir="ltr">repotify enable &lt;ids&gt;</code><span>{{cmd_enable}}</span></li>
+      <li class="reveal"><code dir="ltr">repotify audit</code><span>{{cmd_audit}}</span></li>
+      <li class="reveal"><code dir="ltr">repotify suggest</code><span>{{cmd_suggest}}</span></li>
+      <li class="reveal"><code dir="ltr">repotify scan &lt;dir&gt;</code><span>{{cmd_scan}}</span></li>
+    </ul>
+    <div class="changes card reveal">
+      <h3>{{changes_title}}</h3>
+      <ul><li>{{changes_1}}</li><li>{{changes_2}}</li><li>{{changes_3}}</li></ul>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <h2 class="reveal">{{faq_title}}</h2>
+    <details class="reveal"><summary>{{faq_1_q}}</summary><p>{{faq_1_a}}</p></details>
+    <details class="reveal"><summary>{{faq_2_q}}</summary><p>{{faq_2_a}}</p></details>
+    <details class="reveal"><summary>{{faq_3_q}}</summary><p>{{faq_3_a}}</p></details>
+    <details class="reveal"><summary>{{faq_4_q}}</summary><p>{{faq_4_a}}</p></details>
+    <details class="reveal"><summary>{{faq_5_q}}</summary><p>{{faq_5_a}}</p></details>
+    <details class="reveal"><summary>{{faq_6_q}}</summary><p>{{faq_6_a}}</p></details>
+  </section>
+
+  <section class="final reveal">
+    <div class="eq small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <h2>{{final_title}}</h2>
+    <p>{{final_text}}</p>
+    <div class="install" dir="ltr">
+      <span class="prompt" aria-hidden="true">$</span><code>npx -y @repotify/repotify@latest</code>
+      <button class="copy" type="button" data-copy="npx -y @repotify/repotify@latest" data-done="{{attr:copied}}">{{copy}}</button>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-brand">{{logo}}<div><strong>Repotify</strong><p>{{footer_tagline}}</p></div></div>
+  <nav aria-label="Footer">
+    <a href="https://github.com/repotify/repotify">GitHub</a>
+    <a href="https://www.npmjs.com/package/@repotify/repotify">npm</a>
+    <a href="https://github.com/repotify/repotify#readme">{{footer_docs}}</a>
+    <a href="https://github.com/repotify/repotify/blob/main/CHANGELOG.md">{{footer_changelog}}</a>
+    <a href="https://github.com/repotify/repotify/blob/main/SECURITY.md">{{footer_security}}</a>
+  </nav>
+  <p class="fine">{{footer_license}} · v{{version}}</p>
+</footer>
+<script src="{{root}}assets/app.js?v={{version}}" defer></script>
+</body>
+</html>

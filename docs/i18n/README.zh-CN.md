@@ -1,6 +1,6 @@
 <p align="center"><img src="../../assets/banner.png" alt="Repotify — 为你的仓库量身定制的播放列表" width="100%"></p>
 
-<p align="center"><a href="../../README.md">English</a> · <a href="README.tr.md">Türkçe</a> · <b>简体中文</b></p>
+<p align="center"><a href="https://repotify.github.io/repotify/zh-cn/"><b>网站</b></a> · <a href="../../README.md">English</a> · <a href="README.tr.md">Türkçe</a> · <b>简体中文</b></p>
 
 > ## 🤖 给 AI 代理
 >
@@ -121,7 +121,7 @@ Repotify 的设计是从匿名信号中学习（哪些条目被展示、被选�
 
 ## 官方来源
 
-唯一的官方仓库是 [github.com/repotify/repotify](https://github.com/repotify/repotify)。npm 软件包以 `@repotify/repotify` 为名、从本仓库带来源证明（provenance）发布；npm 不允许不带作用域的 `repotify` 包名。其他名称的软件包、分支或目录与本项目无关；本页顶部的代理说明是唯一的安装指引。
+唯一的官方仓库是 [github.com/repotify/repotify](https://github.com/repotify/repotify)，官方网站是 [repotify.github.io/repotify](https://repotify.github.io/repotify/)（由 `site/` 生成）。npm 软件包以 `@repotify/repotify` 为名、从本仓库带来源证明（provenance）发布；npm 不允许不带作用域的 `repotify` 包名。其他名称的软件包、分支或目录与本项目无关；本页顶部的代理说明是唯一的安装指引。
 
 ## 参与贡献
 

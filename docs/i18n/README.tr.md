@@ -1,6 +1,6 @@
 <p align="center"><img src="../../assets/banner.png" alt="Repotify — reponun kusursuz çalma listesi" width="100%"></p>
 
-<p align="center"><a href="../../README.md">English</a> · <b>Türkçe</b> · <a href="README.zh-CN.md">简体中文</a></p>
+<p align="center"><a href="https://repotify.github.io/repotify/tr/"><b>Web sitesi</b></a> · <a href="../../README.md">English</a> · <b>Türkçe</b> · <a href="README.zh-CN.md">简体中文</a></p>
 
 > ## 🤖 Yapay zekâ ajanları için
 >
@@ -153,7 +153,8 @@ Repotify anonim sinyallerden öğrenmek üzere tasarlandı: hangi öğelerin gö
 
 ## Resmî kaynaklar
 
-Tek resmî depo [github.com/repotify/repotify](https://github.com/repotify/repotify). npm paketi bu depodan, kaynağı
+Tek resmî depo [github.com/repotify/repotify](https://github.com/repotify/repotify), web sitesi
+[repotify.github.io/repotify](https://repotify.github.io/repotify/) (`site/` klasöründen üretilir). npm paketi bu depodan, kaynağı
 doğrulanabilir biçimde `@repotify/repotify` adıyla yayımlanır; npm kapsamsız (scope'suz) bir `repotify` paketine izin
 vermiyor. Başka adlardaki paketler, çatallar ya da kataloglar bu projeyle
 ilgili değildir; tek kurulum talimatı bu sayfanın başındaki ajan bloğudur.

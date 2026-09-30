@@ -49,6 +49,7 @@ releases.
 | `skill/repotify/` | The skill Repotify installs into the user's agent |
 | `test/`, `eval/` | Tests, malicious and benign fixtures, evaluation scenarios |
 | `examples/` | Worked examples with real output |
+| `site/` | The website in 24 languages (`node site/build.mjs`; strings in `site/src/i18n/`) |
 | `docs/` | Maintainer guide, reports, translations of the README |
 | `worker/` | The anonymous analytics endpoint (not deployed yet) |
 

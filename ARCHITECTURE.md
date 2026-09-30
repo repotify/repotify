@@ -50,6 +50,7 @@ flowchart LR
 | `worker/` | Cloudflare Worker for anonymous analytics (not deployed yet) |
 | `docs/` | Maintainer guide (`guides/`), reports (`reports/`), translations (`i18n/`) |
 | `examples/` | Worked examples with real output |
+| `site/` | The website: `node site/build.mjs` builds one static page per language into `site/dist` (GitHub Pages) |
 
 ## The recommendation engine
 

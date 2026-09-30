@@ -1,11 +1,15 @@
 <p align="center"><img src="assets/banner.png" alt="Repotify — your repo's perfect playlist" width="100%"></p>
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/@repotify/repotify"><img alt="npm version" src="https://img.shields.io/npm/v/@repotify/repotify?color=F08A3C&label=npm"></a>
+  <a href="https://github.com/repotify/repotify/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/repotify/repotify/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-7AA8F5">
   <img alt="Node 18 or newer" src="https://img.shields.io/badge/node-%E2%89%A518-F08A3C">
   <img alt="Zero runtime dependencies" src="https://img.shields.io/badge/dependencies-0-7AA8F5">
-  <img alt="Status: preview" src="https://img.shields.io/badge/status-preview-C96DB0">
-  · <a href="docs/i18n/README.tr.md">Türkçe</a> · <a href="docs/i18n/README.zh-CN.md">简体中文</a>
+</p>
+
+<p align="center">
+  <a href="https://repotify.github.io/repotify/"><b>Website</b></a> (24 languages) · <a href="docs/i18n/README.tr.md">Türkçe</a> · <a href="docs/i18n/README.zh-CN.md">简体中文</a>
 </p>
 
 > ## 🤖 For AI agents
@@ -191,7 +195,8 @@ Repotify is designed to learn from anonymous signals (which items were shown, pi
 
 ## Official sources
 
-The only official repository is [github.com/repotify/repotify](https://github.com/repotify/repotify). The npm package is published
+The only official repository is [github.com/repotify/repotify](https://github.com/repotify/repotify), and the website is
+[repotify.github.io/repotify](https://repotify.github.io/repotify/) (built from `site/`). The npm package is published
 as `@repotify/repotify` from this repository, with provenance; npm does not allow an unscoped `repotify` package.
 Packages, forks or catalogs under other names are not affiliated; the agent block at the top of this page is the only
 install instruction.

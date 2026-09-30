@@ -42,7 +42,16 @@
     "ai-agents",
     "security",
     "supply-chain-security",
-    "cli"
+    "cli",
+    "claude-skills",
+    "skills",
+    "mcp-servers",
+    "coding-agents",
+    "prompt-injection",
+    "ai-security",
+    "developer-tools",
+    "llm",
+    "skill-scanner"
   ],
   "license": "MIT"
 }
