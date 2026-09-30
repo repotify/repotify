@@ -9,6 +9,150 @@
     ],
     "badges": [],
     "capabilities": [
+      "design-brainstorming",
+      "implementation-planning"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "c26b706610beafe1e375cd0a83f1c05d82cb7f8d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 198,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "7e3465edb2835188e3e4201da329440f821d856aba6f83a9d47c12c726085719"
+      }
+    ],
+    "id": "20-andruia-niche-intelligence",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.85,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "20-andruia-niche-intelligence",
+    "needs": [
+      "docs-writing"
+    ],
+    "path": "plugins/agentic-awesome-skills-claude/skills/20-andruia-niche-intelligence",
+    "repo": "sickn33/agentic-awesome-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T15:46:02.715Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 47108
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides domain‑specific intelligence: regulations, industry stack, UX patterns, and hidden pain points for a identified project niche.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "c26b706610beafe1e375cd0a83f1c05d82cb7f8d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 167,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f5376f3e111a5c244bb894d984068d78c40ce973c69d59d90cb01b5f07a67539"
+      }
+    ],
+    "id": "ab-test-setup",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "ab-test-setup",
+    "needs": [
+      "data-processing",
+      "testing"
+    ],
+    "path": "plugins/agentic-awesome-skills-claude/skills/ab-test-setup",
+    "repo": "sickn33/agentic-awesome-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T15:46:02.715Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 47108
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides a coding agent through designing, validating, and documenting an A/B or split test, from hypothesis to execution readiness and analy…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "code-review"
     ],
     "cluster": "code-review",
@@ -610,6 +754,7 @@
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "orchestration",
       "schedule",
       "sre-engineer",
       "the-fool"
@@ -1386,6 +1531,7 @@
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "orchestration",
       "schedule",
       "sre-engineer",
       "the-fool"
@@ -1682,6 +1828,95 @@
       "*"
     ],
     "summary": "Optimizes database queries and improves performance across PostgreSQL and MySQL systems.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "debugging-method",
+      "browser-automation"
+    ],
+    "cluster": "debugging-method",
+    "commit": "02c0112cd57e4fa4bac31a1e69d7507601773b14",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 439,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "8898b35108b12f73cef83a08964ffff0ebfad429389ffd42cb49a423025657ae"
+      },
+      {
+        "path": "references/elements-and-size.md",
+        "sha256": "a99e9e5f93ad2e5b5b65e84abd2bb220e0560be66cc87059361f1d5f7ef2aed7"
+      },
+      {
+        "path": "references/lcp-breakdown.md",
+        "sha256": "c63bb071fa465c41464446100f4afc069118eab9092cbec0b284dd452404a947"
+      },
+      {
+        "path": "references/lcp-snippets.md",
+        "sha256": "b54d0c26e9df7eea1e58cc118bbbe1ef2037d097a146603ef31c17fe47a6b8b8"
+      },
+      {
+        "path": "references/optimization-strategies.md",
+        "sha256": "786691daf6216f1aacb0e2bafdc08ef8450067a392ab26814337ac9837c048c1"
+      }
+    ],
+    "id": "debug-optimize-lcp",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "debug-optimize-lcp",
+    "needs": [
+      "mcp-server",
+      "performance"
+    ],
+    "path": "skills/debug-optimize-lcp",
+    "repo": "chromedevtools/chrome-devtools-mcp",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T15:46:02.715Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52802
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides debugging and optimizing LCP using Chrome DevTools MCP tools to identify bottlenecks and apply fixes for faster main content renderi…",
     "tier": "mission",
     "type": "skill"
   },
@@ -2471,6 +2706,7 @@
       "context-engineering",
       "feature-forge",
       "ml-pipeline",
+      "orchestration",
       "schedule",
       "sre-engineer",
       "the-fool"
@@ -2743,6 +2979,7 @@
       "context-engineering",
       "dynamic-workflow",
       "ml-pipeline",
+      "orchestration",
       "schedule",
       "sre-engineer",
       "the-fool"
@@ -4133,6 +4370,81 @@
     ],
     "badges": [],
     "capabilities": [
+      "debugging-method"
+    ],
+    "cluster": "debugging-method",
+    "commit": "02c0112cd57e4fa4bac31a1e69d7507601773b14",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 221,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "895127ac55a3f2c4e0ca9be496e84165eee6408637c2bcc5516d69170a8de80e"
+      },
+      {
+        "path": "references/common-leaks.md",
+        "sha256": "2d41e075d8d22e69bc420a9eb4bc180eb2466669ffd0939c201723d80b2673a1"
+      }
+    ],
+    "id": "memory-leak-debugging",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "memory-leak-debugging",
+    "needs": [
+      "mcp-server"
+    ],
+    "path": "skills/memory-leak-debugging",
+    "repo": "chromedevtools/chrome-devtools-mcp",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T15:46:02.715Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52802
+    },
+    "stacks": [
+      "node"
+    ],
+    "summary": "Guides debugging JavaScript/Node.js memory leaks using Chrome DevTools MCP heap snapshot tools to capture, compare, and inspect snapshots.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "component-architecture",
       "implementation-planning",
       "design-brainstorming",
@@ -4254,6 +4566,7 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "orchestration",
       "schedule",
       "sre-engineer",
       "the-fool"
@@ -4629,6 +4942,86 @@
       "vercel"
     ],
     "summary": "Provides detailed guidance for building and deploying Next.js 14+ apps with App Router, server components, server actions, SEO, and Vercel …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "workflow-meta"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "d74388f8a2dad2bd4bbfe3b937aba66e6648258b",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "batch",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "ml-pipeline",
+      "schedule",
+      "sre-engineer",
+      "the-fool"
+    ],
+    "descriptionChars": 524,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "cd1b364bf35781bad06bf75ab1766afa8d6cec69cb2060529691d89871a2098a"
+      }
+    ],
+    "id": "orchestration",
+    "jury": {
+      "agreement": 0.7999999999999999,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "orchestration",
+    "needs": [
+      "agent-skills"
+    ],
+    "path": "skills/orchestration",
+    "repo": "stablyai/orca",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T15:46:02.715Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 82163
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Coordinates Orca workers via threaded messages, blocking ask/reply, task DAGs, and decision gates using orca-cli for handoffs and terminal …",
     "tier": "mission",
     "type": "skill"
   },
@@ -6544,6 +6937,7 @@
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "orchestration",
       "sre-engineer",
       "the-fool"
     ],
@@ -7257,6 +7651,7 @@
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "orchestration",
       "schedule",
       "the-fool"
     ],
@@ -7897,6 +8292,7 @@
       "dynamic-workflow",
       "feature-forge",
       "ml-pipeline",
+      "orchestration",
       "schedule",
       "sre-engineer"
     ],
