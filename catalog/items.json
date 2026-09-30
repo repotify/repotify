@@ -96,6 +96,100 @@
       "gemini-cli",
       "generic"
     ],
+    "badges": [],
+    "capabilities": [
+      "component-architecture",
+      "implementation-planning"
+    ],
+    "cluster": "component-architecture",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 509,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "5235b031e8fadacf01f39ad9db7b8d5ec9d6f83460ebcef78da95d31c9f36276"
+      },
+      {
+        "path": "references/adr-template.md",
+        "sha256": "cada2aa2f8fa039ba63ab95499cbe653a28110f9f406040a06966552026fea4b"
+      },
+      {
+        "path": "references/architecture-patterns.md",
+        "sha256": "954bde741cffe6dec00acb63840bbb79654d2647ca8f7c9a8f99f5888b94c5f9"
+      },
+      {
+        "path": "references/database-selection.md",
+        "sha256": "6439a36138654947acb808eeff1fff5862894ef94a7210e8fd540bb2641c5a80"
+      },
+      {
+        "path": "references/nfr-checklist.md",
+        "sha256": "37b9b0f083bd224acccb04eec86edc09a494c693a4ad0ec32ea24f472c122d70"
+      },
+      {
+        "path": "references/system-design.md",
+        "sha256": "b33ff621c6461eb321d18fc9923c4bba689776e1cd0f0c00945584c2698319a1"
+      }
+    ],
+    "id": "architecture-designer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "architecture-designer",
+    "needs": [
+      "agent-skills",
+      "docs-writing",
+      "large-codebase"
+    ],
+    "path": "skills/architecture-designer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides a coding agent in designing system architecture, creating ADRs, evaluating patterns, and documenting technology trade-offs.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
     "badges": [
       "caution"
     ],
@@ -473,6 +567,189 @@
     ],
     "summary": "Writes, optimizes, and debugs C++20/23 applications using modern features, template metaprogramming, and high-performance techniques.",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "static-analysis",
+      "debugging-method"
+    ],
+    "cluster": "static-analysis",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 304,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "b581ed9eadeced125c26fee4ca204a48c5b183da00448fb2eeb1362e5741ccab"
+      },
+      {
+        "path": "references/index-strategies.md",
+        "sha256": "05f5e3f4e603ca6994016260996b3cfb6c28cf6d87ebd0b7f33621ca266840f4"
+      },
+      {
+        "path": "references/monitoring-analysis.md",
+        "sha256": "95fb6e97985cb6fd5cd01739117cb4df6e286d64b94c39b2033d4b5f390b4c93"
+      },
+      {
+        "path": "references/mysql-tuning.md",
+        "sha256": "62dc54ae06a2936cb9d3497a0a9f51eace78b83bf3673364e33c81fae237dedc"
+      },
+      {
+        "path": "references/postgresql-tuning.md",
+        "sha256": "197da2b922e1f5d22cf824de8645f645e064d52b9745b125a36abee89e34da3a"
+      },
+      {
+        "path": "references/query-optimization.md",
+        "sha256": "dce3acf3b12dee597dcdbc73d2ba26b20d53f72f3718fad9ddb4b62f56a25e6e"
+      }
+    ],
+    "id": "database-optimizer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "database-optimizer",
+    "needs": [
+      "performance"
+    ],
+    "path": "skills/database-optimizer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Optimizes database queries and improves performance across PostgreSQL and MySQL systems.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "debugging-method"
+    ],
+    "cluster": "debugging-method",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 396,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "82c442c0a4f87785adc0a5ad9f9968d7ceb83e03f937151f19f362c76267e2e7"
+      },
+      {
+        "path": "references/common-patterns.md",
+        "sha256": "34e8957fc8dd44033ce6e968c3fca55259b40ba91dc7eb81a819fd2442b08d0a"
+      },
+      {
+        "path": "references/debugging-tools.md",
+        "sha256": "406df18ffd885ed96e8ccb541d22b0d8bcd0342cd7a89cc10b82e2675e118333"
+      },
+      {
+        "path": "references/quick-fixes.md",
+        "sha256": "5cb8d18dbf1d445e82af556368098b52c8fa1dc70c63ab2d0897bbc5c5744ab1"
+      },
+      {
+        "path": "references/strategies.md",
+        "sha256": "2a28d131e430beb667db1efc5dbc2beaeb38572a76ea998ef0330ab27b2b399e"
+      },
+      {
+        "path": "references/systematic-debugging.md",
+        "sha256": "1e4a89c67ddfb8e500d95ee21d9a665c7b1a0204c97f752d03d04e96740a07f9"
+      }
+    ],
+    "id": "debugging-wizard",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "debugging-wizard",
+    "needs": [
+      "testing"
+    ],
+    "path": "skills/debugging-wizard",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides systematic debugging workflow: reproduce, isolate, hypothesize, fix, prevent; with language-specific tools and patterns.",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -1175,6 +1452,199 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning",
+      "workflow-meta"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ml-pipeline"
+    ],
+    "descriptionChars": 403,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "3c8b8c363767177e39262b229be0285779816ed251c8bd658073efc3cda0f1c6"
+      },
+      {
+        "path": "references/acceptance-criteria.md",
+        "sha256": "4b01424260442368aa96139a31b682cd346fcb27910fb319803e3e32d99789e7"
+      },
+      {
+        "path": "references/ears-syntax.md",
+        "sha256": "a85e1f251ad7ff5222015916530ecd5817998c99dab9b3e9c4b362f1eb88038d"
+      },
+      {
+        "path": "references/interview-questions.md",
+        "sha256": "5934ce65f215ad15cbd220f130883f66bffc9049ba7f4d9cfc906ab7ee60fc7a"
+      },
+      {
+        "path": "references/pre-discovery-subagents.md",
+        "sha256": "b47a1ae4861ac654f4e5ecefc1f75b18136d515e9a10153e006a42c1f42e9589"
+      },
+      {
+        "path": "references/specification-template.md",
+        "sha256": "a2f10accbb75c835f39459765e077c6651d7eb56f5cc91f3b6e575c35e142c91"
+      }
+    ],
+    "id": "feature-forge",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "feature-forge",
+    "needs": [
+      "docs-writing",
+      "agent-skills"
+    ],
+    "path": "skills/feature-forge",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides structured requirements workshops to create feature specs, user stories, EARS requirements, acceptance criteria, and implementation …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "python-tooling",
+      "skill-authoring"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 522,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "da72ef468de313b02176e232e0570fe1064cc95c9e36ea3a987e0abf134dbfe0"
+      },
+      {
+        "path": "references/dataset-preparation.md",
+        "sha256": "1e78e4416a4809eeceeb60199ed6cdab8867d201fe1efcfdb513d0ef8a36a20d"
+      },
+      {
+        "path": "references/deployment-optimization.md",
+        "sha256": "c06c07f86aceb95b4762ec49f17d3668e304e0eb51319a403ef75913efacebe9"
+      },
+      {
+        "path": "references/evaluation-metrics.md",
+        "sha256": "a6d93ca997d78daf187eb8887d3b62ed0c438753340a3482785a392d52ec55ff"
+      },
+      {
+        "path": "references/hyperparameter-tuning.md",
+        "sha256": "38f931981ac90df6928e1219aef920b625cdbb11e687480aab63a2776cc8b401"
+      },
+      {
+        "path": "references/lora-peft.md",
+        "sha256": "dcdc48e7c1701c2da73b4a80e3b3398a0a9fea86b5a31b64845cdd3d667ce17e"
+      }
+    ],
+    "id": "fine-tuning-expert",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.925
+    },
+    "license": "MIT",
+    "name": "fine-tuning-expert",
+    "needs": [
+      "dependencies",
+      "data-processing",
+      "python-quality",
+      "agent-skills",
+      "testing",
+      "deploy"
+    ],
+    "path": "skills/fine-tuning-expert",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*",
+      "python"
+    ],
+    "summary": "Guides LLM fine-tuning with LoRA/QLoRA, dataset prep, training, evaluation, and deployment using Hugging Face PEFT and Transformers.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "flutter-expertise"
     ],
     "cluster": "flutter-expertise",
@@ -1330,6 +1800,100 @@
       "*"
     ],
     "summary": "Produces distinctive, production-grade interfaces instead of generic AI-looking layouts.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "component-architecture",
+      "implementation-planning"
+    ],
+    "cluster": "component-architecture",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 531,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "89297efd2a6ba43237bd711d41d5d8bc50241954fe535d413bc08a1c345bc176"
+      },
+      {
+        "path": "references/ecs-patterns.md",
+        "sha256": "5ef2de275b32bcf78a215ac09e101e70c06d5bb64e2577dc61fba811950a49c6"
+      },
+      {
+        "path": "references/multiplayer-networking.md",
+        "sha256": "10c22a22749041b99f09a4e365dadbe6e58fc1b56c90407960bb466aa2de8611"
+      },
+      {
+        "path": "references/performance-optimization.md",
+        "sha256": "57ce6a6de9b66f4ab5b2b7bd7349fa6694e5eb641e5a94bcf80e1351ad4fd4ed"
+      },
+      {
+        "path": "references/unity-patterns.md",
+        "sha256": "0f8b0ffada2a9e997c7db40cc472babf30c670514f01441c3dbd2f25a573fefc"
+      },
+      {
+        "path": "references/unreal-cpp.md",
+        "sha256": "b41b68aa1dba6635924a909c4d749ae199bd6ac8fed263598163c9bbbce807e6"
+      }
+    ],
+    "id": "game-developer",
+    "jury": {
+      "agreement": 0.88,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "game-developer",
+    "needs": [
+      "performance",
+      "testing"
+    ],
+    "path": "skills/game-developer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "csharp",
+      "cpp"
+    ],
+    "summary": "Guidance for building game systems in Unity/Unreal, covering ECS architecture, performance optimization, networking, and common patterns li…",
     "tier": "mission",
     "type": "skill"
   },
@@ -1919,6 +2483,103 @@
     ],
     "badges": [],
     "capabilities": [
+      "codebase-map",
+      "component-architecture",
+      "implementation-planning",
+      "tdd-discipline"
+    ],
+    "cluster": "codebase-map",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 398,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "0d2258af837cc137a7636915f8233d5305330e00a73e05507da5ed89785d7b49"
+      },
+      {
+        "path": "references/legacy-testing.md",
+        "sha256": "071f5da7b47c2e71671cf523e1b133e10c34474e831b1594df6b145eedcf5f02"
+      },
+      {
+        "path": "references/migration-strategies.md",
+        "sha256": "a1387efa79f4970a0ad608e8b4bb38e02a201538cff90dfe3199249ebd884b9c"
+      },
+      {
+        "path": "references/refactoring-patterns.md",
+        "sha256": "a2ad7703cc259c9965525ae0db32254bf2a592ef6a6e006bad692f2f398a8e13"
+      },
+      {
+        "path": "references/strangler-fig-pattern.md",
+        "sha256": "a802264c2520793e4ba3b567d1450de7056e24b20a632d4b070ae2cc76e984b1"
+      },
+      {
+        "path": "references/system-assessment.md",
+        "sha256": "652749f4378e43d2eae0c57ce136aae6384d29671afb5b0bd160630c1b390ec4"
+      }
+    ],
+    "id": "legacy-modernizer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "legacy-modernizer",
+    "needs": [
+      "docs-writing",
+      "large-codebase",
+      "testing",
+      "dependencies"
+    ],
+    "path": "skills/legacy-modernizer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Provides incremental migration strategies for legacy systems, including dependency maps, API facades, and characterization tests to moderni…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "mcp-development"
     ],
     "cluster": "mcp-development",
@@ -2013,6 +2674,298 @@
       "*"
     ],
     "summary": "Guides building high-quality MCP servers in TypeScript or Python, from tool design to evaluation.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "mcp-development"
+    ],
+    "cluster": "mcp-development",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 386,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "6c0adeb3e3626f450c5ee4160eb82e237a5b88b65e05231def45e59e5badc852"
+      },
+      {
+        "path": "references/protocol.md",
+        "sha256": "967f215e0ec324ddfcf95f3c98e8ccaa791484618431971b3d1d2ba994955ba9"
+      },
+      {
+        "path": "references/python-sdk.md",
+        "sha256": "395b3fce55012361c9397cac7b6ab51477789756524b9ace0a7f3626946a3c9d"
+      },
+      {
+        "path": "references/resources.md",
+        "sha256": "c32f64a706515ea0a782c574a71024c97b43342f077f06825573e551168dd7c8"
+      },
+      {
+        "path": "references/tools.md",
+        "sha256": "f261f11d0fcaa49f12b527ce64832b65c2d35ad96b913e6b476b54b06410f0f2"
+      },
+      {
+        "path": "references/typescript-sdk.md",
+        "sha256": "cc7b746f2fafac7669d9fd8f076d82181ab2177a5fe7887e054f31b59bc3eee6"
+      }
+    ],
+    "id": "mcp-developer",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "mcp-developer",
+    "needs": [
+      "agent-skills"
+    ],
+    "path": "skills/mcp-developer",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "typescript",
+      "python"
+    ],
+    "summary": "Guidance for building, debugging, or extending MCP servers/clients using TypeScript/Python SDKs with schema validation and transport setup.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "component-architecture",
+      "implementation-planning",
+      "design-brainstorming",
+      "security-review"
+    ],
+    "cluster": "component-architecture",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 408,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "d4a22ae7b850c047049209514d2ac2dcd02016472ec9e8f8dfaa51538b495246"
+      },
+      {
+        "path": "references/communication.md",
+        "sha256": "ca2045d42651ac976bc1647adecbd8e5251e62db2f3a8b8113847d3375024b95"
+      },
+      {
+        "path": "references/data.md",
+        "sha256": "41d754181a8c2b8df3cff9fddb8d53c098fd8bc8b7b5e1e0840c6f1b9f3784b6"
+      },
+      {
+        "path": "references/decomposition.md",
+        "sha256": "176e233a770dd2605f70f773bedffde7862573238c571bd5edcd102c92623ba0"
+      },
+      {
+        "path": "references/observability.md",
+        "sha256": "67fdf013294369de39c4742c5782bc9e6590e7e73e6ca3cb520d43a54d7f6a43"
+      },
+      {
+        "path": "references/patterns.md",
+        "sha256": "7ff849bd85c6eff82ab94c25d0fe5683c16480cefa3a8e441b4041f7c0e9a85f"
+      }
+    ],
+    "id": "microservices-architect",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8500000000000001,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "microservices-architect",
+    "needs": [
+      "agent-skills",
+      "dependencies",
+      "docs-writing",
+      "deploy",
+      "security"
+    ],
+    "path": "skills/microservices-architect",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "*",
+      "node",
+      "typescript",
+      "python",
+      "docker"
+    ],
+    "summary": "Designs microservices architectures, decomposes monoliths, defines service boundaries, communication patterns, resilience, and observabilit…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "component-architecture",
+      "workflow-meta",
+      "python-tooling"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "feature-forge"
+    ],
+    "descriptionChars": 604,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "8d6436c5f4ca75da425fa6e0f04d57f9eb96e50b47bf0891f5cbfd7aa9049845"
+      },
+      {
+        "path": "references/experiment-tracking.md",
+        "sha256": "87044c7d09de361758e02611447587b56d722a171c9102185836634129dbc8ae"
+      },
+      {
+        "path": "references/feature-engineering.md",
+        "sha256": "726dc77f466bb89f466f25035d81a9204228b7928bedae2df20b31db1bcb82de"
+      },
+      {
+        "path": "references/model-validation.md",
+        "sha256": "1b0d23554a9e3430ff2b2e61957d9a312ad38500ab42f0d7e3ef9df05b71bea1"
+      },
+      {
+        "path": "references/pipeline-orchestration.md",
+        "sha256": "ad97d5e631c7988b2a68240b006985c93b9026ff78f0424b6ec983ae54e27375"
+      },
+      {
+        "path": "references/training-pipelines.md",
+        "sha256": "2922a663eb368f56f3e9e546e7f6cc5bdc1b1cc9bbc37cc5c5a5b4f5339a0345"
+      }
+    ],
+    "id": "ml-pipeline",
+    "jury": {
+      "agreement": 0.9199999999999999,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "MIT",
+    "name": "ml-pipeline",
+    "needs": [
+      "data-processing",
+      "dependencies",
+      "deploy",
+      "testing"
+    ],
+    "path": "skills/ml-pipeline",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Designs and implements production-grade ML pipeline infrastructure including experiment tracking, orchestration, feature stores, and model …",
     "tier": "mission",
     "type": "skill"
   },
