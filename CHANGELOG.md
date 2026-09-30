@@ -13,6 +13,9 @@
   is what a skill is for, and about a fifth of new findings lost their verified mark. Now only content aimed at the
   jury itself counts: asking for a score, telling it to ignore its rules, posing as a system message.
 - `npm run check` names the failing tests.
+- The lab now adds vetted skills to the catalog on its own, every 30 minutes, only after the security scan, the jury,
+  the scenario set and `npm run check` pass. Four skills it added from a collection of leaked system prompts were
+  removed and that source is denylisted: its license is not the uploader's to give.
 
 ## 0.2.0 (2026-09-29)
 

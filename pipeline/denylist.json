@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "repo": "asgeirtj/system_prompts_leaks",
+    "reason": "leaked system prompts of other companies' products (Anthropic's Claude Code skills); the uploader cannot license them"
+  }
+]
