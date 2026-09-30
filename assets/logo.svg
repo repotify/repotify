@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Repotify logo: five equalizer bars"><defs><linearGradient id="rpbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#232A3B"/><stop offset="1" stop-color="#12151C"/></linearGradient><linearGradient id="rpbars" x1="94" y1="0" x2="418" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F08A3C"/><stop offset="0.3" stop-color="#EE6F6B"/><stop offset="0.55" stop-color="#C96DB0"/><stop offset="0.8" stop-color="#8E8CE6"/><stop offset="1" stop-color="#6FA8F6"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#rpbg)"/><rect x="1.5" y="1.5" width="509" height="509" rx="110.5" fill="none" stroke="#2C3446" stroke-width="3"/><rect x="94" y="256" width="44" height="150" rx="22" fill="url(#rpbars)"/><rect x="164" y="156" width="44" height="250" rx="22" fill="url(#rpbars)"/><rect x="234" y="106" width="44" height="300" rx="22" fill="url(#rpbars)"/><rect x="304" y="206" width="44" height="200" rx="22" fill="url(#rpbars)"/><rect x="374" y="144" width="44" height="262" rx="22" fill="url(#rpbars)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Repotify logo: the letter R with a play symbol inside">
+  <defs>
+    <linearGradient id="rptile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1B1633"/><stop offset="1" stop-color="#0C0A18"/></linearGradient>
+    <linearGradient id="rpink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B3A8FF"/><stop offset="1" stop-color="#6E56FF"/></linearGradient>
+    <linearGradient id="rpplay" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6AF3CB"/><stop offset="1" stop-color="#1FD1A0"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#rptile)"/>
+  <rect x="1.5" y="1.5" width="509" height="509" rx="114.5" fill="none" stroke="#2D2650" stroke-width="3"/>
+  <path d="M168 410V104H286C352 104 396 148 396 206C396 264 352 306 286 306H168M276 306L382 410" fill="none" stroke="url(#rpink)" stroke-width="62" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M244 152L244 260L336 206Z" fill="url(#rpplay)" stroke="url(#rpplay)" stroke-width="16" stroke-linejoin="round"/>
+</svg>

@@ -26,16 +26,16 @@ const attr = (s) => escapeHtml(String(s).replace(/`/g, ""));
 const ICONS = {
   github: '<svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>',
   globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
-  choice: '<svg viewBox="0 0 24 24" fill="none" stroke="#f08a3c" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M4 12h16M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="15" cy="18" r="2"/></svg>',
-  risk: '<svg viewBox="0 0 24 24" fill="none" stroke="#ee6f6b" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 10v4M12 17.2v.1" stroke-linecap="round"/></svg>',
-  context: '<svg viewBox="0 0 24 24" fill="none" stroke="#6fa8f6" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>',
-  smart: '<svg viewBox="0 0 24 24" fill="none" stroke="#c96db0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg>',
-  audit: '<svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5h10M9 12h10M9 19h10"/><path d="m3.5 5 1.5 1.5L7.5 4M3.5 12l1.5 1.5L7.5 11"/><path d="M4 18l3 3M7 18l-3 3"/></svg>',
-  suggest: '<svg viewBox="0 0 24 24" fill="none" stroke="#8e8ce6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 20 4l-4 16-4-7-8-1Z"/><path d="m12 13 8-9"/></svg>',
+  choice: '<svg viewBox="0 0 24 24" fill="none" stroke="#8c78ff" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M4 12h16M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="15" cy="18" r="2"/></svg>',
+  risk: '<svg viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 10v4M12 17.2v.1" stroke-linecap="round"/></svg>',
+  context: '<svg viewBox="0 0 24 24" fill="none" stroke="#5cc8ff" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>',
+  smart: '<svg viewBox="0 0 24 24" fill="none" stroke="#b3a8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg>',
+  audit: '<svg viewBox="0 0 24 24" fill="none" stroke="#3fe8b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5h10M9 12h10M9 19h10"/><path d="m3.5 5 1.5 1.5L7.5 4M3.5 12l1.5 1.5L7.5 11"/><path d="M4 18l3 3M7 18l-3 3"/></svg>',
+  suggest: '<svg viewBox="0 0 24 24" fill="none" stroke="#5cc8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 20 4l-4 16-4-7-8-1Z"/><path d="m12 13 8-9"/></svg>',
   keys: '<svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M14 9l2 2"/></svg>',
 };
 
-// The logo inline, with gradient ids unique per copy (it appears twice on each page).
+// The logo inline, with gradient ids unique per copy (it appears four times on each page).
 function logo(suffix) {
   return readFileSync(join(SRC, "assets", "logo.svg"), "utf8")
     .replace(/<svg /, '<svg aria-hidden="true" focusable="false" ')
@@ -129,7 +129,7 @@ const NOT_FOUND = (version) => `<!doctype html>
 <link rel="icon" href="${BASE_PATH}assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${BASE_PATH}assets/styles.css?v=${version}"></head>
 <body><main id="main"><section class="final" style="min-height:70vh;display:grid;place-content:center">
-<div class="eq small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<div class="mark small" aria-hidden="true">${logo("nf")}</div>
 <h2>This track is not on the playlist</h2><p>The page you asked for does not exist.</p>
 <p style="margin-top:28px"><a class="btn primary" href="${BASE_PATH}">Repotify home</a></p></section></main></body></html>
 `;

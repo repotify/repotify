@@ -34,6 +34,7 @@ Smarter picks, an audit of what is already installed, and a setup your agent's s
 - A website at repotify.github.io/repotify in 24 languages (right-to-left for Arabic, Persian and Hebrew): one static
   page per language with hreflang, Open Graph, Twitter cards and JSON-LD, a sitemap, no trackers and no framework
   (`site/`, deployed by `.github/workflows/pages.yml`).
+- A new logo, an R with a play symbol, and a new banner in violet and mint; the website uses the same colours.
 - The fingerprint ignores test fixtures, examples and templates inside a project (Repotify's own repository looked
   like a 14-stack project). Repotify develops itself with its own recommendations; three project subagents live in
   `.claude/agents/`.
