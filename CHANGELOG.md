@@ -29,7 +29,7 @@ Smarter picks, an audit of what is already installed, and a setup your agent's s
   `examples/`, translations in `docs/i18n/`, reports in `docs/reports/`; a test keeps documentation links working.
 - Taxonomy: capabilities can be marked `platform: web`; building an MCP server also wants docs lookup.
   `pipeline/rehash.mjs` rewrites the hashes after a taxonomy edit.
-- CI also runs on Node 24; `.gitignore` covers `.env` files, `.npmrc` and `*.pem`.
+- CI also runs on Node 24, and on Windows and macOS; `.gitignore` covers `.env` files, `.npmrc` and `*.pem`.
 - Security review before release ([report](docs/reports/security-review-2026-09-30.md)): `update --apply` of a hook or
   MCP server now needs the same consent as `enable`; `audit` and `suggest` print names from the project safely and only
   suggest `repotify remove` for real catalog ids; oversized SKILL.md files are not parsed; the docs no longer claim the

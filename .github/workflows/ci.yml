@@ -39,11 +39,10 @@ jobs:
       - name: Package contents
         run: npm pack --dry-run
 
-  # Windows and macOS, informative until they are known green: a failure here is reported but does not fail the run.
+  # Windows and macOS on the current Node LTS.
   compat:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
