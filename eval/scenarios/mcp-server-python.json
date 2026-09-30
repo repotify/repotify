@@ -1,33 +1,27 @@
 {
-  "name": "pdf-reporter",
-  "note": "",
+  "name": "mcp-server-python",
+  "note": "MCP server written in Python with the official SDK.",
   "fingerprint": {
     "empty": false,
     "stacks": [
       "python"
     ],
     "inferredNeeds": [
-      "pdf",
-      "office-docs"
+      "mcp-server"
     ],
     "frameworks": [],
     "agents": {
       "configured": [],
       "skills": []
-    },
-    "capabilityHints": [
-      "docx-documents",
-      "pdf-processing"
-    ]
+    }
   },
   "answers": {},
   "mustInclude": [
-    "pdf",
-    "docx"
+    "mcp-builder",
+    "context7"
   ],
   "mustNotInclude": [
-    "pptx",
     "react-native-skills",
-    "xlsx"
+    "react-best-practices"
   ]
 }

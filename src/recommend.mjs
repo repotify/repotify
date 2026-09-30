@@ -1,4 +1,4 @@
-// Recommendation engine: fit, score, conflicts, context budget, candidate table.
+// Recommendation engine: demand, fit, score, conflicts, coverage, context budget, candidate table.
 
 export const WEIGHTS = { quality: 0.35, trust: 0.25, adoption: 0.2, freshness: 0.1, community: 0.1 };
 export const POPULARITY_CAP_STARS = 5000;
@@ -8,13 +8,78 @@ const MIN_FIT = 0.2;
 const intersect = (a = [], b = []) => a.filter((x) => b.includes(x));
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
+// ---------------------------------------------------------------------------
+// Demand: what this project asks for, and how sure we are.
+
+const WEB_STACKS = ["nextjs", "nuxt", "vue", "svelte", "angular", "astro", "vercel", "electron", "tauri"];
+const MOBILE_STACKS = ["react-native", "expo", "flutter"];
+
+// Where the project runs. Fingerprints list platforms from dependencies; hand-written or older ones are read from
+// stacks (React counts as web only without React Native, whose apps depend on React too).
+export function platformsOf(fp) {
+  if (fp?.platforms?.length) return [...fp.platforms].sort();
+  const stacks = new Set(fp?.stacks ?? []);
+  const mobile = MOBILE_STACKS.some((s) => stacks.has(s));
+  const out = new Set();
+  if (WEB_STACKS.some((s) => stacks.has(s)) || (stacks.has("react") && !mobile)) out.add("web");
+  if (mobile) out.add("mobile");
+  if (stacks.has("electron") || stacks.has("tauri")) out.add("desktop");
+  return [...out].sort();
+}
+
+// Need weights, the capabilities that serve them, and capability evidence from dependencies. Evidence narrows a
+// broad need to the facets it shows (openpyxl: spreadsheets, not every office format) unless the user named the need.
+export function buildDemand({ taxonomy, fingerprint: fp, needs }) {
+  const needWeights = { ...(needs?.weights ?? Object.fromEntries((needs?.needs ?? []).map((n) => [n, 1]))) };
+  const answered = new Set(needs?.answered ?? []);
+  const hints = (fp?.capabilityHints ?? []).filter((c) => taxonomy.capabilities?.[c]);
+  const hinted = new Set(hints);
+  const capWeights = {};
+  const want = (c, w) => {
+    capWeights[c] = Math.max(capWeights[c] ?? 0, w);
+  };
+  const narrowed = [];
+  for (const [n, w] of Object.entries(needWeights)) {
+    const caps = taxonomy.needs?.[n]?.capabilities ?? [];
+    const shown = caps.filter((c) => hinted.has(c));
+    if (shown.length && shown.length < caps.length && !answered.has(n)) {
+      narrowed.push(n);
+      for (const c of shown) want(c, w);
+    } else {
+      for (const c of caps) want(c, w);
+    }
+  }
+  for (const c of hints) want(c, 1);
+  return {
+    needs: Object.keys(needWeights).filter((n) => !narrowed.includes(n)).sort(),
+    needWeights,
+    capabilitiesWanted: Object.keys(capWeights).sort(),
+    capWeights,
+    narrowed: narrowed.sort(),
+    hints,
+    platforms: platformsOf(fp),
+    webOnlyCaps: new Set(Object.entries(taxonomy.capabilities ?? {}).filter(([, c]) => c.platform === "web").map(([id]) => id)),
+  };
+}
+
+// Web-only skills (browser end-to-end tests, web UI review, React DOM performance) do not help an app with no web target.
+export function platformMismatch(item, ctx) {
+  const platforms = ctx.platforms ?? [];
+  if (!platforms.length || platforms.includes("web") || !ctx.webOnlyCaps?.size) return false;
+  return item.capabilities.length > 0 && item.capabilities.every((c) => ctx.webOnlyCaps.has(c));
+}
+
+// The strongest evidence behind a set of matched needs or capabilities; 1 when the context carries no weights.
+const weightOf = (weights, keys) => (weights && keys.length ? Math.max(...keys.map((k) => weights[k] ?? 1)) : 1);
+
 // How well an item matches this project, with reason codes for the agent.
 export function fitScore(item, ctx) {
   if (item.tier === "core") return { fit: 1, reasons: ["core"] };
+  if (platformMismatch(item, ctx)) return { fit: 0, reasons: [] };
   const caps = intersect(item.capabilities, ctx.capabilitiesWanted);
   const needs = intersect(item.needs, ctx.needs);
-  const capScore = caps.length ? Math.min(1, 0.8 + 0.1 * (caps.length - 1)) : 0;
-  const needScore = needs.length ? Math.min(0.7, 0.5 + 0.1 * (needs.length - 1)) : 0;
+  const capScore = caps.length ? Math.min(1, 0.8 + 0.1 * (caps.length - 1)) * weightOf(ctx.capWeights, caps) : 0;
+  const needScore = needs.length ? Math.min(0.7, 0.5 + 0.1 * (needs.length - 1)) * weightOf(ctx.needWeights, needs) : 0;
   const match = Math.max(capScore, needScore);
   const reasons = [...caps.map((c) => `cap:${c}`), ...needs.map((n) => `need:${n}`)];
   const anyStack = item.stacks.includes("*");
@@ -123,13 +188,16 @@ function exclusiveGroups(item, taxonomy) {
 
 export function recommend({ catalog, fingerprint: fp, needs, installed = [], budgetChars = DEFAULT_BUDGET_CHARS, maxRows = 30 }) {
   const { taxonomy } = catalog;
-  const needCodes = needs?.needs ?? [];
-  const capabilitiesWanted = [...new Set(needCodes.flatMap((n) => taxonomy.needs[n]?.capabilities ?? []))];
+  const demand = buildDemand({ taxonomy, fingerprint: fp, needs });
   const loadout = fp?.empty ? pickLoadout(catalog.loadouts, needs ?? {}) : null;
   const ctx = {
     stacks: fp?.stacks ?? [],
-    needs: needCodes,
-    capabilitiesWanted,
+    needs: demand.needs,
+    needWeights: demand.needWeights,
+    capabilitiesWanted: demand.capabilitiesWanted,
+    capWeights: demand.capWeights,
+    platforms: demand.platforms,
+    webOnlyCaps: demand.webOnlyCaps,
     loadoutIds: loadout?.items ?? [],
     loadout: loadout?.id,
   };
@@ -159,15 +227,37 @@ export function recommend({ catalog, fingerprint: fp, needs, installed = [], bud
     if (kept.length >= maxRows) break;
   }
 
+  // Coverage: an optional item joins the default set only if it serves a wanted capability or need that nothing
+  // chosen so far serves. Stack items (expertise for a stack the project uses) and loadout picks are exempt.
+  const wantedCaps = new Set(ctx.capabilitiesWanted);
+  const servedBy = new Map(); // "cap:x" | "need:y" -> id of the first chosen item that serves it
+  const serves = (item) => {
+    const keys = item.capabilities.filter((c) => wantedCaps.has(c)).map((c) => `cap:${c}`);
+    for (const n of ctx.needs) {
+      if ((item.needs ?? []).includes(n) || (taxonomy.needs[n]?.capabilities ?? []).some((c) => item.capabilities.includes(c))) keys.push(`need:${n}`);
+    }
+    return keys;
+  };
+  const cover = (item) => {
+    for (const k of serves(item)) if (!servedBy.has(k)) servedBy.set(k, item.id);
+  };
+  const exempt = (s) => (s.item.tier === "stack" && s.reasons.some((r) => r.startsWith("stack:"))) || ctx.loadoutIds.includes(s.item.id);
+  const coveredBy = new Map(); // id -> id of the chosen item that already serves everything it would add
+
   // Context budget: installed items already cost context; core next; then best value per character.
   let used = 0;
   const defaults = new Set();
   const dropped = [];
-  for (const s of kept) if (installedSet.has(s.item.id)) used += s.item.descriptionChars;
+  for (const s of kept) {
+    if (!installedSet.has(s.item.id)) continue;
+    used += s.item.descriptionChars;
+    cover(s.item);
+  }
   const tryAdd = (s) => {
     if (used + s.item.descriptionChars <= budgetChars) {
       used += s.item.descriptionChars;
       defaults.add(s.item.id);
+      cover(s.item);
     } else {
       dropped.push(s.item.id);
     }
@@ -176,7 +266,14 @@ export function recommend({ catalog, fingerprint: fp, needs, installed = [], bud
   const optional = kept
     .filter((s) => s.item.tier !== "core" && !installedSet.has(s.item.id) && s.fit >= MIN_DEFAULT_FIT)
     .sort((a, b) => b.score / Math.max(50, b.item.descriptionChars) - a.score / Math.max(50, a.item.descriptionChars));
-  for (const s of optional) tryAdd(s);
+  for (const s of optional) {
+    const keys = serves(s.item);
+    if (!exempt(s) && keys.length && keys.every((k) => servedBy.has(k))) {
+      coveredBy.set(s.item.id, servedBy.get(keys[0]));
+      continue;
+    }
+    tryAdd(s);
+  }
 
   const rows = kept.map((s) => ({
     id: s.item.id,
@@ -186,7 +283,7 @@ export function recommend({ catalog, fingerprint: fp, needs, installed = [], bud
     score: Math.round(s.score * 100) / 100,
     badges: s.badges,
     summary: s.item.summary,
-    reasons: s.reasons,
+    reasons: coveredBy.has(s.item.id) ? [`covered-by:${coveredBy.get(s.item.id)}`, ...s.reasons] : s.reasons,
     default: defaults.has(s.item.id),
     installed: installedSet.has(s.item.id),
   }));
@@ -196,6 +293,8 @@ export function recommend({ catalog, fingerprint: fp, needs, installed = [], bud
     budget: { used, limit: budgetChars },
     loadout: loadout?.id ?? null,
     droppedForBudget: dropped,
+    coveredBy: Object.fromEntries(coveredBy),
+    demand: { platforms: demand.platforms, narrowed: demand.narrowed, hints: demand.hints },
   };
 }
 

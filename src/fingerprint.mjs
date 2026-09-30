@@ -121,7 +121,7 @@ export function manifestDeps(name, text) {
 function emptyFingerprint(reason) {
   return {
     empty: true, reason, truncated: false, languages: [], manifests: [], stacks: [], frameworks: [], infra: [], tests: [],
-    data: [], llm: [], inferredNeeds: [], size: { files: 0 }, agents: { configured: [], skills: [] },
+    data: [], llm: [], inferredNeeds: [], capabilityHints: [], platforms: [], size: { files: 0 }, agents: { configured: [], skills: [] },
   };
 }
 
@@ -129,13 +129,18 @@ export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() }
   const root = resolve(dir);
   if (root === resolve(homeDir) || root === sep || root === resolve("/")) return emptyFingerprint("home-or-root");
   const { files, truncated } = await walk(root, maxFiles);
-  const sets = { stacks: new Set(), frameworks: new Set(), infra: new Set(), tests: new Set(), data: new Set(), llm: new Set(), needs: new Set(), agents: new Set(), skills: new Set() };
+  const sets = {
+    stacks: new Set(), frameworks: new Set(), infra: new Set(), tests: new Set(), data: new Set(), llm: new Set(), needs: new Set(),
+    caps: new Set(), platforms: new Set(), agents: new Set(), skills: new Set(),
+  };
   const langCounts = new Map();
   const manifests = [];
 
   const apply = (entry) => {
     for (const s of entry.stacks ?? []) sets.stacks.add(s);
     for (const n of entry.needs ?? []) sets.needs.add(n);
+    for (const c of entry.caps ?? []) sets.caps.add(c);
+    for (const p of entry.platforms ?? []) sets.platforms.add(p);
     if (entry.framework) sets.frameworks.add(entry.framework);
     if (entry.infra) sets.infra.add(entry.infra);
     if (entry.test) sets.tests.add(entry.test);
@@ -197,6 +202,8 @@ export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() }
     data: sorted(sets.data),
     llm: sorted(sets.llm),
     inferredNeeds: sorted(sets.needs),
+    capabilityHints: sorted(sets.caps),
+    platforms: sorted(sets.platforms),
     size: { files: files.length },
     agents: { configured: sorted(sets.agents), skills: sorted(sets.skills) },
   };
@@ -211,11 +218,11 @@ export function formatFingerprint(fp) {
   const lines = [
     "Project fingerprint (local scan, code not read or sent):",
     `- Languages: ${fp.languages.map((l) => `${l.lang} ${l.files}`).join(", ") || "none"}`,
-    `- Stacks: ${list(fp.stacks, 14)}`,
+    `- Stacks: ${list(fp.stacks, 14)}${fp.platforms?.length ? ` | Platforms: ${fp.platforms.join(", ")}` : ""}`,
     `- Frameworks: ${list(fp.frameworks)}`,
     `- Tests: ${list(fp.tests)} | Data: ${list(fp.data)} | LLM SDKs: ${list(fp.llm)}`,
     `- Infra: ${list(fp.infra)}`,
-    `- Inferred needs: ${list(fp.inferredNeeds, 14)}`,
+    `- Inferred needs: ${list(fp.inferredNeeds, 14)}${fp.capabilityHints?.length ? ` (evidence: ${list(fp.capabilityHints, 6)})` : ""}`,
     `- Size: ${fp.size.files}${fp.truncated ? "+" : ""} files | Agent config: ${list(fp.agents.configured)}${fp.agents.skills.length ? ` (skills: ${list(fp.agents.skills, 8)})` : ""}`,
   ];
   const text = lines.join("\n");

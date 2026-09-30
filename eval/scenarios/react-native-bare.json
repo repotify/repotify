@@ -1,18 +1,17 @@
 {
-  "name": "expo-app",
-  "note": "",
+  "name": "react-native-bare",
+  "note": "Bare React Native app (no Expo, no web target).",
   "fingerprint": {
     "empty": false,
     "stacks": [
       "node",
-      "typescript",
       "react",
       "react-native",
-      "expo"
+      "typescript"
     ],
     "inferredNeeds": [
-      "mobile",
-      "frontend-ui"
+      "frontend-ui",
+      "mobile"
     ],
     "frameworks": [],
     "agents": {
@@ -26,9 +25,8 @@
     "frontend-design"
   ],
   "mustNotInclude": [
-    "guidelines-advisor",
-    "react-best-practices",
+    "webapp-testing",
     "web-design-guidelines",
-    "webapp-testing"
+    "react-best-practices"
   ]
 }

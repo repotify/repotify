@@ -1,19 +1,21 @@
 // Dependency and file signals used by the fingerprint. Pure data: add entries, not logic.
 // Keys are package names (npm, PyPI normalized to lowercase with dashes, Go module paths, gems, crates).
-// Fields: stack(s), framework, needs, llm, data, test.
+// Fields: stack(s), framework, needs, caps (capability evidence: which facet of a need, e.g. Excel rather than
+// any office format), platforms (web, mobile, desktop), llm, data, test.
 
 const m = (o) => o;
 
 export const DEP_MAP = {
   // JavaScript / TypeScript frameworks
-  next: m({ stacks: ["nextjs", "react"], framework: "next", needs: ["frontend-ui"] }),
+  next: m({ stacks: ["nextjs", "react"], framework: "next", needs: ["frontend-ui"], platforms: ["web"] }),
   react: m({ stacks: ["react"], framework: "react", needs: ["frontend-ui"] }),
-  vue: m({ stacks: ["vue"], framework: "vue", needs: ["frontend-ui"] }),
-  nuxt: m({ stacks: ["nuxt", "vue"], framework: "nuxt", needs: ["frontend-ui"] }),
-  svelte: m({ stacks: ["svelte"], framework: "svelte", needs: ["frontend-ui"] }),
-  "@sveltejs/kit": m({ stacks: ["svelte"], framework: "sveltekit", needs: ["frontend-ui"] }),
-  astro: m({ stacks: ["astro"], framework: "astro", needs: ["frontend-ui", "seo"] }),
-  "@angular/core": m({ stacks: ["angular"], framework: "angular", needs: ["frontend-ui"] }),
+  vue: m({ stacks: ["vue"], framework: "vue", needs: ["frontend-ui"], platforms: ["web"] }),
+  nuxt: m({ stacks: ["nuxt", "vue"], framework: "nuxt", needs: ["frontend-ui"], platforms: ["web"] }),
+  svelte: m({ stacks: ["svelte"], framework: "svelte", needs: ["frontend-ui"], platforms: ["web"] }),
+  "@sveltejs/kit": m({ stacks: ["svelte"], framework: "sveltekit", needs: ["frontend-ui"], platforms: ["web"] }),
+  astro: m({ stacks: ["astro"], framework: "astro", needs: ["frontend-ui", "seo"], platforms: ["web"] }),
+  "@angular/core": m({ stacks: ["angular"], framework: "angular", needs: ["frontend-ui"], platforms: ["web"] }),
+  "react-dom": m({ platforms: ["web"] }),
   express: m({ stacks: ["express"], framework: "express" }),
   fastify: m({ stacks: ["fastify"], framework: "fastify" }),
   "@nestjs/core": m({ stacks: ["nestjs"], framework: "nestjs" }),
@@ -21,10 +23,11 @@ export const DEP_MAP = {
   koa: m({ framework: "koa" }),
   vite: m({ framework: "vite" }),
   tailwindcss: m({ framework: "tailwind", needs: ["frontend-ui"] }),
-  "react-native": m({ stacks: ["react-native"], framework: "react-native", needs: ["mobile"] }),
-  expo: m({ stacks: ["expo", "react-native"], framework: "expo", needs: ["mobile"] }),
-  electron: m({ stacks: ["electron"], framework: "electron" }),
-  "@tauri-apps/api": m({ stacks: ["tauri"], framework: "tauri" }),
+  "react-native": m({ stacks: ["react-native"], framework: "react-native", needs: ["mobile"], platforms: ["mobile"] }),
+  "react-native-web": m({ platforms: ["web"] }),
+  expo: m({ stacks: ["expo", "react-native"], framework: "expo", needs: ["mobile"], platforms: ["mobile"] }),
+  electron: m({ stacks: ["electron"], framework: "electron", platforms: ["desktop", "web"] }),
+  "@tauri-apps/api": m({ stacks: ["tauri"], framework: "tauri", platforms: ["desktop", "web"] }),
   typescript: m({ stacks: ["typescript"] }),
   // Payments and auth
   stripe: m({ needs: ["payments"] }),
@@ -91,23 +94,23 @@ export const DEP_MAP = {
   cypress: m({ test: "cypress", needs: ["e2e-testing"] }),
   pytest: m({ test: "pytest" }),
   // Files, scraping, SEO, office
-  pdfkit: m({ needs: ["pdf"] }),
-  "pdf-lib": m({ needs: ["pdf"] }),
-  jspdf: m({ needs: ["pdf"] }),
-  "@react-pdf/renderer": m({ needs: ["pdf"] }),
-  "pdfjs-dist": m({ needs: ["pdf"] }),
-  pypdf: m({ needs: ["pdf"] }),
-  pypdf2: m({ needs: ["pdf"] }),
-  reportlab: m({ needs: ["pdf"] }),
-  pdfplumber: m({ needs: ["pdf"] }),
-  pymupdf: m({ needs: ["pdf"] }),
-  exceljs: m({ needs: ["office-docs", "data-processing"] }),
-  xlsx: m({ needs: ["office-docs", "data-processing"] }),
-  openpyxl: m({ needs: ["office-docs", "data-processing"] }),
-  docx: m({ needs: ["office-docs"] }),
-  "python-docx": m({ needs: ["office-docs"] }),
-  pptxgenjs: m({ needs: ["office-docs"] }),
-  "python-pptx": m({ needs: ["office-docs"] }),
+  pdfkit: m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  "pdf-lib": m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  jspdf: m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  "@react-pdf/renderer": m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  "pdfjs-dist": m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  pypdf: m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  pypdf2: m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  reportlab: m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  pdfplumber: m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  pymupdf: m({ needs: ["pdf"], caps: ["pdf-processing"] }),
+  exceljs: m({ needs: ["office-docs", "data-processing"], caps: ["spreadsheets"] }),
+  xlsx: m({ needs: ["office-docs", "data-processing"], caps: ["spreadsheets"] }),
+  openpyxl: m({ needs: ["office-docs", "data-processing"], caps: ["spreadsheets"] }),
+  docx: m({ needs: ["office-docs"], caps: ["docx-documents"] }),
+  "python-docx": m({ needs: ["office-docs"], caps: ["docx-documents"] }),
+  pptxgenjs: m({ needs: ["office-docs"], caps: ["presentations"] }),
+  "python-pptx": m({ needs: ["office-docs"], caps: ["presentations"] }),
   cheerio: m({ needs: ["scraping"] }),
   puppeteer: m({ needs: ["scraping"] }),
   playwright: m({ needs: ["scraping", "e2e-testing"] }),
@@ -145,7 +148,7 @@ export const DEP_MAP = {
   tokio: m({ framework: "tokio" }),
   rails: m({ stacks: ["rails"], framework: "rails" }),
   "laravel/framework": m({ stacks: ["laravel"], framework: "laravel" }),
-  flutter: m({ stacks: ["flutter"], framework: "flutter", needs: ["mobile"] }),
+  flutter: m({ stacks: ["flutter"], framework: "flutter", needs: ["mobile"], platforms: ["mobile"] }),
 };
 
 // [regex on relative path, {infra?, stacks?, needs?, test?, agent?}]

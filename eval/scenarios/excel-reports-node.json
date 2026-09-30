@@ -1,33 +1,31 @@
 {
-  "name": "pdf-reporter",
-  "note": "",
+  "name": "excel-reports-node",
+  "note": "Node service that builds Excel reports with exceljs.",
   "fingerprint": {
     "empty": false,
     "stacks": [
-      "python"
+      "node",
+      "typescript"
     ],
     "inferredNeeds": [
-      "pdf",
+      "data-processing",
       "office-docs"
+    ],
+    "capabilityHints": [
+      "spreadsheets"
     ],
     "frameworks": [],
     "agents": {
       "configured": [],
       "skills": []
-    },
-    "capabilityHints": [
-      "docx-documents",
-      "pdf-processing"
-    ]
+    }
   },
   "answers": {},
   "mustInclude": [
-    "pdf",
-    "docx"
+    "xlsx"
   ],
   "mustNotInclude": [
-    "pptx",
-    "react-native-skills",
-    "xlsx"
+    "docx",
+    "pptx"
   ]
 }

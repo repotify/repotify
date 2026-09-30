@@ -23,7 +23,9 @@
     "test-driven-development"
   ],
   "mustNotInclude": [
+    "react-best-practices",
     "react-native-skills",
-    "react-best-practices"
+    "web-design-guidelines",
+    "webapp-testing"
   ]
 }

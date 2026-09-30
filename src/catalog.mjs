@@ -66,8 +66,13 @@ export function validateItem(item, taxonomy) {
   return errors;
 }
 
+export const PLATFORMS = ["web", "mobile", "desktop"];
+
 export function validateCatalog({ items, taxonomy, loadouts = [], core = [] }) {
   const errors = [];
+  for (const [id, cap] of Object.entries(taxonomy.capabilities ?? {})) {
+    if (cap.platform != null && !PLATFORMS.includes(cap.platform)) errors.push(`taxonomy: capability ${id} has unknown platform ${cap.platform}`);
+  }
   const byId = new Map();
   for (const item of items) {
     errors.push(...validateItem(item, taxonomy));

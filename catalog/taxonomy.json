@@ -26,7 +26,8 @@
       "label": "Systematic debugging"
     },
     "deploy-vercel": {
-      "label": "Deploying to Vercel"
+      "label": "Deploying to Vercel",
+      "platform": "web"
     },
     "design-brainstorming": {
       "label": "Design brainstorming before coding"
@@ -71,7 +72,8 @@
       "label": "React Native and Expo"
     },
     "react-performance": {
-      "label": "React and Next.js performance"
+      "label": "React and Next.js performance",
+      "platform": "web"
     },
     "security-review": {
       "label": "Security review of changes"
@@ -98,10 +100,12 @@
       "label": "Verify before claiming done"
     },
     "web-design-review": {
-      "label": "UI and accessibility review"
+      "label": "UI and accessibility review",
+      "platform": "web"
     },
     "webapp-testing": {
-      "label": "Web app end-to-end testing"
+      "label": "Web app end-to-end testing",
+      "platform": "web"
     },
     "workflow-meta": {
       "exclusiveGroup": "process-meta",
@@ -191,7 +195,8 @@
     },
     "mcp-server": {
       "capabilities": [
-        "mcp-development"
+        "mcp-development",
+        "docs-lookup"
       ],
       "label": "Builds an MCP server"
     },

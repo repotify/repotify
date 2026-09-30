@@ -1,18 +1,17 @@
 {
-  "name": "expo-app",
-  "note": "",
+  "name": "vue-spa",
+  "note": "Vue single-page app with Playwright end-to-end tests.",
   "fingerprint": {
     "empty": false,
     "stacks": [
       "node",
       "typescript",
-      "react",
-      "react-native",
-      "expo"
+      "vue"
     ],
     "inferredNeeds": [
-      "mobile",
-      "frontend-ui"
+      "e2e-testing",
+      "frontend-ui",
+      "testing"
     ],
     "frameworks": [],
     "agents": {
@@ -22,13 +21,12 @@
   },
   "answers": {},
   "mustInclude": [
-    "react-native-skills",
-    "frontend-design"
-  ],
-  "mustNotInclude": [
-    "guidelines-advisor",
-    "react-best-practices",
+    "frontend-design",
     "web-design-guidelines",
     "webapp-testing"
+  ],
+  "mustNotInclude": [
+    "react-best-practices",
+    "react-native-skills"
   ]
 }

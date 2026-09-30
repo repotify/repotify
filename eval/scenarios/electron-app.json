@@ -1,17 +1,15 @@
 {
-  "name": "expo-app",
-  "note": "",
+  "name": "electron-app",
+  "note": "Electron desktop app with a React UI: web UI skills apply.",
   "fingerprint": {
     "empty": false,
     "stacks": [
+      "electron",
       "node",
-      "typescript",
       "react",
-      "react-native",
-      "expo"
+      "typescript"
     ],
     "inferredNeeds": [
-      "mobile",
       "frontend-ui"
     ],
     "frameworks": [],
@@ -22,13 +20,10 @@
   },
   "answers": {},
   "mustInclude": [
-    "react-native-skills",
-    "frontend-design"
+    "frontend-design",
+    "web-design-guidelines"
   ],
   "mustNotInclude": [
-    "guidelines-advisor",
-    "react-best-practices",
-    "web-design-guidelines",
-    "webapp-testing"
+    "react-native-skills"
   ]
 }

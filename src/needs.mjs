@@ -55,16 +55,24 @@ export function questionBank(taxonomy, fp) {
   return questions;
 }
 
+// How strongly each source says the project has a need: seen in the project or said by the user beats a stated
+// priority, which beats what projects of this type usually need.
+export const NEED_WEIGHTS = { evidence: 1, answer: 1, priority: 0.85, projectType: 0.75 };
+
 export function resolveNeeds({ fingerprint: fp, answers = {}, taxonomy }) {
   const projectType = taxonomy.projectTypes[answers.projectType] ? answers.projectType : inferProjectType(fp);
   const priorities = (answers.priorities ?? []).filter((p) => taxonomy.priorities[p]);
-  const needs = new Set([
-    ...(fp?.inferredNeeds ?? []),
-    ...(answers.needs ?? []),
-    ...(projectType ? taxonomy.projectTypes[projectType].needs : []),
-    ...priorities.flatMap((p) => PRIORITY_NEEDS[p] ?? []),
-  ]);
-  return { projectType: projectType ?? null, priorities, needs: [...needs].filter((n) => taxonomy.needs[n]).sort() };
+  const weights = {};
+  const add = (list, weight) => {
+    for (const n of list) if (taxonomy.needs[n]) weights[n] = Math.max(weights[n] ?? 0, weight);
+  };
+  add(fp?.inferredNeeds ?? [], NEED_WEIGHTS.evidence);
+  add(answers.needs ?? [], NEED_WEIGHTS.answer);
+  add(priorities.flatMap((p) => PRIORITY_NEEDS[p] ?? []), NEED_WEIGHTS.priority);
+  add(projectType ? taxonomy.projectTypes[projectType].needs : [], NEED_WEIGHTS.projectType);
+  const needs = Object.keys(weights).sort();
+  const answered = (answers.needs ?? []).filter((n) => taxonomy.needs[n]).sort();
+  return { projectType: projectType ?? null, priorities, needs, weights: Object.fromEntries(needs.map((n) => [n, weights[n]])), answered };
 }
 
 export function formatQuestions(questions) {

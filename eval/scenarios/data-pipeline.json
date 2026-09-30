@@ -15,7 +15,11 @@
     "agents": {
       "configured": [],
       "skills": []
-    }
+    },
+    "capabilityHints": [
+      "pdf-processing",
+      "spreadsheets"
+    ]
   },
   "answers": {},
   "mustInclude": [
@@ -23,6 +27,8 @@
     "pdf"
   ],
   "mustNotInclude": [
+    "docx",
+    "pptx",
     "react-best-practices",
     "react-native-skills"
   ]
