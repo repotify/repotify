@@ -146,7 +146,7 @@ ilgili değildir; tek kurulum talimatı bu sayfanın başındaki ajan bloğudur.
 
 ## Durum
 
-Önizleme (`0.1.1`). Komut satırı aracı, tarayıcı, dört ajan için kurulum, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: npm yayını, daha büyük bir katalog ve anonim analitik.
+Önizleme (`0.1.0`). Komut satırı aracı, tarayıcı, dört ajan için kurulum, paket bekçisi ve katalog hattı çalışıyor ve test edildi. Sırada: npm yayını, daha büyük bir katalog ve anonim analitik.
 
 ## Katkı
 

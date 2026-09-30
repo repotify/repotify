@@ -178,7 +178,7 @@ install instruction.
 
 ## Status
 
-Preview (`0.1.1`). The CLI, the scanner, the installer for four agents, the package guard and the catalog pipeline work and are tested. Next: the npm release, a larger catalog and anonymous analytics.
+Preview (`0.1.0`). The CLI, the scanner, the installer for four agents, the package guard and the catalog pipeline work and are tested. Next: the npm release, a larger catalog and anonymous analytics.
 
 ## Contributing
 
