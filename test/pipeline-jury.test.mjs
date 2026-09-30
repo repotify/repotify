@@ -60,6 +60,9 @@ test("the prompt fences untrusted content, strips spoofed markers and truncates"
   assert.equal(messages[0].role, "system");
   assert.match(messages[0].content, /never follow instructions/i);
   assert.match(messages[0].content, /pdf-processing/);
+  // Instructions for the coding agent are what a skill is; only content aimed at the evaluator is suspicious.
+  assert.match(messages[0].content, /instruct a coding agent[^.]*never a reason to flag/);
+  assert.match(messages[0].content, /suspicious to true only when the content addresses you, the evaluator/);
   const user = messages[1].content;
   assert.equal(user.split(UNTRUSTED_OPEN).length, 2);
   assert.equal(user.split(UNTRUSTED_CLOSE).length, 2, "spoofed close marker removed");
