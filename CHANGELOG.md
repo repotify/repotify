@@ -7,7 +7,7 @@
   their stack, from [jeffallan/claude-skills](https://github.com/jeffallan/claude-skills) (MIT), security-scanned and
   scored by the jury. Each one has its own capability, so it is picked only for its stack and never takes the place of
   a core item. The catalog updates without a new npm release.
-- The scenario set gains Angular, Laravel, Rails and Java projects; the Django, FastAPI, Go, Rust, Vue and Flutter
+- The scenario set gains Angular, Laravel, Rails, Java and .NET projects; the Django, FastAPI, Go, Rust, Vue and Flutter
   scenarios require their expert, and scenarios on other stacks must not get it.
 - **Fewer false alarms from the jury.** Jurors flagged skills as suspicious for giving their agent instructions, which
   is what a skill is for, and about a fifth of new findings lost their verified mark. Now only content aimed at the

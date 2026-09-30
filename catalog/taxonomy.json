@@ -47,6 +47,9 @@
     "docx-documents": {
       "label": "Word documents"
     },
+    "dotnet-expertise": {
+      "label": "C# and .NET expertise"
+    },
     "fastapi-expertise": {
       "label": "FastAPI expertise"
     },

@@ -1,13 +1,14 @@
 {
-  "name": "spring-java",
-  "note": "Java service (Spring): the Java expert, not Kotlin's or C#'s.",
+  "name": "dotnet-api",
+  "note": "C# web API on .NET: the .NET expert, not Java's or Python's.",
   "fingerprint": {
     "empty": false,
     "stacks": [
-      "java"
+      "csharp"
     ],
     "inferredNeeds": [
-      "testing"
+      "testing",
+      "auth"
     ],
     "frameworks": [],
     "agents": {
@@ -17,11 +18,11 @@
   },
   "answers": {},
   "mustInclude": [
-    "java-architect"
+    "dotnet-core-expert"
   ],
   "mustNotInclude": [
+    "java-architect",
     "kotlin-specialist",
-    "dotnet-core-expert",
     "python-pro",
     "frontend-design"
   ]

@@ -993,6 +993,95 @@
     ],
     "badges": [],
     "capabilities": [
+      "dotnet-expertise"
+    ],
+    "cluster": "dotnet-expertise",
+    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 197,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "25901e10aa7328a521c08c780b24714c6746fa4e523310e5cfa67cff4329ddfe"
+      },
+      {
+        "path": "references/authentication.md",
+        "sha256": "f4b9b9cc6a9073eacf5f77d8aaa3575699c25fe688ba1ade25df69ca6dea9108"
+      },
+      {
+        "path": "references/clean-architecture.md",
+        "sha256": "4fb2c4ac29927bfc6ec9ba44e0fa8755ad7b3d3d46cc093848cc3b65f6c7c01e"
+      },
+      {
+        "path": "references/cloud-native.md",
+        "sha256": "7df046fd9d0195be4cfda8d721d32941b46d90bb8d571f4eba0fb4ba0304d291"
+      },
+      {
+        "path": "references/entity-framework.md",
+        "sha256": "e8b874bb091ad4439207f39ed91bd427a2cc0da0dc7df2d558ed75192569a526"
+      },
+      {
+        "path": "references/minimal-apis.md",
+        "sha256": "bc5e6c24923bf54ffbd7e0669704b4084e9d19ec6037d922eca5cb9c6455bb76"
+      }
+    ],
+    "id": "dotnet-core-expert",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "openai/gpt-oss-20b",
+        "moonshotai/kimi-k3"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "dotnet-core-expert",
+    "needs": [],
+    "path": "skills/dotnet-core-expert",
+    "repo": "jeffallan/claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T13:48:06.300Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 53,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": null
+    },
+    "stacks": [
+      "csharp"
+    ],
+    "summary": "Guides building .NET 8 applications with minimal APIs, clean architecture, and cloud-native microservices using EF Core, MediatR, and JWT a…",
+    "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "fastapi-expertise"
     ],
     "cluster": "fastapi-expertise",
