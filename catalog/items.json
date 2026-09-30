@@ -606,6 +606,77 @@
     ],
     "badges": [],
     "capabilities": [
+      "design-brainstorming"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 464,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "b0c4837e1bd140ca816ae54948754ddd2ac1e2a4d3619363777a80caf00b2ede"
+      }
+    ],
+    "id": "brandkit",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "brandkit",
+    "needs": [
+      "llm-calls"
+    ],
+    "path": "skills/brandkit",
+    "repo": "leonxlnx/taste-skill",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 91449
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Generates premium brand-kit images for identity boards, logo systems, and visual presentations using detailed art direction.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "design-brainstorming",
       "implementation-planning",
       "security-review"
@@ -1361,6 +1432,75 @@
       "*"
     ],
     "summary": "Optimizes database queries and improves performance across PostgreSQL and MySQL systems.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "debugging-method"
+    ],
+    "cluster": "debugging-method",
+    "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 323,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "21f3960f5d7ae2cc95c40896545004dbbcbbd752ea65fc2d53962554d4174220"
+      }
+    ],
+    "id": "debugging-and-error-recovery",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "debugging-and-error-recovery",
+    "needs": [],
+    "path": "skills/debugging-and-error-recovery",
+    "repo": "addyosmani/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 100058
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides a systematic debugging and error recovery process for coding agents to reproduce, localize, fix, and guard against bugs.",
     "tier": "mission",
     "type": "skill"
   },
@@ -3091,6 +3231,81 @@
     ],
     "summary": "Reviews smart contract architecture, upgradeability, dependencies and tests against Trail of Bits practice.",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming",
+      "frontend-design",
+      "web-design-review",
+      "implementation-planning"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 555,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "4c060a8064a8b13380bc2ef3d6e6a1d0b1e316aa093cd9807d0ce9e4eeb037fa"
+      }
+    ],
+    "id": "image-to-code",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "image-to-code",
+    "needs": [
+      "llm-calls",
+      "frontend-ui"
+    ],
+    "path": "skills/image-to-code-skill",
+    "repo": "leonxlnx/taste-skill",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-09-30T14:13:15.077Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 91449
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Skill for generating design images first, then analyzing them to implement premium, readable frontend code.",
+    "tier": "mission",
     "type": "skill"
   },
   {
