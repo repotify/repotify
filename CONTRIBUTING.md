@@ -23,6 +23,21 @@ npm run eval      # recommendation quality on the scenario set
 node bin/repotify.mjs scan skill/repotify   # our own skill must stay "verified"
 ```
 
+## Develop Repotify with Repotify
+
+The repository recommends its own development setup. From a clone:
+
+```bash
+node bin/repotify.mjs                     # installs the repotify skill for your agent
+node bin/repotify.mjs recommend --type library --needs security,github-workflow,dependencies,agent-skills,docs-writing
+node bin/repotify.mjs install <picked ids> --yes
+```
+
+What it installs stays in your working copy (`.claude/skills/`, `repotify.lock.json` and third-party agents are
+git-ignored). Claude Code users also get three project subagents from `.claude/agents/`: `repotify-scanner-guardian`
+for `src/scan/`, `repotify-catalog-curator` for the catalog and the engine, and `repotify-release-docs` for docs and
+releases.
+
 ## Where things live
 
 | Folder | What it holds |

@@ -10,3 +10,13 @@ pipeline/work/
 !.env.example
 .npmrc
 *.pem
+
+# Local development setup: what Repotify installs into its own working copy (third-party skills and agents stay out of the repo)
+.claude/skills/
+.claude/hooks/
+.claude/settings.json
+.claude/settings.local.json
+.mcp.json
+repotify.lock.json
+.claude/agents/*
+!.claude/agents/repotify-*.md
