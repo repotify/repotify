@@ -153,6 +153,90 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 785,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "1fd229160f6014f3f2d7c92cc7d2f991fbf8dc9ed68aac9793c71b408a6d1144"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "215cb581a3ef018365a4c9a9145ee5ae8bfc93e48ebeab9417224ccf3e89c6b8"
+      },
+      {
+        "path": "references/sample-size-guide.md",
+        "sha256": "96aef9d20c4607662beb924fa31260dee4c0db0c1dd6b607cdb3c4c701f9efd2"
+      },
+      {
+        "path": "references/test-templates.md",
+        "sha256": "761a40b9de8d16f18fa7f60b59e77aa749607ac8014af43e0b022f47fa87c812"
+      }
+    ],
+    "id": "ab-testing",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "ab-testing",
+    "needs": [
+      "testing",
+      "data-processing"
+    ],
+    "path": "skills/ab-testing",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52029
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guidance for planning, designing, implementing, and analyzing A/B tests and growth experimentation programs, including hypothesis framing, …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "codebase-map"
     ],
     "cluster": "codebase-map",
@@ -268,6 +352,90 @@
     ],
     "badges": [],
     "capabilities": [
+      "security-review",
+      "verification-gate"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 429,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "a297f5c609e2cbfdb55711fc3db064733abe2e4ae55ce11d3e0deca48bb5de25"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "8ac33edc7d46564d1b69874099e17eb3cd9e85e4743bc880f25c4e621a8e8a7b"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "885613c1aa72f549911e88e2226854b0a3b3d765e0df849477c26ed63afb3d85"
+      }
+    ],
+    "id": "acquiring-disk-image-with-dd-and-dcfldd",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.95,
+      "models": [
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.95,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "acquiring-disk-image-with-dd-and-dcfldd",
+    "needs": [
+      "security",
+      "docs-writing"
+    ],
+    "path": "skills/acquiring-disk-image-with-dd-and-dcfldd",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33629
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Forensically acquire bit‑for‑bit disk images with dd or dcfldd, including write‑blocking, hashing, split imaging, and documentation.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "code-review"
     ],
     "cluster": "code-review",
@@ -327,6 +495,94 @@
       "*"
     ],
     "summary": "Neutral arbiter for resolving git merge conflicts between two agents' branches using stated intents to guide impartial resolution.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 700,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "3eda97d96b2329daa933b6fdb94bf81aaa1196e3e344e56a8805f972a7438404"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "56932e864114d69a61b6b55e639d207329c0a8b7df8b61a0e1188b249cbef1e8"
+      },
+      {
+        "path": "references/event-library.md",
+        "sha256": "efc7bdb0a7b3efdea9e67ff0d1bc894dcf89ec9b9b8f3414f123d12bee109412"
+      },
+      {
+        "path": "references/ga4-implementation.md",
+        "sha256": "f33fd6db0cbdb1bdc183af5f52bedd956d14680e54bca2e2c3917de29698636e"
+      },
+      {
+        "path": "references/gtm-implementation.md",
+        "sha256": "112da33832439d2ae0b2729e5031fc927df444cd1ae8eb20542d45c1b5690f52"
+      }
+    ],
+    "id": "analytics",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "analytics",
+    "needs": [
+      "frontend-ui",
+      "data-processing"
+    ],
+    "path": "skills/analytics",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52029
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Helps set up, improve, or audit analytics tracking (GA4, GTM, events, UTM) with naming conventions, debugging, and privacy guidance.",
     "tier": "mission",
     "type": "skill"
   },
@@ -863,6 +1119,97 @@
       "gemini-cli",
       "generic"
     ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "skill-authoring"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 977,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "eccc43eb93fed8fa871205fc441830ee020bcfce8b78a645e6e679c3f6099ac6"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "ad5831809092f4e788d83a41f43012869ff1bc1afcff7eb30b08103c834bba7d"
+      },
+      {
+        "path": "references/attribution-models.md",
+        "sha256": "5dcdf4e6693e90ec31a2de773846c5e2c66c5f871832875f854755a83cb47d12"
+      },
+      {
+        "path": "references/by-business-type.md",
+        "sha256": "56eeabaa3f6d4934ec30a8e33ad87e8e2fd1455a07e118a8cc4182f5a54a7314"
+      },
+      {
+        "path": "references/first-party-tracking.md",
+        "sha256": "b8a615c3ec53f40d737c57ccf5c9aa4a7deede3c70485fdf19dd8a1573857b90"
+      },
+      {
+        "path": "references/measurement-paradigms.md",
+        "sha256": "581571c0e4ad985f63f9637b17b7dd462aec544e1b9bf9fb2fe98d1e747e1b1a"
+      }
+    ],
+    "id": "attribution",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.95,
+      "models": [
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "attribution",
+    "needs": [
+      "data-processing"
+    ],
+    "path": "skills/attribution",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52029
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides the agent in interpreting marketing attribution models, reconciling conflicting data sources, and implementing first-party tracking.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
     "badges": [
       "caution"
     ],
@@ -1044,6 +1391,91 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning",
+      "design-brainstorming"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 636,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "88fd25b77e44ef3689d68d54091df9659a40f5e905c8bdeb09bdeed3f049ad67"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "212ed9215b39190ac30bbb186f62ff343233b68d7b9d4a4ebd740cda290cda7d"
+      },
+      {
+        "path": "references/cancel-flow-patterns.md",
+        "sha256": "d64b9282b956da6831ec97a1fffda5841c5c43a71721b512b66b04bde104c139"
+      },
+      {
+        "path": "references/dunning-playbook.md",
+        "sha256": "95afe21035cb81769ef0024de08806fec31073eb507a806f05b6b18b70e259a1"
+      }
+    ],
+    "id": "churn-prevention",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "MIT",
+    "name": "churn-prevention",
+    "needs": [
+      "payments",
+      "data-processing"
+    ],
+    "path": "skills/churn-prevention",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52029
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Helps design cancel flows, save offers, and dunning strategies to reduce voluntary and involuntary churn in subscription businesses.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "design-brainstorming",
       "implementation-planning",
       "security-review"
@@ -1127,6 +1559,86 @@
       "*"
     ],
     "summary": "Provides a comprehensive framework for designing, migrating, optimizing, and securing multi‑cloud architectures across AWS, Azure, and GCP,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming",
+      "implementation-planning"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 430,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "5fe1124e8b6ff64ad0644d1483bed2cc6598c6f0cf6d89219c3198b6b066f1fb"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "4d6693bf2d8490435814090ba204cee5c10648998f5b5699815476736b391d78"
+      },
+      {
+        "path": "references/partnership-types.md",
+        "sha256": "58f73473ab3a903c5c74a963b11e9b2d0710b856b5644ca914ecb88ad67030aa"
+      }
+    ],
+    "id": "co-marketing",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "co-marketing",
+    "needs": [
+      "docs-writing"
+    ],
+    "path": "skills/co-marketing",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52029
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Strategist for SaaS co-marketing: identifies partners, plans joint campaigns, and structures partnership agreements.",
     "tier": "mission",
     "type": "skill"
   },
