@@ -1205,6 +1205,90 @@
     ],
     "badges": [],
     "capabilities": [
+      "security-review",
+      "static-analysis"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 396,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "b64b9d5a5fb2dfebe8665431a7cdd2772581175ef9301759645ec72c1420ffe5"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "8ecd95d763714736015aff1f154642dfddbfb224cab909b2473bfe616e6046fe"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "d9a3a9fe08f438402ab62219b7b5a0569d115462dc14ed2e999f65c3fa765d10"
+      }
+    ],
+    "id": "analyzing-malware-sandbox-evasion-techniques",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.8500000000000001,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-malware-sandbox-evasion-techniques",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-malware-sandbox-evasion-techniques",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T03:46:32.458Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33631
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Analyzes behavioral reports from Cuckoo or AnyRun to detect malware sandbox and VM evasion techniques.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "angular-expertise"
     ],
     "cluster": "angular-expertise",
@@ -10853,6 +10937,93 @@
   },
   {
     "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 486,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "103bd339d6d7796fae1128487c1560f38feecd94898d0d7c44ca0383f4c809d9"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "4571af1f18088b12450b9a02d37ff8299e779e44b46ef6f44094119337a0a051"
+      },
+      {
+        "path": "references/affiliate-programs.md",
+        "sha256": "3479ba24987c24654191f02bbf57fa5ff89eecde8e93cf22c65538bed2c356b4"
+      },
+      {
+        "path": "references/program-examples.md",
+        "sha256": "2baad60cdb251414ea559bd4dcf23d6c394ff66e593ae9392453f2e24f585c8a"
+      },
+      {
+        "path": "references/viral-mechanisms.md",
+        "sha256": "04224240fae94bcf9bc64c7d8cac507bdd570049144e4df33946ac4ae8a483e4"
+      }
+    ],
+    "id": "referrals",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "MIT",
+    "name": "referrals",
+    "needs": [
+      "onboarding"
+    ],
+    "path": "skills/referrals",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T03:46:32.458Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52038
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Expert guidance for designing, implementing, and optimizing customer referral and affiliate growth programs.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
       "claude-code"
     ],
     "badges": [],
@@ -10979,6 +11150,95 @@
       "*"
     ],
     "summary": "Sends finished work to an independent reviewer with the right context and acts on the findings.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 656,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "bb27b16ad41c5c2d4fea14c12359c6a01fc755f2bb91140f0c2c43b05b3adb10"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "bda1dd0d19785c8d5f71370fba0cab11c9af16c06813dcee2157e559dafbefc1"
+      },
+      {
+        "path": "references/automation-playbooks.md",
+        "sha256": "567efd379af6102e7eec95b7a630f29451c5a16ad93c4ae91a97d52ccb8428ea"
+      },
+      {
+        "path": "references/lifecycle-definitions.md",
+        "sha256": "210c730e815b82f6c06d67482e667c40f9ae2179886e318ccb25f1e31e09ca1f"
+      },
+      {
+        "path": "references/routing-rules.md",
+        "sha256": "9057c207550ff289e84d6b25ca9d38b436c98a517e0aa4f30c2ff8f09f5d8370"
+      },
+      {
+        "path": "references/scoring-models.md",
+        "sha256": "923062ddfd0e0eab5fbdb51286c484afd3fee6d42b10eb91b40a39e764b1beb5"
+      }
+    ],
+    "id": "revops",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.6
+    },
+    "license": "MIT",
+    "name": "revops",
+    "needs": [],
+    "path": "skills/revops",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T03:46:32.458Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52038
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Expert guidance on revenue operations, lead lifecycle management, and marketing-to-sales handoff optimization.",
     "tier": "mission",
     "type": "skill"
   },
