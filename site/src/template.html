@@ -35,6 +35,7 @@
 <body>
 <a class="skip" href="#main">{{skip}}</a>
 <div class="bg" aria-hidden="true"><span class="grid"></span></div>
+<div class="progress" data-progress aria-hidden="true"></div>
 
 <header class="nav">
   <a class="brand" href="{{home}}">{{logo}}<span>repotify</span></a>
@@ -92,6 +93,13 @@ next.js · react · typescript · stripe</span>
     </div>
   </section>
 
+  <section class="stats reveal" aria-label="{{stats_label}}">
+    <div class="stat"><b data-count="0">{{stats_1_value}}</b><span>{{stats_1_label}}</span></div>
+    <div class="stat"><b data-count="24">{{stats_2_value}}</b><span>{{stats_2_label}}</span></div>
+    <div class="stat"><b data-count="4">{{stats_3_value}}</b><span>{{stats_3_label}}</span></div>
+    <div class="stat"><b data-count="4700">{{stats_4_value}}</b><span>{{stats_4_label}}</span></div>
+  </section>
+
   <section class="works reveal" aria-label="{{attr:works_with}}">
     <span>{{works_with}}</span>
     <ul><li>Claude Code</li><li>Cursor</li><li>Codex</li><li>Gemini CLI</li><li>{{any_agent}}</li></ul>
@@ -115,6 +123,17 @@ next.js · react · typescript · stripe</span>
       <li class="step reveal" style="--d:3"><span class="node">3</span><h3>{{step_3_title}}</h3><p>{{step_3_text}}</p></li>
       <li class="step reveal" style="--d:4"><span class="node">4</span><h3>{{step_4_title}}</h3><p>{{step_4_text}}</p></li>
     </ol>
+  </section>
+
+  <section class="compare">
+    <h2 class="reveal">{{compare_title}}</h2>
+    <div class="vtable reveal">
+      <div class="vrow vhead"><span></span><span>{{compare_col_manual}}</span><span>{{compare_col_repotify}}</span></div>
+      <div class="vrow"><span>{{compare_1_label}}</span><span>{{compare_1_manual}}</span><span>{{compare_1_repotify}}</span></div>
+      <div class="vrow"><span>{{compare_2_label}}</span><span>{{compare_2_manual}}</span><span>{{compare_2_repotify}}</span></div>
+      <div class="vrow"><span>{{compare_3_label}}</span><span>{{compare_3_manual}}</span><span>{{compare_3_repotify}}</span></div>
+      <div class="vrow"><span>{{compare_4_label}}</span><span>{{compare_4_manual}}</span><span>{{compare_4_repotify}}</span></div>
+    </div>
   </section>
 
   <section class="new">

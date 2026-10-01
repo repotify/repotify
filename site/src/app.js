@@ -131,6 +131,50 @@
     // Storage may be blocked; the hint is optional.
   }
 
+  // Scroll progress bar.
+  const bar = document.querySelector("[data-progress]");
+  if (bar) {
+    const update = () => {
+      const max = doc.scrollHeight - doc.clientHeight;
+      const y = window.scrollY || doc.scrollTop;
+      bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    };
+    addEventListener("scroll", update, { passive: true });
+    addEventListener("resize", update);
+    update();
+  }
+
+  // Scrollspy: mark the nav link of the section in view.
+  const navLinks = [...document.querySelectorAll(".links a[href^='#']")];
+  const targets = navLinks.map((a) => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+  if (navLinks.length && targets.length && "IntersectionObserver" in window) {
+    const spy = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const id = "#" + e.target.id;
+        navLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === id));
+      }
+    }, { rootMargin: "-35% 0px -55% 0px" });
+    targets.forEach((t) => spy.observe(t));
+  }
+
+  // Count-up stats.
+  const fmt = (n) => n.toLocaleString("en-US");
+  for (const el of document.querySelectorAll("[data-count]")) {
+    const target = Number.parseInt(el.dataset.count, 10);
+    if (!Number.isFinite(target)) continue;
+    if (reduce || !("IntersectionObserver" in window)) { el.textContent = fmt(target); continue; }
+    once(el, () => {
+      const t0 = performance.now(), dur = 1400;
+      const tick = (t) => {
+        const p = Math.min(1, (t - t0) / dur);
+        el.textContent = fmt(Math.round(target * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, 0.4);
+  }
+
   // Live star count from GitHub's public API, cached for an hour (the only request to another site).
   const star = document.querySelector("[data-stars]");
   if (star) {
