@@ -57,6 +57,10 @@ test("oversized files and oversized trees are quarantined", () => {
   assert.equal(scanFiles([big]).level, "quarantined");
   const many = Array.from({ length: 5 }, (_, i) => ({ path: `f${i}.txt`, content: "", size: 4.5 * 1024 * 1024 }));
   assert.equal(scanFiles(many).level, "quarantined");
+  // A leading symlink must not skip the total-size check for the rest of the tree.
+  const withLink = [{ path: "a-link", isSymlink: true, linkTarget: "f0.txt" }, ...many];
+  assert.ok(rules(scanFiles(withLink)).includes("oversized"));
+  assert.equal(scanFiles(withLink).level, "quarantined");
 });
 
 test("agent config files that auto-run commands are quarantined", () => {

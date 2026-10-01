@@ -158,15 +158,17 @@ function allowedHost(host) {
 }
 
 export function fileRules(file, allFiles = [file]) {
-  if (file.isSymlink) return symlinkFindings(file);
   const out = [];
-  const buf = bufferOf(file);
-  const size = file.size ?? buf.length;
-  if (size > MAX_FILE_BYTES) out.push(finding("oversized", "high", file.path, `${(size / 1048576).toFixed(1)} MB`));
+  // The total-size check must run even when the first entry is a symlink:
+  // otherwise a leading symlink skips the 20 MB cap for the whole skill.
   if (file === allFiles[0]) {
     const total = allFiles.reduce((sum, f) => sum + (f.size ?? bufferOf(f).length), 0);
     if (total > MAX_TOTAL_BYTES) out.push(finding("oversized", "high", "(total)", `${(total / 1048576).toFixed(1)} MB in ${allFiles.length} files`));
   }
+  if (file.isSymlink) return out.concat(symlinkFindings(file));
+  const buf = bufferOf(file);
+  const size = file.size ?? buf.length;
+  if (size > MAX_FILE_BYTES) out.push(finding("oversized", "high", file.path, `${(size / 1048576).toFixed(1)} MB`));
   if (isBinaryFile(file.path, buf)) return out.concat(binaryFindings(file.path, buf));
   const text = buf.toString("utf8");
   out.push(...configFindings(file.path, text));

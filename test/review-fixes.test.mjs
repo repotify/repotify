@@ -105,6 +105,28 @@ test("M16: an older Repotify never downgrades a newer installed skill", () => {
   assert.equal(readFileSync(join(cwd, ".claude/skills/repotify/SKILL.md"), "utf8"), "new");
 });
 
+test("a missing self skill source throws instead of reporting up to date", () => {
+  const cwd = tmp();
+  assert.throws(
+    () => installSelf({ cwd, agents: ["claude-code"], version: "0.2.0", sourceDir: join(tmp(), "does-not-exist") }),
+    (e) => e.code === "SOURCE_MISSING",
+  );
+  assert.equal(readLock(cwd).items.repotify, undefined);
+});
+
+test("a symlink added to the self skill source is detected, not silently skipped", () => {
+  const cwd = tmp();
+  const src = tmp();
+  writeFileSync(join(src, "SKILL.md"), "v1");
+  const first = installSelf({ cwd, agents: ["claude-code"], version: "0.2.0", sourceDir: src });
+  assert.deepEqual(first.installed, [".claude/skills/repotify"]);
+  const second = installSelf({ cwd, agents: ["claude-code"], version: "0.2.0", sourceDir: src });
+  assert.deepEqual(second.upToDate, [".claude/skills/repotify"]);
+  symlinkSync("SKILL.md", join(src, "alias.md"));
+  const third = installSelf({ cwd, agents: ["claude-code"], version: "0.2.0", sourceDir: src });
+  assert.deepEqual(third.installed, [".claude/skills/repotify"], "the new symlink must trigger a reinstall, not upToDate");
+});
+
 test("M9: the launcher follows where the code lives, not npm variables inherited from a parent npx", () => {
   assert.equal(detectLauncher("/tmp/repotify/bin/repotify.mjs"), 'node "/tmp/repotify/bin/repotify.mjs"');
   assert.equal(detectLauncher("/home/u/.npm/_npx/ab12/node_modules/@repotify/repotify/bin/repotify.mjs"), "npx -y @repotify/repotify@latest");

@@ -139,8 +139,15 @@ test("dangerous commands are high in scripts", () => {
   assert.equal(scanFiles([{ path: "c.sh", content: "rm -rf /\n" }]).level, "quarantined");
   assert.equal(scanFiles([{ path: "c.sh", content: "rm -rf ~\n" }]).level, "quarantined");
   assert.equal(scanFiles([{ path: "c.sh", content: "rm -rf ./build\n" }]).level, "verified");
+  assert.equal(scanFiles([{ path: "c.sh", content: "rm / -rf\n" }]).level, "quarantined");
+  assert.equal(scanFiles([{ path: "c.sh", content: "rm --recursive --force /\n" }]).level, "quarantined");
+  assert.equal(scanFiles([{ path: "c.sh", content: "rm -rf -- /\n" }]).level, "quarantined");
+  assert.equal(scanFiles([{ path: "c.sh", content: "rm -r /tmp/cache\n" }]).level, "verified");
+  assert.equal(scanFiles([{ path: "c.sh", content: "rm -rf\n" }]).level, "verified");
   assert.equal(scanFiles([{ path: "c.sh", content: "chmod -R 777 .\n" }]).level, "quarantined");
   assert.equal(scanFiles([{ path: "c.sh", content: "sudo apt-get install -y jq\n" }]).level, "quarantined");
+  assert.equal(scanFiles([{ path: "c.sh", content: "sudo -n id\n" }]).level, "quarantined");
+  assert.equal(scanFiles([{ path: "c.sh", content: "sudo -u root id\n" }]).level, "quarantined");
   assert.equal(md("sudo apt-get install poppler-utils").level, "caution");
   assert.equal(scanFiles([{ path: "c.sh", content: "dd if=/dev/zero of=/dev/sda\n" }]).level, "quarantined");
 });

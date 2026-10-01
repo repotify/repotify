@@ -236,6 +236,30 @@ function reRule(res) {
   };
 }
 
+// `rm` is destructive only with a recursive flag AND a root-level target. Flags can arrive in any order
+// (`rm / -rf`, `rm --recursive --force /`), so the flag is searched anywhere in the invocation while the
+// target must be a standalone word: `rm -rf /var/lib/apt/lists/*` deletes one glob, not the system.
+// The returned span still ends at the target, which the documentation-context logic relies on.
+const RM_RECURSIVE_FLAG = /(?:^|\s)(?:-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)(?=\s|$)/;
+const RM_DANGEROUS_TARGET = /(?:^|[\s"'])(\/|~|~\/|\$HOME\/?|\/\*|\$\{HOME\}\/?)(?=\s|$|;|&|\||"|')/;
+
+function dangerousRm(line) {
+  const start = /\brm(?=\s|$)/g;
+  let m;
+  while ((m = start.exec(line))) {
+    // One invocation, bounded so scanning stays linear; a separator ends the rm command.
+    const rest = line.slice(m.index, m.index + 400).split(/[;&|`\n]/, 1)[0];
+    // Words after `--` are file names, not flags: `rm -- -rf /` deletes nothing recursively.
+    const opts = rest.split(/(?:^|\s)--(?:\s|$)/, 1)[0];
+    if (!RM_RECURSIVE_FLAG.test(" " + opts)) continue;
+    const t = RM_DANGEROUS_TARGET.exec(rest);
+    if (!t) continue;
+    const end = t.index + t[0].length;
+    return { index: m.index, length: end, text: rest.slice(0, end) };
+  }
+  return null;
+}
+
 export const LINE_RULES = [
   {
     id: "remote-exec",
@@ -312,20 +336,22 @@ export const LINE_RULES = [
   {
     id: "dangerous-command",
     severity: (kind) => "high",
-    test: reRule([
-      /\brm\s+(-[a-zA-Z]*[rR][a-zA-Z]*\s+)(-[a-zA-Z-]+\s+)*(\/|~|~\/|\$HOME\/?|\/\*|\$\{HOME\}\/?)(?=\s|$|;|&|\||"|')/,
-      /\bchmod\s+(-R\s+)?0?777\b/,
-      /\bmkfs(\.\w+)?\s/,
-      /\bdd\s+if=[^\n]{0,300}of=\/dev\/(sd|nvme|hd|disk)/,
-      /:\(\)\s*\{\s*:\s*\|\s*:\s*&\s*\}\s*;\s*:/,
-      />\s*\/dev\/(sd[a-z]|nvme\d|disk\d)/,
-      /\bformat\s+c:/i,
-    ]),
+    test(line) {
+      return dangerousRm(line) ?? reRule([
+        /\bchmod\s+(-R\s+)?0?777\b/,
+        /\bmkfs(\.\w+)?\s/,
+        /\bdd\s+if=[^\n]{0,300}of=\/dev\/(sd|nvme|hd|disk)/,
+        /:\(\)\s*\{\s*:\s*\|\s*:\s*&\s*\}\s*;\s*:/,
+        />\s*\/dev\/(sd[a-z]|nvme\d|disk\d)/,
+        /\bformat\s+c:/i,
+      ])(line);
+    },
   },
   {
     id: "dangerous-command",
     severity: (kind) => (kind === "script" ? "high" : "medium"),
-    test: reRule([/(^|[\s;&|(`])sudo\s+[a-z]/]),
+    // Flags between sudo and the command must not hide it: `sudo -n id`, `sudo -u root id`.
+    test: reRule([/(^|[\s;&|(`])sudo(\s+--?[a-zA-Z][\w-]*(=\S+)?)*\s+[a-z]/]),
   },
 ];
 

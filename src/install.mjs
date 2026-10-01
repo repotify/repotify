@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, renameSync, rmdirSync, rmSync, writeFileSync, cpSync } from "node:fs";
+import { copyFileSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, readlinkSync, renameSync, rmdirSync, rmSync, writeFileSync, cpSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -277,7 +277,7 @@ function listFiles(dir, prefix = "") {
   for (const e of readdirSync(join(dir, prefix), { withFileTypes: true })) {
     const rel = prefix ? `${prefix}/${e.name}` : e.name;
     if (e.isDirectory()) out.push(...listFiles(dir, rel));
-    else if (e.isFile()) out.push(rel);
+    else if (e.isFile() || e.isSymbolicLink()) out.push(rel);
   }
   return out.sort();
 }
@@ -285,7 +285,12 @@ function listFiles(dir, prefix = "") {
 function treeHash(dir) {
   if (!existsSync(dir)) return null;
   try {
-    return sha256(listFiles(dir).map((f) => `${f}:${sha256(readFileSync(join(dir, f)))}`).join("\n"));
+    return sha256(listFiles(dir).map((f) => {
+      const full = join(dir, f);
+      // A symlink is hashed by its target string and never followed.
+      if (lstatSync(full).isSymbolicLink()) return `${f}:link:${readlinkSync(full)}`;
+      return `${f}:${sha256(readFileSync(full))}`;
+    }).join("\n"));
   } catch {
     return null;
   }
@@ -295,6 +300,10 @@ export function installSelf({ cwd, agents, version, now = new Date(), sourceDir 
   const lock = readLock(cwd);
   const managed = lock.items.repotify?.targets ?? [];
   const wanted = treeHash(sourceDir);
+  if (wanted === null) {
+    // The skill source is unreadable: never report "up to date" for something that was not verified.
+    throw new InstallError("SOURCE_MISSING", `Cannot install the repotify skill: the source folder is missing or unreadable (${sourceDir})`);
+  }
   const result = { installed: [], upToDate: [], untouched: [] };
   // Never let an older Repotify overwrite the skill written by a newer one.
   const newerInstalled = lock.items.repotify?.version && compareSemver(lock.items.repotify.version, version) > 0;

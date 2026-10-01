@@ -48,8 +48,14 @@
     "react-perf": {
       "maxLevel": "verified"
     },
+    "rm-safe": {
+      "maxLevel": "verified"
+    },
     "security-auditor-docs": {
       "maxLevel": "quarantined"
+    },
+    "security-docs-example-domain": {
+      "maxLevel": "caution"
     },
     "shell-helpers": {
       "maxLevel": "verified"
@@ -67,9 +73,6 @@
       "maxLevel": "verified"
     },
     "yara-rules": {
-      "maxLevel": "caution"
-    },
-    "security-docs-example-domain": {
       "maxLevel": "caution"
     }
   },
@@ -194,6 +197,14 @@
       "minLevel": "rejected",
       "rule": "remote-exec"
     },
+    "rm-flag-order": {
+      "minLevel": "quarantined",
+      "rule": "dangerous-command"
+    },
+    "rm-long-flags": {
+      "minLevel": "quarantined",
+      "rule": "dangerous-command"
+    },
     "rm-rf-home": {
       "minLevel": "quarantined",
       "rule": "dangerous-command"
@@ -205,6 +216,10 @@
     "ssh-key-read": {
       "minLevel": "rejected",
       "rule": "credential-access"
+    },
+    "sudo-flags": {
+      "minLevel": "quarantined",
+      "rule": "dangerous-command"
     },
     "symlink-escape": {
       "minLevel": "quarantined",

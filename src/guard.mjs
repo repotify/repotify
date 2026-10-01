@@ -132,6 +132,8 @@ function parseSegment(rawWords) {
   const npm = (args, opts) => ({ ecosystem: "npm", packages: collect(args, NPM_VALUE_FLAGS, npmName, opts) });
   const pypi = (args, opts) => ({ ecosystem: "pypi", packages: collect(args, PIP_VALUE_FLAGS, pypiName, opts) });
   if (cmd === "npm" && ["i", "install", "add", "isntall", "in"].includes(sub)) return npm(rest);
+  // `npm exec` / `npm x` download and run a package exactly like `npx` does.
+  if (cmd === "npm" && (sub === "exec" || sub === "x")) return npm(rest, { firstOnly: true });
   if ((cmd === "pnpm" || cmd === "bun") && ["add", "i", "install"].includes(sub)) return npm(rest);
   if (cmd === "yarn" && sub === "add") return npm(rest);
   if (cmd === "yarn" && sub === "workspace" && rest[1] === "add") return npm(rest.slice(2));

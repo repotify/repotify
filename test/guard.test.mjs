@@ -17,6 +17,8 @@ test("install commands are parsed across package managers", () => {
   assert.deepEqual(parseInstallCommands("uv add 'fastapi[standard]>=0.1' httpx"), [{ ecosystem: "pypi", packages: ["fastapi", "httpx"] }]);
   assert.deepEqual(parseInstallCommands("python -m pip install --upgrade numpy"), [{ ecosystem: "pypi", packages: ["numpy"] }]);
   assert.deepEqual(parseInstallCommands("npx -y create-thing@latest my-app"), [{ ecosystem: "npm", packages: ["create-thing"] }]);
+  assert.deepEqual(parseInstallCommands("npm exec -y evil-pkg"), [{ ecosystem: "npm", packages: ["evil-pkg"] }]);
+  assert.deepEqual(parseInstallCommands("npm x evil-pkg"), [{ ecosystem: "npm", packages: ["evil-pkg"] }]);
   assert.deepEqual(parseInstallCommands("npm install"), []);
   assert.deepEqual(parseInstallCommands("pip install -e . ./local git+https://x/y.git"), []);
   assert.deepEqual(parseInstallCommands("ls -la"), []);
