@@ -1570,6 +1570,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
@@ -2714,6 +2717,9 @@
       "ask-navigator",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
@@ -4911,6 +4917,9 @@
       "ask-navigator",
       "context-engineering",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
@@ -5186,6 +5195,9 @@
       "ask-navigator",
       "context-engineering",
       "dynamic-workflow",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
@@ -5452,6 +5464,91 @@
     ],
     "summary": "Build cross-platform Flutter apps with Dart, covering state management (Riverpod/Bloc), navigation (GoRouter), widgets, testing, and perfor…",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "design-brainstorming"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 628,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "609158ee26c6005cf6138635a1a8ac4928322651c82ba13584db19d610d61e6b"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "20c37063843c199a337d48a88e583b09db2689623e7aabcae0e3c0e5b1812d10"
+      },
+      {
+        "path": "references/tool-benchmarks.md",
+        "sha256": "833f8ba49193b6b31472d02855fe72b77a659ab31f289516c7e89e3357d1fa1f"
+      },
+      {
+        "path": "references/tool-types.md",
+        "sha256": "3869418a784ec94e95528dbe3f39cd2571cff6f7649e5e0be28d675be61d5a3f"
+      }
+    ],
+    "id": "free-tools",
+    "jury": {
+      "agreement": 0.85,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "free-tools",
+    "needs": [
+      "seo",
+      "docs-writing"
+    ],
+    "path": "skills/free-tools",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides planning, evaluating, and building free marketing tools (calculators, generators, analyzers) to generate leads, SEO traffic, and bra…",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -6019,6 +6116,84 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning",
+      "design-brainstorming"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 812,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "45d0d36d8c418f16fa25b59c9b392c9cb9b850f764357023b2d7b4f4cd08adc1"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "6cf05d0a8735b3dc6a92d4789ba33515ba80c4aa1aacf60d7c3cb8b7a76f1dc5"
+      },
+      {
+        "path": "references/ugc-creator-program.md",
+        "sha256": "8bb429d14c0e6a7f631a79652152de67a19e071c82d9a7b55543fd0cc7ad038b"
+      }
+    ],
+    "id": "influencer-marketing",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "influencer-marketing",
+    "needs": [],
+    "path": "skills/influencer-marketing",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Comprehensive influencer/creator/ambassador marketing skill covering partner discovery, vetting, outreach, deal structuring (flat, hybrid, …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "java-expertise"
     ],
     "cluster": "java-expertise",
@@ -6284,6 +6459,167 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning",
+      "design-brainstorming"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 549,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "1d5f5e6a4caaa5b62604a8df324b060eb99da567e65e9fc5a69b9999c61325b2"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "f46936c348ea86dbe517ab18795e1dc1dd7fe27c23434e21a9e5434efc98cdfb"
+      }
+    ],
+    "id": "launch",
+    "jury": {
+      "agreement": 0.7,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "launch",
+    "needs": [
+      "docs-writing",
+      "onboarding"
+    ],
+    "path": "skills/launch",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Expert guidance for planning SaaS product launches, feature announcements, and GTM strategies using the ORB framework.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "design-brainstorming"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 657,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "bfb1e260e56fb11611bfac94236e7ebf79433e3350012ecce2379eef0af25af8"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "3edb81ddb30746a37bf7d35681cd405d28702ad9243c1bec130435f180e1f24f"
+      },
+      {
+        "path": "references/benchmarks.md",
+        "sha256": "becdf4bcde17e788ead10794c797294548c712ea1074e042336da93433a61187"
+      },
+      {
+        "path": "references/format-guide.md",
+        "sha256": "401f65d709cefbd7ee2df11273e0b616ec50e37e71d914556c800067fdcdef8e"
+      }
+    ],
+    "id": "lead-magnets",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "lead-magnets",
+    "needs": [
+      "docs-writing"
+    ],
+    "path": "skills/lead-magnets",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Comprehensive lead magnet strategy skill for planning, creating, and optimizing gated content to capture emails and generate qualified lead…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "codebase-map",
       "component-architecture",
       "implementation-planning",
@@ -6368,6 +6704,572 @@
       "python"
     ],
     "summary": "Provides incremental migration strategies for legacy systems, including dependency maps, API facades, and characterization tests to moderni…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming",
+      "implementation-planning",
+      "workflow-meta"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ask-navigator",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 818,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "0b94358427c344e1f5f50169770cce44e0b065ec8b05fc887a800daed008ac31"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "c95d3d8cdaafb6ad178d5a72ee87f2ba655f41c1c7046c83705c93b2b9afa291"
+      },
+      {
+        "path": "references/advisor-template.md",
+        "sha256": "e748d9f91d5b663c3cc0165c83a117833b0392fbf6c77b5a2107c49b0edd3c51"
+      },
+      {
+        "path": "references/advisors/alex-hormozi.md",
+        "sha256": "18975ae41e73d1a95779f0bcffde5bd42f91bbb96a208d55a3fa4c0095a421da"
+      },
+      {
+        "path": "references/advisors/ann-handley.md",
+        "sha256": "b0ad24ef9ee2965a1ee35a2208ea65897ef684baafb65557e2cc3b0aa9e5ca4e"
+      },
+      {
+        "path": "references/advisors/april-dunford.md",
+        "sha256": "7abc28f3d3043f72bf8ca710c0390de4014486cffb1e6e82029581aa7ef5212f"
+      },
+      {
+        "path": "references/advisors/byron-sharp.md",
+        "sha256": "fe99260a03ca0123ae1075108cb6466b0bd60ccac1b0b8d64d7b7bf1a78e17af"
+      },
+      {
+        "path": "references/advisors/claude-hopkins.md",
+        "sha256": "93366c6d6b51407fdf33308537f31e7e8667a89fecd9fa1b8ea9ac398fb80942"
+      },
+      {
+        "path": "references/advisors/david-ogilvy.md",
+        "sha256": "868d96f850eff22a923224bf7f3b5344abdb5d4c130b77e46e4142c630c6edba"
+      },
+      {
+        "path": "references/advisors/eugene-schwartz.md",
+        "sha256": "fef9cc5ece0ad84d5542721f9346b18e5aa44e9f1a10e62f1ed5b7e05f6ba5a5"
+      },
+      {
+        "path": "references/advisors/gary-halbert.md",
+        "sha256": "0db92e69da50a6372a5dc1feae2a6824fff9f1b53df92094745810c3d8375d8b"
+      },
+      {
+        "path": "references/advisors/gary-vaynerchuk.md",
+        "sha256": "256f5425b602375c83d4a6e677c7ecc97e60f3dead83f8192802b6c0c65e57e4"
+      },
+      {
+        "path": "references/advisors/rory-sutherland.md",
+        "sha256": "07a726d3f66def9722b5b3c52acc37173edc50ac880f8d1cb072424bd9b5f235"
+      },
+      {
+        "path": "references/advisors/russell-brunson.md",
+        "sha256": "ae0cb018f48a734ec64fd087fd469a7e8170f5d2a2fea7623dfd58f35cfe739e"
+      },
+      {
+        "path": "references/advisors/seth-godin.md",
+        "sha256": "02cb1b64b1fff7eecc6ff9769b60c23ef68b03017fd3d82b1a5b544009dd79c0"
+      }
+    ],
+    "id": "marketing-council",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.95,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it"
+      ],
+      "quality": 0.975,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "marketing-council",
+    "needs": [
+      "agent-skills",
+      "docs-writing",
+      "llm-calls"
+    ],
+    "path": "skills/marketing-council",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Simulates a board of legendary marketing advisors (Godin, Ogilvy, Schwartz, Hormozi, etc.) to provide conflicting expert perspectives on ma…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming",
+      "implementation-planning",
+      "writing-quality",
+      "presentations",
+      "docs-lookup"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 561,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "d5ea46d2d2eb2fb039494e8b545550a6bd5b5b9aedc5e65a228ac514deb018ff"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "f97f2bd1c755e6ca85ab75c500db681bd19559fb070ac249bba135ed7d8ecf60"
+      },
+      {
+        "path": "references/guerrilla-marketing.md",
+        "sha256": "07b0534b579ce1916a60e79ab426cd936e78b4b261802d6486ad145f7bf552ae"
+      },
+      {
+        "path": "references/ideas-by-category.md",
+        "sha256": "8b6aa55b3255616ea80c0ea45eca8f2bb70e528510ed76f6392e71475dd0c09b"
+      }
+    ],
+    "id": "marketing-ideas",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.95,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "marketing-ideas",
+    "needs": [
+      "docs-writing",
+      "seo",
+      "agent-skills"
+    ],
+    "path": "skills/marketing-ideas",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Comprehensive marketing idea library with 139 proven SaaS strategies organized by category, stage, budget, and timeline, plus a detailed gu…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "workflow-meta",
+      "verification-gate"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ask-navigator",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "marketing-council",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 724,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "db4ba419ee74c7ef4c6dacffdf92fa4038e720640a4b4b95e8766ad9ff269898"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "07a7b55804fa86e3111e45f36f5c363afa6e00b67d3fcadfa37b0e26aba56892"
+      },
+      {
+        "path": "references/loop-catalog.md",
+        "sha256": "1b3116585d8098157606c8e93cc05ef23d947537364f487331c05b85bb7bbd4e"
+      },
+      {
+        "path": "references/loop-guardrails.md",
+        "sha256": "a93cdb67d28773d72e789c937a26f3062129c8a0076018ac24269d52e7a31e46"
+      },
+      {
+        "path": "references/loop-orchestration.md",
+        "sha256": "9b09e6c8ed7d6f9c1e035d110b1d2289d89c2102247acf5ba6bcc959a62b628a"
+      },
+      {
+        "path": "references/loop-state.md",
+        "sha256": "ecb863ecc44944afe7dbb789d4b16a1ea80f045713b8d443bdcb414a4d17547e"
+      },
+      {
+        "path": "references/loop-template.md",
+        "sha256": "695fde57b9b0735e49b5fc718b0e8eb726808c08b19bea89056f8913cf1bff26"
+      }
+    ],
+    "id": "marketing-loops",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it"
+      ],
+      "quality": 0.9,
+      "specificity": 0.8500000000000001
+    },
+    "license": "MIT",
+    "name": "marketing-loops",
+    "needs": [
+      "agent-skills",
+      "seo"
+    ],
+    "path": "skills/marketing-loops",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Sets up recurring marketing workflows (loops) that an AI agent runs on a schedule, orchestrating other marketing skills with defined trigge…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "workflow-meta",
+      "github-integration",
+      "design-brainstorming"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ask-navigator",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 949,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "95722fc0566e139db44ab5d5b5e0f1174a0a2344baca6a3b266f86f8a266e88c"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "fb692a2620d3d5a0fdda319b6e00485a8c88ac95fe32ff3f4a8a441997c31609"
+      },
+      {
+        "path": "references/aarrr-framework.md",
+        "sha256": "5c7bf583c2aa62e193789b6b1a88a978bf3ba9dc0c8c6653b53f7f62c0c1a0e3"
+      },
+      {
+        "path": "references/budget-planning.md",
+        "sha256": "8f2a8870df26f713967abafad5b7869bedb7ed5e19840b7b712d23d15d4857a6"
+      },
+      {
+        "path": "references/client-types.md",
+        "sha256": "06e3d0a6f3e9b7195a8c0b43d5186769d1554d1dfd8b1212aca220f9ce09fc01"
+      },
+      {
+        "path": "references/current-state-rubric.md",
+        "sha256": "8ab1d4a4d16ec01c2bf61d83807c0abd857aadd82f3eeaf4e4842b4bbeff1f03"
+      },
+      {
+        "path": "references/example-quietude.md",
+        "sha256": "63c002257ee1f6eaeb7c99c4ab9c650ea8bd8f7586c75e4565c2322faef82a04"
+      },
+      {
+        "path": "references/funding-stage-unlocks.md",
+        "sha256": "49f073653ac32dd42b7e5e10c3deabd7adae8120c41baf0cf813ec20164c6488"
+      },
+      {
+        "path": "references/growth-patterns.md",
+        "sha256": "fafa84b8c3a62ed9c33c30fc25c7422e0d87b935de990d0acbf91889e1a053de"
+      },
+      {
+        "path": "references/idea-cross-reference.md",
+        "sha256": "350fa9c6f4cb4cd8f23698adb8479ae94cd6564a06b2b7cfcdf1430448e68d2f"
+      },
+      {
+        "path": "references/measurement-framework.md",
+        "sha256": "93d9bf9d9e624a6031a27ce61cf1617e3aa5a8fff57e1c6f80194f847234b745"
+      },
+      {
+        "path": "references/methodology.md",
+        "sha256": "59fd621b7fb694b9bbceaeb69f3711e4621d1a594598942e636058e2aa4afcc1"
+      },
+      {
+        "path": "references/ops-stack-mapping.md",
+        "sha256": "9a506816d87ed176c0578d13bbf25c5f8398872d9002b3589e2dfa42ad17c907"
+      },
+      {
+        "path": "references/plan-template.md",
+        "sha256": "bce84c2c3c31c9163a0849a1371aadb13f6ab8b29402e64b7d5b95c316a79656"
+      },
+      {
+        "path": "references/team-and-agency-model.md",
+        "sha256": "0c5e55c0992de4d5d24cd299eb46765a8986cb204ebd7c65bce32c868ae0d5f7"
+      }
+    ],
+    "id": "marketing-plan",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it"
+      ],
+      "quality": 0.9,
+      "specificity": 0.975
+    },
+    "license": "MIT",
+    "name": "marketing-plan",
+    "needs": [
+      "agent-skills",
+      "github-workflow",
+      "docs-writing",
+      "mcp-server",
+      "llm-calls",
+      "onboarding",
+      "dependencies"
+    ],
+    "path": "skills/marketing-plan",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Generates comprehensive 13-section AARRR marketing plans for fractional CMO engagements, with phased workflow, cross-referenced tactics, an…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming",
+      "writing-quality"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 600,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "573bbe4f6e300e7fb75299e314f56e26382d284782caa2ae0e0f33eb2e646548"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "c3b7d15b3008eeb493796e21affd6a0c6e7ce312f9cfeffcdef467857903c733"
+      }
+    ],
+    "id": "marketing-psychology",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "marketing-psychology",
+    "needs": [],
+    "path": "skills/marketing-psychology",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Teaches application of psychological principles and mental models to marketing strategy, covering foundational thinking models, buyer psych…",
     "tier": "mission",
     "type": "skill"
   },
@@ -6812,6 +7714,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "parallel-feature-development",
       "sre-engineer",
       "task-coordination-strategies",
@@ -7367,6 +8272,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "sre-engineer",
       "task-coordination-strategies",
@@ -7999,6 +8907,101 @@
       "*"
     ],
     "summary": "Creates and edits PowerPoint decks with layouts, speaker notes and consistent design.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "writing-quality",
+      "design-brainstorming",
+      "web-design-review"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 868,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "6cb88c2e944331c12f2fb83341ff16aba85a34629df11f4cffc7f611e4df6868"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "b0c88f299db5223ca2a9f27a9f61800bc63ee21fd845a53f5c92bb5695d0995f"
+      },
+      {
+        "path": "references/pricing-models.md",
+        "sha256": "2cdb900b74f56a796c0331725e73eff4ecd84f8021b42efbb0a5b4903d1d9b16"
+      },
+      {
+        "path": "references/pricing-page-teardown.md",
+        "sha256": "850b018a6b224bc9bd4149edb3f1cbae41991ba6ef1d9efb616dba9328790c4b"
+      },
+      {
+        "path": "references/research-methods.md",
+        "sha256": "b6aab09860dbab2f11d69cc9c179cc7f6e1a100ede28e5c49b59070a2caaeb15"
+      },
+      {
+        "path": "references/tier-structure.md",
+        "sha256": "b59910d37cceb74484f28b065963daa60f5c4fb1ffc36a0584d0f3cad11f3e30"
+      }
+    ],
+    "id": "pricing",
+    "jury": {
+      "agreement": 0.88,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it"
+      ],
+      "quality": 0.94,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "pricing",
+    "needs": [
+      "docs-writing",
+      "seo",
+      "payments"
+    ],
+    "path": "skills/pricing",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Comprehensive SaaS pricing strategy skill covering value metrics, tier structures, pricing research (Van Westendorp), price increase rollou…",
     "tier": "mission",
     "type": "skill"
   },
@@ -10047,6 +11050,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "task-coordination-strategies",
@@ -10496,6 +11502,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
@@ -10584,6 +11593,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
@@ -10672,6 +11684,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
@@ -10956,6 +11971,9 @@
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
       "sre-engineer",
