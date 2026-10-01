@@ -29,7 +29,16 @@ function updateMcp(id, entry, item, { cwd, acceptCaution, now, catalogVersion })
 
 const DAY = 86400000;
 const PUBLISHABLE = ["verified", "caution"];
-const AUTO_CHECK_ARGS = "update --check --quiet --weekly";
+export const AUTO_CHECK_ARGS = "update --check --quiet --weekly";
+
+// The launcher is interpolated into a shell hook command, so it must be plain words: a poisoned
+// repotify.lock.json could otherwise turn the user's "yes" into remote execution at session start.
+// Quoted segments are allowed (`node "/path/to/bin/repotify.mjs"`); anything the shell would
+// interpret (`;`, `|`, `$`, backticks, `$(…)`, `&&`) falls back to the published launcher.
+const SAFE_LAUNCHER_RE = /^(?:"[^"]*"|[A-Za-z0-9_@./\\~:+-]+)(\s+(?:"[^"]*"|[A-Za-z0-9_@./\\~:+-]+))*$/;
+export function sanitizeLauncher(launcher) {
+  return typeof launcher === "string" && SAFE_LAUNCHER_RE.test(launcher) ? launcher : NPX_LAUNCHER;
+}
 
 export function checkUpdates({ lock, catalog }) {
   const byId = new Map(catalog.items.map((i) => [i.id, i]));
@@ -86,14 +95,15 @@ export function weeklyCheckDue(config, now = new Date()) {
 export function enableAutoCheck({ cwd, launcher = NPX_LAUNCHER }) {
   const settings = readSettings(cwd);
   if (!settings.ok) return { written: false, reason: "unparseable" };
+  const command = `${sanitizeLauncher(launcher)} ${AUTO_CHECK_ARGS}`;
   const cfg = settings.value;
   cfg.hooks = cfg.hooks && typeof cfg.hooks === "object" ? cfg.hooks : {};
   const list = Array.isArray(cfg.hooks.SessionStart) ? cfg.hooks.SessionStart : [];
   if (!list.some((e) => (e.hooks ?? []).some((h) => String(h.command ?? "").includes(AUTO_CHECK_ARGS)))) {
-    list.push({ hooks: [{ type: "command", command: `${launcher} ${AUTO_CHECK_ARGS}`, timeout: 60 }] });
+    list.push({ hooks: [{ type: "command", command, timeout: 60 }] });
   }
   cfg.hooks.SessionStart = list;
   mkdirSync(dirname(settings.path), { recursive: true });
   writeFileSync(settings.path, JSON.stringify(cfg, null, 2) + "\n");
-  return { written: true };
+  return { written: true, command };
 }

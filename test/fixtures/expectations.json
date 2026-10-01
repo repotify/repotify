@@ -74,6 +74,12 @@
     },
     "yara-rules": {
       "maxLevel": "caution"
+    },
+    "git-clone-docs": {
+      "maxLevel": "verified"
+    },
+    "git-clone-inspect": {
+      "maxLevel": "verified"
     }
   },
   "malicious": {
@@ -236,6 +242,18 @@
     "zero-width-stego": {
       "minLevel": "rejected",
       "rule": "hidden-unicode"
+    },
+    "pipe-xargs": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "curl-redirect-run": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "git-clone-run": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
     }
   }
 }

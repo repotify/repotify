@@ -24,6 +24,20 @@ test("install commands are parsed across package managers", () => {
   assert.deepEqual(parseInstallCommands("ls -la"), []);
 });
 
+test("npx/npm exec -p/--package checks the installed package, not the command", () => {
+  assert.deepEqual(parseInstallCommands("npx -p evil-pkg somecmd"), [{ ecosystem: "npm", packages: ["evil-pkg"] }]);
+  assert.deepEqual(parseInstallCommands("npx --package=evil-pkg -- somecmd"), [{ ecosystem: "npm", packages: ["evil-pkg"] }]);
+  assert.deepEqual(parseInstallCommands("npm exec --package=evil-pkg -- somecmd"), [{ ecosystem: "npm", packages: ["evil-pkg"] }]);
+  assert.deepEqual(parseInstallCommands("npx -p a -p b run"), [{ ecosystem: "npm", packages: ["a", "b"] }]);
+  assert.deepEqual(parseInstallCommands("npx somecmd"), [{ ecosystem: "npm", packages: ["somecmd"] }]);
+});
+
+test("registry env prefix opts out of the public-registry check", () => {
+  assert.deepEqual(parseInstallCommands("NPM_CONFIG_REGISTRY=https://evil.example npm i pkg"), []);
+  assert.deepEqual(parseInstallCommands("NPM_CONFIG_REGISTRY=https://registry.npmjs.org npm i pkg"), [{ ecosystem: "npm", packages: ["pkg"] }]);
+  assert.deepEqual(parseInstallCommands("PIP_INDEX_URL=https://evil.example/simple pip install pkg"), []);
+});
+
 function registry(map) {
   return async (url) => {
     for (const [k, v] of Object.entries(map)) if (url.endsWith(k)) return v === 404 ? new Response("{}", { status: 404 }) : new Response(JSON.stringify(v), { status: 200 });

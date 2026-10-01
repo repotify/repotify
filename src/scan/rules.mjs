@@ -1,7 +1,7 @@
 // Content rules for the security scanner.
 // Each rule inspects one line (or a small window of lines) of a text file. Regexes never use unbounded `[^\n]*`
 // between two parts, so scanning stays linear on long lines; shell structure comes from ./shell.mjs.
-import { splitPipelines, statementSpan, fetchIndex, downloadTarget, stageRunPaths, runsFileTest, fetchTargets, runsPipedInput } from "./shell.mjs";
+import { splitPipelines, statementSpan, fetchIndex, downloadTarget, stageRunPaths, runsFileTest, fetchTargets, runsPipedInput, commandWords, baseName, INTERPRETERS } from "./shell.mjs";
 
 export const SCRIPT_EXTENSIONS = new Set([
   ".sh", ".bash", ".zsh", ".fish", ".py", ".js", ".mjs", ".cjs", ".ts", ".mts", ".cts", ".tsx", ".jsx",
@@ -139,6 +139,68 @@ function readingsOf(ctx, line) {
   return [splitPipelines(line, opts), splitPipelines(line, { ...opts, quotes: false })];
 }
 
+const GIT_CLONE_RE = /(?:^|[\s;&|(`])git\s+clone\s+(?:--[a-zA-Z-]+=?(?:\S+)?\s+)*(["']?)(https?:\/\/[^'"`\s]+)\1/;
+
+// `git clone <url>` downloads a whole tree; running anything from it within the next few commands is the
+// same shape as download-then-run. `cd <dir>` stages are tracked so `cd evil && ./setup.sh` resolves
+// inside the clone. Like the curl/wget path, this is aggressive by design: a skill that clones a repo
+// and executes its scripts is the attack, whatever the host.
+function gitCloneThenRun(line, ctx) {
+  const lines = ctx?.lines ?? [line];
+  const i = ctx?.i ?? 0;
+  const opts = { comments: Boolean(ctx?.comments), prose: Boolean(ctx?.prose) };
+  const unq = (t) => t.replace(/^["']|["']$/g, "");
+  for (const pipelines of readingsOf(ctx, line)) {
+    const own = pipelines.flat();
+    for (let k = 0; k < own.length; k++) {
+      const g = GIT_CLONE_RE.exec(own[k].text);
+      if (!g) continue;
+      let dir = "";
+      try {
+        const seg = new URL(g[2]).pathname.split("/").filter(Boolean).pop() ?? "";
+        dir = seg.replace(/\.git$/, "");
+      } catch {
+        continue;
+      }
+      if (!dir || dir === "." || dir === ".." || /[/\\]/.test(dir)) continue;
+      const later = own.slice(k + 1, k + 1 + RUN_LOOKAHEAD_STAGES);
+      for (let j = i + 1; j < Math.min(lines.length, i + 1 + RUN_LOOKAHEAD_LINES) && later.length < RUN_LOOKAHEAD_STAGES; j++) {
+        later.push(...splitPipelines(lines[j].slice(0, 2000), opts).flat().slice(0, RUN_LOOKAHEAD_STAGES));
+      }
+      let cwd = "";
+      for (const st of later.slice(0, RUN_LOOKAHEAD_STAGES)) {
+        const words = commandWords(st.text);
+        if (!words.length) continue;
+        if (words[0] === "cd" && words[1] && !words[1].startsWith("-")) {
+          const d = unq(words[1]);
+          if (d === "/") cwd = "";
+          else if (d === "..") cwd = cwd.split("/").slice(0, -1).join("/");
+          else if (d.startsWith("/")) cwd = d.replace(/^\//, "");
+          else if (!d.includes("..")) cwd = (cwd ? cwd + "/" : "") + d.replace(/^\.\//, "");
+          continue;
+        }
+        // Only flag file executions, not bare commands run inside the dir (`cd d && ls` is fine):
+        // `./setup.sh`, `/abs/x.sh`, `sub/x.sh`, or a script via an interpreter (`bash install.sh`).
+        const cmd = words[0];
+        const looksFile = (w) => /[/\\]/.test(w) || w.startsWith(".") || /\.[a-z0-9]+$/i.test(w);
+        let fileWord = null;
+        if (looksFile(cmd)) fileWord = cmd;
+        else if (INTERPRETERS.has(baseName(cmd))) {
+          const dashC = words.indexOf("-c");
+          fileWord = words.slice(1).find((w, idx) => !w.startsWith("-") && (dashC < 0 || idx + 1 < dashC) && looksFile(w)) ?? null;
+        }
+        if (!fileWord) continue;
+        const norm = unq(fileWord).replace(/^\.\//, "");
+        const resolved = norm.startsWith("/") ? norm.slice(1) : (cwd ? cwd + "/" : "") + norm;
+        if (resolved === dir || resolved.startsWith(dir + "/")) {
+          return { index: own[k].start + g.index, length: g[0].trimEnd().length, text: g[0].trim() };
+        }
+      }
+    }
+  }
+  return null;
+}
+
 // `curl …/wget …/irm …` piped into an interpreter, possibly through other stages (`| tee x | sudo -E bash`).
 function pipeToInterpreter(line, ctx) {
   for (const pipelines of readingsOf(ctx, line)) {
@@ -268,7 +330,7 @@ export const LINE_RULES = [
     // review, but only a negation right before it lowers it to caution.
     strictDocContext: true,
     test(line, ctx) {
-      return pipeToInterpreter(line, ctx) ?? downloadThenRun(line, ctx) ?? reRule(SUBSTITUTION_RES)(line);
+      return pipeToInterpreter(line, ctx) ?? downloadThenRun(line, ctx) ?? gitCloneThenRun(line, ctx) ?? reRule(SUBSTITUTION_RES)(line);
     },
     // `text` is the fetch command itself, so a URL in a comment or elsewhere on the line cannot vouch for it.
     adjust(text) {
@@ -311,16 +373,27 @@ export const LINE_RULES = [
   {
     id: "prompt-injection",
     severity: () => "high",
-    test: reRule([
-      /\b(ignore|disregard|forget|override)\s+(all\s+|any\s+)?((the|your|my)\s+)?(previous|prior|above|earlier|preceding|system|original)\s+(instructions|prompts?|rules|messages|directions)/i,
-      /\byou are now\s+(DAN|no longer|free from|unrestricted|jailbroken|in (developer|god|dan) mode|an? (unrestricted|unfiltered|uncensored))/i,
-      /\b(do not|don't|never)\s+(tell|inform|notify|alert|show|reveal (this |it )?to|mention (this |it )?to)\s+(the\s+)?user\b/i,
-      /\bwithout\s+(asking|telling|informing|notifying|alerting)\s+(the\s+)?user\b/i,
-      /\b(note|message|instructions?)\s+(to|for)\s+(the\s+)?(ai|llm|evaluator|reviewer|grader|judge|scanner|model)\b/i,
-      /\b(rate|score|grade|mark)\s+(this|the)\s+(skill|repo|repository|item|plugin|tool)\s+(as\s+)?(\d|high|safe|perfect|verified)/i,
-      /\bgive\s+(this|it)\s+(a\s+)?(high|perfect|top|maximum|10|5)\b/i,
-      /\b(this|the) (skill|content|file) is (verified|safe|trusted)[^.]*(do not|don't) (scan|flag|review)/i,
-    ]),
+    test(line, ctx) {
+      const match = reRule([
+        /\b(ignore|disregard|forget|override)\s+(all\s+|any\s+)?((the|your|my)\s+)?(previous|prior|above|earlier|preceding|system|original)\s+(instructions|prompts?|rules|messages|directions|directives)/i,
+        /\byou are now\s+(DAN|no longer|free from|unrestricted|jailbroken|in (developer|god|dan) mode|an? (unrestricted|unfiltered|uncensored))/i,
+        /\b(do not|don't|never)\s+(tell|inform|notify|alert|show|reveal (this |it )?to|mention (this |it )?to)\s+(the\s+)?user\b/i,
+        /\bwithout\s+(asking|telling|informing|notifying|alerting)\s+(the\s+)?user\b/i,
+        /\b(note|message|instructions?)\s+(to|for)\s+(the\s+)?(ai|llm|evaluator|reviewer|grader|judge|scanner|model)\b/i,
+        /\b(rate|score|grade|mark)\s+(this|the)\s+(skill|repo|repository|item|plugin|tool)\s+(as\s+)?(\d|high|safe|perfect|verified)/i,
+        /\bgive\s+(this|it)\s+(a\s+)?(high|perfect|top|maximum|10|5)\b/i,
+        /\b(this|the) (skill|content|file) is (verified|safe|trusted)[^.]*(do not|don't) (scan|flag|review)/i,
+      ])(line);
+      if (match) return match;
+      // Leet-speak dodge (`ign0re previous instructions`): normalize the obvious substitutions and
+      // re-test only the ignore/disregard pattern, keeping the false-positive surface small.
+      // The substitution is 1:1, so the reported span still lines up with the original line.
+      const deleet = line.replace(/[013457@]/g, (c) => ({ 0: "o", 1: "l", 3: "e", 4: "a", 5: "s", 7: "t", "@": "a" })[c]);
+      if (deleet === line) return null;
+      return reRule([
+        /\b(ignore|disregard|forget|override)\s+(all\s+|any\s+)?((the|your|my)\s+)?(previous|prior|above|earlier|preceding|system|original)\s+(instructions|prompts?|rules|messages|directions|directives)/i,
+      ])(deleet);
+    },
   },
   {
     id: "obfuscation",
@@ -338,9 +411,13 @@ export const LINE_RULES = [
     severity: (kind) => "high",
     test(line) {
       return dangerousRm(line) ?? reRule([
-        /\bchmod\s+(-R\s+)?0?777\b/,
+        // `chmod -R 777 /`, `chmod --recursive 777 /` and the symbolic equivalent `chmod -R a+rwx /`.
+        /\bchmod\s+(?:-[a-zA-Z]*R[a-zA-Z]*\s+|--recursive\s+)?(?:0?777|a\+rwx)\b/,
+        // `dd of=/dev/sda …` in any argument order, including virtio (`vda`) and MMC (`mmcblk0`) disks.
+        /\bdd\s+[^\n]{0,300}of=\/dev\/(sd|nvme|hd|vd|mmcblk|disk)/,
+        // `nc -e /bin/sh …` hands the network to a shell: the classic reverse shell.
+        /\bnc\s+(?:-[a-zA-Z]*e|--exec\b)/,
         /\bmkfs(\.\w+)?\s/,
-        /\bdd\s+if=[^\n]{0,300}of=\/dev\/(sd|nvme|hd|disk)/,
         /:\(\)\s*\{\s*:\s*\|\s*:\s*&\s*\}\s*;\s*:/,
         />\s*\/dev\/(sd[a-z]|nvme\d|disk\d)/,
         /\bformat\s+c:/i,

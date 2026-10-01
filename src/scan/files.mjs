@@ -131,7 +131,8 @@ function isCommentLine(line) {
 }
 
 export function hostsInScript(text) {
-  if (!NETWORK_PRIMITIVE.test(text)) return [];
+  // `git clone` fetches a whole tree over the network; its host counts like a curl/wget one.
+  if (!NETWORK_PRIMITIVE.test(text) && !/\bgit\s+(clone|fetch|pull)\b/.test(text)) return [];
   const hosts = new Set();
   for (const line of text.split("\n")) {
     if (isCommentLine(line)) continue;

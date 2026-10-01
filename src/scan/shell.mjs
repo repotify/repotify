@@ -248,6 +248,13 @@ export function downloadTarget(fetchText) {
     }
   }
   if (tool === "wget" && !words.some((w) => /^-[a-zA-Z]*q?O/.test(w) && w !== "-q")) return remoteName();
+  // `curl URL > file` writes the download to `file` just like `-o` does; without this,
+  // `curl … > x.sh` followed by `bash x.sh` slips past the download-then-run check.
+  if (tool === "curl" || tool === "wget") {
+    for (let i = 1; i < words.length; i++) {
+      if (/^(1?>|>>)$/.test(words[i]) && words[i + 1] && !words[i + 1].startsWith("-")) return words[i + 1];
+    }
+  }
   return null;
 }
 
@@ -330,10 +337,21 @@ const RUNS_INPUT_RE = /\b(exec|eval|source|compile|Function|system|popen|spawn|e
 // True when an interpreter stage runs its piped input as code: `bash`, `bash -s`, `python3 -`, `iex`, `pwsh -Command -`.
 // `python3 -c "…json.load(sys.stdin)…"` or `python3 tool.py` read the input as data, unless the inline code
 // itself executes it (`exec(sys.stdin.read())`, `source /dev/stdin`).
+// `xargs`/`parallel` hand each input line to a command: `curl … | xargs -I{} sh -c {}` is remote execution,
+// and `>(sh)` feeds the stage's output to a shell as stdin.
 // In prose (`prose: true`) only a path-like word counts as a script argument: "… | bash now." still runs the input.
 export function runsPipedInput(stageText, { prose = false } = {}) {
+  // `xargs`/`parallel` are in WRAPPERS so commandWords strips them: check the raw words first.
+  // `curl … | xargs -I{} sh -c {}` runs each fetched line as a shell command.
+  const raw = shellWords(stageText.trim());
+  const rawName = baseName(raw[0] ?? "");
+  if (rawName === "xargs" || rawName === "parallel") {
+    return raw.slice(1).some((w) => INTERPRETERS.has(baseName(w.replace(/^[`'"]+|[`'"]+$/g, ""))));
+  }
   const words = commandWords(stageText);
   const name = baseName(words[0] ?? "");
+  // `curl … | tee >(sh)`: process substitution feeds the output to a shell's stdin.
+  if (/>[ \t]*\(\s*(ba|z|da|k)?sh\b/i.test(stageText)) return true;
   if (!INTERPRETERS.has(name)) return false;
   if (name === "iex" || name === "invoke-expression") return true;
   const args = words.slice(1);

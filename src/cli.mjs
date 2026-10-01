@@ -17,7 +17,7 @@ import { installItem, removeItem, installSelf } from "./install.mjs";
 import { runHook, parseInstallCommands } from "./guard.mjs";
 import { createTelemetry, NOTICE } from "./telemetry.mjs";
 import { voteDue, keptEvents } from "./feedback.mjs";
-import { checkUpdates, applyUpdates, selfUpdateSkill, enableAutoCheck, weeklyCheckDue } from "./update.mjs";
+import { checkUpdates, applyUpdates, selfUpdateSkill, enableAutoCheck, weeklyCheckDue, sanitizeLauncher, AUTO_CHECK_ARGS } from "./update.mjs";
 import { AGENTS } from "./agents.mjs";
 import { readConfig, writeConfig } from "./config.mjs";
 import { readLock } from "./lock.mjs";
@@ -454,12 +454,13 @@ async function cmdUpdate(args, io) {
   const env = io.env ?? {};
   if (args.flags["enable-auto-check"]) {
     if (userConsentMissing(args, io, "The weekly update check (a Claude Code SessionStart hook)")) return 2;
-    if (!args.flags.yes && !(await ask(io, "Add a SessionStart hook to .claude/settings.json that checks for vetted updates once a week? [y/N] "))) {
+    const launcher = sanitizeLauncher(readLock(io.cwd).items.repotify?.launcher ?? detectLauncher());
+    if (!args.flags.yes && !(await ask(io, `Add a SessionStart hook to .claude/settings.json that runs \`${launcher} ${AUTO_CHECK_ARGS}\` once a week? [y/N] `))) {
       out(io, "Nothing changed.");
       return 0;
     }
-    const r = enableAutoCheck({ cwd: io.cwd, launcher: readLock(io.cwd).items.repotify?.launcher ?? detectLauncher() });
-    out(io, r.written ? "Weekly update check enabled (Claude Code SessionStart hook)." : `Could not edit .claude/settings.json (${r.reason}); nothing changed.`);
+    const r = enableAutoCheck({ cwd: io.cwd, launcher });
+    out(io, r.written ? `Weekly update check enabled (runs \`${r.command}\`).` : `Could not edit .claude/settings.json (${r.reason}); nothing changed.`);
     return r.written ? 0 : 1;
   }
   if (args.flags.apply) {

