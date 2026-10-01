@@ -1813,6 +1813,697 @@
     ],
     "badges": [],
     "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 431,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "936194843492f6f9c7dd6e79ea58e80f401032b30fa7b6127050f1be3a72c4eb"
+      },
+      {
+        "path": "assets/template.md",
+        "sha256": "5290006b9d94c0749e27064877cfcd42092f5d0b55b877aea52a3926efc64e1b"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "f11d162d1f08a55096d43e3cce4e8859b09a368efb44fb515a1525401b47a4d5"
+      },
+      {
+        "path": "references/standards.md",
+        "sha256": "fdac81e062825f0d0601e7a814769bb93c4000ada936c5898d9c7b715a70200b"
+      },
+      {
+        "path": "references/workflows.md",
+        "sha256": "228cb7450c0ef9aeb0f7c39614e1434112b9fb2821b8859bbdc4f219ed53a994"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "239ab2014f541164092af7912b395d50bd28beeef4c4dffb1aa48fa0c6ac4c6d"
+      },
+      {
+        "path": "scripts/process.py",
+        "sha256": "9d38e68b95c7ea0e02f08e8272dd65ad157a2e68fce1b2ca8c7e0745f372ede1"
+      }
+    ],
+    "id": "analyzing-threat-actor-ttps-with-mitre-attack",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-threat-actor-ttps-with-mitre-attack",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-threat-actor-ttps-with-mitre-attack",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Systematically map threat actor behavior to MITRE ATT&CK, build coverage heatmaps, identify detection gaps, and produce actionable threat i…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 442,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "0d086315113a1f751e52db1617133c5225e70a8c46e8c622be4a5915f2d8da15"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "4719afd0186c845f6a25c6addd989c80b6e31d5e1c6a6343ee587296f71e488e"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "7e08a947d9d6ae2267f10208451805f11b75ff4790fcf83022d8b0b6fead4f56"
+      }
+    ],
+    "id": "analyzing-threat-actor-ttps-with-mitre-navigator",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-threat-actor-ttps-with-mitre-navigator",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-threat-actor-ttps-with-mitre-navigator",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Map APT group TTPs to MITRE ATT&CK using attackcti to generate Navigator layer files for visualization and gap analysis.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 461,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "876fa700c16f5cf1863867078f481a1528762dbf5bba527b809060f4979d2af1"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "f084709f604789cef3b23250b14fad9e04c2a7946e406ea3ebae328df2aa256b"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "e633804088a1f4f07c3d41a7b12903f0359c2836931c310ca2282c9a0bacd697"
+      }
+    ],
+    "id": "analyzing-threat-intelligence-feeds",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-threat-intelligence-feeds",
+    "needs": [
+      "dependencies",
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-threat-intelligence-feeds",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Analyzes and enriches threat intelligence feeds, normalizing to STIX 2.1 for distribution to security systems.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review",
+      "python-expertise"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 380,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "76e556b5cdd012652152c78eae349fcf4e366bd392500322ef19600788614994"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "a5a53f1c56355535302bd57889c083baf94389a8ab09d0eaa3057b9a6b2ca29a"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "a39b1b207a898551d0078e0e152de406db29fa4c240b356900ae62fb73774037"
+      }
+    ],
+    "id": "analyzing-threat-landscape-with-misp",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-threat-landscape-with-misp",
+    "needs": [
+      "data-processing"
+    ],
+    "path": "skills/analyzing-threat-landscape-with-misp",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Analyze threat intelligence data from a MISP instance using PyMISP to generate landscape reports and IOC statistics.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review",
+      "static-analysis"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 339,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "35a1a4f94ca276ee404801a2761c7a190ab3356da373a57d3a0047235fdd556e"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "27fb34c5bbcdb60bd55a43b344264d717f7e57412be7219f1537237ffecdb0da"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "3d4dfaa008286a830d27de24b2c0945b71662c7f267f0473e421aa7116a9089a"
+      }
+    ],
+    "id": "analyzing-uefi-bootkit-persistence",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-uefi-bootkit-persistence",
+    "needs": [
+      "security"
+    ],
+    "path": "skills/analyzing-uefi-bootkit-persistence",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Analyzes UEFI bootkit persistence via SPI flash dump, UEFI variable inspection, ESP analysis, and firmware scanning for known malware like …",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 325,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "0b6df7a267f73911c266af5f0812a24a93572150ffcef9e7dbfff8a29b939c00"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "e913f2372feb430b04f45b1bdf056b5a2b996aea921403a237f241e3778ac54f"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "307fd6641a4a9f9fa27fee433dd5ce9890cb2bbf9198867f2ba66806b97265f4"
+      }
+    ],
+    "id": "analyzing-usb-device-connection-history",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-usb-device-connection-history",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-usb-device-connection-history",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Analyzes Windows USB device connection history via registry, event logs, and setupapi logs to reconstruct device usage, timestamps, and dri…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "python-expertise",
+      "security-review"
+    ],
+    "cluster": "python-expertise",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 327,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "758ac842d7907c233a341a6dd5222a5c6b1924350cef047a6f93bb46ad4446f4"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "7454130469cf144835a4e925a5033c3bed20eff9f7d70f1f8ddb46dce10c6a36"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "631368d5cb214bdf0d5fc35e7bf592df78ae20f054d6056b968caf1279684874"
+      }
+    ],
+    "id": "analyzing-windows-prefetch-with-python",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-windows-prefetch-with-python",
+    "needs": [
+      "data-processing",
+      "dependencies",
+      "security"
+    ],
+    "path": "skills/analyzing-windows-prefetch-with-python",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Parse Windows Prefetch (.pf) files using the windowsprefetch library to reconstruct application execution history and detect malware.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 339,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "da539598d8f7481467064f41d8929192158b0d1a5714e26528e4d2363cc4574e"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "ed1d726176def8d09888a5c15cd3c725de1219970c09c3fa4269cd2776bb759b"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "a0345069efcd909cf75a38d388a310cfff90244745195e4415573125ae72f04a"
+      }
+    ],
+    "id": "analyzing-windows-registry-for-artifacts",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-windows-registry-for-artifacts",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-windows-registry-for-artifacts",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T08:01:32.019Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33638
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Extract and analyze Windows Registry hives to uncover user activity, installed software, autostart entries, and evidence of compromise.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "angular-expertise"
     ],
     "cluster": "angular-expertise",
