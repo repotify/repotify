@@ -2,7 +2,7 @@
 
 <h3 align="center">Binlerce ajan skill'i. Repona uygun olanlar.</h3>
 
-<p align="center">Repotify, geliştiricilerin ve yapay zekâ şirketlerinin GitHub'da yayınladığı ajan skill'lerini okur, ne işe yaradıklarına göre sınıflandırır,<br>risklere karşı tarar ve projen için en iyilerini Claude Code, Cursor, Codex veya Gemini CLI'ye kurar.</p>
+<p align="center">Repotify, geliştiricilerin GitHub'da yayınladığı ajan skill'lerini bulur, her birini risklere karşı tarar<br>ve projen için en iyi seçimleri Claude Code, Cursor, Codex veya Gemini CLI'ye kurar.</p>
 
 <p align="center"><a href="../../README.md">English</a> · <b>Türkçe</b> · <a href="README.zh-CN.md">简体中文</a></p>
 

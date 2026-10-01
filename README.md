@@ -2,7 +2,7 @@
 
 <h3 align="center">Thousands of agent skills. The right ones for your repo.</h3>
 
-<p align="center">Repotify reads the agent skills that developers and AI companies publish on GitHub, sorts them by what they do,<br>checks them for risks, and installs the best ones for your project in Claude Code, Cursor, Codex or Gemini CLI.</p>
+<p align="center">Repotify finds the agent skills developers publish on GitHub, vets each one for risk,<br>and installs the best picks for your project in Claude Code, Cursor, Codex or Gemini CLI.</p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@repotify/repotify"><img alt="npm" src="https://img.shields.io/npm/v/@repotify/repotify?style=flat-square&labelColor=000000&color=3FE8B8&label=npm"></a>
@@ -59,6 +59,15 @@ One item per job, inside a context budget. Your agent stays fast instead of carr
 </td>
 </tr>
 </table>
+
+## By hand vs. Repotify
+
+| | By hand | With Repotify |
+|---|---|---|
+| Finding skills | Dig through GitHub, read dozens of READMEs | Evidence-based picks for your stack |
+| Checking trust | Skim install scripts and hope | Shell-aware scan plus an LLM jury |
+| Fitting the project | Guess which ones apply | One pick per job, nothing overlapping |
+| Staying lean | Context fills with unused instructions | Stays inside a context budget |
 
 ## Clean up what you already have
 
