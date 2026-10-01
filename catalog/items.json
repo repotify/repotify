@@ -705,6 +705,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -1277,6 +1279,93 @@
       "python"
     ],
     "summary": "Analyzes behavioral reports from Cuckoo or AnyRun to detect malware sandbox and VM evasion techniques.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review",
+      "static-analysis",
+      "python-expertise"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 321,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "4d39bc65bc995cd5f140ad0fe8bdcaea2f46aedf4f56fd6efdb383f058a32ebd"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "e8ee072da9dcc010a90292ab9c4bb4b01d9256b688f43e9d740e5b799bee76c3"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "f8a4488c5a1194d3c1c95a26924c73ed21b92d5e1474a75060322fc4ec13b9b8"
+      }
+    ],
+    "id": "analyzing-memory-forensics-with-lime-and-volatility",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it"
+      ],
+      "quality": 0.8500000000000001,
+      "specificity": 0.95
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-memory-forensics-with-lime-and-volatility",
+    "needs": [
+      "dependencies",
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-memory-forensics-with-lime-and-volatility",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33631
+    },
+    "stacks": [
+      "*",
+      "python"
+    ],
+    "summary": "Performs Linux memory acquisition using LiME and forensic analysis using the Volatility 3 framework.",
     "tier": "mission",
     "type": "skill"
   },
@@ -2253,6 +2342,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -2439,6 +2530,8 @@
       "ask-navigator",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -2536,6 +2629,8 @@
       "ask-navigator",
       "autonomous-agent-patterns",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -3593,6 +3688,8 @@
       "ask-navigator",
       "autonomous-agent-patterns",
       "behavioral-modes",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -3893,6 +3990,107 @@
       "*"
     ],
     "summary": "Guides an agent to conduct customer research: analyze transcripts, mine online sources, run interviews/surveys, and build personas.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "python-expertise",
+      "workflow-meta",
+      "implementation-planning"
+    ],
+    "cluster": "python-expertise",
+    "commit": "fea62b264c6702b5bcdbb78cbdd9bb0a9a14c00b",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ai-agents-architect",
+      "ask-navigator",
+      "autonomous-agent-patterns",
+      "behavioral-modes",
+      "context-engineering",
+      "dispatching-parallel-agents",
+      "dynamic-workflow",
+      "feature-forge",
+      "handoff",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "planning",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 165,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "529b67e3288021bf3027085b451bc38bb8c1a0fec435fc6bd162daef76bf1196"
+      }
+    ],
+    "id": "data-engineer",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.5
+    },
+    "license": "MIT",
+    "name": "data-engineer",
+    "needs": [
+      "data-processing",
+      "ci",
+      "deploy",
+      "security",
+      "performance",
+      "python-quality",
+      "docs-writing",
+      "github-workflow"
+    ],
+    "path": "cli-tool/components/skills/ai-research/data-engineer",
+    "repo": "davila7/claude-code-templates",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 32247
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides guidance for building scalable data pipelines, warehouses, and streaming architectures using Spark, dbt, Airflow, and cloud data p…",
     "tier": "mission",
     "type": "skill"
   },
@@ -5280,6 +5478,99 @@
     ],
     "badges": [],
     "capabilities": [
+      "workflow-meta"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "fea62b264c6702b5bcdbb78cbdd9bb0a9a14c00b",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ai-agents-architect",
+      "ask-navigator",
+      "autonomous-agent-patterns",
+      "behavioral-modes",
+      "context-engineering",
+      "data-engineer",
+      "dynamic-workflow",
+      "feature-forge",
+      "handoff",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "planning",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 106,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "c628917689ccc12ce9991615db6824d44c4fe71f8427cd959560aebe6a1a6476"
+      }
+    ],
+    "id": "dispatching-parallel-agents",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "dispatching-parallel-agents",
+    "needs": [
+      "agent-skills",
+      "testing"
+    ],
+    "path": "cli-tool/components/skills/ai-research/dispatching-parallel-agents",
+    "repo": "davila7/claude-code-templates",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 32247
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Skill for dispatching multiple AI agents in parallel to handle independent tasks, with guidance on scoping, prompting, and integration.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "django-expertise"
     ],
     "cluster": "django-expertise",
@@ -5799,6 +6090,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "feature-forge",
       "handoff",
       "marketing-council",
@@ -6082,6 +6375,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "handoff",
       "marketing-council",
@@ -6949,6 +7244,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "marketing-council",
@@ -7605,6 +7902,84 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning",
+      "skill-authoring"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "1e6adab5ecfbc36156071295a0d3e7757d50c53e",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 243,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "58fc7e8c5038b3f795a52985a5cd81abb4bf51075bf64705a3eaebe33cf4391b"
+      },
+      {
+        "path": "references/anatomy.md",
+        "sha256": "facbb9d160d506513f245fe2ad0eea0dc4a959a9573e5ae0e8c4f2f7598cc1d8"
+      },
+      {
+        "path": "references/style.md",
+        "sha256": "90a2ef1bc8b9181dfbf2d030891d91616bbfc4f28ec41aba018ddf0b6855c0b7"
+      }
+    ],
+    "id": "leader",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "leader",
+    "needs": [],
+    "path": "leader",
+    "repo": "kkkkhazix/khazix-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 21079
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Helps turn a vague idea into a detailed, verifiable goal/task book for an AI agent to execute independently.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "codebase-map",
       "component-architecture",
       "implementation-planning",
@@ -7722,6 +8097,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -7959,6 +8336,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -8076,6 +8455,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -8715,6 +9096,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -9473,6 +9856,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -9859,6 +10244,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -12603,6 +12990,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -13060,6 +13449,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -13156,6 +13547,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -13252,6 +13645,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -13544,6 +13939,8 @@
       "autonomous-agent-patterns",
       "behavioral-modes",
       "context-engineering",
+      "data-engineer",
+      "dispatching-parallel-agents",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
