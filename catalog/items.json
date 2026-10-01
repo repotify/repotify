@@ -703,6 +703,7 @@
     "conflicts": [
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -1289,6 +1290,440 @@
     ],
     "badges": [],
     "capabilities": [
+      "security-review",
+      "python-expertise"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 374,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "5ee2543cf691099df012c2b2ecf1c5f6535e55319f13407ac9249f1b03167971"
+      },
+      {
+        "path": "assets/template.md",
+        "sha256": "5744bb397ecb70cb2493b2adb64c0b60519a867dcfd51ba034f5d8815719b7b5"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "42c6b7db138c3717cefe43f5e7d67804a45d0284ffd636dd66289b3873c298fd"
+      },
+      {
+        "path": "references/standards.md",
+        "sha256": "f2e25b1238d5a6034edff30bb02a508e94ee0f537efabfbefa90889db57cb5d5"
+      },
+      {
+        "path": "references/workflows.md",
+        "sha256": "30aeb08829afc18396c742272884274d6c0d387601eeb791e4531479971d5694"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "e8669d0736f1b297b42448fcc3f466a0d8f2698164143a20e0e1c6e8b8e759cc"
+      }
+    ],
+    "id": "analyzing-network-covert-channels-in-malware",
+    "jury": {
+      "agreement": 0.7999999999999999,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-network-covert-channels-in-malware",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-network-covert-channels-in-malware",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33631
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Detect and analyze network covert channels (DNS tunneling, ICMP exfiltration, steganographic HTTP) in malware using Python, Zeek, and tshar…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review",
+      "static-analysis"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 444,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "b5467621b7bfea98bc9cbf2d7e952d88be2cfe1a0d1b6558235e7331d48f4ac7"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "7cd9a7e04c4ab3048575bb43896dfb8338e34c1954e27d307402fa5ef8fc379d"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "f3fa180e73b6ab74e102facdaff0113d80617364b6109686143a8bc130438019"
+      }
+    ],
+    "id": "analyzing-network-traffic-for-incidents",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-network-traffic-for-incidents",
+    "needs": [
+      "security",
+      "data-processing",
+      "pdf"
+    ],
+    "path": "skills/analyzing-network-traffic-for-incidents",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33631
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Analyzes network traffic (PCAP, Zeek, NetFlow) to detect C2 communications, lateral movement, and data exfiltration.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 377,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "83c6be312c1b2a4e2037ed6e0ff9665cbf98cf0eee5c422adea710392ee0a09c"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "b306761205f5a55cf5aa0d0d9063c0642b23523e498d78e9754e7c84d37cc220"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "a3cf077ea45fa41bdaf4afda92722bbba4454102be31bb70c423b982d0d28de1"
+      }
+    ],
+    "id": "analyzing-network-traffic-of-malware",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-network-traffic-of-malware",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-network-traffic-of-malware",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33631
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Analyzes malware network traffic using Wireshark, Zeek, Suricata to detect C2, exfiltration, and generate signatures.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 428,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "fa8f47795848b543ab4ececa737b6a27a70abd5a71731ff7edea1c949c8f9173"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "669d7ddaa66835fd233068d44d4fa7a84df5041777940e9876ee1de770a23e2e"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "e0e786e8ce4da7f8293963dd98501a7f958f4bef7c9a9e1d09adbbf3b9b8d326"
+      }
+    ],
+    "id": "analyzing-prefetch-files-for-execution-history",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-prefetch-files-for-execution-history",
+    "needs": [
+      "security",
+      "data-processing"
+    ],
+    "path": "skills/analyzing-prefetch-files-for-execution-history",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33631
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Parse Windows Prefetch files to determine program execution history, including run counts, timestamps, and referenced files for forensic ti…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review",
+      "static-analysis"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 407,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "9b0ad1aeba938fb63912ea25b83f01b14be7bc3e968dff16a06e11859f8aa062"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "7a03a0c88bed791c92a1df02c3b764b98c7429d749691a00c353ebb58d487b50"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "3f1a4532f13552d1f1db00a770e9840d89fb33bcb0f67ba1e16c79d602d460e4"
+      }
+    ],
+    "id": "analyzing-ransomware-encryption-mechanisms",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-ransomware-encryption-mechanisms",
+    "needs": [
+      "security"
+    ],
+    "path": "skills/analyzing-ransomware-encryption-mechanisms",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 31,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33631
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Guides analysis of ransomware encryption algorithms, key management, and file encryption routines to assess decryption feasibility and iden…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "angular-expertise"
     ],
     "cluster": "angular-expertise",
@@ -1816,6 +2251,7 @@
     "conflicts": [
       "ai-agents-architect",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -2001,6 +2437,7 @@
     "conflicts": [
       "ai-agents-architect",
       "ask-navigator",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -2064,6 +2501,99 @@
       "python"
     ],
     "summary": "Design patterns for building autonomous coding agents covering agent loops, tool schemas, permission systems, sandboxing, and human-in-the-…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming",
+      "implementation-planning",
+      "debugging-method",
+      "code-review",
+      "writing-quality",
+      "workflow-meta"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "fea62b264c6702b5bcdbb78cbdd9bb0a9a14c00b",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ai-agents-architect",
+      "ask-navigator",
+      "autonomous-agent-patterns",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "handoff",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "planning",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 128,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "1bfdf106d23c51a425b687677638d88472ea5bcdd3bcd76ca13783df77f6eb13"
+      }
+    ],
+    "id": "behavioral-modes",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "behavioral-modes",
+    "needs": [],
+    "path": "cli-tool/components/skills/ai-research/behavioral-modes",
+    "repo": "davila7/claude-code-templates",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T04:39:58.747Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 32247
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Defines adaptive operational modes (Brainstorm, Implement, Debug, Review, Teach, Ship) to optimize AI behavior and output style.",
     "tier": "mission",
     "type": "skill"
   },
@@ -3062,6 +3592,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "dynamic-workflow",
       "feature-forge",
       "handoff",
@@ -5266,6 +5797,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "feature-forge",
       "handoff",
@@ -5548,6 +6080,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "handoff",
@@ -6414,6 +6947,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -7186,6 +7720,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -7422,6 +7957,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -7538,6 +8074,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -8176,6 +8713,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -8933,6 +9471,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -9318,6 +9857,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -12061,6 +12601,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -12517,6 +13058,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -12612,6 +13154,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -12707,6 +13250,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
@@ -12998,6 +13542,7 @@
       "ai-agents-architect",
       "ask-navigator",
       "autonomous-agent-patterns",
+      "behavioral-modes",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
