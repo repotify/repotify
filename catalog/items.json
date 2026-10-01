@@ -685,6 +685,98 @@
     ],
     "badges": [],
     "capabilities": [
+      "llm-gateway",
+      "implementation-planning",
+      "debugging-method",
+      "workflow-meta"
+    ],
+    "cluster": "llm-gateway",
+    "commit": "e945056ea1826a54351f59d85ab95b41535d8d6c",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ask-navigator",
+      "autonomous-agent-patterns",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "handoff",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "planning",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 219,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "b4ec9d32aedf17993fdb63799938addee0765ab1ec65cd1a9fafd48088dbb039"
+      }
+    ],
+    "id": "ai-agents-architect",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.85,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "ai-agents-architect",
+    "needs": [
+      "llm-calls"
+    ],
+    "path": "cli-tool/components/skills/ai-research/ai-agents-architect",
+    "repo": "davila7/claude-code-templates",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 32241
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Expert in designing and building autonomous AI agents with tool use, memory systems, planning strategies, and multi-agent orchestration.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "implementation-planning"
     ],
     "cluster": "implementation-planning",
@@ -1202,6 +1294,77 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "ab024cdcfa7ca80be204acd4907656ba5a968589",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 234,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "16b06bf2ac5ede250d0c620ce4e6cf3878c9704246b8f52390fde5f280a17f73"
+      }
+    ],
+    "id": "anthropics-configure",
+    "jury": {
+      "agreement": 0.95,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "configure",
+    "needs": [
+      "auth"
+    ],
+    "path": "external_plugins/telegram/skills/configure",
+    "repo": "anthropics/claude-plugins-official",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 37251
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Configures a Telegram bot by managing the bot token and access policies in a state directory.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "component-architecture",
       "implementation-planning"
     ],
@@ -1567,14 +1730,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -1719,6 +1886,100 @@
       "*"
     ],
     "summary": "Guides the agent in interpreting marketing attribution models, reconciling conflicting data sources, and implementing first-party tracking.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "security-review",
+      "workflow-meta",
+      "browser-automation"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "e945056ea1826a54351f59d85ab95b41535d8d6c",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ai-agents-architect",
+      "ask-navigator",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "handoff",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "planning",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 277,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "be44f06d05c6fb542699a6f39bf097145df0163d7c93e7524396c61aeb41745e"
+      }
+    ],
+    "id": "autonomous-agent-patterns",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.7,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.85,
+      "specificity": 0.8
+    },
+    "license": "MIT",
+    "name": "autonomous-agent-patterns",
+    "needs": [
+      "agent-skills",
+      "llm-calls",
+      "security"
+    ],
+    "path": "cli-tool/components/skills/ai-research/autonomous-agent-patterns",
+    "repo": "davila7/claude-code-templates",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 32241
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Design patterns for building autonomous coding agents covering agent loops, tool schemas, permission systems, sandboxing, and human-in-the-…",
     "tier": "mission",
     "type": "skill"
   },
@@ -2714,14 +2975,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -4914,14 +5179,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -5192,14 +5461,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -6041,6 +6314,100 @@
     ],
     "badges": [],
     "capabilities": [
+      "workflow-meta"
+    ],
+    "cluster": "workflow-meta",
+    "commit": "29ecfde4df5998d913991049629014baa024600a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ai-agents-architect",
+      "ask-navigator",
+      "autonomous-agent-patterns",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "planning",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 241,
+    "files": [
+      {
+        "path": "EXAMPLES.md",
+        "sha256": "1fa85f64e20fe8bc07cae31e6a4fb9a58eff354375d24e1efa7bcc295d723b21"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "1a56957440917ffb5706db1f27d81c7d1a679d35eb8541516091c2c51411f9d5"
+      }
+    ],
+    "id": "handoff",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "handoff",
+    "needs": [
+      "agent-skills",
+      "onboarding"
+    ],
+    "path": "plugin/skills/handoff",
+    "repo": "rohitg00/agentmemory",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 29053
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Resumes the most recent agent session for the current project directory, surfacing unanswered questions and next steps using directory-boun…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "design-brainstorming",
       "frontend-design",
       "web-design-review",
@@ -6732,14 +7099,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -6964,14 +7335,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -7076,14 +7451,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -7710,14 +8089,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -8181,6 +8564,201 @@
     ],
     "badges": [],
     "capabilities": [
+      "design-brainstorming",
+      "writing-quality",
+      "implementation-planning"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 969,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f27239be82e5d4ad42daa944fad7d0a640b80ca82697ba7399843437a001e5aa"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "b87e20bf1f392e216fea6f586befe632dd9d45895998108864a705fc8a4bc607"
+      },
+      {
+        "path": "references/bonus-stacking.md",
+        "sha256": "872abbfd14501fd0b097f5ae62b9931571152d43b6690b57df5e65ab48aedfbd"
+      },
+      {
+        "path": "references/examples.md",
+        "sha256": "f1033e181845effe8c659800aaf68523686be6bdcb1c5e256c87008e8ea638af"
+      },
+      {
+        "path": "references/guarantee-design.md",
+        "sha256": "daa421558b664fe5a335c6cb764d47755799662c79606551a848bba864255c29"
+      },
+      {
+        "path": "references/offer-anatomy.md",
+        "sha256": "0810080788bedc9b40dc0aba53109991aa816397f4b45e813289985eb8a64cad"
+      },
+      {
+        "path": "references/offer-formats.md",
+        "sha256": "667d87198dcd3b5892151d33a917919141bc718822a2a4add3e9c100891755bb"
+      },
+      {
+        "path": "references/saas-offers.md",
+        "sha256": "1b21638f0fd2e623f638c13f4b82e2d8c8ecb79d1324f0183f8322db5f5ceea3"
+      },
+      {
+        "path": "references/scarcity-urgency.md",
+        "sha256": "4abe51a54188e6c93feb6cface92abc5c8e03212b8ade5bd9366ed159ad3f8f8"
+      },
+      {
+        "path": "references/value-equation.md",
+        "sha256": "4610ff358be2be643e7783884e628f01e1e0c56915a7924e5ccb92c096121eff"
+      }
+    ],
+    "id": "offers",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "offers",
+    "needs": [],
+    "path": "skills/offers",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Teaches offer design for services, courses, coaching, info products, and high-ticket B2B using the value equation, 6-component anatomy, bon…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "design-brainstorming"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 624,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "ca219e0ba8f931888e2a634624ab927206f8ef26aeca2250399c3c48da0341e0"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "6086b1c34a6f171800bf32bf569ff08d7385c3c36637ce9f1a4cc2527bb36b47"
+      },
+      {
+        "path": "references/activation-models.md",
+        "sha256": "a13e82d8e3ebf810a0f0fb51fe91bbe349d8175baee5a97a85934fa20f63a8f7"
+      },
+      {
+        "path": "references/experiments.md",
+        "sha256": "b4caad0b50ca9483a6a79846d0b24a7bab62850b45a3f2232d73f78629468932"
+      },
+      {
+        "path": "references/minimum-path-to-value.md",
+        "sha256": "c2b7c71b8436a1456888a26b9c8892c33cd9e1b1bf758f6fd7282c00f87dcdc3"
+      }
+    ],
+    "id": "onboarding",
+    "jury": {
+      "agreement": 0.85,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.9
+    },
+    "license": "MIT",
+    "name": "onboarding",
+    "needs": [
+      "onboarding",
+      "frontend-ui"
+    ],
+    "path": "skills/onboarding",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Provides comprehensive guidance for designing and optimizing user onboarding flows, activation metrics, and retention strategies.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "debugging-method"
     ],
     "cluster": "debugging-method",
@@ -8268,14 +8846,18 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -8336,6 +8918,88 @@
       "*"
     ],
     "summary": "Guidelines for splitting feature work among multiple agents, defining file ownership, avoiding conflicts, and integrating parallel implemen…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "frontend-design",
+      "design-brainstorming"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 684,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "d062c03f6b99e76ffaa367a1494ba80098b2033d4d74609b895373a024a8eac1"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "6b3ad98bb057a8da6c6e26b1f75bc1f654aaae4e9a6903801051eaca9e3cc3a6"
+      },
+      {
+        "path": "references/experiments.md",
+        "sha256": "5a5760e23c4809ddbc123905e0073ebca2653e7edad29482db810b825d62bd19"
+      }
+    ],
+    "id": "paywalls",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.95
+    },
+    "license": "MIT",
+    "name": "paywalls",
+    "needs": [
+      "frontend-ui",
+      "testing"
+    ],
+    "path": "skills/paywalls",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52037
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Comprehensive guide for designing and optimizing in-app paywalls, upgrade screens, and feature gates to convert free users to paid plans.",
     "tier": "mission",
     "type": "skill"
   },
@@ -8541,6 +9205,94 @@
     ],
     "summary": "PHP Pro skill provides comprehensive patterns, strict typing, PHPStan level 9, async with Swoole/ReactPHP, and full Laravel/Symfony scaffol…",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning",
+      "workflow-meta"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "e945056ea1826a54351f59d85ab95b41535d8d6c",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [
+      "ai-agents-architect",
+      "ask-navigator",
+      "autonomous-agent-patterns",
+      "context-engineering",
+      "dynamic-workflow",
+      "feature-forge",
+      "handoff",
+      "marketing-council",
+      "marketing-loops",
+      "marketing-plan",
+      "ml-pipeline",
+      "parallel-feature-development",
+      "sre-engineer",
+      "task-coordination-strategies",
+      "team-communication-protocols",
+      "team-composition-patterns",
+      "the-fool"
+    ],
+    "descriptionChars": 293,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "34a4a12808a054be8ee8fea1d1b252e73a1b11959b884a33f041439529020de3"
+      }
+    ],
+    "id": "planning",
+    "jury": {
+      "agreement": 0.8,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-ultra-550b-a55b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "planning",
+    "needs": [],
+    "path": "cli-tool/components/skills/ai-maestro/planning",
+    "repo": "davila7/claude-code-templates",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T02:05:08.807Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 32241
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Creates persistent markdown planning files (task_plan.md, findings.md, progress.md) with structured phases, rules, and protocols to keep co…",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -11046,15 +11798,19 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "task-coordination-strategies",
       "team-communication-protocols",
       "team-composition-patterns",
@@ -11498,15 +12254,19 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "team-communication-protocols",
       "team-composition-patterns",
@@ -11589,15 +12349,19 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-composition-patterns",
@@ -11680,15 +12444,19 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
@@ -11967,15 +12735,19 @@
       "votes": 0
     },
     "conflicts": [
+      "ai-agents-architect",
       "ask-navigator",
+      "autonomous-agent-patterns",
       "context-engineering",
       "dynamic-workflow",
       "feature-forge",
+      "handoff",
       "marketing-council",
       "marketing-loops",
       "marketing-plan",
       "ml-pipeline",
       "parallel-feature-development",
+      "planning",
       "sre-engineer",
       "task-coordination-strategies",
       "team-communication-protocols",
