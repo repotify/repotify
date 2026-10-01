@@ -1476,6 +1476,103 @@
     ],
     "badges": [],
     "capabilities": [
+      "security-review",
+      "static-analysis",
+      "code-review"
+    ],
+    "cluster": "security-review",
+    "commit": "ab024cdcfa7ca80be204acd4907656ba5a968589",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 446,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "58898a55aa8d086460bc4cc9c87e75b6198bf3b7cd55fe1fa231c0d66016480f"
+      },
+      {
+        "path": "jobs/scan-changes.md",
+        "sha256": "038279778115e5f81d15fed1ec348ce2587e8e2df13518701c825ff18fb3f7eb"
+      },
+      {
+        "path": "jobs/scan-codebase.md",
+        "sha256": "bd03e0fc69a6f7f36b7a4ccc3443b3bcdb4d408e75f37d1653d679b1307c4e38"
+      },
+      {
+        "path": "jobs/suggest-patches.md",
+        "sha256": "c4af04aa33b7038e968f436200a16c6a347ff56d62b1b3f5af369b9e0a07828f"
+      },
+      {
+        "path": "role.md",
+        "sha256": "3871c06865a02e7e25106a36b45ec8072a95a9f870d76c97aed37e41598c9560"
+      },
+      {
+        "path": "specs/patch-spec.md",
+        "sha256": "dd7d48ecf53a1a18f4ec4036841c3c8bd2b1e23e661391635de576f40cb121ef"
+      },
+      {
+        "path": "specs/report-spec.md",
+        "sha256": "138df8ea0f296d040a0de51872c6f15a8a227d34e51fb92e1f6cb1ce127a1ca6"
+      }
+    ],
+    "id": "claude-security",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "Apache-2.0",
+    "name": "claude-security",
+    "needs": [
+      "security"
+    ],
+    "path": "plugins/claude-security/skills/claude-security",
+    "repo": "anthropics/claude-plugins-official",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 37247
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Scans codebase or changes for security issues using Claude Security, can suggest patches, and reports findings.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "design-brainstorming",
       "implementation-planning",
       "security-review"
@@ -2000,6 +2097,90 @@
     ],
     "badges": [],
     "capabilities": [
+      "design-brainstorming"
+    ],
+    "cluster": "design-brainstorming",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 659,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "0ad572d607884c561668810f77cd21bbe3e0508c64090f2997661a728360f946"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "10167e7125ee77cbabe4f03953750dd99ea147f7461027fdbb0cf8e089e5506d"
+      },
+      {
+        "path": "references/content-distribution.md",
+        "sha256": "1861a1aab0627ab29c279000879a9889242da1ba85e677acdc759c66a6241778"
+      },
+      {
+        "path": "references/headless-cms.md",
+        "sha256": "c0a7b87f47c8f7af907ce73facf1ed4721ade811e53f86ddf22f4bc0d7ca324e"
+      }
+    ],
+    "id": "content-strategy",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 0.85
+    },
+    "license": "MIT",
+    "name": "content-strategy",
+    "needs": [
+      "data-processing",
+      "scraping"
+    ],
+    "path": "skills/content-strategy",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52029
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Helps plan content strategy: decide topics, pillars, buyer-stage keywords, and prioritize ideas using research and data.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "workflow-meta"
     ],
     "cluster": "workflow-meta",
@@ -2225,6 +2406,91 @@
     ],
     "summary": "Writes, optimizes, and debugs C++20/23 applications using modern features, template metaprogramming, and high-performance techniques.",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 953,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "ae4769147f63dd5aea1308a0fddd85473601164893f58111dce738738226317e"
+      },
+      {
+        "path": "evals/evals.json",
+        "sha256": "fc8a15d12e582b55fa52ad27925594ab796ebd6a8ea13fed13722f97e4c51f01"
+      },
+      {
+        "path": "references/interviews-and-surveys.md",
+        "sha256": "56adecdc40af1242464937100349fc1a161627394909551720494bc5ee537076"
+      },
+      {
+        "path": "references/source-guides.md",
+        "sha256": "56682ea98d781060396fd4009739d071671b3489a0d4c81f0a0ef3078cb5c9ee"
+      }
+    ],
+    "id": "customer-research",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "MIT",
+    "name": "customer-research",
+    "needs": [
+      "agent-skills",
+      "data-processing",
+      "scraping"
+    ],
+    "path": "skills/customer-research",
+    "repo": "coreyhaines31/marketingskills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 25,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 52029
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides an agent to conduct customer research: analyze transcripts, mine online sources, run interviews/surveys, and build personas.",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -5598,6 +5864,117 @@
     ],
     "badges": [],
     "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "ab024cdcfa7ca80be204acd4907656ba5a968589",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 706,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "f697e195d343520f3db551bd4fb44c5120504ee2c47a9cc2016cd57767f23403"
+      },
+      {
+        "path": "evals/trigger_eval.json",
+        "sha256": "672a9d8c3804c74683cd779126ab6a7c310081b290f04de863962f3631ebb196"
+      },
+      {
+        "path": "references/adversarial_prompts.md",
+        "sha256": "686f5913da4e3291d64989f1bacb8f99fe69cdb3b5b9e64c8390151e870bae2a"
+      },
+      {
+        "path": "references/attempt_agent.md",
+        "sha256": "8716d7cad5ec2a05d8e6e48f4042721638b97dec83bd11eee1f7734697ba84bf"
+      },
+      {
+        "path": "references/known_constructions.md",
+        "sha256": "5135bca2eb1c448f1144cda2b1cfa796be5cb6a082306e589ad8308636b1e065"
+      },
+      {
+        "path": "references/model_tier_defaults.md",
+        "sha256": "fa44e35b3c73c12c4098568df2d8fc6ff54dbed16b8d592e82272554c3eeaeb0"
+      },
+      {
+        "path": "references/presentation_prompts.md",
+        "sha256": "19eb3e242eb5879a5fe2768eea9d0e5a35b3df38a5c02cccd101e0b1f07e7d09"
+      },
+      {
+        "path": "references/solver_heuristics.md",
+        "sha256": "a934fc5252d1a0776e6390c5a943af7f7b32324cf5454e3dce94b3681daa842e"
+      },
+      {
+        "path": "references/verifier_patterns.md",
+        "sha256": "b72657c916d5cd0baa464d5ad59fce9fedb6f870f46b8dd9610632b08a591f56"
+      },
+      {
+        "path": "scripts/check_latex.sh",
+        "sha256": "052151934c82b7a5d91a5bb3ba2a1611f22fc661929cf819f7e3d954bdb22721"
+      },
+      {
+        "path": "scripts/compile_pdf.sh",
+        "sha256": "1e990d377d79b1d08b993833e7dcce8c5c82ed5ab34ad72c009b42f2e068b243"
+      }
+    ],
+    "id": "math-olympiad",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "math-olympiad",
+    "needs": [
+      "agent-skills"
+    ],
+    "path": "plugins/math-olympiad/skills/math-olympiad",
+    "repo": "anthropics/claude-plugins-official",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 37247
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Solves competition math problems using multi-agent reasoning and adversarial verification to produce verified proofs or honest abstention.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "mcp-development"
     ],
     "cluster": "mcp-development",
@@ -8768,6 +9145,75 @@
       "*"
     ],
     "summary": "Creates, tests and tunes agent skills, including trigger descriptions and evals.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "implementation-planning"
+    ],
+    "cluster": "implementation-planning",
+    "commit": "ab024cdcfa7ca80be204acd4907656ba5a968589",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 328,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "2b6ecb93b01471142f928dd0fa4abd7e35782ed8f1058d498521039564387305"
+      }
+    ],
+    "id": "solo",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "solo",
+    "needs": [],
+    "path": "plugins/math-proof/skills/solo",
+    "repo": "anthropics/claude-plugins-official",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 0,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 37247
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides a coding agent to solve a single hard math problem solo, recording steps in notes and producing a self-contained proof file.",
     "tier": "mission",
     "type": "skill"
   },
