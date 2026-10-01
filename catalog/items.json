@@ -237,6 +237,183 @@
     ],
     "badges": [],
     "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 427,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "83ba5fe08baefaa148c0e1bee845197760729712967ff54ab2eb280ab277dad8"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "d9cd8ff1db7b4e878896142f13dbc2bd69f68ab907ca1211e95cf6d13b23504c"
+      },
+      {
+        "path": "references/standards.md",
+        "sha256": "ed1be3c65ddcbac92896b326be478ee6b403b21152fbdc8a846c99eea1c2cee5"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "b7f28227506d6f792aac2905610946e5dab88f0b5c72fb1d5be2b21700807bf8"
+      }
+    ],
+    "id": "abusing-shadow-credentials-for-privesc",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.825,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "abusing-shadow-credentials-for-privesc",
+    "needs": [
+      "auth",
+      "dependencies",
+      "security"
+    ],
+    "path": "skills/abusing-shadow-credentials-for-privesc",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33629
+    },
+    "stacks": [
+      "*",
+      "python"
+    ],
+    "summary": "Abuse Active Directory Shadow Credentials to take over accounts via PKINIT without password reset, using pyWhisker, Certipy, or PKINITtools.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 904,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "f5124addbf044b13ff6332872087d93062bfbbdd5283aac96bd76d4c9ddd7a67"
+      },
+      {
+        "path": "assets/template.md",
+        "sha256": "18d201a4851e1148257ef77112f1c31f06d39d99bb498444ffdb565104634da3"
+      },
+      {
+        "path": "references/standards.md",
+        "sha256": "b3cc2df29555278be07c8065cb7ea72556658244ad4616346904da6851ca9508"
+      },
+      {
+        "path": "scripts/process.py",
+        "sha256": "2e53b3229f8df1414ba927d78d03dbf0350a53cb959e3358c454635ffa2584c2"
+      }
+    ],
+    "id": "achieving-cmmc-level-2-compliance",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "achieving-cmmc-level-2-compliance",
+    "needs": [
+      "docs-writing",
+      "security"
+    ],
+    "path": "skills/achieving-cmmc-level-2-compliance",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33629
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guide a coding agent through CMMC Level 2 compliance: scoping CUI, implementing NIST 800-171 controls, scoring SPRS, managing POA&M, and pr…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "codebase-map"
     ],
     "cluster": "codebase-map",
@@ -583,6 +760,346 @@
       "*"
     ],
     "summary": "Helps set up, improve, or audit analytics tracking (GA4, GTM, events, UTM) with naming conventions, debugging, and privacy guidance.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 132,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "e72ab21e752ec57aff3ecd6b612add8c18b7df0b3ace10789209eeca1c01b2d5"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "6dee04876a1a9d7276a384894c192bc7cf4d87fdb9133222db6a2e24af31dbc6"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "8b92e319323b26479a80a0142a27d2689abcd7aac9f4370e7049e79640e457a6"
+      }
+    ],
+    "id": "analyzing-active-directory-acl-abuse",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-active-directory-acl-abuse",
+    "needs": [
+      "security"
+    ],
+    "path": "skills/analyzing-active-directory-acl-abuse",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33629
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Detect dangerous ACL misconfigurations in Active Directory using ldap3 to identify GenericAll, WriteDACL, and WriteOwner abuse paths",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 351,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "22468b097a0b485bdee2463c084f776aa77f147dcd911484ef709d1dc347c79b"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "95037aacd2cec388303b0c1f07ec9694a2e274a2253f7b7ee2b52d6c4d7bd6b5"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "d714a27e4acb6bdaeacf4f5eaa4a905bba87f6f9e9d24813785821579d2fe4b9"
+      }
+    ],
+    "id": "analyzing-apt-group-with-mitre-navigator",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.8,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-apt-group-with-mitre-navigator",
+    "needs": [
+      "data-processing",
+      "security"
+    ],
+    "path": "skills/analyzing-apt-group-with-mitre-navigator",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33629
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Analyze APT groups using MITRE ATT&CK data, generate Navigator layers, and perform detection gap analysis.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 347,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "f4b3c4570a860803923d76d1ab379f3e1d32a123cc26c77e301953f37164212e"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "998fdda365f2095023ebeff31e51338b9477e1a2fa0ddef5e7869c1754c051fc"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "d0aa5d41cb9b8ebb5f312b8271238a235aafb4c0e24e76b72791f55e3521fec6"
+      }
+    ],
+    "id": "analyzing-azure-activity-logs-for-threats",
+    "jury": {
+      "agreement": 0.9,
+      "maintenance": 0.85,
+      "models": [
+        "nvidia/nemotron-3-super-120b-a12b",
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-azure-activity-logs-for-threats",
+    "needs": [
+      "security"
+    ],
+    "path": "skills/analyzing-azure-activity-logs-for-threats",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33629
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Detects threats in Azure by querying activity and sign-in logs for suspicious operations like privilege escalation and impossible travel us…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review",
+      "static-analysis",
+      "supply-chain-audit",
+      "code-review",
+      "debugging-method",
+      "verification-gate"
+    ],
+    "cluster": "security-review",
+    "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "descriptionChars": 358,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "f1e225f6d60620b07aa1851d55ecfd478ff92919fc8164d0fa659007901bcf6d"
+      },
+      {
+        "path": "references/api-reference.md",
+        "sha256": "237c51f000b93477446cb1e4a32eba7bc6d0f3f13ce5d5a1abae2e514f034f04"
+      },
+      {
+        "path": "scripts/agent.py",
+        "sha256": "937fe71d3006b59dd4afb41e67b7b511dae9a54532ab48a5a967b802673de397"
+      }
+    ],
+    "id": "analyzing-bootkit-and-rootkit-samples",
+    "jury": {
+      "agreement": 1,
+      "maintenance": 0.9,
+      "models": [
+        "google/gemma-4-31b-it",
+        "openai/gpt-oss-20b"
+      ],
+      "quality": 0.9,
+      "specificity": 1
+    },
+    "license": "Apache-2.0",
+    "name": "analyzing-bootkit-and-rootkit-samples",
+    "needs": [
+      "security",
+      "agent-skills",
+      "data-processing",
+      "dependencies"
+    ],
+    "path": "skills/analyzing-bootkit-and-rootkit-samples",
+    "repo": "mukul975/anthropic-cybersecurity-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "2",
+      "level": "verified",
+      "scannedAt": "2026-10-01T00:01:13.616Z",
+      "scannerVersion": "1.2.0"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "lastCommitDays": 30,
+      "mentions30d": 0,
+      "starVelocity30d": null,
+      "stars": 33629
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Analyzes bootkits and rootkits infecting MBR, VBR, or UEFI firmware using disk imaging, firmware dumps, and memory forensics.",
     "tier": "mission",
     "type": "skill"
   },
