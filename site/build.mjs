@@ -89,9 +89,8 @@ export function renderPage(template, strings, l, { version, langs = LANGUAGES, a
     canonical: pageUrl(l),
     version,
     skill_count: skillCount == null ? "" : String(skillCount),
-    og_image_alt: skillCount == null
-      ? "Repotify logo"
-      : `Repotify: ${skillCount} agent skills, the right ones for your repo`,
+    // The slogan, as in the README banner: "thousands" are the skills out there, the catalog is what passed the gate.
+    og_image_alt: "Repotify: thousands of agent skills, the right ones for your repo",
     og_image: `${BASE_URL}assets/og.png`,
     hreflang: [
       ...langs.map((x) => `<link rel="alternate" hreflang="${x.code}" href="${pageUrl(x)}">`),
@@ -139,37 +138,6 @@ const NOT_FOUND = (version) => `<!doctype html>
 <p style="margin-top:28px"><a class="btn primary" href="${BASE_PATH}">Repotify home</a></p></section></main></body></html>
 `;
 
-// FAZ 8.4: no inflated copy — the real catalog count is injected at build time,
-// per language (explicit map, digits are language-neutral).
-const COUNT_PHRASE = {
-  "ar": (n) => `${n} مهارة وكيل.`, "cs": (n) => `${n} skillů pro agenty.`,
-  "de": (n) => `${n} Agent-Skills.`, "en": (n) => `${n} agent skills.`,
-  "es": (n) => `${n} skills de agente.`, "fa": (n) => `${n} مهارت ایجنت.`,
-  "fr": (n) => `${n} skills d'agent.`, "he": (n) => `${n} סקילים לסוכנים.`,
-  "hi": (n) => `${n} एजेंट स्किल्स।`, "id": (n) => `${n} skill agen.`,
-  "it": (n) => `${n} skill per agenti.`, "ja": (n) => `${n}のエージェントスキル。`,
-  "ko": (n) => `${n}개의 에이전트 스킬.`, "nl": (n) => `${n} agent-skills.`,
-  "pl": (n) => `${n} skilli agentów.`, "pt-BR": (n) => `${n} skills de agente.`,
-  "ru": (n) => `${n} навыков для агентов.`, "sv": (n) => `${n} agent-skills.`,
-  "th": (n) => `${n} สกิลเอเจนต์`, "tr": (n) => `${n} ajan skill'i.`,
-  "uk": (n) => `${n} навичок для агентів.`, "vi": (n) => `${n} skill cho agent.`,
-  "zh-CN": (n) => `${n} 个代理技能。`, "zh-TW": (n) => `${n} 個代理技能。`,
-};
-const stripPunct = (s) => String(s).replace(/[.!。؟?]+$/, "");
-
-function injectRealCount(all, count) {
-  for (const l of LANGUAGES) {
-    const s = all[l.code];
-    const make = COUNT_PHRASE[l.code] ?? COUNT_PHRASE.en;
-    const newHero = make(count);
-    // meta_title embeds the same phrase ("Repotify: <phrase>, …"); swap it too.
-    // Case-insensitive: some locales capitalize the hero but not the meta title.
-    const oldPhrase = stripPunct(s.hero_title_a).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    s.meta_title = s.meta_title.replace(new RegExp(oldPhrase, "i"), stripPunct(newHero));
-    s.hero_title_a = newHero;
-  }
-}
-
 export function build({ out = join(here, "dist"), today = new Date().toISOString().slice(0, 10) } = {}) {
   const version = JSON.parse(readFileSync(join(here, "..", "package.json"), "utf8")).version;
   const template = readFileSync(join(SRC, "template.html"), "utf8");
@@ -177,7 +145,6 @@ export function build({ out = join(here, "dist"), today = new Date().toISOString
   rmSync(out, { recursive: true, force: true });
   mkdirSync(join(out, "assets"), { recursive: true });
   const data = buildData({ out, today });
-  injectRealCount(all, data.skillCount);
   for (const l of LANGUAGES) {
     const dir = join(out, l.dir);
     mkdirSync(dir, { recursive: true });

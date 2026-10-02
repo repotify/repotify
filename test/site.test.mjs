@@ -95,20 +95,17 @@ test("strings are escaped, `code` becomes <code>, and a missing string fails the
   assert.throws(() => renderPage("{{nope}}", en, l, { version: "9.9.9", all: { en } }), /missing string "nope"/);
 });
 
-test("FAZ 8.4: no inflated copy — every language shows the real catalog count", () => {
+test("every language carries the slogan the README opens with, not a catalog count that dates", () => {
   const out = mkSiteDir();
   build({ out, today: "2026-09-29" });
-  const skillCount = JSON.parse(readFileSync(new URL("../catalog/items.json", import.meta.url), "utf8")).length;
+  const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
+  assert.ok(readme.includes("Thousands of agent skills. The right ones for your repo."), "README slogan");
   for (const l of LANGUAGES) {
     const html = readFileSync(join(out, l.dir, "index.html"), "utf8");
-    assert.ok(!/[Tt]housands of agent skills/.test(html), `${l.code}: inflated English copy`);
-    assert.ok(html.includes(`${skillCount} agent skills`) || new RegExp(`${skillCount}[^<]{0,40}`).test(html), `${l.code}: real count present`);
+    const strings = JSON.parse(readFileSync(new URL(`../site/src/i18n/${l.code}.json`, import.meta.url), "utf8"));
+    assert.ok(html.includes(strings.hero_title_a), `${l.code}: hero is the slogan`);
   }
-  // every locale's hero carries its own real-count phrase (spot-check a few)
-  for (const [code, dir, phrase] of [["de", "de", `${skillCount} Agent-Skills.`], ["tr", "tr", `${skillCount} ajan skill'i.`], ["ja", "ja", `${skillCount}のエージェントスキル。`]]) {
-    const html = readFileSync(join(out, dir, "index.html"), "utf8");
-    assert.ok(html.includes(phrase), `${code}: real-count hero`);
-  }
+  assert.match(readFileSync(join(out, "index.html"), "utf8"), /Thousands of agent skills\./);
 });
 
 test("FAZ 8.1: skill data entries carry scores, expiry and capability tags", () => {

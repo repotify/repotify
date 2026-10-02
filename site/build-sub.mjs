@@ -93,7 +93,7 @@ function skillCard(s, root) {
   <p class="skill-sum">${esc(s.summary)}</p>
   <div class="skill-meta">${scoreLine}
   ${dimsLine(s.jury)}
-  <span class="exp" title="Scores are re-run on a 30-day cycle">${s.scoreExpired ? "expired " + esc(s.scoreExpiresAt) : "valid until " + esc(s.scoreExpiresAt)}</span></div>
+  <span class="exp" title="Scores are valid for 30 days">${s.scoreExpired ? "expired " + esc(s.scoreExpiresAt) : "valid until " + esc(s.scoreExpiresAt)}</span></div>
   ${caps ? `<ul class="tags">${caps}</ul>` : ""}
 </article>`;
 }
@@ -104,7 +104,7 @@ function skillsIndex(skills, meta, version) {
   const body = `
 <section class="subhead">
   <h1>Skill catalog</h1>
-  <p class="section-lead">${meta.count} skills, each one scanned for risk and scored by a 3-model jury. Scores expire after 30 days and are re-run — an expired score is never served silently.</p>
+  <p class="section-lead">${meta.count} skills, each one scanned for risk and scored by a jury of two or three models. Scores are valid for 30 days; after that a page marks them expired until the catalog is rebuilt.</p>
   <p class="search"><input id="q" type="search" placeholder="Filter ${meta.count} skills…" aria-label="Filter skills" autocomplete="off"></p>
   <p class="countline" aria-live="polite"><span id="shown">${meta.count}</span> of ${meta.count} shown · catalog ${esc(meta.catalogVersion)}</p>
 </section>
@@ -158,7 +158,7 @@ function skillDetail(s, version) {
       <div><dt>Scored</dt><dd>${esc(s.scoreScoredAt)}</dd></div>
       <div><dt>Score expires</dt><dd>${esc(s.scoreExpiresAt)}${s.scoreExpired ? " — <b>expired</b>" : ""}</dd></div>
     </dl>
-    <p class="muted small">Scores are re-run on a 30-day cycle (same TTL as the pipeline's expensive scoring layer). An expired score is re-scanned before it is served again — never silently.</p>
+    <p class="muted small">Scores are valid for 30 days (the same TTL as the pipeline's expensive scoring layer). After that this page marks them expired until the catalog is rebuilt.</p>
     ${models ? `<h3>Jury models</h3><ul class="models">${models}</ul>` : ""}
   </section>
   <section class="card">
@@ -213,7 +213,7 @@ function methodSection() {
   <h2>How we measure</h2>
   <p class="muted small">No stars, no ratings. Every number on this page is measured — this is the machinery behind it.</p>
   <h3>1 · Rule scan, then a 3-model jury</h3>
-  <p>Every catalog entry first passes a rule-based security scan (<code dir="ltr">verified</code> / <code dir="ltr">caution</code> / <code dir="ltr">quarantined</code> / <code dir="ltr">rejected</code>). A 3-model jury then scores <b>quality</b>, <b>specificity</b> and <b>maintenance</b> as 0–1 medians — the mean is the score you see on skill pages. <b>Agreement</b> (how much the models concur) gates the score: below 0.6 it discounts quality. Scores expire after 30 days and are re-run; an expired score is flagged, never served silently.</p>
+  <p>Every catalog entry first passes a rule-based security scan (<code dir="ltr">verified</code> / <code dir="ltr">caution</code> / <code dir="ltr">quarantined</code> / <code dir="ltr">rejected</code>). A jury of two or three models then scores <b>quality</b>, <b>specificity</b> and <b>maintenance</b> as 0–1 medians — the mean is the score you see on skill pages. <b>Agreement</b> (how much the models concur) gates the score: below 0.6 it discounts quality. Scores are valid for 30 days; skill pages mark an expired score until the catalog is rebuilt.</p>
   <h3>2 · The coverage gate — measured in a pilot</h3>
   <p>Recommendation sets are context-budgeted, so a coverage gate decides which skills stay. Four gate variants ran in a pilot (30 runs per arm, synthetic take-all mock agent) on must-have recall:</p>
   <div class="twrap"><table class="mini">
@@ -227,7 +227,7 @@ function methodSection() {
   </table></div>
   <p class="muted small">Jaccard reached recall 1.000 after a targeted triage fix (tie-contender escape) that repaired a real miss — react-best-practices dropped for a look-alike skill — with no scenario regressing. Hybrid was eliminated: bigger sets crowded must-have items out of the context budget. A separate real-world check (4 realistic projects x 4 variants, judged by a 3-model jury: nemotron-3-super-120b-a12b, gemma-4-31b-it, gpt-oss-20b) agrees — average jury coverage: jaccard 7.0 &gt; loose 6.6 &gt; hybrid 6.4 &gt; strict 5.5. Decision: <b>jaccard is the default</b> — an item whose max pairwise Jaccard overlap with an already-selected skill reaches 0.6 is dropped. Reversible at any time via the <code dir="ltr">REPOTIFY_COVERAGE_VARIANT</code> environment variable.</p>
   <h3>3 · Every gate decision leaves an audit trail</h3>
-  <p>Drops are never silent. Each gate decision carries a reason code — <code dir="ltr">JACCARD_PASS</code>, <code dir="ltr">NO_NEW_COVERAGE_JACCARD</code>, <code dir="ltr">STRICT_PASS</code>, <code dir="ltr">NO_NEW_COVERAGE_STRICT</code>, <code dir="ltr">SCORE_BAND_PASS</code>, <code dir="ltr">CORE_TIER_PASS</code>, <code dir="ltr">BUDGET_EXCEEDED</code> — and Jaccard drops additionally record the measured overlap value and the blocking skill's id. The decisions are logged with recommendation telemetry, so any set we ever served can be re-examined. No fake precision: the gate's own calibration debt (the 0.6 threshold sits on a narrow working window) is tracked openly in the repo, not hidden.</p>
+  <p>Drops are never silent. Each gate decision carries a reason code — <code dir="ltr">JACCARD_PASS</code>, <code dir="ltr">NO_NEW_COVERAGE_JACCARD</code>, <code dir="ltr">STRICT_PASS</code>, <code dir="ltr">NO_NEW_COVERAGE_STRICT</code>, <code dir="ltr">SCORE_BAND_PASS</code>, <code dir="ltr">CORE_TIER_PASS</code>, <code dir="ltr">BUDGET_EXCEEDED</code> — and Jaccard drops additionally record the measured overlap value and the blocking skill's id. The decisions are logged with each recommendation on the user's machine, so any set can be re-examined there. No fake precision: the gate's own calibration debt (the 0.6 threshold sits on a narrow working window) is tracked openly in the repo, not hidden.</p>
   <h3>4 · Per-skill rankings wait for fleet data</h3>
   <p>Ranking individual skills needs fleet telemetry — installs, usage, retention — aggregated and delayed. Until that data crosses the threshold below, the fleet section stays parked: we show no per-skill rankings rather than invented ones.</p>
 </section>`;
