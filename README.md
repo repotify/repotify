@@ -32,15 +32,15 @@ Or just tell your agent: **"Set up Repotify for this project: https://github.com
 
 1. **Read.** It looks at your manifests and file names. Your code is never read or sent anywhere.
 2. **Ask.** At most three quick questions, and only what the project doesn't already answer.
-3. **Pick.** One best skill, MCP server or tool per job, from a catalog where every item passed a security scan, was reviewed by three AI models and classified by a decision model.
+3. **Pick.** One best skill, MCP server or tool per job, from a catalog where every item passed a security scan, every skill was scored by a jury of AI models, and every item was classified by a decision model.
 4. **Install.** Each skill comes from a pinned commit, is hash-checked and scanned again on your machine. Hooks and MCP servers stay off until you switch them on.
 
 ## How the catalog is built
 
 Agents pick skills by reading a one-line description. Repotify reads the whole skill first.
 
-1. **Find.** A research lab searches GitHub around the clock for agent skills, MCP servers and tools.
-2. **Vet.** Every file is read the way a shell would read it (hidden downloads, credential grabs, prompt injection), and three AI models score each skill's quality.
+1. **Find.** A research lab searches GitHub for agent skills, MCP servers and tools.
+2. **Vet.** Every file is read the way a shell would read it (hidden downloads, credential grabs, prompt injection), and two or three AI models score each skill's quality.
 3. **Classify.** A decision model ([Jev](https://openrouter.ai/docs/guides/community/jev)) reads each skill's full `SKILL.md` and answers five typed questions with a probability: is it software work at all, what is its one main job, which language or framework is it for, is it tied to one product, and does it pay off once, on every task, or now and then. Repotify's rules act only on confident answers and send the rest to a human. Against 49 hand-labelled skills: main job right 94% of the time (the jury's free-form labels: 52%), language 100% (86%), off-topic caught 98% (88%).
 4. **Map.** The answers become a capability graph: every skill is linked to the job it does, so one pick per job is a lookup, not a guess.
 5. **Pick.** Your project's manifests decide which jobs are wanted. One vetted skill per job, inside a context budget; hand-vetted picks first, lab finds fill the rest.

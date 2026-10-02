@@ -15,7 +15,7 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 2. **Intent, only if needed.** Run `repotify questions --json`. Answer each question yourself from the fingerprint and from what the user already said. Ask the user only what you cannot infer, at most 3 questions.
    - Claude Code: use the AskUserQuestion tool (project type: single choice; priorities and needs: multiSelect; at most 4 options per question, so offer the 4 most plausible).
    - Other agents: a short numbered list.
-3. **Candidates.** Run `repotify recommend --type <projectType> --needs <a,b> --priorities <p>`, omitting flags you have no answer for. The table is already conflict-free, security-gated and within the context budget. ★ marks the default set.
+3. **Candidates.** Run `repotify recommend --type <projectType> --needs <a,b> --priorities <p>`, omitting flags you have no answer for. The table is already conflict-free (one row per job), security-gated and within the context budget. ★ marks the default set; rows marked installed are already in the project and keep their job.
 4. **Judge.** Think about the whole project, not only its stack: what would make this agent feel like a pro version for this repo? Keep every core item. Keep ★ items unless you have a concrete reason not to. You may add a non-★ row when the project clearly needs it. Never invent items: use only ids from the table.
    For every chosen item, write one sentence: what it is and why it matters for THIS project, citing a concrete fact (a dependency, a file, the user's goal).
 5. **Present.**
@@ -41,4 +41,4 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 - `repotify update --check` lists vetted updates for installed items and items that left the catalog. Apply only with the user's OK: `repotify update --apply <ids>`. If the user wants a weekly reminder, give them `repotify update --enable-auto-check` to run once.
 - If the user wants their own skill or repository in the catalog, run `repotify suggest` in it and give them the link it prints: nothing is sent until they submit the form.
 - At most once a week, after the user has actually used an installed item: if `repotify vote --due` prints `due`, ask one quick question ("Did <item> help? 👍/👎") and record it with `repotify vote <id> up|down`, or `repotify vote --dismiss` if they skip.
-- Repotify sends anonymous usage signals (item ids, stack and need categories, votes; never code, file names or repo names) to rank items. The user can turn this off with `repotify telemetry off`.
+- Repotify records anonymous usage signals (item ids, stack and need categories, votes; never code, file names or repo names) on this machine only. Nothing is sent: `repotify sync` is the only way out, and it asks the user first. The user can turn recording off with `repotify telemetry off`.
