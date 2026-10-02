@@ -5,7 +5,7 @@ import { dirname, join } from "node:path";
 import { AGENTS, skillTargets } from "./agents.mjs";
 import { readLock, writeLock } from "./lock.mjs";
 import { scanFiles } from "./scan/index.mjs";
-import { safeRelPath, sha256, compareSemver } from "./util.mjs";
+import { safeRelPath, sha256, compareSemver, readJsonSafe } from "./util.mjs";
 import { applyMcp, mcpSnippet, removeMcp, agentForMcpFile } from "./mcpconfig.mjs";
 import { wrapInstalledSkill, unwrapInstalledSkill } from "../lib/telemetry/instrument.mjs";
 
@@ -157,12 +157,8 @@ const isGuardEntry = (entry) => (entry?.hooks ?? []).some((h) => String(h.comman
 export function readSettings(cwd) {
   const path = join(cwd, ".claude", "settings.json");
   if (!existsSync(path)) return { ok: true, path, value: {} };
-  try {
-    const value = JSON.parse(readFileSync(path, "utf8").replace(/^\u{FEFF}/u, ""));
-    return value && typeof value === "object" && !Array.isArray(value) ? { ok: true, path, value } : { ok: false, path };
-  } catch {
-    return { ok: false, path };
-  }
+  const r = readJsonSafe(path);
+  return r.ok && r.value && typeof r.value === "object" && !Array.isArray(r.value) ? { ok: true, path, value: r.value } : { ok: false, path };
 }
 
 export function installGuard({ cwd }) {

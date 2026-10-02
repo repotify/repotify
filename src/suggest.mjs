@@ -1,11 +1,11 @@
 // Suggesting a repository for the catalog: a pre-filled submission form that the user reviews and sends on GitHub.
 // Nothing is sent from here. A local repository is scanned first, so a skill the gate would reject gets fixed before
 // anyone spends time on it.
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { parseFrontmatter } from "./frontmatter.mjs";
 import { readTree, scanFiles } from "./scan/index.mjs";
-import { readJsonSafe } from "./util.mjs";
+import { readJsonSafe, readTextSafe } from "./util.mjs";
 import { shownName } from "./display.mjs";
 
 export const SUBMISSION_FORM = "https://github.com/repotify/repotify/issues/new";
@@ -32,12 +32,9 @@ export function parseGitHubRepo(text) {
 
 // The origin remote of a local clone, read from .git/config (no git process needed).
 export function originOf(dir) {
-  let config;
-  try {
-    config = readFileSync(join(dir, ".git", "config"), "utf8");
-  } catch {
-    return null;
-  }
+  const r = readTextSafe(join(dir, ".git", "config"));
+  if (!r.ok) return null;
+  const config = r.text;
   let section = "";
   for (const line of config.split("\n")) {
     const head = /^\s*\[(.+)\]\s*$/.exec(line);
@@ -82,12 +79,9 @@ const LICENSE_TEXT = /^[A-Za-z0-9.+\-() ]{1,64}$/;
 function licenseOf(dir, pkg) {
   if (typeof pkg?.license === "string") return LICENSE_TEXT.test(pkg.license) ? pkg.license : "";
   for (const name of ["LICENSE", "LICENSE.md", "LICENSE.txt", "COPYING"]) {
-    let text;
-    try {
-      text = readFileSync(join(dir, name), "utf8").slice(0, 400);
-    } catch {
-      continue;
-    }
+    const r = readTextSafe(join(dir, name));
+    if (!r.ok) continue;
+    const text = r.text.slice(0, 400);
     const m = /\b(MIT|Apache License|BSD|GNU (?:Affero |Lesser )?General Public License|Mozilla Public License|ISC)\b/i.exec(text);
     if (!m) return "";
     const known = { mit: "MIT", "apache license": "Apache-2.0", bsd: "BSD", isc: "ISC", "mozilla public license": "MPL-2.0" };
@@ -100,24 +94,17 @@ function kindOf(dir, skills, pkg) {
   if (existsSync(join(dir, ".claude-plugin", "plugin.json")) || skills.length > 1) return "plugin";
   if (skills.length === 1) return "skill";
   const deps = { ...(pkg?.dependencies ?? {}), ...(pkg?.devDependencies ?? {}) };
-  let pyproject = "";
-  try {
-    pyproject = readFileSync(join(dir, "pyproject.toml"), "utf8");
-  } catch {
-    // Not a Python project.
-  }
+  // Absent when it is not a Python project.
+  const pyproject = readTextSafe(join(dir, "pyproject.toml")).text ?? "";
   if (deps["@modelcontextprotocol/sdk"] || /["']mcp(?:\[[^\]]*\])?\s*[<>=~!"']/.test(pyproject)) return "mcp";
   return "tool";
 }
 
 function descriptionOf(dir, skills, pkg) {
   if (skills.length === 1) {
-    try {
-      const fm = parseFrontmatter(readFileSync(join(dir, skills[0], "SKILL.md"), "utf8"));
-      if (fm.description) return String(fm.description).replace(/\s+/g, " ").trim();
-    } catch {
-      // Fall through to the package description.
-    }
+    const r = readTextSafe(join(dir, skills[0], "SKILL.md"));
+    const fm = r.ok ? parseFrontmatter(r.text) : {};
+    if (fm.description) return String(fm.description).replace(/\s+/g, " ").trim();
   }
   return typeof pkg?.description === "string" ? pkg.description : "";
 }

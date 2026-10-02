@@ -1,9 +1,10 @@
 import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import { mkdtempSync, writeFileSync, rmSync, symlinkSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { sha256, estimateTokens, safeRelPath, readJsonSafe, stableStringify } from "../src/util.mjs";
+import { sha256, estimateTokens, safeRelPath, readJsonSafe, readTextSafe, stableStringify } from "../src/util.mjs";
+import { readLock } from "../src/lock.mjs";
 
 // Test temp dirs: track every mkdtempSync dir and remove them all in after(),
 // or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
@@ -50,4 +51,25 @@ test("readJsonSafe tolerates a BOM and reports invalid JSON", () => {
 
 test("stableStringify sorts keys and ends with a newline", () => {
   assert.equal(stableStringify({ b: 1, a: { d: 2, c: [3] } }), '{\n  "a": {\n    "c": [\n      3\n    ],\n    "d": 2\n  },\n  "b": 1\n}\n');
+});
+
+// A cloned project can link its files to a device that never ends: reading one would hang and fill the memory.
+const devZero = process.platform !== "win32" && existsSync("/dev/zero");
+
+test("readTextSafe reads regular files of a sane size and nothing else", { skip: !devZero && "needs /dev/zero" }, () => {
+  const dir = mkTemp("repotify-util-");
+  writeFileSync(join(dir, "a.txt"), "hello");
+  assert.deepEqual(readTextSafe(join(dir, "a.txt")), { ok: true, text: "hello" });
+  assert.equal(readTextSafe(join(dir, "a.txt"), { maxBytes: 3 }).error.code, "EFBIG");
+  symlinkSync("/dev/zero", join(dir, "zero.json"));
+  assert.equal(readTextSafe(join(dir, "zero.json")).error.code, "ENOTFILE");
+  assert.equal(readJsonSafe(join(dir, "zero.json")).ok, false);
+  assert.equal(readTextSafe(join(dir, "missing")).ok, false);
+  assert.equal(readTextSafe(dir).error.code, "ENOTFILE");
+});
+
+test("a lock file linked to a device is read as no lock instead of hanging", { skip: !devZero && "needs /dev/zero" }, () => {
+  const dir = mkTemp("repotify-util-");
+  symlinkSync("/dev/zero", join(dir, "repotify.lock.json"));
+  assert.deepEqual(readLock(dir), { version: 1, catalogVersion: null, items: {} });
 });

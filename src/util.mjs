@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readFileSync, realpathSync } from "node:fs";
+import { readFileSync, realpathSync, statSync } from "node:fs";
 import { posix } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -53,10 +53,25 @@ export function safeRelPath(p) {
   return normalized.replace(/\/$/, "");
 }
 
-export function readJsonSafe(file) {
+// A text file in a folder Repotify does not control (a cloned project, a skill someone else wrote) is read only when it
+// is a regular file of a sane size: a link to /dev/zero or a FIFO would be read forever and fill the memory.
+export const MAX_TEXT_BYTES = 5 * 1024 * 1024;
+export function readTextSafe(file, { maxBytes = MAX_TEXT_BYTES } = {}) {
   try {
-    const text = readFileSync(file, "utf8").replace(/^\u{FEFF}/u, "");
-    return { ok: true, value: JSON.parse(text) };
+    const st = statSync(file);
+    if (!st.isFile()) return { ok: false, error: Object.assign(new Error(`not a regular file: ${file}`), { code: "ENOTFILE" }) };
+    if (st.size > maxBytes) return { ok: false, error: Object.assign(new Error(`larger than ${maxBytes} bytes: ${file}`), { code: "EFBIG" }) };
+    return { ok: true, text: readFileSync(file, "utf8") };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export function readJsonSafe(file) {
+  const r = readTextSafe(file);
+  if (!r.ok) return r;
+  try {
+    return { ok: true, value: JSON.parse(r.text.replace(/^\u{FEFF}/u, "")) };
   } catch (error) {
     return { ok: false, error };
   }

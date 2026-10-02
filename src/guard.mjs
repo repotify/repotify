@@ -4,7 +4,7 @@
 // Blocks installs of packages that do not exist (hallucinated names) and asks before brand-new ones.
 
 import { pathToFileURL } from "node:url";
-import { readFileSync, realpathSync } from "node:fs";
+import { readFileSync, realpathSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 
@@ -178,7 +178,9 @@ export function privateNpmScopes(cwd, { home = homedir() } = {}) {
   let text = "";
   for (const dir of [cwd, home].filter(Boolean)) {
     try {
-      text += readFileSync(join(dir, ".npmrc"), "utf8") + "\n";
+      // Only a regular file of a sane size: a cloned project's .npmrc linked to /dev/zero would stall every command.
+      const st = statSync(join(dir, ".npmrc"));
+      if (st.isFile() && st.size <= 1024 * 1024) text += readFileSync(join(dir, ".npmrc"), "utf8") + "\n";
     } catch {
       // No .npmrc here.
     }

@@ -1,12 +1,13 @@
 // Audit of the skills already installed in a project: which ones earn their place in the agent's context, which do
 // not, and why. Read-only: it suggests, the user decides, nothing is deleted here.
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AGENTS } from "./agents.mjs";
 import { parseFrontmatter } from "./frontmatter.mjs";
 import { readTree, scanFiles } from "./scan/index.mjs";
 import { buildDemand, fitScore, platformMismatch, DEFAULT_BUDGET_CHARS } from "./recommend.mjs";
 import { ID_RE } from "./catalog.mjs";
+import { readTextSafe } from "./util.mjs";
 import { shownName } from "./display.mjs";
 
 export const SKILL_DIRS = [...new Set(Object.values(AGENTS).map((a) => a.skillsDir))];
@@ -109,9 +110,14 @@ export function findInstalledSkills(root, { scope = "project" } = {}) {
 }
 
 function readSkill(s) {
-  const size = statSync(join(s.abs, "SKILL.md")).size;
-  if (size > MAX_SKILL_MD_BYTES) return { ...s, name: s.id, description: "", alwaysOnChars: 0, bodyChars: size, oversized: true };
-  const text = readFileSync(join(s.abs, "SKILL.md"), "utf8");
+  const r = readTextSafe(join(s.abs, "SKILL.md"), { maxBytes: MAX_SKILL_MD_BYTES });
+  if (!r.ok) {
+    // Too large, unreadable or not a regular file (a link to a device would be read forever): judged without its text;
+    // the security scan reports a link that leaves the folder.
+    const oversized = r.error?.code === "EFBIG";
+    return { ...s, name: s.id, description: "", alwaysOnChars: 0, bodyChars: oversized ? statSync(join(s.abs, "SKILL.md")).size : 0, oversized };
+  }
+  const text = r.text;
   const fm = parseFrontmatter(text);
   const name = String(fm.name ?? s.id);
   const description = String(fm.description ?? "").replace(/\s+/g, " ").trim();

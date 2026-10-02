@@ -1,6 +1,7 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { AGENTS } from "./agents.mjs";
+import { readJsonSafe, readTextSafe } from "./util.mjs";
 
 // Placeholders such as "<your token>" are never written: the real value must come from the user's
 // environment (docker -e VAR and most MCP clients pass it through), not from a committed config file.
@@ -64,19 +65,22 @@ export function mcpSnippet(item, agentId) {
 
 function readJsonConfig(path) {
   if (!existsSync(path)) return { ok: true, value: {} };
-  try {
-    const value = JSON.parse(readFileSync(path, "utf8").replace(/^\u{FEFF}/u, ""));
-    return value && typeof value === "object" && !Array.isArray(value) ? { ok: true, value } : { ok: false };
-  } catch {
-    return { ok: false };
-  }
+  const r = readJsonSafe(path);
+  return r.ok && r.value && typeof r.value === "object" && !Array.isArray(r.value) ? { ok: true, value: r.value } : { ok: false };
+}
+
+// The Codex TOML config as text: "" when absent, null when it exists but cannot be read safely.
+function readTomlConfig(path) {
+  if (!existsSync(path)) return "";
+  const r = readTextSafe(path);
+  return r.ok ? r.text : null;
 }
 
 // Whether the agent's MCP config can be edited safely (missing is fine; unparseable is not).
 export function mcpConfigWritable(agentId, { cwd }) {
   const spec = AGENTS[agentId]?.mcp;
   if (!spec) return { ok: false, reason: "unsupported" };
-  if (spec.format === "toml") return { ok: true };
+  if (spec.format === "toml") return readTomlConfig(join(cwd, spec.file)) === null ? { ok: false, reason: "unreadable", file: spec.file } : { ok: true };
   return readJsonConfig(join(cwd, spec.file)).ok ? { ok: true } : { ok: false, reason: "unparseable", file: spec.file };
 }
 
@@ -87,14 +91,15 @@ export function applyMcp(item, agentId, { cwd, replace = false }) {
   const path = join(cwd, spec.file);
   const base = { file: spec.file, snippet: snippet.text, target: `${spec.file}#${spec.key}.${item.id}` };
   if (spec.format === "toml") {
-    let text = existsSync(path) ? readFileSync(path, "utf8") : "";
+    let text = readTomlConfig(path);
+    if (text === null) return { ...base, written: false, reason: "unreadable" };
     let body = snippet.text;
     if (replace && tomlHasTable(text, item.id)) {
       // Keep env values the user added by hand (tokens live there).
       const userEnv = tomlEnvOf(text, item.id);
       if (Object.keys(userEnv).length) body = tomlTable(item.id, { ...serverConfig(item), env: { ...userEnv, ...(serverConfig(item).env ?? {}) } });
       removeMcp(item.id, agentId, { cwd });
-      text = readFileSync(path, "utf8");
+      text = readTomlConfig(path) ?? "";
     }
     if (tomlHasTable(text, item.id)) return { ...base, written: false, reason: "exists" };
     mkdirSync(dirname(path), { recursive: true });
@@ -122,7 +127,9 @@ export function removeMcp(id, agentId, { cwd }) {
   const path = join(cwd, spec.file);
   if (!existsSync(path)) return { removed: false, reason: "missing" };
   if (spec.format === "toml") {
-    const lines = readFileSync(path, "utf8").split("\n");
+    const text = readTomlConfig(path);
+    if (text === null) return { removed: false, reason: "unreadable" };
+    const lines = text.split("\n");
     const keep = [];
     let skipping = false;
     for (const line of lines) {

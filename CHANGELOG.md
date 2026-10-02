@@ -25,13 +25,24 @@ A new recommendation engine and a catalog whose every skill was read in full bef
 - **Catalog: 91 items** (86 skills, 3 MCP servers, 1 tool, 1 config) from 17 repositories. Off-topic collections
   (digital forensics, malware analysis, marketing), math-contest skills, a Telegram bot setup and skills that only
   drive one product were removed; ten unsure lab finds wait for review.
-- **Security.** Scanner 1.3.0: a file's level comes from its most severe findings (before, ten harmless mentions of a
-  pattern could hide a critical one further down), and long lines of hidden characters no longer slow it down. Since
-  2026-10-01 it also catches `xargs`/`parallel` pipes into a shell, `curl` redirects, clone-and-build chains and more
-  `rm` and `sudo` forms, and the package guard checks `npx -p`, `npm exec` and registry overrides in the environment.
-  The jury no longer flags a skill for instructing its agent; only text aimed at the jury itself counts.
+- **Security.** Scanner 1.4.0: a file's level comes from its most severe findings, and so does a line's. Before, the
+  first match on a line decided it, so a decoy put first hid the real command: an official installer before a second
+  `curl … | bash` from anywhere, a negated example before a real instruction, an upload or a secret sent to a known API
+  before one sent elsewhere, a dull blob before an encoded payload. Download-then-run looks at every command of the
+  next five lines (twelve no-op commands or a long line before the run hid it), clone-then-run reads
+  `git clone --depth 1 …`, `-b`, a named folder, `.` and SSH remotes, and a line with more matches than the scanner
+  reads goes to human review. On 4,707 real skills this changes one verdict (a third-party clone run from `/opt`).
+  Long lines of hidden characters no longer slow the scanner down. Since 2026-10-01 it also catches `xargs`/`parallel`
+  pipes into a shell, `curl` redirects and more `rm` and `sudo` forms, and the package guard checks `npx -p`,
+  `npm exec` and registry overrides in the environment. The jury no longer flags a skill for instructing its agent; only
+  text aimed at the jury itself counts. `node pipeline/regate.mjs` re-scans the catalog at its pinned commits after a
+  scanner change.
 - **Codex.** Removing or updating an MCP server keeps everything else in `.codex/config.toml` (array tables and
   commented headers after the server were deleted before).
+- **Hostile project files.** A cloned project can link a file to a device that never ends (`/dev/zero`). `audit`,
+  `suggest`, the lock file, agent settings and MCP configs, and the package guard's `.npmrc` read now only regular files
+  of a sane size; before, one such link made the command read forever and fill the memory. The capability graph check
+  that runs on every `recommend` is linear (20,000 edges: 2.9 s before, 0.04 s now), so it keeps up as the catalog grows.
 - **Telemetry stays on your machine.** Usage signals are logged locally after a first-run notice; `repotify sync` is
   the only way out, it asks first, and no collection server runs yet. Kill switches: `repotify telemetry off`,
   `REPOTIFY_TELEMETRY=0`, `DO_NOT_TRACK=1`, `NO_ANALYTICS=1` (the last one now stops both local logs).
@@ -43,7 +54,7 @@ A new recommendation engine and a catalog whose every skill was read in full bef
 - Recommendation quality on 49 scenarios, run against the engine the CLI serves: 108/108 must-include, 0 violations,
   0 duplicate jobs; the default set averages 12.1 items and 3,790 of 6,000 characters.
 - One setup costs the agent about 3,000 tokens (2,822–3,130 over seven fixture projects, `test/eval/flow-tokens.mjs`).
-- 822 tests: all pass on Node 22 and 24; on Node 18 and 20, six worker tests that need `node:sqlite` are skipped.
+- 839 tests: all pass on Node 22 and 24; on Node 18 and 20, six worker tests that need `node:sqlite` are skipped.
   Coverage 94% of lines.
 
 ### Built, not live

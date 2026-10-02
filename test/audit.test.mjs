@@ -1,6 +1,6 @@
 import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync, existsSync, rmSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -193,4 +193,16 @@ test("audit: skills that pay off on every task are never questioned for their ag
   skill(root, ".claude/skills", "test-driven-development", "Use when implementing any feature: write the failing test first.");
   const report = await audit(root, { now: Date.now() + 365 * 86400000 });
   assert.equal(verdicts(report)["test-driven-development"], "keep");
+});
+
+test("audit: a SKILL.md linked to a device is not read; the skill is flagged for removal", { skip: (process.platform === "win32" || !existsSync("/dev/zero")) && "needs /dev/zero" }, async () => {
+  const root = mkTemp("repotify-audit-");
+  writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { react: "19.0.0" } }));
+  mkdirSync(join(root, ".claude/skills/endless"), { recursive: true });
+  symlinkSync("/dev/zero", join(root, ".claude/skills/endless/SKILL.md"));
+  const report = await audit(root);
+  const s = report.skills.find((x) => x.id === "endless");
+  assert.equal(s.verdict, "remove");
+  assert.equal(s.bodyChars, 0);
+  assert.match(formatAudit(report), /symlink/);
 });
