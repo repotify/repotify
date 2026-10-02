@@ -16,6 +16,7 @@ import { selectWorkingJurors, probeWith, judgeItem, applySuspicion, MAX_CONTENT_
 import { buildGraph } from "./graph.mjs";
 import { buildLoadouts } from "./loadouts.mjs";
 import { publishCatalog } from "./publish.mjs";
+import { decide as decideClassification, extendTaxonomy } from "./jev-classify.mjs";
 import { discover } from "./discover.mjs";
 import { providersFromEnv } from "./providers/index.mjs";
 
@@ -82,7 +83,7 @@ export async function runPipeline(opts) {
   const {
     seed, taxonomy, outDir, workDir, now = new Date(), discovered = [], urlFor, git = runGit,
     providers = {}, juryCache = {}, probe, fetchImpl = fetch, noJury = false, reviewed = [], community = null,
-    concurrency = 1, denylist = [], freshClones = true, log = () => {},
+    concurrency = 1, denylist = [], freshClones = true, log = () => {}, classification = {},
   } = opts;
   const stats = { repos: 0, candidates: 0, errors: [], jurors: 0, more: {} };
   // Names new items must not imitate. A caller that passes an empty seed (to skip re-collecting it) passes them here.
@@ -256,6 +257,17 @@ export async function runPipeline(opts) {
         };
       }
     }
+    // Jev's stored answers (pipeline/classify-catalog.mjs): lab items are relabelled or held out,
+    // curated items only gain a lifecycle. Items Jev has not seen yet pass through unchanged.
+    const cls = classification[item.id];
+    if (cls) {
+      const d = decideClassification(item, cls, { taxonomy: extendTaxonomy(taxonomy), curated: cls.apply !== "auto" });
+      if (d.action === "drop" || (d.action === "review" && cls.apply === "auto")) {
+        dropped.push({ id: item.id, repo: item.repo ?? null, commit: item.commit ?? null, path: item.path ?? null, level: "declined", reason: `classifier: ${d.reasons.join("; ")}` });
+        continue;
+      }
+      item = d.item;
+    }
     if (item.security.level === "rejected" || item.security.level === "quarantined") {
       dropped.push({ id: item.id, repo: item.repo ?? null, commit: item.commit ?? null, path: item.path ?? null, level: item.security.level, reason: dropReason(item) });
       continue;
@@ -314,6 +326,8 @@ if (isMain(import.meta.url)) {
   const taxonomy = JSON.parse(readFileSync(join(outDir, "taxonomy.json"), "utf8"));
   const juryCache = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, "utf8")) : {};
   const reviewed = existsSync(reviewedPath) ? JSON.parse(readFileSync(reviewedPath, "utf8")) : [];
+  const classificationPath = join(here, "classification.json");
+  const classification = existsSync(classificationPath) ? JSON.parse(readFileSync(classificationPath, "utf8")).items : {};
   const denylistPath = join(here, "denylist.json");
   const denylist = existsSync(denylistPath) ? JSON.parse(readFileSync(denylistPath, "utf8")) : [];
   const log = (m) => console.error(m);
@@ -329,7 +343,7 @@ if (isMain(import.meta.url)) {
     if (statsDoc) community = (items) => mergeCommunity(items, statsDoc);
   }
   const result = await runPipeline({
-    seed, taxonomy, outDir, workDir, discovered, providers, juryCache, reviewed, community, denylist,
+    seed, taxonomy, outDir, workDir, discovered, providers, juryCache, reviewed, community, denylist, classification,
     concurrency: Number(opt("--concurrency", "3")), noJury: args.includes("--no-jury"), log,
   });
   mkdirSync(dirname(cachePath), { recursive: true });

@@ -9,150 +9,6 @@
     ],
     "badges": [],
     "capabilities": [
-      "design-brainstorming",
-      "implementation-planning"
-    ],
-    "cluster": "design-brainstorming",
-    "commit": "c26b706610beafe1e375cd0a83f1c05d82cb7f8d",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 198,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "7e3465edb2835188e3e4201da329440f821d856aba6f83a9d47c12c726085719"
-      }
-    ],
-    "id": "20-andruia-niche-intelligence",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.85,
-      "specificity": 0.9
-    },
-    "license": "MIT",
-    "name": "20-andruia-niche-intelligence",
-    "needs": [
-      "docs-writing"
-    ],
-    "path": "plugins/agentic-awesome-skills-claude/skills/20-andruia-niche-intelligence",
-    "repo": "sickn33/agentic-awesome-skills",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T15:46:02.715Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 47108
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Provides domain‑specific intelligence: regulations, industry stack, UX patterns, and hidden pain points for a identified project niche.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "implementation-planning"
-    ],
-    "cluster": "implementation-planning",
-    "commit": "c26b706610beafe1e375cd0a83f1c05d82cb7f8d",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 167,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "f5376f3e111a5c244bb894d984068d78c40ce973c69d59d90cb01b5f07a67539"
-      }
-    ],
-    "id": "ab-test-setup",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.9,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "MIT",
-    "name": "ab-test-setup",
-    "needs": [
-      "data-processing",
-      "testing"
-    ],
-    "path": "plugins/agentic-awesome-skills-claude/skills/ab-test-setup",
-    "repo": "sickn33/agentic-awesome-skills",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T15:46:02.715Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 47108
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Guides a coding agent through designing, validating, and documenting an A/B or split test, from hypothesis to execution readiness and analy…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
       "codebase-map"
     ],
     "cluster": "codebase-map",
@@ -226,14 +82,13 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "once",
     "name": "acquire-codebase-knowledge",
     "needs": [
-      "agent-skills",
-      "dependencies",
-      "docs-writing",
-      "onboarding",
-      "large-codebase"
+      "large-codebase",
+      "onboarding"
     ],
+    "origin": "lab",
     "path": "skills/acquire-codebase-knowledge",
     "repo": "github/awesome-copilot",
     "security": {
@@ -268,9 +123,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "code-review"
+      "agent-orchestration"
     ],
-    "cluster": "code-review",
+    "cluster": "agent-orchestration",
     "commit": "f42f579cf8bac4918ac9599bece71618afadd846",
     "community": {
       "kept7d": 0,
@@ -301,11 +156,10 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "agent-merge-conflict-arbiter",
-    "needs": [
-      "github-workflow",
-      "testing"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "optional-skills/autonomous-ai-agents/agent-merge-conflict-arbiter",
     "repo": "nousresearch/hermes-agent",
     "security": {
@@ -340,9 +194,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "llm-gateway"
+      "agent-orchestration"
     ],
-    "cluster": "llm-gateway",
+    "cluster": "agent-orchestration",
     "commit": "e945056ea1826a54351f59d85ab95b41535d8d6c",
     "community": {
       "kept7d": 0,
@@ -352,25 +206,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 219,
     "files": [
       {
@@ -391,10 +227,10 @@
       "specificity": 0.8
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "ai-agents-architect",
-    "needs": [
-      "llm-calls"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "cli-tool/components/skills/ai-research/ai-agents-architect",
     "repo": "davila7/claude-code-templates",
     "security": {
@@ -482,8 +318,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "angular-architect",
     "needs": [],
+    "origin": "lab",
     "path": "skills/angular-architect",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -518,10 +356,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "component-architecture",
-      "implementation-planning"
+      "architecture-design"
     ],
-    "cluster": "component-architecture",
+    "cluster": "architecture-design",
     "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
     "community": {
       "kept7d": 0,
@@ -553,7 +390,10 @@
     },
     "license": "MIT",
     "name": "api-and-interface-design",
-    "needs": [],
+    "needs": [
+      "large-codebase"
+    ],
+    "origin": "lab",
     "path": "skills/api-and-interface-design",
     "repo": "addyosmani/agent-skills",
     "security": {
@@ -588,11 +428,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "design-brainstorming",
-      "component-architecture",
-      "implementation-planning"
+      "architecture-design"
     ],
-    "cluster": "design-brainstorming",
+    "cluster": "architecture-design",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -644,9 +482,9 @@
     "license": "MIT",
     "name": "api-designer",
     "needs": [
-      "docs-writing",
-      "security"
+      "large-codebase"
     ],
+    "origin": "lab",
     "path": "skills/api-designer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -681,9 +519,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning"
+      "agent-orchestration"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "agent-orchestration",
     "commit": "65d6e786832e2c52832713117bbbf5096b56f77f",
     "community": {
       "kept7d": 0,
@@ -734,13 +572,10 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "arbor",
-    "needs": [
-      "agent-skills",
-      "llm-calls",
-      "testing",
-      "data-processing"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/arbor",
     "repo": "k-dense-ai/scientific-agent-skills",
     "security": {
@@ -775,10 +610,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "component-architecture",
-      "implementation-planning"
+      "architecture-design"
     ],
-    "cluster": "component-architecture",
+    "cluster": "architecture-design",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -829,12 +663,12 @@
       "specificity": 0.8
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "architecture-designer",
     "needs": [
-      "agent-skills",
-      "docs-writing",
       "large-codebase"
     ],
+    "origin": "lab",
     "path": "skills/architecture-designer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -869,10 +703,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
       "workflow-meta"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "workflow-meta",
     "commit": "9fd35ece5d6de65b511bf43b55e42c499e4fc194",
     "community": {
       "kept7d": 0,
@@ -883,23 +716,7 @@
       "votes": 0
     },
     "conflicts": [
-      "ai-agents-architect",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
+      "behavioral-modes"
     ],
     "descriptionChars": 357,
     "files": [
@@ -922,11 +739,8 @@
     },
     "license": "MIT",
     "name": "ask-navigator",
-    "needs": [
-      "agent-skills",
-      "github-workflow",
-      "llm-calls"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/ask-navigator",
     "repo": "yeachan-heo/oh-my-claudecode",
     "security": {
@@ -961,108 +775,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "security-review",
-      "workflow-meta",
-      "browser-automation"
-    ],
-    "cluster": "implementation-planning",
-    "commit": "e945056ea1826a54351f59d85ab95b41535d8d6c",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
-    "descriptionChars": 277,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "be44f06d05c6fb542699a6f39bf097145df0163d7c93e7524396c61aeb41745e"
-      }
-    ],
-    "id": "autonomous-agent-patterns",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.7,
-      "models": [
-        "nvidia/nemotron-3-ultra-550b-a55b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.85,
-      "specificity": 0.8
-    },
-    "license": "MIT",
-    "name": "autonomous-agent-patterns",
-    "needs": [
-      "agent-skills",
-      "llm-calls",
-      "security"
-    ],
-    "path": "cli-tool/components/skills/ai-research/autonomous-agent-patterns",
-    "repo": "davila7/claude-code-templates",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-10-01T02:05:08.807Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 32241
-    },
-    "stacks": [
-      "python"
-    ],
-    "summary": "Design patterns for building autonomous coding agents covering agent loops, tool schemas, permission systems, sandboxing, and human-in-the-…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "design-brainstorming",
-      "implementation-planning",
-      "debugging-method",
-      "code-review",
-      "writing-quality",
       "workflow-meta"
     ],
-    "cluster": "design-brainstorming",
+    "cluster": "workflow-meta",
     "commit": "fea62b264c6702b5bcdbb78cbdd9bb0a9a14c00b",
     "community": {
       "kept7d": 0,
@@ -1073,23 +788,7 @@
       "votes": 0
     },
     "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
+      "ask-navigator"
     ],
     "descriptionChars": 128,
     "files": [
@@ -1111,8 +810,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "behavioral-modes",
     "needs": [],
+    "origin": "lab",
     "path": "cli-tool/components/skills/ai-research/behavioral-modes",
     "repo": "davila7/claude-code-templates",
     "security": {
@@ -1210,8 +911,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "Brainstorming (Superpowers)",
     "needs": [],
+    "origin": "curated",
     "path": "skills/brainstorming",
     "repo": "obra/superpowers",
     "security": {
@@ -1255,80 +958,7 @@
     ],
     "badges": [],
     "capabilities": [
-      "design-brainstorming"
-    ],
-    "cluster": "design-brainstorming",
-    "commit": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 464,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "b0c4837e1bd140ca816ae54948754ddd2ac1e2a4d3619363777a80caf00b2ede"
-      }
-    ],
-    "id": "brandkit",
-    "jury": {
-      "agreement": 1,
-      "maintenance": 0.85,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "MIT",
-    "name": "brandkit",
-    "needs": [
-      "llm-calls"
-    ],
-    "path": "skills/brandkit",
-    "repo": "leonxlnx/taste-skill",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T14:13:15.077Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 4,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 91449
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Generates premium brand-kit images for identity boards, logo systems, and visual presentations using detailed art direction.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "security-review",
-      "static-analysis",
-      "code-review"
+      "security-review"
     ],
     "cluster": "security-review",
     "commit": "ab024cdcfa7ca80be204acd4907656ba5a968589",
@@ -1385,10 +1015,14 @@
       "specificity": 0.85
     },
     "license": "Apache-2.0",
+    "lifecycle": "occasional",
     "name": "claude-security",
     "needs": [
+      "auth",
+      "payments",
       "security"
     ],
+    "origin": "lab",
     "path": "plugins/claude-security/skills/claude-security",
     "repo": "anthropics/claude-plugins-official",
     "security": {
@@ -1423,11 +1057,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "design-brainstorming",
-      "implementation-planning",
-      "security-review"
+      "devops-infra"
     ],
-    "cluster": "design-brainstorming",
+    "cluster": "devops-infra",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -1479,12 +1111,9 @@
     "license": "MIT",
     "name": "cloud-architect",
     "needs": [
-      "agent-skills",
-      "deploy",
-      "docs-writing",
-      "security",
-      "ci"
+      "infra"
     ],
+    "origin": "lab",
     "path": "skills/cloud-architect",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -1552,8 +1181,12 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "code-review-and-quality",
-    "needs": [],
+    "needs": [
+      "github-workflow"
+    ],
+    "origin": "lab",
     "path": "skills/code-review-and-quality",
     "repo": "addyosmani/agent-skills",
     "security": {
@@ -1623,8 +1256,9 @@
     "license": "MIT",
     "name": "code-simplification",
     "needs": [
-      "agent-skills"
+      "github-workflow"
     ],
+    "origin": "lab",
     "path": "skills/code-simplification",
     "repo": "addyosmani/agent-skills",
     "security": {
@@ -1748,6 +1382,7 @@
     "needs": [
       "frontend-ui"
     ],
+    "origin": "curated",
     "path": "skills/composition-patterns",
     "repo": "vercel-labs/agent-skills",
     "security": {
@@ -1783,14 +1418,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "security-review",
-      "static-analysis",
-      "verification-gate",
-      "ci-security-audit",
-      "skill-authoring"
+      "verification-gate"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "verification-gate",
     "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
     "community": {
       "kept7d": 0,
@@ -1825,14 +1455,8 @@
     },
     "license": "MIT",
     "name": "constraint-driven-development",
-    "needs": [
-      "ci",
-      "security",
-      "testing",
-      "agent-skills",
-      "dependencies",
-      "docs-writing"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/constraint-driven-development",
     "repo": "addyosmani/agent-skills",
     "security": {
@@ -1854,95 +1478,6 @@
       "*"
     ],
     "summary": "Creates a project‑wide quality bar by interviewing the user, writing CONSTRAINTS.md, installing required tools, and wiring checks into the …",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "workflow-meta"
-    ],
-    "cluster": "workflow-meta",
-    "commit": "2686b620fc1fed2e8f60c704839c766b8594c6b6",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
-    "descriptionChars": 198,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "8b736cb9e55b82b265ab6ff78349c0e826e8a6df550deddf665b7fb3ff858b63"
-      }
-    ],
-    "id": "context-engineering",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.9,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 0.9
-    },
-    "license": "MIT",
-    "name": "context-engineering",
-    "needs": [
-      "agent-skills"
-    ],
-    "path": "skills/context-engineering",
-    "repo": "addyosmani/agent-skills",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T14:13:15.077Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 4,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 100058
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Teaches agents to manage context effectively for better output quality by structuring information hierarchically and managing context windo…",
     "tier": "mission",
     "type": "skill"
   },
@@ -1977,6 +1512,7 @@
       "dependencies",
       "frontend-ui"
     ],
+    "origin": "curated",
     "repo": "upstash/context7",
     "security": {
       "findings": [],
@@ -2075,8 +1611,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "cpp-pro",
     "needs": [],
+    "origin": "lab",
     "path": "skills/cpp-pro",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -2111,9 +1649,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "python-tooling"
+      "data-ml"
     ],
-    "cluster": "python-tooling",
+    "cluster": "data-ml",
     "commit": "fea62b264c6702b5bcdbb78cbdd9bb0a9a14c00b",
     "community": {
       "kept7d": 0,
@@ -2123,25 +1661,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 165,
     "files": [
       {
@@ -2166,6 +1686,7 @@
     "needs": [
       "data-processing"
     ],
+    "origin": "lab",
     "path": "cli-tool/components/skills/ai-research/data-engineer",
     "repo": "davila7/claude-code-templates",
     "security": {
@@ -2184,7 +1705,7 @@
       "stars": 32247
     },
     "stacks": [
-      "python"
+      "*"
     ],
     "summary": "Provides guidance for building scalable data pipelines, warehouses, and streaming architectures using Spark, dbt, Airflow, and cloud data p…",
     "tier": "mission",
@@ -2200,10 +1721,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "static-analysis",
-      "debugging-method"
+      "database"
     ],
-    "cluster": "static-analysis",
+    "cluster": "database",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -2254,10 +1774,12 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "database-optimizer",
     "needs": [
-      "performance"
+      "database"
     ],
+    "origin": "lab",
     "path": "skills/database-optimizer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -2325,8 +1847,10 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "debugging-and-error-recovery",
     "needs": [],
+    "origin": "lab",
     "path": "skills/debugging-and-error-recovery",
     "repo": "addyosmani/agent-skills",
     "security": {
@@ -2415,9 +1939,8 @@
     },
     "license": "MIT",
     "name": "debugging-wizard",
-    "needs": [
-      "testing"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/debugging-wizard",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -2439,1030 +1962,6 @@
       "*"
     ],
     "summary": "Provides systematic debugging workflow: reproduce, isolate, hypothesize, fix, prevent; with language-specific tools and patterns.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "design-brainstorming",
-      "frontend-design"
-    ],
-    "cluster": "design-brainstorming",
-    "commit": "57148ac6f7cf8f2d0080f23437ab2929bca15f3e",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 644,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "b0493cfe1fc66d201cb28cd67869044ba77d87d33bbe523cc9007d8847126206"
-      },
-      {
-        "path": "assets/example-architecture-dark.html",
-        "sha256": "3767f518519dc7b6fc98066cc76c70937446ea9e71e380cf7c6064dc6ed6f5ba"
-      },
-      {
-        "path": "assets/example-architecture-full.html",
-        "sha256": "84425acb29b181a165e8c07fad268304f77223a92797a7f58679f51c3dd47502"
-      },
-      {
-        "path": "assets/example-architecture.html",
-        "sha256": "03716fdb0a4ad641c30a5267b14a4c573d699f0f31ab3d8a0ba4e2b74ad56177"
-      },
-      {
-        "path": "assets/example-bar-dark.html",
-        "sha256": "fb96534eff0910a006dabca940d71aeb1019076abfbe9a020758747c2e2cbb0a"
-      },
-      {
-        "path": "assets/example-bar-full.html",
-        "sha256": "0095ec6576fff513fee6a731d6eba7fbd9e4726a3e8f6ac183407c0b69a36f58"
-      },
-      {
-        "path": "assets/example-bar.html",
-        "sha256": "1bbd708cdca419c137160056ed9862532a3402ba65d9335bae1be0aef90c7abb"
-      },
-      {
-        "path": "assets/example-beeswarm-dark.html",
-        "sha256": "597cf05ad582eb0dbe8040949c6f164096ce84631e6d3ba85d5fbf778d2b1dc7"
-      },
-      {
-        "path": "assets/example-beeswarm-full.html",
-        "sha256": "b9c6db9d3cbae523d16ac476d37e7996d034d00835218ce8888c373396f2e702"
-      },
-      {
-        "path": "assets/example-beeswarm.html",
-        "sha256": "ddd5c2adc0a9aaf46673b4e3e3207619808d00b719090fe14353d5bf816ccd31"
-      },
-      {
-        "path": "assets/example-bubble-dark.html",
-        "sha256": "e5297625f2a81cebcd63250dcd7455f5c84160da501354f530dfcf59baf0ab9e"
-      },
-      {
-        "path": "assets/example-bubble-full.html",
-        "sha256": "21c83751d106234c8ec450c97d0681a9d680f8e1bea3ab06473696dbd262c42b"
-      },
-      {
-        "path": "assets/example-bubble.html",
-        "sha256": "a507ae84a0a6d03c329e8a26cf5e9de9c77aa21c74d9ce25379af2019f7cd18a"
-      },
-      {
-        "path": "assets/example-bump-dark.html",
-        "sha256": "c6982966a1c775a0d3b176a21f1a86193453ca9550a7c8c00db6ca4f38d4e757"
-      },
-      {
-        "path": "assets/example-bump-full.html",
-        "sha256": "80976313d11eb5c20148143ce2df4ec3fe2340c917965244d8ee959293e35d79"
-      },
-      {
-        "path": "assets/example-bump.html",
-        "sha256": "5c3b46f8d1d0db041cf524ea87a1147f37d1ff2f69ca3b9a4963ae4a8f514756"
-      },
-      {
-        "path": "assets/example-data-flow-dark.html",
-        "sha256": "68144451031cc5c6d56dbb15b6532f24efc2bac4e3dfc9c5e9b8177d539777d8"
-      },
-      {
-        "path": "assets/example-data-flow-full.html",
-        "sha256": "bf4db055606bd5f15e64e0da67c8f2023b8cbea6a27a4bca2be24dbe12f6245a"
-      },
-      {
-        "path": "assets/example-data-flow.html",
-        "sha256": "511788f809b9d674e2f92568955e5fc0c5f5f7a3960eaa0049e136ec93957add"
-      },
-      {
-        "path": "assets/example-datalake-dark.html",
-        "sha256": "98ed93bddc4d2112c3bd886aa2aa469c4f592a034eb39d2d3056033dc75d810d"
-      },
-      {
-        "path": "assets/example-datalake-full.html",
-        "sha256": "c84e13615eeb5d1cee261e485831a180752ef905f9a6252be3cf3b85415073cf"
-      },
-      {
-        "path": "assets/example-datalake.html",
-        "sha256": "a6d9fbf97952ef55f41c531ef1d32d4ba46a6bdb1fc1664997e0b8f51926c9f9"
-      },
-      {
-        "path": "assets/example-db-schema-dark.html",
-        "sha256": "40d12080e78a1ce39f5d6858f9e02562b8f4ec0bffe303ab8d4fc473db561024"
-      },
-      {
-        "path": "assets/example-db-schema-full.html",
-        "sha256": "a69144b54b23e7e6046234ed31fcc26625147af8a9e0dfeff05f4553c3eba8f6"
-      },
-      {
-        "path": "assets/example-db-schema.html",
-        "sha256": "58d473906c57670fecee29bc55377df5b433549445962204412ebd2c081b76db"
-      },
-      {
-        "path": "assets/example-dependency-dark.html",
-        "sha256": "7eb7c3d1e90d9dbb49a97f9490184ff1768930847fe86a112f0262513691c035"
-      },
-      {
-        "path": "assets/example-dependency-full.html",
-        "sha256": "5844a5bfa0eb30e5c7c8d5d23d4a3230ed5fe051e6ca84daf34a5ecb7185ef5b"
-      },
-      {
-        "path": "assets/example-dependency.html",
-        "sha256": "973f7b5f5ac1746bb018e9ea8de9f6853b5f14ff41173e64abcf9855ea5f353b"
-      },
-      {
-        "path": "assets/example-deployment-dark.html",
-        "sha256": "7688eec54dde8950375d2bb724438bce6dce18714ed2f99a0a60ffaacb17190a"
-      },
-      {
-        "path": "assets/example-deployment-full.html",
-        "sha256": "6f6ae188e2c2874a7b6f28943575eff72773950a9ac15dac8b7b3209cfd88cc5"
-      },
-      {
-        "path": "assets/example-deployment.html",
-        "sha256": "6e28f0eee98dd728bfa6b5210b1885caf2b39992fdd06a680e37bbc8863e89b2"
-      },
-      {
-        "path": "assets/example-dp-integration-dark.html",
-        "sha256": "8cb30572815bfe86e449bb22266768f6dd52d91725faebd276c7e9de24113749"
-      },
-      {
-        "path": "assets/example-dp-integration-full.html",
-        "sha256": "9fc9f12a662ed1bf3e837c11be1b05df03db7a845ea203846a47b247ab6edf99"
-      },
-      {
-        "path": "assets/example-dp-integration.html",
-        "sha256": "929b6aaefa9a362d4cd18fb1801a57f28d32aa8dd78ba577375a11926ee2cc94"
-      },
-      {
-        "path": "assets/example-dp-security-matrix-dark.html",
-        "sha256": "ac5515d7fb1e850249aedf6d39deb848cd9edc02068c6944d37a04ca0fcc995e"
-      },
-      {
-        "path": "assets/example-dp-security-matrix-full.html",
-        "sha256": "9cd7d120e069a9be73a0f98b94282e8e9906f802c49fb1c57e5553479d8033ee"
-      },
-      {
-        "path": "assets/example-dp-security-matrix.html",
-        "sha256": "88d7a3fb9788300082274924f1f95dfd0a5a8b3bfca3fcd91b424cc8caa50044"
-      },
-      {
-        "path": "assets/example-er-dark.html",
-        "sha256": "c007c14d88a48a8ea30b1144dd4ac392ee7891a2278262e2a6f6836b43aa7fdf"
-      },
-      {
-        "path": "assets/example-er-full.html",
-        "sha256": "9f43422370cbd751196fd5b8ab802a177d015f739b39064c58f5e7273f56e1c3"
-      },
-      {
-        "path": "assets/example-er.html",
-        "sha256": "aee470dcf37af317f14d21cd9420f6bcb1b65f0fb0047483a42b8afc0cab2774"
-      },
-      {
-        "path": "assets/example-fishbone-dark.html",
-        "sha256": "f884b81b83f7ce40cf85b8aa6c3a55db99b7fb2d38502deff222aaff36d7db47"
-      },
-      {
-        "path": "assets/example-fishbone-full.html",
-        "sha256": "75bfad970d61909fedbf2ede67c3e88057ab46909d7ea7f2c16d3ad2a029aa2e"
-      },
-      {
-        "path": "assets/example-fishbone.html",
-        "sha256": "cd7079857240a9f6228804d3492af0add2eb36343798c9e0ef90657f2a246d04"
-      },
-      {
-        "path": "assets/example-flowchart-dark.html",
-        "sha256": "52c2bb050840e9e1057fe75dc28f394c07918ef3de5fc02d9e6c01508c1fecca"
-      },
-      {
-        "path": "assets/example-flowchart-full.html",
-        "sha256": "96d29f99fa4f016618a133d67d3ccb74b207b57fa6cc3431d2ef9ad7f42d2d4f"
-      },
-      {
-        "path": "assets/example-flowchart.html",
-        "sha256": "735b3cd96c77d0897f15b1b399e551fc18f5bc0fc7b8615fbe8dcb17743acef1"
-      },
-      {
-        "path": "assets/example-gantt-dark.html",
-        "sha256": "81016c2956b4cf51d0c2e2b0302ea53c535f3f59a21eae8d4b1a596c448ddb2b"
-      },
-      {
-        "path": "assets/example-gantt-full.html",
-        "sha256": "aab29f4296a7500417c899a445bb7df5f6b785135960e66c5fdfbead27ca475f"
-      },
-      {
-        "path": "assets/example-gantt.html",
-        "sha256": "607745921006b312ab710c3166036aebeb31a2b7cd40df36713a850a28cb73f3"
-      },
-      {
-        "path": "assets/example-heatmap-dark.html",
-        "sha256": "6ec2953db65dbabcdbd5abe3d43f7e001524317ddd3e1230398f9de927e547c0"
-      },
-      {
-        "path": "assets/example-heatmap-full.html",
-        "sha256": "4509527b8a5fe6e6bb74ba2f2f94d32e3b2f0ed8e6bf3ee1e91239aeba3560b2"
-      },
-      {
-        "path": "assets/example-heatmap.html",
-        "sha256": "1dd42f8cdfb73d1f0a139de52653c98da760ef4e1403990424f6a5da201cdb6b"
-      },
-      {
-        "path": "assets/example-high-level-dark.html",
-        "sha256": "49a52a62a30781de7d6ee051cddf9837884a84bb1ce1891eb4dadb4bb82348ae"
-      },
-      {
-        "path": "assets/example-high-level-full.html",
-        "sha256": "d25bde14ab1ac1d9bf47b1613f864517ce3d88553043192abbc856f69bd0f7b6"
-      },
-      {
-        "path": "assets/example-high-level-vertical-dark.html",
-        "sha256": "492b0b9aebb037bfd10f65b16f2212592407a1731682d7469214225451a58fc6"
-      },
-      {
-        "path": "assets/example-high-level-vertical-full.html",
-        "sha256": "3f72c30a5be5a5bd9cde92e366ae1a97cae8473f1d8da2981ffc6d187b5c3dc3"
-      },
-      {
-        "path": "assets/example-high-level-vertical.html",
-        "sha256": "fac0ef026d59a5086880087db4162a3ee2e064a8685c0a093b218df737884c02"
-      },
-      {
-        "path": "assets/example-high-level.html",
-        "sha256": "33789942cb06be5228ffa6e450602d1f7c9344b7d263fa2674b7ba5e6dd7e788"
-      },
-      {
-        "path": "assets/example-import-drawio.html",
-        "sha256": "f6b4cc1e49c1a680dbc1914cc2efabe1f6be418f4473019d8358819a8fbf6d63"
-      },
-      {
-        "path": "assets/example-import-excalidraw.html",
-        "sha256": "5c247643065004228e3e07061d4435608abc03c5fa4e2c404c6ef2a2d6b9da80"
-      },
-      {
-        "path": "assets/example-import-mermaid.html",
-        "sha256": "10c5623a9f6daf9dccb85f15225a155b721e0ec3304d7769c4bb87290da2664a"
-      },
-      {
-        "path": "assets/example-it-state-dark.html",
-        "sha256": "21363f1e08eadbf4c88940f845dd36f462a60e191064d4d9781dd68c9daad4b5"
-      },
-      {
-        "path": "assets/example-it-state-full.html",
-        "sha256": "ed7b2271c358c6046a49c03498384a86fdceda98a1632b235047ee9da9a7b1a0"
-      },
-      {
-        "path": "assets/example-it-state.html",
-        "sha256": "59103bffa775b744828643e361b71f4b80e5ef8a0042abe9ce65c81e3d5dd21e"
-      },
-      {
-        "path": "assets/example-journey-dark.html",
-        "sha256": "c1866ca355d8859d27f6e99d9e2415daf204c313ed4463ae9663ba9e930a9949"
-      },
-      {
-        "path": "assets/example-journey-full.html",
-        "sha256": "8a8263ed88d245376cc7dd0ec8068f02701b346a5d3127e9bb999406046af7cc"
-      },
-      {
-        "path": "assets/example-journey.html",
-        "sha256": "b01e32ff87d63fddf6d1db47155906dd624acc13327856269114f760afc754f0"
-      },
-      {
-        "path": "assets/example-kanban-dark.html",
-        "sha256": "30809cae8600a1852131362df275d9ab1c6aeedc65d3855caed264d48e19f5dc"
-      },
-      {
-        "path": "assets/example-kanban-full.html",
-        "sha256": "a297c9d5da1ea46c6c3c69ffa49525965208cf2ffebb8031a577075d85a390d1"
-      },
-      {
-        "path": "assets/example-kanban.html",
-        "sha256": "3b19fb185019e0e341496de095bb1d92bd1fe4705c1502562ef47cb88329b2bb"
-      },
-      {
-        "path": "assets/example-layers-dark.html",
-        "sha256": "412df7b0710cf14cd95c1e806e708241bda6b3bc8e1f142107adf857ed6aa7d1"
-      },
-      {
-        "path": "assets/example-layers-full.html",
-        "sha256": "0719489be758a08ad66f2de27d120103c41a51982408e78faffac6b9409c9fbc"
-      },
-      {
-        "path": "assets/example-layers.html",
-        "sha256": "196f3cd9866d64da9e04323f258534b1a51d1116140c0db2c8e330adb516a809"
-      },
-      {
-        "path": "assets/example-line-dark.html",
-        "sha256": "552abdcac08788dac5ee7fa419ab854c5e09451b69822eb48935712880382a9d"
-      },
-      {
-        "path": "assets/example-line-full.html",
-        "sha256": "f3757327ce4d465a58b8aaf7428a1c4b3472f7422e782b32164f765b82dcdf96"
-      },
-      {
-        "path": "assets/example-line.html",
-        "sha256": "83f5e305d6ce509b25371db6f6e73fa6f3982b7a8dbe09451091c0a15f3b1d90"
-      },
-      {
-        "path": "assets/example-loop-dark.html",
-        "sha256": "cab1f56390bd59c6b13317854c0fe32497967ab4e822c004d30eedc3324d27c0"
-      },
-      {
-        "path": "assets/example-loop-full.html",
-        "sha256": "c2effa4d65d8713420c2a9261e7eea4f5273f3f87e7e09398bcc6310655bdb4e"
-      },
-      {
-        "path": "assets/example-loop-terminal.html",
-        "sha256": "93a2f86cca043537bf472973c6c1d51de54d85208ec54cd448c40e3f09aa73e8"
-      },
-      {
-        "path": "assets/example-loop.html",
-        "sha256": "b5d0e37b14614ba95d95cdbc5ecdfb84c6c03d7cf664124e029cecb97af340bc"
-      },
-      {
-        "path": "assets/example-marimekko-dark.html",
-        "sha256": "91371c8c9915cd5a9fa5d04ddd425d2a17df8b495e2c1a195de8e73130bb3f44"
-      },
-      {
-        "path": "assets/example-marimekko-full.html",
-        "sha256": "df9d831fd30cb1e42239a3246c45eb95a728ac2c4def9300e1aa101c46ff0ba7"
-      },
-      {
-        "path": "assets/example-marimekko.html",
-        "sha256": "aefe70d1e699919a5bfacf2222c686d236d4c70a6236afb249fd73670dce6d35"
-      },
-      {
-        "path": "assets/example-medallion-dark.html",
-        "sha256": "65740eb4e2b1286636fc749bdb528dbab7e03948d104c368667ab1ccf85a46f2"
-      },
-      {
-        "path": "assets/example-medallion-full.html",
-        "sha256": "f6ceacd25be82850f65689b07d52b4c9b0e633604e909b13e77ad6468895a688"
-      },
-      {
-        "path": "assets/example-medallion.html",
-        "sha256": "e88a5b1f1f67a7bf6ad83c5144a7f79973a732f68972ba648ec81968579032eb"
-      },
-      {
-        "path": "assets/example-nested-dark.html",
-        "sha256": "8c9862a5a41d2fc5485b51cb9aab318595ceadd2f799ccab7b57e3183906c4c5"
-      },
-      {
-        "path": "assets/example-nested-full.html",
-        "sha256": "a5e238e87124e92de2188939a8d797200a947530987b45b10c947c23985979b0"
-      },
-      {
-        "path": "assets/example-nested.html",
-        "sha256": "33608608681a08fd6a6cd16837442b6209e1b9af042adfb7160a91e024fca72e"
-      },
-      {
-        "path": "assets/example-org-chart-dark.html",
-        "sha256": "fd0233be926462fd539b3a953a8abc012fb1f6248b71b658a0a3d194fd4f45e6"
-      },
-      {
-        "path": "assets/example-org-chart-full.html",
-        "sha256": "a1b5d313f47e6cb26240edd5d696e4dc944b6996bbe92f0be7c0b90836d2631f"
-      },
-      {
-        "path": "assets/example-org-chart.html",
-        "sha256": "8c4e95ee52d597f28743673ea11f01ecfcf1a230d6f3dfb6d5ad641b770af46c"
-      },
-      {
-        "path": "assets/example-paved-road-animated.html",
-        "sha256": "edc92180b5dc86cdec954ba50a81e50ccea4a994b58619819bfdf26ff5651689"
-      },
-      {
-        "path": "assets/example-polar-dark.html",
-        "sha256": "7c284696cfed61e832dd4dde814840901967cca64bd54a4cddfff7cbeaddb04e"
-      },
-      {
-        "path": "assets/example-polar-full.html",
-        "sha256": "bfd2ec50116c00a9312efe7bfa5dadfe2512de7c27873e15bdecaa044c932bf3"
-      },
-      {
-        "path": "assets/example-polar.html",
-        "sha256": "596e2042f18044ef1fa2c2eb849f39fa5c7767b2a17e272617ebd27e10bc86b1"
-      },
-      {
-        "path": "assets/example-policy-trace-animated.html",
-        "sha256": "a754efcb4d5d780798d3f386c0a5d68f36b0b12e142bc44603c2d39065daa1e3"
-      },
-      {
-        "path": "assets/example-process-dark.html",
-        "sha256": "5e6ac1365d2e473568ba736975495b9c3509004fb6fca571dedefa8e6cdc5c8e"
-      },
-      {
-        "path": "assets/example-process-full.html",
-        "sha256": "d0c0e6df7ae42fa92a1015421fa1cef211847c4037026de2c70d77a5e164a4cc"
-      },
-      {
-        "path": "assets/example-process.html",
-        "sha256": "50ca0b9e6a3e9f5ba8102ff3c6fb87b6a66b1d59f272777b72a97639d4fe2375"
-      },
-      {
-        "path": "assets/example-pyramid-dark.html",
-        "sha256": "831bc6531d0b3b0eba1b348722a0b3e4d5548f287f5380ddb7e26d3f5edcb80c"
-      },
-      {
-        "path": "assets/example-pyramid-full.html",
-        "sha256": "15306216ab2647d81038cafbb32139fd8e33cff6c1f2407fabbfb9dceb2c2c6e"
-      },
-      {
-        "path": "assets/example-pyramid.html",
-        "sha256": "d12cf7c4c921f3bbd66026af9ed947ff23acdcf414a4309b59c173377d9bdd80"
-      },
-      {
-        "path": "assets/example-quadrant-consultant.html",
-        "sha256": "421142d6be52e56315a4b7d02f94a940fe2d7e4d8b506795392b8086c900926c"
-      },
-      {
-        "path": "assets/example-quadrant-dark.html",
-        "sha256": "ac1edf5d9c1251a51a93eb82db17fc1820811f1934ec59c1272ea7f89c501465"
-      },
-      {
-        "path": "assets/example-quadrant-full.html",
-        "sha256": "11208b7d6353a4feed795e2c1539153843dcf2c057da414c73958b68e08b439e"
-      },
-      {
-        "path": "assets/example-quadrant.html",
-        "sha256": "a147cc85f78958da824d53d226067bff687f3e35a64601394c3075f55c675648"
-      },
-      {
-        "path": "assets/example-queue-animated.html",
-        "sha256": "f42628ce17ae487d0b1ebf2cf29a216a70775f8f305a243e38cb0c44d2efbe0a"
-      },
-      {
-        "path": "assets/example-radar-dark.html",
-        "sha256": "e24eabbc722e67b83ac498407247e1c09d162ff19e047944a323d44594a68258"
-      },
-      {
-        "path": "assets/example-radar-full.html",
-        "sha256": "18203b78130ef1200e78afd8e5a574029f560f4064730e2f2661b6d33ff9e1e6"
-      },
-      {
-        "path": "assets/example-radar.html",
-        "sha256": "767b6a52116665a75b5895c1bde6d96a6a3277449229ff7e21b33afff9b9fcdf"
-      },
-      {
-        "path": "assets/example-ridgeline-dark.html",
-        "sha256": "b430c4ec58ab69c044cba2eb39e20adbc8769cbd85fb5f41d8c3f75136d62f90"
-      },
-      {
-        "path": "assets/example-ridgeline-full.html",
-        "sha256": "9c2631fdd7b5f9df360d18778400212c0fa689685ae1c46d0e65c7279b4a71e6"
-      },
-      {
-        "path": "assets/example-ridgeline.html",
-        "sha256": "0e6b87dfbbba5e8b246a195d28cdb49a52aeebd4912fb40ffabc4fb752b04821"
-      },
-      {
-        "path": "assets/example-sankey-dark.html",
-        "sha256": "4c2a4ff17cfba1412aee8b6569e76c1d314d9ce64d6038c99e89505225b9baf1"
-      },
-      {
-        "path": "assets/example-sankey-full.html",
-        "sha256": "52949b4f1bcfba7bf89c49542ddf6937fda80be6c10c806366cd056d94732eeb"
-      },
-      {
-        "path": "assets/example-sankey.html",
-        "sha256": "f9196488b04763405fe56a56ed201630ce63aa86c96dcf8ba652d3927093707c"
-      },
-      {
-        "path": "assets/example-scatter-dark.html",
-        "sha256": "d1e48f5da1c729879834b797d871eeeff1222fa270ae6a051d02ec40dda42744"
-      },
-      {
-        "path": "assets/example-scatter-full.html",
-        "sha256": "83e8cb8e6d2e788071b3a843c5746ed980675507e41d99b9a3b11beb07b8e6a6"
-      },
-      {
-        "path": "assets/example-scatter.html",
-        "sha256": "576e0061f65b1885cf5fccb794c2827b19fbea66cc14e8284f3fa075ef755d06"
-      },
-      {
-        "path": "assets/example-sequence-dark.html",
-        "sha256": "667d448a51a817fb334d3fae0c6f2ed2ab8a2219e42bb29d97c9e012c2d96a8a"
-      },
-      {
-        "path": "assets/example-sequence-full.html",
-        "sha256": "e165d6e2fe2fa56538820ab6efa56a7ea79f29d75775bac47ee865483d512c1c"
-      },
-      {
-        "path": "assets/example-sequence-oauth-dark.html",
-        "sha256": "8237be551f450082823ba237958d62cf54c9ca1f98ea5e4f1c1eeed68e6613d0"
-      },
-      {
-        "path": "assets/example-sequence-oauth-full.html",
-        "sha256": "c5e5f5d947c7f99474e4390a4ca2536285ca03e57aa7eae7bcb580c4c955fc2f"
-      },
-      {
-        "path": "assets/example-sequence-oauth.html",
-        "sha256": "700ff6d8a06aa0b04b67520e4def6388f1a334c1a63d9df9edc5f697eeee4a40"
-      },
-      {
-        "path": "assets/example-sequence.html",
-        "sha256": "12dcedc98c28d15f7a455f1266c8d8bd93bebe1ed8f352d89bc20703eaa00fad"
-      },
-      {
-        "path": "assets/example-slopegraph-dark.html",
-        "sha256": "fb1fcd70a4d7e63cb57d39ddedfb54f4840118ec6e9905111a4d263ccc7c62b4"
-      },
-      {
-        "path": "assets/example-slopegraph-full.html",
-        "sha256": "262b5db6e1c27327e9ff204ec359821fa92700e5883926ac0217d67a6c13c237"
-      },
-      {
-        "path": "assets/example-slopegraph.html",
-        "sha256": "1d0d0d6835e38c1e84e6a8b7cf2a3f0f3c59f70025941b994b844a6048f53af5"
-      },
-      {
-        "path": "assets/example-state-dark.html",
-        "sha256": "d5a29f22ee80fef6fe6f857e767fb0bf4afca8bc8f8cbb478f33286d76f88706"
-      },
-      {
-        "path": "assets/example-state-full.html",
-        "sha256": "bdcd07a2f12fb3ae0afe34b8f3d9fc455a7fbe02f671b97a7163d35726894017"
-      },
-      {
-        "path": "assets/example-state-lifecycle-dark.html",
-        "sha256": "caf933ffcfffd7cc46e4354d5d3dd4d2c0ea8fc5c56e5fefb9b0ec63dc3358d9"
-      },
-      {
-        "path": "assets/example-state-lifecycle-full.html",
-        "sha256": "fdfa99fd013a6703987ca573417821849833b844125773007bf90fdccb21bd1c"
-      },
-      {
-        "path": "assets/example-state-lifecycle.html",
-        "sha256": "a09228bc242faa5eb4e31bb28375eca99ddfc5af1edf23581851018b1b16d7eb"
-      },
-      {
-        "path": "assets/example-state.html",
-        "sha256": "75521144ce5aaf477096f355e86ae2d3301eb136391a6bd0702a844a8fe7ce30"
-      },
-      {
-        "path": "assets/example-story-map-dark.html",
-        "sha256": "0c288216307ff36b43b513445e0e63fa83ed5902695ead17fdd507a470acc6b7"
-      },
-      {
-        "path": "assets/example-story-map-full.html",
-        "sha256": "ba97bf483442959c35e8d64cd36d177d94fff76215ca3e3b44901b5e4f586443"
-      },
-      {
-        "path": "assets/example-story-map.html",
-        "sha256": "40f737ca1c2a9f46cd8a3ad1a377faabc1adc546a410ff8395e6622b4e773da1"
-      },
-      {
-        "path": "assets/example-streamgraph-dark.html",
-        "sha256": "986d4485111c165a18f0eb86055aa326f932c618d26c32f90d6b9457f9189515"
-      },
-      {
-        "path": "assets/example-streamgraph-full.html",
-        "sha256": "122b4aaf9bb2bb90c4b13e9268c5017ac37c48f87e7350c322d303a970e49549"
-      },
-      {
-        "path": "assets/example-streamgraph.html",
-        "sha256": "513da4be5bb1e2e544ba79a7b3c88d704e367098b0faff7645ae5b922fe58d60"
-      },
-      {
-        "path": "assets/example-swimlane-dark.html",
-        "sha256": "1b45aa776b6e9b71249cb244b0ae0ca9ccc341d316d324364a0fad3d51e60d00"
-      },
-      {
-        "path": "assets/example-swimlane-full.html",
-        "sha256": "5c26540db8c18a1b33e32b90b1cf640d6482804b01d45fa87547c2a73a625852"
-      },
-      {
-        "path": "assets/example-swimlane.html",
-        "sha256": "75fc463ad3282dd0faaa4328c6b07f7e853184eeb1edcff2add8f7ed1876ab3b"
-      },
-      {
-        "path": "assets/example-timeline-dark.html",
-        "sha256": "64bcbb52a88e989b642dee6ef9ca2c47000407430b240760911a062a8e6735a7"
-      },
-      {
-        "path": "assets/example-timeline-full.html",
-        "sha256": "4e9195b6c3eb9d9ff4ee0bb9a19ac166c7098465d80ccf7148af73df4cdcd7f1"
-      },
-      {
-        "path": "assets/example-timeline.html",
-        "sha256": "1a58e3824eb2bb89ff6e57439b61c38d6e4c08b187143436f50108d8e60bfc45"
-      },
-      {
-        "path": "assets/example-tree-block-decomposition-dark.html",
-        "sha256": "1a862a84bb85391a850e6c6cc5d657dd019a1c2a4efe8e7d05f6045b876856df"
-      },
-      {
-        "path": "assets/example-tree-block-decomposition-full.html",
-        "sha256": "d844788fe465a807a0091d99e431221fb1fc62b7a6214b8605721870f8b89149"
-      },
-      {
-        "path": "assets/example-tree-block-decomposition.html",
-        "sha256": "8fedc41a9e45f45eb13e33d1d4125b8e7f37a9ee6e97c69596c18dfaef628c44"
-      },
-      {
-        "path": "assets/example-tree-dark.html",
-        "sha256": "43aa056d0761d323cad0bd6205de3083fe7413af4e10639cad5e92c8ed41beac"
-      },
-      {
-        "path": "assets/example-tree-full.html",
-        "sha256": "988fda69a8fc3f043b263c254389adc282394d2a468163dde70fa8b56fc6392b"
-      },
-      {
-        "path": "assets/example-tree.html",
-        "sha256": "5de9151661ad9e1b21809d58494390472cdd82ca1ef1ddcde88b6f14e667afcd"
-      },
-      {
-        "path": "assets/example-treemap-dark.html",
-        "sha256": "43cbbb2ec7c30a71edf5f5436e51dd8369cedb1da80f6e6241b62278ea4e5698"
-      },
-      {
-        "path": "assets/example-treemap-full.html",
-        "sha256": "c0b0569090b69050b7b70592dd7d0d3ad01a41e84ea80d03433cf5c3b35e52a2"
-      },
-      {
-        "path": "assets/example-treemap.html",
-        "sha256": "95f0dd0e5072bbe327c7a85d1fa71a18cff3ade32240a917c4b672940d151008"
-      },
-      {
-        "path": "assets/example-uml-class-dark.html",
-        "sha256": "eca2e26603714d4df494532a2a712101321a484cc2d1263f7629b8f0e214357d"
-      },
-      {
-        "path": "assets/example-uml-class-full.html",
-        "sha256": "9c9efff3c44878a9f7cf459ed7a1c7fcdd927cfbfb73ef35ac6b0c0c8d7a7671"
-      },
-      {
-        "path": "assets/example-uml-class.html",
-        "sha256": "c6c353f4d53c476fc3530f20d09cdb9d4b47a2bd22d0f3c56c807732534a685d"
-      },
-      {
-        "path": "assets/example-venn-dark.html",
-        "sha256": "85c6fd7c48e0c4989aebad24862e49d8783386f4cfa3efb27d1e86a724558077"
-      },
-      {
-        "path": "assets/example-venn-full.html",
-        "sha256": "1dd7525e58092b6a4bf1463fdf0df2914d717e3abcfdbaf04ed0ba3dd814f310"
-      },
-      {
-        "path": "assets/example-venn.html",
-        "sha256": "86d763a94bc20fb3038cb00b9ef0fedd1e00cd8009df50852eac77d92e3965da"
-      },
-      {
-        "path": "assets/example-wardley-dark.html",
-        "sha256": "80aff4e268d3775541eca4cf1c1cac918f0895637cd79568d4895e84b9f2046b"
-      },
-      {
-        "path": "assets/example-wardley-full.html",
-        "sha256": "8a9d56c9e50b57bb990a172822b01361cd4cb57322675fdde40be364e890210b"
-      },
-      {
-        "path": "assets/example-wardley.html",
-        "sha256": "b0ffc8f5bde65a8d77d863f22cd6c0d0211490c059dbcb503798851d1413860a"
-      },
-      {
-        "path": "assets/example-waterfall-dark.html",
-        "sha256": "ce4eb6038b09b87eca88b6981a7b43d19f603f480b6e91fb16d5d7c58a9103a6"
-      },
-      {
-        "path": "assets/example-waterfall-full.html",
-        "sha256": "0fc4fdb8af3cdc49efb75d713303751c3d37c360ac3e27ea282945359ed67f9a"
-      },
-      {
-        "path": "assets/example-waterfall.html",
-        "sha256": "10c4445b0582ddd6644ac734914c3549e9eb39075ee6e258ea78044a43c0ca3d"
-      },
-      {
-        "path": "assets/icons.html",
-        "sha256": "8e7f54214b31e9152020e012aff18cb97defdec47ac09cee2081499c0bb0eb4f"
-      },
-      {
-        "path": "assets/index.html",
-        "sha256": "b11b2625b17e2ce1885537dc96a40bcd02ffaecdcd4f3e778c7225371164c5a2"
-      },
-      {
-        "path": "assets/template-dark.html",
-        "sha256": "6114859e48ed8a0da7825e2855d6d0653e5c8bb223f96b72b793cd7aad5457b0"
-      },
-      {
-        "path": "assets/template-full.html",
-        "sha256": "1ceada773af8c318d19aa1dfd2da7ddc74ee071cac7790a1e2a5325ca0b0c3f3"
-      },
-      {
-        "path": "assets/template-motion.html",
-        "sha256": "2ea119fe1271b20618cd1f94e608ce8fec03febf5b36a157135d50272a10ab3c"
-      },
-      {
-        "path": "assets/template-terminal.html",
-        "sha256": "d449b50f439214cef9025b91f7ad4d8f786c0f329496aa95b5ea864c1586708d"
-      },
-      {
-        "path": "assets/template.html",
-        "sha256": "86322001cf758d02aaf323e550a818620d25afd4b9087aafb35a31dd5f01c858"
-      },
-      {
-        "path": "references/animation.md",
-        "sha256": "24ce83341aee976680cb69d43b2afab40efcfa97edcd394e5b17183eb58fc94a"
-      },
-      {
-        "path": "references/doctor.md",
-        "sha256": "0623d90b6fa0cdad48126256c115f2be17ddf10721a3a6112011a130e7c62140"
-      },
-      {
-        "path": "references/export-registry.md",
-        "sha256": "6d35bdccf32e7a2f28ebafac75d099451881a3ad9e268798c86acea2c2c66410"
-      },
-      {
-        "path": "references/export.md",
-        "sha256": "244095d54e3ba1da8c3be3fc16dcd6179d099f4d0b238ebe380137ca1f2cd7f3"
-      },
-      {
-        "path": "references/import-drawio.md",
-        "sha256": "2615ba8efb300ecc498df72223a91c6c712411efb38892fc779b583ad8b7b4ce"
-      },
-      {
-        "path": "references/import-excalidraw.md",
-        "sha256": "02168ea7793a0fab546e84c410f2c946336f1088fa3c9c301504aec81d34dad4"
-      },
-      {
-        "path": "references/import-mermaid.md",
-        "sha256": "95060ae8a4a068d73e154d06f938b87930434c8dfdaadda58e8711179495d090"
-      },
-      {
-        "path": "references/layout-budget.md",
-        "sha256": "074ff42a63e76950f8e7413816e22cccec3bc0946fc8951554de8565c18b8cd6"
-      },
-      {
-        "path": "references/onboarding.md",
-        "sha256": "a8e1b9ae576b47acd0ff88b1379c51a29a8749591df957223c8f3a01de0c6f97"
-      },
-      {
-        "path": "references/output-spec.md",
-        "sha256": "ca333e5eed72947dbc4f354b38c31005f949dbfcb98bdbbe595a3cf408d6e4ce"
-      },
-      {
-        "path": "references/primitive-annotation.md",
-        "sha256": "f78cac0af423ead9b74926fa669e9227efc21f15d0f51ea46bc93e79c55a121a"
-      },
-      {
-        "path": "references/primitive-icons.md",
-        "sha256": "bb4a97f27c1bff90107ce54429c89196eba971af982998a9bf4214a0c7570f06"
-      },
-      {
-        "path": "references/primitive-sketchy.md",
-        "sha256": "8859f0d70c10f46f59817cb348346e7fb9e1609b70a4a513d297b8c850c866a4"
-      },
-      {
-        "path": "references/primitive-terminal.md",
-        "sha256": "7b52c2fb229c822a60b0061caa64ae6a68aacd4f1c22a1a98d1d0eaaa2333b55"
-      },
-      {
-        "path": "references/primitives-core.md",
-        "sha256": "993c93335cff0bacc014ae1957c2e8135a75930a5c0a92313a6472ee4daf2b2b"
-      },
-      {
-        "path": "references/profiles.md",
-        "sha256": "51f6d24e40eca1a13dc562b4b33aa76b56172c5c30fc94897e5bb369a34f9886"
-      },
-      {
-        "path": "references/semantic-patterns.md",
-        "sha256": "9a5d718ff0474c6e6e1c81e482f28b2a2f467b1ab0a4ad189a9fe10278b9fc08"
-      },
-      {
-        "path": "references/style-guide.md",
-        "sha256": "f667075e888bf27b981a3c8c51175b7be82a00bcad9d7c33ca9dfe59240a5a38"
-      },
-      {
-        "path": "references/type-architecture.md",
-        "sha256": "cb5672b5c69cbe24a0b18d144f8b2e4507a124ebb0dbc0bc898ceafb27612caa"
-      },
-      {
-        "path": "references/type-bar.md",
-        "sha256": "a6ab12ffe6fed07652f47924deefa14e9010f161db26daa90d918db16e353d9d"
-      },
-      {
-        "path": "references/type-data-flow.md",
-        "sha256": "ad1cd8358c9360663200f5100a199e57e43a4e6702982752220ad423127941e8"
-      },
-      {
-        "path": "references/type-db-schema.md",
-        "sha256": "433f2ede171453ccbc1e6e8d0be4846fa5fb88bb499e8ba7e6db02d066a06c46"
-      },
-      {
-        "path": "references/type-dependency.md",
-        "sha256": "f44fafda00c4ec547b8871494513fa02de495ef612e4f38601c4934bbf8ff0bf"
-      },
-      {
-        "path": "references/type-deployment.md",
-        "sha256": "c4be740ffee76ff69574228d4ab6447ab2c127e04037aac5f6cd9870429b9b43"
-      },
-      {
-        "path": "references/type-dp-integration.md",
-        "sha256": "0b85e3b883e97e1a86e50d2e50eb73bc3fb4b70e2e3132e93356956ccc68a64f"
-      },
-      {
-        "path": "references/type-dp-security-matrix.md",
-        "sha256": "209f4870ec19d90eff1ab80ecfe0062f3a5075c3b666b1a3a900a27260ba8832"
-      },
-      {
-        "path": "references/type-er.md",
-        "sha256": "0f4a718b202edec593e4555e0353a4080d4be6d98328209db083898f2f01302c"
-      },
-      {
-        "path": "references/type-fishbone.md",
-        "sha256": "59aeafe1c8b6d80898e91ff4557fa6002cc99fd0650590dbdb4e990d35e670cf"
-      },
-      {
-        "path": "references/type-flowchart.md",
-        "sha256": "c2af5e2b849255ae4859125db7b101b74bfb9b201204725c1e83fac51a98ebab"
-      },
-      {
-        "path": "references/type-gantt.md",
-        "sha256": "83a84cdd4b2880debd9e602f1d27ffc54197a6c783eb46228711641956f858ee"
-      },
-      {
-        "path": "references/type-heatmap.md",
-        "sha256": "42573794d1c82c07fd644b3b14a1c1f94e76a80514b31ff0d83fa58264043876"
-      },
-      {
-        "path": "references/type-high-level.md",
-        "sha256": "86e9e681189b013752edc512a8efb651e67aba52e9ddfbfe46d1fc117f1d5248"
-      },
-      {
-        "path": "references/type-it-state.md",
-        "sha256": "744e18db2ddf29e501af903ef79deafb1500f546611137d27cd14fe8ccbb77db"
-      },
-      {
-        "path": "references/type-journey.md",
-        "sha256": "135501cef58abd6c716746248a5bfd163e56b68d9f314516bb8f60d26a895256"
-      },
-      {
-        "path": "references/type-kanban.md",
-        "sha256": "8f7cd376421b9854a97bf2d230ea77e0de9a3a227cf85f02cd7b1367a29fdc54"
-      },
-      {
-        "path": "references/type-layers.md",
-        "sha256": "393a65464f1189a2244c989a7448a8be5446d5932c907bbdba57d10997729534"
-      },
-      {
-        "path": "references/type-line.md",
-        "sha256": "b299244ac3b45df11ba77f1b64b6233295fd0712a25573976b258c04460aebf8"
-      },
-      {
-        "path": "references/type-loop.md",
-        "sha256": "c7e98b8eda1e6d6904920f4d96310745deb0651920e9d531c8f40e54304ab60d"
-      },
-      {
-        "path": "references/type-medallion.md",
-        "sha256": "a1af03521adb53431766a559e05c984ee07871fd3cf495cf63146999f56f6f42"
-      },
-      {
-        "path": "references/type-nested.md",
-        "sha256": "07c3b848cc0f2a78098ef267d4587acd49a393e409e0b926738d58437896eec9"
-      },
-      {
-        "path": "references/type-org-chart.md",
-        "sha256": "9905c67d6cf884f4537b9f86f893e6a90b4dc4134ff8bf8ce6187d151efbd6ab"
-      },
-      {
-        "path": "references/type-polar.md",
-        "sha256": "51fd08897a65f4ae2fe0c28b5e3afdd4867633fb960e3107551e49f4f9d1e97c"
-      },
-      {
-        "path": "references/type-process.md",
-        "sha256": "8b149deb5393d5b6eaefdd525ef65143caf763283f3b668ce301bd3b0b808815"
-      },
-      {
-        "path": "references/type-pyramid.md",
-        "sha256": "a07536682478832fbf552aaa066dc827eaa1a072c538766387c8b900ae7add38"
-      },
-      {
-        "path": "references/type-quadrant.md",
-        "sha256": "2346caba0370beaf8b33efd5d9a3e24f3d555b7160a3d523d9d07a37ce6c353a"
-      },
-      {
-        "path": "references/type-radar.md",
-        "sha256": "8379b0313afbfdbb5a641c98f8ac6668419b4add6cea0749a646365fad02c1d3"
-      },
-      {
-        "path": "references/type-sankey.md",
-        "sha256": "bcc39b963fa4f340c7654204fa0c6c0a248a0b42b1669ebeb2375381d8013a2c"
-      },
-      {
-        "path": "references/type-scatter.md",
-        "sha256": "b89fc3d4777c5a09a82d889aaf1592ebf6fa7bc71877458c6b39c32778e690e6"
-      },
-      {
-        "path": "references/type-sequence.md",
-        "sha256": "407428e36332c96b7db698f7ffff7b28461fa6c0bc0671cecf3ed3c39a9bcab0"
-      },
-      {
-        "path": "references/type-state.md",
-        "sha256": "f5cda20b18da2bb92f291d200ac37ffd8af13328768ae0acf42d688384aa0433"
-      },
-      {
-        "path": "references/type-story-map.md",
-        "sha256": "ee49c426397c3e5234fb544ea1394f7c8879610fea897da3b636891e3affb4c4"
-      },
-      {
-        "path": "references/type-swimlane.md",
-        "sha256": "4b689b9dd72078dc76fd2fbb1eb6c0bf0304fee667ae7cd56fab5f19b535f250"
-      },
-      {
-        "path": "references/type-timeline.md",
-        "sha256": "9102e61347b17b303eafad52d4f8941d507faf889d9316ed0325e5e0f0ba01ca"
-      },
-      {
-        "path": "references/type-tree.md",
-        "sha256": "e45c0bb3c4667f57eb8592b01325c7860859d2a9569a0441f62ead0bd7d70a0d"
-      },
-      {
-        "path": "references/type-treemap.md",
-        "sha256": "973b108b165ee3481a747afc28086e5fc23e7fe043fde4c9a47a4b18fde93ac2"
-      },
-      {
-        "path": "references/type-uml-class.md",
-        "sha256": "8cc0bc8f77a38da58110287c1b112043be9751389ef45772fe607eae9aa77ecd"
-      },
-      {
-        "path": "references/type-venn.md",
-        "sha256": "f8d5d4f0506160e0502f932140306b12d25adea1d1f6f319fb38c2345b0c6b42"
-      },
-      {
-        "path": "references/type-wardley.md",
-        "sha256": "aa93eb728a022b85f38de69c1d287752f91c487b05c50396ee21e769162900a9"
-      },
-      {
-        "path": "references/type-waterfall.md",
-        "sha256": "1079c0915c7e651d8556369aebed180154afb05799192c7eebaf442f7c16f8e1"
-      },
-      {
-        "path": "scripts/drawio_extract.py",
-        "sha256": "32b4952de6f56fdc40dfb2b3d02ae42cdecec54e8190ab2bf3b172e3950c8af5"
-      },
-      {
-        "path": "scripts/excalidraw_extract.py",
-        "sha256": "fd895d16be7f75032ae3d77dd2f15e91c3631e7c7af8a2a1a65474c4c7781f2a"
-      },
-      {
-        "path": "scripts/export_svg.py",
-        "sha256": "95fa986f24a56d2c51318d516466793637e7e5c100c3835b4a2134f9ab399aba"
-      },
-      {
-        "path": "scripts/mermaid_extract.py",
-        "sha256": "eb123cff84b10670c66c3110d0e8789488f6a5ae4cd5cbd4916b9e97bc5afbf2"
-      },
-      {
-        "path": "scripts/self_check.py",
-        "sha256": "b5f798725d4a76693b6d1c2ff5ecfc0aa162c69ffe38cd63c32bb192f49afd13"
-      }
-    ],
-    "id": "diagram-design",
-    "jury": {
-      "agreement": 1,
-      "maintenance": 0.85,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 0.7
-    },
-    "license": "MIT",
-    "name": "diagram-design",
-    "needs": [
-      "docs-writing"
-    ],
-    "path": "skills/diagram-design",
-    "repo": "cathrynlavery/diagram-design",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T17:16:03.055Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 1,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 42855
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Create 41 types of diagrams (architecture, flowchart, etc.) as HTML/SVG/PNG with drawio/excalidraw import and branding support.",
     "tier": "mission",
     "type": "skill"
   },
@@ -3533,6 +2032,7 @@
       "specificity": 0.9
     },
     "license": "CC-BY-SA-4.0",
+    "lifecycle": "occasional",
     "name": "Differential Review (Trail of Bits)",
     "needs": [
       "security",
@@ -3540,6 +2040,7 @@
       "payments",
       "github-workflow"
     ],
+    "origin": "curated",
     "path": "plugins/differential-review/skills/differential-review",
     "repo": "trailofbits/skills",
     "security": {
@@ -3574,9 +2075,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "workflow-meta"
+      "agent-orchestration"
     ],
-    "cluster": "workflow-meta",
+    "cluster": "agent-orchestration",
     "commit": "fea62b264c6702b5bcdbb78cbdd9bb0a9a14c00b",
     "community": {
       "kept7d": 0,
@@ -3586,25 +2087,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 106,
     "files": [
       {
@@ -3625,11 +2108,10 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "dispatching-parallel-agents",
-    "needs": [
-      "agent-skills",
-      "testing"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "cli-tool/components/skills/ai-research/dispatching-parallel-agents",
     "repo": "davila7/claude-code-templates",
     "security": {
@@ -3716,8 +2198,10 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "django-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/django-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -4027,10 +2511,12 @@
       "specificity": 1
     },
     "license": "Proprietary, source-available (see LICENSE.txt)",
+    "lifecycle": "occasional",
     "name": "Word Documents (Anthropic)",
     "needs": [
       "office-docs"
     ],
+    "origin": "curated",
     "path": "skills/docx",
     "repo": "anthropics/skills",
     "security": {
@@ -4127,8 +2613,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "dotnet-core-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/dotnet-core-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -4163,11 +2651,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "workflow-meta",
-      "implementation-planning",
-      "verification-gate"
+      "agent-orchestration"
     ],
-    "cluster": "workflow-meta",
+    "cluster": "agent-orchestration",
     "commit": "f42f579cf8bac4918ac9599bece71618afadd846",
     "community": {
       "kept7d": 0,
@@ -4177,25 +2663,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 55,
     "files": [
       {
@@ -4216,13 +2684,10 @@
       "specificity": 0.85
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "dynamic-workflow",
-    "needs": [
-      "agent-skills",
-      "github-workflow",
-      "large-codebase",
-      "llm-calls"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "optional-skills/autonomous-ai-agents/dynamic-workflow",
     "repo": "nousresearch/hermes-agent",
     "security": {
@@ -4244,102 +2709,6 @@
       "*"
     ],
     "summary": "Orchestrates large independent task fan-outs with deterministic pre-processing, LLM judgment per unit, adversarial verification, and multi-…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "component-architecture",
-      "debugging-method",
-      "static-analysis"
-    ],
-    "cluster": "component-architecture",
-    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 296,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "16845321aee2bf735be7fec4cbbd0f397e210ac6fec77f151277c5cae87c5d07"
-      },
-      {
-        "path": "references/communication-protocols.md",
-        "sha256": "c11b9462c6bdc07aa82fe9a0d7c991e84c80416351328efb8006b33580e7da32"
-      },
-      {
-        "path": "references/memory-optimization.md",
-        "sha256": "573eb22555200e5446dbf0c69bbb9c31b0e1e8c8f5061fc3cdd7c96a7b8668a6"
-      },
-      {
-        "path": "references/microcontroller-programming.md",
-        "sha256": "d35352d4e3a0d573e2f10037895c0658dbf44a710b6c57777ce10080ec1a1ce6"
-      },
-      {
-        "path": "references/power-optimization.md",
-        "sha256": "935d9bb0d93e8935479beff2eb986fac4538d965ad0dddb43bee6a48b05466a9"
-      },
-      {
-        "path": "references/rtos-patterns.md",
-        "sha256": "feab7e2d9a8026c602ea92cb0ac4d6ad47714291d373ab18201979b7ac4f2931"
-      }
-    ],
-    "id": "embedded-systems",
-    "jury": {
-      "agreement": 0.95,
-      "maintenance": 0.8,
-      "models": [
-        "openai/gpt-oss-20b",
-        "moonshotai/kimi-k3"
-      ],
-      "quality": 0.875,
-      "specificity": 0.8
-    },
-    "license": "MIT",
-    "name": "embedded-systems",
-    "needs": [
-      "agent-skills",
-      "dependencies",
-      "docs-writing",
-      "testing",
-      "performance"
-    ],
-    "path": "skills/embedded-systems",
-    "repo": "jeffallan/claude-skills",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T13:48:06.300Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 53,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": null
-    },
-    "stacks": [
-      "cpp"
-    ],
-    "summary": "Embedded systems skill for firmware, RTOS, microcontroller programming, power optimization, peripheral drivers, interrupt handling, DMA, an…",
     "tier": "mission",
     "type": "skill"
   },
@@ -4410,8 +2779,10 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "fastapi-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/fastapi-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -4446,8 +2817,7 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "workflow-meta"
+      "implementation-planning"
     ],
     "cluster": "implementation-planning",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
@@ -4459,25 +2829,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 403,
     "files": [
       {
@@ -4518,11 +2870,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "feature-forge",
-    "needs": [
-      "docs-writing",
-      "agent-skills"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/feature-forge",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -4557,11 +2908,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "python-tooling",
-      "skill-authoring"
+      "data-ml"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "data-ml",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -4611,15 +2960,12 @@
       "specificity": 0.925
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "fine-tuning-expert",
     "needs": [
-      "dependencies",
-      "data-processing",
-      "python-quality",
-      "agent-skills",
-      "testing",
-      "deploy"
+      "data-processing"
     ],
+    "origin": "lab",
     "path": "skills/fine-tuning-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -4638,7 +2984,6 @@
       "stars": null
     },
     "stacks": [
-      "*",
       "python"
     ],
     "summary": "Guides LLM fine-tuning with LoRA/QLoRA, dataset prep, training, evaluation, and deployment using Hugging Face PEFT and Transformers.",
@@ -4711,8 +3056,10 @@
       "specificity": 0.85
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "flutter-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/flutter-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -4731,8 +3078,7 @@
       "stars": null
     },
     "stacks": [
-      "flutter",
-      "dart"
+      "flutter"
     ],
     "summary": "Build cross-platform Flutter apps with Dart, covering state management (Riverpod/Bloc), navigation (GoRouter), widgets, testing, and perfor…",
     "tier": "stack",
@@ -4785,10 +3131,12 @@
       "specificity": 0.92
     },
     "license": "Apache-2.0",
+    "lifecycle": "occasional",
     "name": "Frontend Design (Anthropic)",
     "needs": [
       "frontend-ui"
     ],
+    "origin": "curated",
     "path": "skills/frontend-design",
     "repo": "anthropics/skills",
     "security": {
@@ -4810,100 +3158,6 @@
       "*"
     ],
     "summary": "Produces distinctive, production-grade interfaces instead of generic AI-looking layouts.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "component-architecture",
-      "implementation-planning"
-    ],
-    "cluster": "component-architecture",
-    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 531,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "89297efd2a6ba43237bd711d41d5d8bc50241954fe535d413bc08a1c345bc176"
-      },
-      {
-        "path": "references/ecs-patterns.md",
-        "sha256": "5ef2de275b32bcf78a215ac09e101e70c06d5bb64e2577dc61fba811950a49c6"
-      },
-      {
-        "path": "references/multiplayer-networking.md",
-        "sha256": "10c22a22749041b99f09a4e365dadbe6e58fc1b56c90407960bb466aa2de8611"
-      },
-      {
-        "path": "references/performance-optimization.md",
-        "sha256": "57ce6a6de9b66f4ab5b2b7bd7349fa6694e5eb641e5a94bcf80e1351ad4fd4ed"
-      },
-      {
-        "path": "references/unity-patterns.md",
-        "sha256": "0f8b0ffada2a9e997c7db40cc472babf30c670514f01441c3dbd2f25a573fefc"
-      },
-      {
-        "path": "references/unreal-cpp.md",
-        "sha256": "b41b68aa1dba6635924a909c4d749ae199bd6ac8fed263598163c9bbbce807e6"
-      }
-    ],
-    "id": "game-developer",
-    "jury": {
-      "agreement": 0.88,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "openai/gpt-oss-20b",
-        "moonshotai/kimi-k3"
-      ],
-      "quality": 0.9,
-      "specificity": 0.9
-    },
-    "license": "MIT",
-    "name": "game-developer",
-    "needs": [
-      "performance",
-      "testing"
-    ],
-    "path": "skills/game-developer",
-    "repo": "jeffallan/claude-skills",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T13:48:06.300Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 53,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": null
-    },
-    "stacks": [
-      "csharp",
-      "cpp"
-    ],
-    "summary": "Guidance for building game systems in Unity/Unreal, covering ECS architecture, performance optimization, networking, and common patterns li…",
     "tier": "mission",
     "type": "skill"
   },
@@ -4937,6 +3191,7 @@
       "github-workflow",
       "ci"
     ],
+    "origin": "curated",
     "repo": "github/github-mcp-server",
     "security": {
       "findings": [],
@@ -5039,8 +3294,10 @@
       "specificity": 0.85
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "golang-pro",
     "needs": [],
+    "origin": "lab",
     "path": "skills/golang-pro",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -5091,11 +3348,13 @@
     "id": "graphify",
     "jury": null,
     "license": "Apache-2.0",
+    "lifecycle": "once",
     "name": "Graphify",
     "needs": [
       "large-codebase",
       "onboarding"
     ],
+    "origin": "curated",
     "repo": "Graphify-Labs/graphify",
     "security": {
       "findings": [],
@@ -5189,11 +3448,13 @@
       "specificity": 1
     },
     "license": "CC-BY-SA-4.0",
+    "lifecycle": "occasional",
     "name": "Smart Contract Guidelines Advisor (Trail of Bits)",
     "needs": [
       "smart-contracts",
       "security"
     ],
+    "origin": "curated",
     "path": "plugins/building-secure-contracts/skills/guidelines-advisor",
     "repo": "trailofbits/skills",
     "security": {
@@ -5228,106 +3489,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "workflow-meta"
+      "frontend-design"
     ],
-    "cluster": "workflow-meta",
-    "commit": "29ecfde4df5998d913991049629014baa024600a",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
-    "descriptionChars": 241,
-    "files": [
-      {
-        "path": "EXAMPLES.md",
-        "sha256": "1fa85f64e20fe8bc07cae31e6a4fb9a58eff354375d24e1efa7bcc295d723b21"
-      },
-      {
-        "path": "SKILL.md",
-        "sha256": "1a56957440917ffb5706db1f27d81c7d1a679d35eb8541516091c2c51411f9d5"
-      }
-    ],
-    "id": "handoff",
-    "jury": {
-      "agreement": 0.9,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-ultra-550b-a55b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "Apache-2.0",
-    "name": "handoff",
-    "needs": [
-      "agent-skills",
-      "onboarding"
-    ],
-    "path": "plugin/skills/handoff",
-    "repo": "rohitg00/agentmemory",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-10-01T02:05:08.807Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 29053
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Resumes the most recent agent session for the current project directory, surfacing unanswered questions and next steps using directory-boun…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "design-brainstorming",
-      "frontend-design",
-      "web-design-review",
-      "implementation-planning"
-    ],
-    "cluster": "design-brainstorming",
+    "cluster": "frontend-design",
     "commit": "ce26fc25c0e5e8cab638f883de62d9a86ee5e45b",
     "community": {
       "kept7d": 0,
@@ -5358,11 +3522,12 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "image-to-code",
     "needs": [
-      "llm-calls",
       "frontend-ui"
     ],
+    "origin": "lab",
     "path": "skills/image-to-code-skill",
     "repo": "leonxlnx/taste-skill",
     "security": {
@@ -5449,8 +3614,10 @@
       "specificity": 0.8500000000000001
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "java-architect",
     "needs": [],
+    "origin": "lab",
     "path": "skills/java-architect",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -5537,8 +3704,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "kotlin-specialist",
     "needs": [],
+    "origin": "lab",
     "path": "skills/kotlin-specialist",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -5626,8 +3795,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "laravel-specialist",
     "needs": [],
+    "origin": "lab",
     "path": "skills/laravel-specialist",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -5662,90 +3833,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "skill-authoring"
+      "architecture-design"
     ],
-    "cluster": "implementation-planning",
-    "commit": "1e6adab5ecfbc36156071295a0d3e7757d50c53e",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [],
-    "descriptionChars": 243,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "58fc7e8c5038b3f795a52985a5cd81abb4bf51075bf64705a3eaebe33cf4391b"
-      },
-      {
-        "path": "references/anatomy.md",
-        "sha256": "facbb9d160d506513f245fe2ad0eea0dc4a959a9573e5ae0e8c4f2f7598cc1d8"
-      },
-      {
-        "path": "references/style.md",
-        "sha256": "90a2ef1bc8b9181dfbf2d030891d91616bbfc4f28ec41aba018ddf0b6855c0b7"
-      }
-    ],
-    "id": "leader",
-    "jury": {
-      "agreement": 0.8,
-      "maintenance": 0.8,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "google/gemma-4-31b-it",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 1
-    },
-    "license": "MIT",
-    "name": "leader",
-    "needs": [],
-    "path": "leader",
-    "repo": "kkkkhazix/khazix-skills",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-10-01T04:39:58.747Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 0,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": 21079
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Helps turn a vague idea into a detailed, verifiable goal/task book for an AI agent to execute independently.",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "codebase-map",
-      "component-architecture",
-      "implementation-planning",
-      "tdd-discipline"
-    ],
-    "cluster": "codebase-map",
+    "cluster": "architecture-design",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -5798,11 +3888,9 @@
     "license": "MIT",
     "name": "legacy-modernizer",
     "needs": [
-      "docs-writing",
-      "large-codebase",
-      "testing",
-      "dependencies"
+      "large-codebase"
     ],
+    "origin": "lab",
     "path": "skills/legacy-modernizer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -5821,7 +3909,7 @@
       "stars": null
     },
     "stacks": [
-      "python"
+      "*"
     ],
     "summary": "Provides incremental migration strategies for legacy systems, including dependency maps, API facades, and characterization tests to moderni…",
     "tier": "mission",
@@ -5906,10 +3994,12 @@
       "specificity": 0.9
     },
     "license": "Apache-2.0",
+    "lifecycle": "occasional",
     "name": "MCP Builder (Anthropic)",
     "needs": [
       "mcp-server"
     ],
+    "origin": "curated",
     "path": "skills/mcp-builder",
     "repo": "anthropics/skills",
     "security": {
@@ -5997,10 +4087,12 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "mcp-developer",
     "needs": [
-      "agent-skills"
+      "mcp-server"
     ],
+    "origin": "lab",
     "path": "skills/mcp-developer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -6019,8 +4111,7 @@
       "stars": null
     },
     "stacks": [
-      "typescript",
-      "python"
+      "*"
     ],
     "summary": "Guidance for building, debugging, or extending MCP servers/clients using TypeScript/Python SDKs with schema validation and transport setup.",
     "tier": "mission",
@@ -6036,9 +4127,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "component-architecture"
+      "architecture-design"
     ],
-    "cluster": "component-architecture",
+    "cluster": "architecture-design",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -6090,8 +4181,9 @@
     "license": "MIT",
     "name": "microservices-architect",
     "needs": [
-      "deploy"
+      "large-codebase"
     ],
+    "origin": "lab",
     "path": "skills/microservices-architect",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -6110,11 +4202,7 @@
       "stars": null
     },
     "stacks": [
-      "*",
-      "node",
-      "typescript",
-      "python",
-      "docker"
+      "*"
     ],
     "summary": "Designs microservices architectures, decomposes monoliths, defines service boundaries, communication patterns, resilience, and observabilit…",
     "tier": "mission",
@@ -6130,12 +4218,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "component-architecture",
-      "workflow-meta",
-      "python-tooling"
+      "data-ml"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "data-ml",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -6145,25 +4230,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 604,
     "files": [
       {
@@ -6206,11 +4273,9 @@
     "license": "MIT",
     "name": "ml-pipeline",
     "needs": [
-      "data-processing",
-      "dependencies",
-      "deploy",
-      "testing"
+      "data-processing"
     ],
+    "origin": "lab",
     "path": "skills/ml-pipeline",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -6245,10 +4310,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "debugging-method",
-      "webapp-testing"
+      "devops-infra"
     ],
-    "cluster": "debugging-method",
+    "cluster": "devops-infra",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -6311,13 +4375,12 @@
       "specificity": 0.85
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "monitoring-expert",
     "needs": [
-      "dependencies",
-      "testing",
-      "performance",
-      "security"
+      "infra"
     ],
+    "origin": "lab",
     "path": "skills/monitoring-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -6336,9 +4399,7 @@
       "stars": null
     },
     "stacks": [
-      "node",
-      "typescript",
-      "python"
+      "*"
     ],
     "summary": "Implements monitoring, logging, metrics, tracing, alerting, load testing, profiling, and capacity planning.",
     "tier": "mission",
@@ -6391,8 +4452,12 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "multi-reviewer-patterns",
-    "needs": [],
+    "needs": [
+      "github-workflow"
+    ],
+    "origin": "lab",
     "path": "plugins/agent-teams/skills/multi-reviewer-patterns",
     "repo": "wshobson/agents",
     "security": {
@@ -6483,8 +4548,10 @@
       "specificity": 0.8500000000000001
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "nestjs-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/nestjs-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -6519,13 +4586,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "component-architecture",
-      "implementation-planning",
-      "react-performance",
-      "deploy-vercel",
-      "frontend-design"
+      "react-performance"
     ],
-    "cluster": "component-architecture",
+    "cluster": "react-performance",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -6575,15 +4638,13 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "nextjs-developer",
     "needs": [
-      "agent-skills",
-      "frontend-ui",
-      "deploy",
-      "docs-writing",
-      "seo",
-      "performance"
+      "performance",
+      "seo"
     ],
+    "origin": "lab",
     "path": "skills/nextjs-developer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -6655,8 +4716,10 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "parallel-debugging",
     "needs": [],
+    "origin": "lab",
     "path": "plugins/agent-teams/skills/parallel-debugging",
     "repo": "wshobson/agents",
     "security": {
@@ -6691,10 +4754,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "workflow-meta"
+      "agent-orchestration"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "agent-orchestration",
     "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
     "community": {
       "kept7d": 0,
@@ -6704,25 +4766,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 627,
     "files": [
       {
@@ -6751,11 +4795,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "parallel-feature-development",
-    "needs": [
-      "agent-skills",
-      "large-codebase"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "plugins/agent-teams/skills/parallel-feature-development",
     "repo": "wshobson/agents",
     "security": {
@@ -6867,11 +4910,13 @@
       "specificity": 1
     },
     "license": "Proprietary, source-available (see LICENSE.txt)",
+    "lifecycle": "occasional",
     "name": "PDF (Anthropic)",
     "needs": [
       "pdf",
       "office-docs"
     ],
+    "origin": "curated",
     "path": "skills/pdf",
     "repo": "anthropics/skills",
     "security": {
@@ -6958,8 +5003,10 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "php-pro",
     "needs": [],
+    "origin": "lab",
     "path": "skills/php-pro",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -6994,8 +5041,7 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "workflow-meta"
+      "implementation-planning"
     ],
     "cluster": "implementation-planning",
     "commit": "e945056ea1826a54351f59d85ab95b41535d8d6c",
@@ -7007,25 +5053,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 293,
     "files": [
       {
@@ -7048,6 +5076,7 @@
     "license": "MIT",
     "name": "planning",
     "needs": [],
+    "origin": "lab",
     "path": "cli-tool/components/skills/ai-maestro/planning",
     "repo": "davila7/claude-code-templates",
     "security": {
@@ -7097,11 +5126,13 @@
     "id": "playwright-mcp",
     "jury": null,
     "license": "Apache-2.0",
+    "lifecycle": "occasional",
     "name": "Playwright MCP",
     "needs": [
       "scraping",
       "e2e-testing"
     ],
+    "origin": "curated",
     "repo": "microsoft/playwright-mcp",
     "security": {
       "findings": [],
@@ -7402,10 +5433,12 @@
       "specificity": 1
     },
     "license": "Proprietary, source-available (see LICENSE.txt)",
+    "lifecycle": "occasional",
     "name": "Slide Decks (Anthropic)",
     "needs": [
       "office-docs"
     ],
+    "origin": "curated",
     "path": "skills/pptx",
     "repo": "anthropics/skills",
     "security": {
@@ -7514,11 +5547,13 @@
       "specificity": 0.95
     },
     "license": "CC-BY-SA-4.0",
+    "lifecycle": "occasional",
     "name": "Property-Based Testing (Trail of Bits)",
     "needs": [
       "testing",
       "smart-contracts"
     ],
+    "origin": "curated",
     "path": "plugins/property-based-testing/skills/property-based-testing",
     "repo": "trailofbits/skills",
     "security": {
@@ -7605,8 +5640,10 @@
       "specificity": 0.8500000000000001
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "python-pro",
     "needs": [],
+    "origin": "lab",
     "path": "skills/python-pro",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -7641,14 +5678,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "python-tooling",
-      "skill-authoring",
-      "llm-gateway",
-      "design-brainstorming",
-      "component-architecture"
+      "data-ml"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "data-ml",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -7698,17 +5730,12 @@
       "specificity": 0.8500000000000001
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "rag-architect",
     "needs": [
-      "data-processing",
-      "dependencies",
-      "llm-calls",
-      "python-quality",
-      "performance",
-      "testing",
-      "auth",
-      "docs-writing"
+      "data-processing"
     ],
+    "origin": "lab",
     "path": "skills/rag-architect",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -7795,8 +5822,10 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "rails-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/rails-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -8164,12 +6193,14 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "React Best Practices (Vercel)",
     "needs": [
       "performance",
       "seo",
       "frontend-ui"
     ],
+    "origin": "curated",
     "path": "skills/react-best-practices",
     "repo": "vercel-labs/agent-skills",
     "security": {
@@ -8205,14 +6236,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "code-review",
-      "debugging-method",
-      "component-architecture",
-      "static-analysis",
-      "react-native",
-      "react-performance"
+      "react-native"
     ],
-    "cluster": "code-review",
+    "cluster": "react-native",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -8262,14 +6288,12 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "react-native-expert",
     "needs": [
-      "frontend-ui",
-      "deploy",
-      "testing",
-      "mobile",
-      "performance"
+      "mobile"
     ],
+    "origin": "lab",
     "path": "skills/react-native-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -8288,8 +6312,7 @@
       "stars": null
     },
     "stacks": [
-      "react-native",
-      "expo"
+      "react-native"
     ],
     "summary": "React Native expert skill for building, optimizing, and debugging cross‑platform mobile apps with Expo, navigation, FlatList performance, p…",
     "tier": "mission",
@@ -8502,11 +6525,13 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "React Native Skills (Vercel)",
     "needs": [
       "mobile",
       "performance"
     ],
+    "origin": "curated",
     "path": "skills/react-native-skills",
     "repo": "vercel-labs/agent-skills",
     "security": {
@@ -8555,11 +6580,13 @@
     "id": "repotify-guard",
     "jury": null,
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "Repotify Package Guard",
     "needs": [
       "dependencies",
       "security"
     ],
+    "origin": "curated",
     "security": {
       "findings": [],
       "gateVersion": "2",
@@ -8634,11 +6661,13 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "Requesting Code Review (Superpowers)",
     "needs": [
       "github-workflow",
       "testing"
     ],
+    "origin": "curated",
     "path": "skills/requesting-code-review",
     "repo": "obra/superpowers",
     "security": {
@@ -8725,8 +6754,10 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "rust-engineer",
     "needs": [],
+    "origin": "lab",
     "path": "skills/rust-engineer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -8761,8 +6792,7 @@
     ],
     "badges": [],
     "capabilities": [
-      "security-review",
-      "code-review"
+      "security-review"
     ],
     "cluster": "security-review",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
@@ -8814,13 +6844,14 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "secure-code-guardian",
     "needs": [
       "auth",
-      "security",
-      "dependencies",
-      "testing"
+      "payments",
+      "security"
     ],
+    "origin": "lab",
     "path": "skills/secure-code-guardian",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -8839,9 +6870,7 @@
       "stars": null
     },
     "stacks": [
-      "node",
-      "typescript",
-      "express"
+      "node"
     ],
     "summary": "Secure coding guidance for authentication, authorization, input validation, OWASP Top 10 prevention, and secure session management in Node/…",
     "tier": "mission",
@@ -8922,11 +6951,13 @@
       "specificity": 1
     },
     "license": "CC-BY-SA-4.0",
+    "lifecycle": "occasional",
     "name": "Semgrep Scan (Trail of Bits)",
     "needs": [
       "security",
       "smart-contracts"
     ],
+    "origin": "curated",
     "path": "plugins/static-analysis/skills/semgrep",
     "repo": "trailofbits/skills",
     "security": {
@@ -9064,10 +7095,12 @@
       "specificity": 0.9
     },
     "license": "Apache-2.0",
+    "lifecycle": "occasional",
     "name": "Skill Creator (Anthropic)",
     "needs": [
       "agent-skills"
     ],
+    "origin": "curated",
     "path": "skills/skill-creator",
     "repo": "anthropics/skills",
     "security": {
@@ -9111,8 +7144,7 @@
     ],
     "badges": [],
     "capabilities": [
-      "codebase-map",
-      "static-analysis"
+      "codebase-map"
     ],
     "cluster": "codebase-map",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
@@ -9164,8 +7196,9 @@
     "name": "spec-miner",
     "needs": [
       "large-codebase",
-      "docs-writing"
+      "onboarding"
     ],
+    "origin": "lab",
     "path": "skills/spec-miner",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -9200,13 +7233,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "component-architecture",
-      "security-review",
-      "webapp-testing",
-      "tdd-discipline"
+      "java-expertise"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "java-expertise",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -9256,13 +7285,10 @@
       "specificity": 0.8500000000000001
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "spring-boot-engineer",
-    "needs": [
-      "agent-skills",
-      "dependencies",
-      "testing",
-      "security"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/spring-boot-engineer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -9284,7 +7310,7 @@
       "java"
     ],
     "summary": "Generates Spring Boot 3.x code: REST controllers, services, repositories, security, WebFlux, microservices, tests, and cloud config example…",
-    "tier": "mission",
+    "tier": "stack",
     "type": "skill"
   },
   {
@@ -9297,11 +7323,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "code-review",
-      "component-architecture",
-      "debugging-method"
+      "database"
     ],
-    "cluster": "code-review",
+    "cluster": "database",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -9351,14 +7375,12 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "sql-pro",
     "needs": [
-      "agent-skills",
-      "data-processing",
-      "docs-writing",
-      "performance",
-      "large-codebase"
+      "database"
     ],
+    "origin": "lab",
     "path": "skills/sql-pro",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -9393,13 +7415,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "python-tooling",
-      "workflow-meta",
-      "docs-lookup",
-      "debugging-method"
+      "devops-infra"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "devops-infra",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -9409,25 +7427,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 381,
     "files": [
       {
@@ -9467,17 +7467,12 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "sre-engineer",
     "needs": [
-      "agent-skills",
-      "docs-writing",
-      "python-quality",
-      "security",
-      "deploy",
-      "large-codebase",
-      "ci",
-      "performance"
+      "infra"
     ],
+    "origin": "lab",
     "path": "skills/sre-engineer",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -9496,9 +7491,7 @@
       "stars": null
     },
     "stacks": [
-      "python",
-      "docker",
-      "go"
+      "*"
     ],
     "summary": "Defines SLOs, error budgets, monitoring, automation, incident response, and chaos engineering for production systems.",
     "tier": "mission",
@@ -9597,11 +7590,13 @@
       "specificity": 1
     },
     "license": "CC-BY-SA-4.0",
+    "lifecycle": "occasional",
     "name": "Supply-Chain Risk Auditor (Trail of Bits)",
     "needs": [
       "dependencies",
       "security"
     ],
+    "origin": "curated",
     "path": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor",
     "repo": "trailofbits/skills",
     "security": {
@@ -9705,8 +7700,10 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "swift-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/swift-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -9814,10 +7811,12 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "Systematic Debugging (Superpowers)",
     "needs": [
       "testing"
     ],
+    "origin": "curated",
     "path": "skills/systematic-debugging",
     "repo": "obra/superpowers",
     "security": {
@@ -9852,10 +7851,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "workflow-meta"
+      "agent-orchestration"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "agent-orchestration",
     "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
     "community": {
       "kept7d": 0,
@@ -9865,25 +7863,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "team-communication-protocols",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 249,
     "files": [
       {
@@ -9914,6 +7894,7 @@
     "license": "MIT",
     "name": "task-coordination-strategies",
     "needs": [],
+    "origin": "lab",
     "path": "plugins/agent-teams/skills/task-coordination-strategies",
     "repo": "wshobson/agents",
     "security": {
@@ -9948,9 +7929,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "workflow-meta"
+      "agent-orchestration"
     ],
-    "cluster": "workflow-meta",
+    "cluster": "agent-orchestration",
     "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
     "community": {
       "kept7d": 0,
@@ -9960,25 +7941,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-composition-patterns",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 546,
     "files": [
       {
@@ -10004,9 +7967,8 @@
     },
     "license": "MIT",
     "name": "team-communication-protocols",
-    "needs": [
-      "agent-skills"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "plugins/agent-teams/skills/team-communication-protocols",
     "repo": "wshobson/agents",
     "security": {
@@ -10041,11 +8003,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "workflow-meta",
-      "skill-authoring"
+      "agent-orchestration"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "agent-orchestration",
     "commit": "156b7a5e7a8b93642628a339ee4039c925b34c7f",
     "community": {
       "kept7d": 0,
@@ -10055,25 +8015,7 @@
       "shown": 0,
       "votes": 0
     },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "the-fool"
-    ],
+    "conflicts": [],
     "descriptionChars": 553,
     "files": [
       {
@@ -10102,9 +8044,8 @@
     },
     "license": "MIT",
     "name": "team-composition-patterns",
-    "needs": [
-      "agent-skills"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "plugins/agent-teams/skills/team-composition-patterns",
     "repo": "wshobson/agents",
     "security": {
@@ -10176,10 +8117,12 @@
       "specificity": 0.95
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "Test-Driven Development (Superpowers)",
     "needs": [
       "testing"
     ],
+    "origin": "curated",
     "path": "skills/test-driven-development",
     "repo": "obra/superpowers",
     "security": {
@@ -10214,13 +8157,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "tdd-discipline",
-      "verification-gate",
-      "webapp-testing",
-      "security-review",
-      "code-review"
+      "webapp-testing"
     ],
-    "cluster": "tdd-discipline",
+    "cluster": "webapp-testing",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -10290,14 +8229,12 @@
       "specificity": 0.7
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "test-master",
     "needs": [
-      "testing",
-      "ci",
-      "e2e-testing",
-      "security",
-      "performance"
+      "e2e-testing"
     ],
+    "origin": "lab",
     "path": "skills/test-master",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -10332,126 +8269,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "workflow-meta",
-      "code-review",
-      "verification-gate"
+      "typescript-expertise"
     ],
-    "cluster": "workflow-meta",
-    "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
-    "community": {
-      "kept7d": 0,
-      "rating": 0,
-      "removed": 0,
-      "selected": 0,
-      "shown": 0,
-      "votes": 0
-    },
-    "conflicts": [
-      "ai-agents-architect",
-      "ask-navigator",
-      "autonomous-agent-patterns",
-      "behavioral-modes",
-      "context-engineering",
-      "data-engineer",
-      "dispatching-parallel-agents",
-      "dynamic-workflow",
-      "feature-forge",
-      "handoff",
-      "ml-pipeline",
-      "parallel-feature-development",
-      "planning",
-      "sre-engineer",
-      "task-coordination-strategies",
-      "team-communication-protocols",
-      "team-composition-patterns"
-    ],
-    "descriptionChars": 191,
-    "files": [
-      {
-        "path": "SKILL.md",
-        "sha256": "adc3352be9a0b6a2b0ea26f0c080d68415e02a60c720099af5ca751e28cbbdce"
-      },
-      {
-        "path": "references/dialectic-synthesis.md",
-        "sha256": "9c28a1ed00432e8a217f7a4d05c7cf0a649c4c137d2c99d1bac7276569f47e5a"
-      },
-      {
-        "path": "references/evidence-audit.md",
-        "sha256": "9e39b8c7f09c099ab0eda536524dee0d4091f57b9d9aeb35576645a84f3e0728"
-      },
-      {
-        "path": "references/mode-selection-guide.md",
-        "sha256": "e578e48d97a91b4032d254746c5857d9442d077dc12d929fd564815d6f138c26"
-      },
-      {
-        "path": "references/pre-mortem-analysis.md",
-        "sha256": "298c2db8f93deb8fb586f89583ecd563d3ec5ac8836d3e25790952f86e8717de"
-      },
-      {
-        "path": "references/red-team-adversarial.md",
-        "sha256": "bc9a3ebf335b56b64207bc9ca2e672c409f3cab32d9373e4f6375ad59e677fb2"
-      },
-      {
-        "path": "references/socratic-questioning.md",
-        "sha256": "88b0567e0cee8a7356adcdb312e5e76a39792add097298131be079161980ae3f"
-      }
-    ],
-    "id": "the-fool",
-    "jury": {
-      "agreement": 1,
-      "maintenance": 0.8500000000000001,
-      "models": [
-        "nvidia/nemotron-3-super-120b-a12b",
-        "openai/gpt-oss-20b"
-      ],
-      "quality": 0.9,
-      "specificity": 0.8500000000000001
-    },
-    "license": "MIT",
-    "name": "the-fool",
-    "needs": [
-      "agent-skills",
-      "docs-writing"
-    ],
-    "path": "skills/the-fool",
-    "repo": "jeffallan/claude-skills",
-    "security": {
-      "findings": [],
-      "gateVersion": "2",
-      "level": "verified",
-      "scannedAt": "2026-09-30T13:48:06.300Z",
-      "scannerVersion": "1.2.0"
-    },
-    "setup": null,
-    "signals": {
-      "coUsage": 0,
-      "lastCommitDays": 53,
-      "mentions30d": 0,
-      "starVelocity30d": null,
-      "stars": null
-    },
-    "stacks": [
-      "*"
-    ],
-    "summary": "Provides structured critical reasoning to challenge ideas, plans, or decisions using five modes like Socratic questioning, red teaming, and…",
-    "tier": "mission",
-    "type": "skill"
-  },
-  {
-    "agents": [
-      "claude-code",
-      "cursor",
-      "codex",
-      "gemini-cli",
-      "generic"
-    ],
-    "badges": [],
-    "capabilities": [
-      "implementation-planning",
-      "static-analysis",
-      "code-review"
-    ],
-    "cluster": "implementation-planning",
+    "cluster": "typescript-expertise",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -10502,10 +8322,10 @@
       "specificity": 0.8
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "typescript-pro",
-    "needs": [
-      "dependencies"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/typescript-pro",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -10524,10 +8344,10 @@
       "stars": null
     },
     "stacks": [
-      "*"
+      "typescript"
     ],
     "summary": "Implements advanced TypeScript type systems, custom type guards, utility types, branded types, and tRPC configuration for type safety.",
-    "tier": "mission",
+    "tier": "stack",
     "type": "skill"
   },
   {
@@ -10573,10 +8393,12 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "Verification Before Completion (Superpowers)",
     "needs": [
       "testing"
     ],
+    "origin": "curated",
     "path": "skills/verification-before-completion",
     "repo": "obra/superpowers",
     "security": {
@@ -10672,8 +8494,10 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "vue-expert",
     "needs": [],
+    "origin": "lab",
     "path": "skills/vue-expert",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -10692,8 +8516,7 @@
       "stars": null
     },
     "stacks": [
-      "vue",
-      "nuxt"
+      "vue"
     ],
     "summary": "Expert guidance for Vue 3 development including Composition API, Pinia, Nuxt 3, mobile hybrids, PWA, and Vite optimization.",
     "tier": "stack",
@@ -10742,11 +8565,13 @@
       "specificity": 0.9
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "Web Interface Guidelines (Vercel)",
     "needs": [
       "frontend-ui",
       "seo"
     ],
+    "origin": "curated",
     "path": "skills/web-design-guidelines",
     "repo": "vercel-labs/agent-skills",
     "security": {
@@ -10834,12 +8659,14 @@
       "specificity": 0.9
     },
     "license": "Apache-2.0",
+    "lifecycle": "occasional",
     "name": "Web App Testing (Anthropic)",
     "needs": [
       "e2e-testing",
       "testing",
       "frontend-ui"
     ],
+    "origin": "curated",
     "path": "skills/webapp-testing",
     "repo": "anthropics/skills",
     "security": {
@@ -10874,12 +8701,9 @@
     ],
     "badges": [],
     "capabilities": [
-      "implementation-planning",
-      "security-review",
-      "static-analysis",
-      "frontend-design"
+      "php-expertise"
     ],
-    "cluster": "implementation-planning",
+    "cluster": "php-expertise",
     "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
     "community": {
       "kept7d": 0,
@@ -10929,15 +8753,10 @@
       "specificity": 0.75
     },
     "license": "MIT",
+    "lifecycle": "every_task",
     "name": "wordpress-pro",
-    "needs": [
-      "agent-skills",
-      "security",
-      "testing",
-      "docs-writing",
-      "frontend-ui",
-      "performance"
-    ],
+    "needs": [],
+    "origin": "lab",
     "path": "skills/wordpress-pro",
     "repo": "jeffallan/claude-skills",
     "security": {
@@ -10956,11 +8775,10 @@
       "stars": null
     },
     "stacks": [
-      "php",
-      "node"
+      "php"
     ],
     "summary": "Provides comprehensive guidance for building secure, performant WordPress themes, plugins, Gutenberg blocks, WooCommerce, and REST APIs.",
-    "tier": "mission",
+    "tier": "stack",
     "type": "skill"
   },
   {
@@ -11006,10 +8824,12 @@
       "specificity": 1
     },
     "license": "MIT",
+    "lifecycle": "occasional",
     "name": "Writing Guidelines (Vercel)",
     "needs": [
       "docs-writing"
     ],
+    "origin": "curated",
     "path": "skills/writing-guidelines",
     "repo": "vercel-labs/agent-skills",
     "security": {
@@ -11079,6 +8899,7 @@
     "license": "MIT",
     "name": "Writing Plans (Superpowers)",
     "needs": [],
+    "origin": "curated",
     "path": "skills/writing-plans",
     "repo": "obra/superpowers",
     "security": {
@@ -11356,11 +9177,13 @@
       "specificity": 0.95
     },
     "license": "Proprietary, source-available (see LICENSE.txt)",
+    "lifecycle": "occasional",
     "name": "Spreadsheets (Anthropic)",
     "needs": [
       "office-docs",
       "data-processing"
     ],
+    "origin": "curated",
     "path": "skills/xlsx",
     "repo": "anthropics/skills",
     "security": {

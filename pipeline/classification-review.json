@@ -1,0 +1,175 @@
+{
+  "note": "For a human: held = a lab item kept out of the catalog until reviewed.",
+  "items": [
+    {
+      "id": "20-andruia-niche-intelligence",
+      "repo": "sickn33/agentic-awesome-skills",
+      "held": true,
+      "reasons": [
+        "main job unsure: none (0.59)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.92,
+      "job": "none",
+      "jobP": 0.59,
+      "lifecycle": "occasional",
+      "lifecycleP": 0.59,
+      "productBound": 0.12,
+      "stack": "any",
+      "stackP": 1
+    },
+    {
+      "id": "ab-test-setup",
+      "repo": "sickn33/agentic-awesome-skills",
+      "held": true,
+      "reasons": [
+        "main job unsure: verification-gate (0.34)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.86,
+      "job": "verification-gate",
+      "jobP": 0.34,
+      "lifecycle": "occasional",
+      "lifecycleP": 1,
+      "productBound": 0.04,
+      "stack": "any",
+      "stackP": 1
+    },
+    {
+      "id": "autonomous-agent-patterns",
+      "repo": "davila7/claude-code-templates",
+      "held": true,
+      "reasons": [
+        "main job unsure: architecture-design (0.48)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.97,
+      "job": "architecture-design",
+      "jobP": 0.48,
+      "lifecycle": "occasional",
+      "lifecycleP": 0.48,
+      "productBound": 0.05,
+      "stack": "python",
+      "stackP": 0.79
+    },
+    {
+      "id": "context-engineering",
+      "repo": "addyosmani/agent-skills",
+      "held": true,
+      "reasons": [
+        "main job unsure: agent-orchestration (0.46)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.99,
+      "job": "agent-orchestration",
+      "jobP": 0.46,
+      "lifecycle": "every_task",
+      "lifecycleP": 0.99,
+      "productBound": 0.05,
+      "stack": "any",
+      "stackP": 1
+    },
+    {
+      "id": "diagram-design",
+      "repo": "cathrynlavery/diagram-design",
+      "held": true,
+      "reasons": [
+        "main job unsure: architecture-design (0.52)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.96,
+      "job": "architecture-design",
+      "jobP": 0.52,
+      "lifecycle": "occasional",
+      "lifecycleP": 0.95,
+      "productBound": 0.12,
+      "stack": "any",
+      "stackP": 1
+    },
+    {
+      "id": "embedded-systems",
+      "repo": "jeffallan/claude-skills",
+      "held": true,
+      "reasons": [
+        "no capability fits (1)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.96,
+      "job": "none",
+      "jobP": 1,
+      "lifecycle": "every_task",
+      "lifecycleP": 0.8,
+      "productBound": 0.04,
+      "stack": "cpp",
+      "stackP": 0.88
+    },
+    {
+      "id": "game-developer",
+      "repo": "jeffallan/claude-skills",
+      "held": true,
+      "reasons": [
+        "no capability fits (1)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.98,
+      "job": "none",
+      "jobP": 1,
+      "lifecycle": "every_task",
+      "lifecycleP": 0.97,
+      "productBound": 0.09,
+      "stack": "csharp",
+      "stackP": 0.74
+    },
+    {
+      "id": "handoff",
+      "repo": "rohitg00/agentmemory",
+      "held": true,
+      "reasons": [
+        "main job unsure: agent-orchestration (0.54)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.98,
+      "job": "agent-orchestration",
+      "jobP": 0.54,
+      "lifecycle": "occasional",
+      "lifecycleP": 0.8,
+      "productBound": 0.26,
+      "stack": "any",
+      "stackP": 0.93
+    },
+    {
+      "id": "leader",
+      "repo": "kkkkhazix/khazix-skills",
+      "held": true,
+      "reasons": [
+        "main job unsure: agent-orchestration (0.52)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.95,
+      "job": "agent-orchestration",
+      "jobP": 0.52,
+      "lifecycle": "once",
+      "lifecycleP": 0.48,
+      "productBound": 0.35,
+      "stack": "any",
+      "stackP": 1
+    },
+    {
+      "id": "the-fool",
+      "repo": "jeffallan/claude-skills",
+      "held": true,
+      "reasons": [
+        "main job unsure: none (0.52)"
+      ],
+      "model": "typesafe/jev-1.13",
+      "coding": 0.94,
+      "job": "none",
+      "jobP": 0.52,
+      "lifecycle": "occasional",
+      "lifecycleP": 0.98,
+      "productBound": 0.07,
+      "stack": "any",
+      "stackP": 1
+    }
+  ]
+}

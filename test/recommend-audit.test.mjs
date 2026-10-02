@@ -37,9 +37,9 @@ before(async () => {
   ({ catalog } = await loadCatalog());
   proj = mkTemp("repotify-audit-proj-");
   fakeHome = mkTemp("repotify-audit-home-");
-  // Project scope: two conflicting workflow skills (planning vs handoff per the seed).
+  // Project scope: two conflicting workflow skills (planning vs task-coordination-strategies, seed edge c01).
   plant(proj, ".claude/skills", "planning");
-  plant(proj, ".claude/skills", "handoff");
+  plant(proj, ".claude/skills", "task-coordination-strategies");
   plant(proj, ".claude/skills", "some-unknown-skill");
   // A fake "home": auditInstalls scans the real homedir; we test scanInstalls
   // shape on the project dir and audit on the project dir only.
@@ -53,15 +53,15 @@ after(() => {
 test("scanInstalls finds project skill dirs", () => {
   const { project } = scanInstalls({ projectDir: proj });
   const names = project.map((p) => p.path.split("/").pop()).sort();
-  assert.deepEqual(names, ["handoff", "planning", "some-unknown-skill"]);
+  assert.deepEqual(names, ["planning", "some-unknown-skill", "task-coordination-strategies"]);
   assert.ok(project.every((p) => p.scope === "project"));
 });
 
-test("audit flags the planning/handoff conflict as project-scoped", () => {
+test("audit flags the planning/task-coordination conflict as project-scoped", () => {
   const a = auditInstalls({ catalog, graph, projectDir: proj });
   assert.equal(a.summary.projectCount, 3);
   const pair = a.conflicts.find(
-    (c) => (c.a.id === "planning" && c.b.id === "handoff") || (c.a.id === "handoff" && c.b.id === "planning"),
+    (c) => [c.a.id, c.b.id].sort().join("+") === "planning+task-coordination-strategies",
   );
   assert.ok(pair, JSON.stringify(a.conflicts));
   assert.equal(pair.action, "suggest-removal", "both project-scoped: removal is safe to suggest");
@@ -96,14 +96,14 @@ test("audit on an empty project reports zero conflicts", () => {
 });
 
 test("conflict pairs from the catalog conflicts field are also caught", () => {
-  // planning lists many conflicts in the catalog itself.
+  // Two always-on workflow skills share the process-meta exclusive group, so the catalog lists the conflict.
   const dir = mkTemp("repotify-audit-cat-");
   try {
-    plant(dir, ".agents/skills", "planning");
-    plant(dir, ".agents/skills", "the-fool");
+    plant(dir, ".agents/skills", "behavioral-modes");
+    plant(dir, ".agents/skills", "ask-navigator");
     const a = auditInstalls({ catalog, graph, projectDir: dir });
     const pair = a.conflicts.find(
-      (c) => [c.a.id, c.b.id].sort().join("+") === "planning+the-fool",
+      (c) => [c.a.id, c.b.id].sort().join("+") === "ask-navigator+behavioral-modes",
     );
     assert.ok(pair, "catalog-declared conflict detected");
     assert.ok(["catalog", "catalog+graph"].includes(pair.source));

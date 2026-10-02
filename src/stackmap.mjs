@@ -161,10 +161,10 @@ export const DEP_MAP = {
 
 // [regex on relative path, {infra?, stacks?, needs?, test?, agent?}]
 export const FILE_MAP = [
-  [/(^|\/)Dockerfile$|(^|\/)(docker-)?compose\.ya?ml$/, { infra: "docker", needs: ["deploy"], stacks: ["docker"] }],
+  [/(^|\/)Dockerfile$|(^|\/)(docker-)?compose\.ya?ml$/, { infra: "docker", needs: ["deploy", "infra"], stacks: ["docker"] }],
   [/^\.github\/workflows\/[^/]+\.ya?ml$/, { infra: "github-actions", needs: ["ci"] }],
   [/^\.gitlab-ci\.yml$/, { infra: "gitlab-ci", needs: ["ci"] }],
-  [/\.tf$/, { infra: "terraform", needs: ["deploy"] }],
+  [/\.tf$/, { infra: "terraform", needs: ["deploy", "infra"] }],
   [/^vercel\.json$/, { infra: "vercel", needs: ["deploy"], stacks: ["vercel"] }],
   [/^netlify\.toml$/, { infra: "netlify", needs: ["deploy"] }],
   [/^fly\.toml$/, { infra: "fly", needs: ["deploy"] }],

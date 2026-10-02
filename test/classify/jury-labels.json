@@ -1,0 +1,467 @@
+{
+  "note": "The jury labels of the benchmark items as they were before Jev classified the catalog (2026-10-02), so the comparison stays honest after the catalog changes.",
+  "items": {
+    "api-designer": {
+      "capabilities": [
+        "design-brainstorming",
+        "component-architecture",
+        "implementation-planning"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "brainstorming": {
+      "capabilities": [
+        "design-brainstorming"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "claude-security": {
+      "capabilities": [
+        "security-review",
+        "static-analysis",
+        "code-review"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "cloud-architect": {
+      "capabilities": [
+        "design-brainstorming",
+        "implementation-planning",
+        "security-review"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "context7": {
+      "capabilities": [
+        "docs-lookup"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "data-engineer": {
+      "capabilities": [
+        "python-tooling"
+      ],
+      "stacks": [
+        "python"
+      ]
+    },
+    "database-optimizer": {
+      "capabilities": [
+        "static-analysis",
+        "debugging-method"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "dispatching-parallel-agents": {
+      "capabilities": [
+        "workflow-meta"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "django-expert": {
+      "capabilities": [
+        "django-expertise"
+      ],
+      "stacks": [
+        "django"
+      ]
+    },
+    "fine-tuning-expert": {
+      "capabilities": [
+        "implementation-planning",
+        "python-tooling",
+        "skill-authoring"
+      ],
+      "stacks": [
+        "*",
+        "python"
+      ]
+    },
+    "frontend-design": {
+      "capabilities": [
+        "frontend-design"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "game-developer": {
+      "capabilities": [
+        "component-architecture",
+        "implementation-planning"
+      ],
+      "stacks": [
+        "csharp",
+        "cpp"
+      ]
+    },
+    "golang-pro": {
+      "capabilities": [
+        "go-expertise"
+      ],
+      "stacks": [
+        "go"
+      ]
+    },
+    "graphify": {
+      "capabilities": [
+        "codebase-map"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "handoff": {
+      "capabilities": [
+        "workflow-meta"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "legacy-modernizer": {
+      "capabilities": [
+        "codebase-map",
+        "component-architecture",
+        "implementation-planning",
+        "tdd-discipline"
+      ],
+      "stacks": [
+        "python"
+      ]
+    },
+    "mcp-builder": {
+      "capabilities": [
+        "mcp-development"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "microservices-architect": {
+      "capabilities": [
+        "component-architecture"
+      ],
+      "stacks": [
+        "*",
+        "node",
+        "typescript",
+        "python",
+        "docker"
+      ]
+    },
+    "ml-pipeline": {
+      "capabilities": [
+        "implementation-planning",
+        "component-architecture",
+        "workflow-meta",
+        "python-tooling"
+      ],
+      "stacks": [
+        "python"
+      ]
+    },
+    "monitoring-expert": {
+      "capabilities": [
+        "debugging-method",
+        "webapp-testing"
+      ],
+      "stacks": [
+        "node",
+        "typescript",
+        "python"
+      ]
+    },
+    "nextjs-developer": {
+      "capabilities": [
+        "component-architecture",
+        "implementation-planning",
+        "react-performance",
+        "deploy-vercel",
+        "frontend-design"
+      ],
+      "stacks": [
+        "nextjs"
+      ]
+    },
+    "pdf": {
+      "capabilities": [
+        "pdf-processing"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "planning": {
+      "capabilities": [
+        "implementation-planning",
+        "workflow-meta"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "playwright-mcp": {
+      "capabilities": [
+        "browser-automation"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "rag-architect": {
+      "capabilities": [
+        "implementation-planning",
+        "python-tooling",
+        "skill-authoring",
+        "llm-gateway",
+        "design-brainstorming",
+        "component-architecture"
+      ],
+      "stacks": [
+        "python"
+      ]
+    },
+    "react-native-expert": {
+      "capabilities": [
+        "code-review",
+        "debugging-method",
+        "component-architecture",
+        "static-analysis",
+        "react-native",
+        "react-performance"
+      ],
+      "stacks": [
+        "react-native",
+        "expo"
+      ]
+    },
+    "repotify-guard": {
+      "capabilities": [
+        "package-guard"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "secure-code-guardian": {
+      "capabilities": [
+        "security-review",
+        "code-review"
+      ],
+      "stacks": [
+        "node",
+        "typescript",
+        "express"
+      ]
+    },
+    "semgrep": {
+      "capabilities": [
+        "static-analysis"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "skill-creator": {
+      "capabilities": [
+        "skill-authoring"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "spec-miner": {
+      "capabilities": [
+        "codebase-map",
+        "static-analysis"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "sql-pro": {
+      "capabilities": [
+        "code-review",
+        "component-architecture",
+        "debugging-method"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "sre-engineer": {
+      "capabilities": [
+        "implementation-planning",
+        "python-tooling",
+        "workflow-meta",
+        "docs-lookup",
+        "debugging-method"
+      ],
+      "stacks": [
+        "python",
+        "docker",
+        "go"
+      ]
+    },
+    "supply-chain-risk-auditor": {
+      "capabilities": [
+        "supply-chain-audit"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "test-driven-development": {
+      "capabilities": [
+        "tdd-discipline"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "test-master": {
+      "capabilities": [
+        "tdd-discipline",
+        "verification-gate",
+        "webapp-testing",
+        "security-review",
+        "code-review"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "the-fool": {
+      "capabilities": [
+        "workflow-meta",
+        "code-review",
+        "verification-gate"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "typescript-pro": {
+      "capabilities": [
+        "implementation-planning",
+        "static-analysis",
+        "code-review"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "vue-expert": {
+      "capabilities": [
+        "vue-expertise"
+      ],
+      "stacks": [
+        "vue",
+        "nuxt"
+      ]
+    },
+    "webapp-testing": {
+      "capabilities": [
+        "webapp-testing"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "wordpress-pro": {
+      "capabilities": [
+        "implementation-planning",
+        "security-review",
+        "static-analysis",
+        "frontend-design"
+      ],
+      "stacks": [
+        "php",
+        "node"
+      ]
+    },
+    "writing-guidelines": {
+      "capabilities": [
+        "writing-quality"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "xlsx": {
+      "capabilities": [
+        "spreadsheets"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "acquiring-disk-image-with-dd-and-dcfldd": {
+      "capabilities": [
+        "security-review",
+        "verification-gate"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "analyzing-ransomware-encryption-mechanisms": {
+      "capabilities": [
+        "security-review",
+        "static-analysis"
+      ],
+      "stacks": [
+        "python"
+      ]
+    },
+    "anthropics-configure": {
+      "capabilities": [
+        "implementation-planning"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "math-olympiad": {
+      "capabilities": [
+        "implementation-planning"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "paywalls": {
+      "capabilities": [
+        "implementation-planning",
+        "frontend-design",
+        "design-brainstorming"
+      ],
+      "stacks": [
+        "*"
+      ]
+    },
+    "referrals": {
+      "capabilities": [
+        "design-brainstorming"
+      ],
+      "stacks": [
+        "*"
+      ]
+    }
+  }
+}

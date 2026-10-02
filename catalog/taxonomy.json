@@ -7,8 +7,14 @@
     "generic"
   ],
   "capabilities": {
+    "agent-orchestration": {
+      "label": "Coordinating several AI agents or sessions"
+    },
     "angular-expertise": {
       "label": "Angular expertise"
+    },
+    "architecture-design": {
+      "label": "System and API architecture"
     },
     "browser-automation": {
       "label": "Browser automation"
@@ -28,6 +34,12 @@
     "cpp-expertise": {
       "label": "C and C++ expertise"
     },
+    "data-ml": {
+      "label": "Data and ML engineering: pipelines, training, RAG"
+    },
+    "database": {
+      "label": "Databases: SQL, schema and query performance"
+    },
     "debugging-method": {
       "label": "Systematic debugging"
     },
@@ -37,6 +49,9 @@
     },
     "design-brainstorming": {
       "label": "Design brainstorming before coding"
+    },
+    "devops-infra": {
+      "label": "DevOps and infrastructure: CI/CD, containers, cloud, monitoring"
     },
     "django-expertise": {
       "label": "Django expertise"
@@ -144,6 +159,9 @@
     "tdd-discipline": {
       "label": "Test-driven development discipline"
     },
+    "typescript-expertise": {
+      "label": "TypeScript expertise"
+    },
     "verification-gate": {
       "label": "Verify before claiming done"
     },
@@ -188,9 +206,16 @@
     "data-processing": {
       "capabilities": [
         "spreadsheets",
-        "python-tooling"
+        "python-tooling",
+        "data-ml"
       ],
       "label": "Data wrangling and reports"
+    },
+    "database": {
+      "capabilities": [
+        "database"
+      ],
+      "label": "Works with a database"
     },
     "dependencies": {
       "capabilities": [
@@ -231,9 +256,16 @@
       ],
       "label": "Works through GitHub PRs and issues"
     },
+    "infra": {
+      "capabilities": [
+        "devops-infra"
+      ],
+      "label": "Runs its own infrastructure (containers, Terraform)"
+    },
     "large-codebase": {
       "capabilities": [
-        "codebase-map"
+        "codebase-map",
+        "architecture-design"
       ],
       "label": "Large or unfamiliar codebase"
     },

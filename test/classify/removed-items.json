@@ -1,5 +1,5 @@
 {
-  "note": "Off-topic items removed from the catalog on 2026-10-02, kept here (pinned, metadata only) so the classifier benchmark can check it rejects them.",
+  "note": "Benchmark items no longer in the catalog (removed as off-topic on 2026-10-02, or held for review by the classifier), pinned with their metadata so the benchmark always scores all 49 labels.",
   "items": [
     {
       "id": "acquiring-disk-image-with-dd-and-dcfldd",
@@ -224,6 +224,124 @@
         "*"
       ],
       "license": "MIT"
+    },
+    {
+      "id": "the-fool",
+      "type": "skill",
+      "name": "the-fool",
+      "repo": "jeffallan/claude-skills",
+      "path": "skills/the-fool",
+      "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "adc3352be9a0b6a2b0ea26f0c080d68415e02a60c720099af5ca751e28cbbdce"
+        },
+        {
+          "path": "references/dialectic-synthesis.md",
+          "sha256": "9c28a1ed00432e8a217f7a4d05c7cf0a649c4c137d2c99d1bac7276569f47e5a"
+        },
+        {
+          "path": "references/evidence-audit.md",
+          "sha256": "9e39b8c7f09c099ab0eda536524dee0d4091f57b9d9aeb35576645a84f3e0728"
+        },
+        {
+          "path": "references/mode-selection-guide.md",
+          "sha256": "e578e48d97a91b4032d254746c5857d9442d077dc12d929fd564815d6f138c26"
+        },
+        {
+          "path": "references/pre-mortem-analysis.md",
+          "sha256": "298c2db8f93deb8fb586f89583ecd563d3ec5ac8836d3e25790952f86e8717de"
+        },
+        {
+          "path": "references/red-team-adversarial.md",
+          "sha256": "bc9a3ebf335b56b64207bc9ca2e672c409f3cab32d9373e4f6375ad59e677fb2"
+        },
+        {
+          "path": "references/socratic-questioning.md",
+          "sha256": "88b0567e0cee8a7356adcdb312e5e76a39792add097298131be079161980ae3f"
+        }
+      ],
+      "summary": "Provides structured critical reasoning to challenge ideas, plans, or decisions using five modes like Socratic questioning, red teaming, and…",
+      "capabilities": [
+        "workflow-meta",
+        "code-review",
+        "verification-gate"
+      ],
+      "stacks": [
+        "*"
+      ],
+      "license": "MIT"
+    },
+    {
+      "id": "game-developer",
+      "type": "skill",
+      "name": "game-developer",
+      "repo": "jeffallan/claude-skills",
+      "path": "skills/game-developer",
+      "commit": "882ef55e377dbf9a4dbe496bb41ac6ccd0e555cf",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "89297efd2a6ba43237bd711d41d5d8bc50241954fe535d413bc08a1c345bc176"
+        },
+        {
+          "path": "references/ecs-patterns.md",
+          "sha256": "5ef2de275b32bcf78a215ac09e101e70c06d5bb64e2577dc61fba811950a49c6"
+        },
+        {
+          "path": "references/multiplayer-networking.md",
+          "sha256": "10c22a22749041b99f09a4e365dadbe6e58fc1b56c90407960bb466aa2de8611"
+        },
+        {
+          "path": "references/performance-optimization.md",
+          "sha256": "57ce6a6de9b66f4ab5b2b7bd7349fa6694e5eb641e5a94bcf80e1351ad4fd4ed"
+        },
+        {
+          "path": "references/unity-patterns.md",
+          "sha256": "0f8b0ffada2a9e997c7db40cc472babf30c670514f01441c3dbd2f25a573fefc"
+        },
+        {
+          "path": "references/unreal-cpp.md",
+          "sha256": "b41b68aa1dba6635924a909c4d749ae199bd6ac8fed263598163c9bbbce807e6"
+        }
+      ],
+      "summary": "Guidance for building game systems in Unity/Unreal, covering ECS architecture, performance optimization, networking, and common patterns li…",
+      "capabilities": [
+        "component-architecture",
+        "implementation-planning"
+      ],
+      "stacks": [
+        "csharp",
+        "cpp"
+      ],
+      "license": "MIT"
+    },
+    {
+      "id": "handoff",
+      "type": "skill",
+      "name": "handoff",
+      "repo": "rohitg00/agentmemory",
+      "path": "plugin/skills/handoff",
+      "commit": "29ecfde4df5998d913991049629014baa024600a",
+      "files": [
+        {
+          "path": "EXAMPLES.md",
+          "sha256": "1fa85f64e20fe8bc07cae31e6a4fb9a58eff354375d24e1efa7bcc295d723b21"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "1a56957440917ffb5706db1f27d81c7d1a679d35eb8541516091c2c51411f9d5"
+        }
+      ],
+      "summary": "Resumes the most recent agent session for the current project directory, surfacing unanswered questions and next steps using directory-boun…",
+      "capabilities": [
+        "workflow-meta"
+      ],
+      "stacks": [
+        "*"
+      ],
+      "license": "Apache-2.0"
     }
   ]
 }

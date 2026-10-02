@@ -215,8 +215,8 @@ export function recommend({ catalog, fingerprint: fp, needs, installed = [], bud
     const s = scoreItem(item, ctx);
     if (s) scored.push({ item, ...s });
   }
-  // Core first, then installed (they already occupy their cluster), then by score.
-  const rank = (x) => (x.item.tier === "core" ? 2 : 0) + (installedSet.has(x.item.id) ? 1 : 0);
+  // Core first, then installed (they already occupy their cluster), then hand-vetted before lab finds, then by score.
+  const rank = (x) => (x.item.tier === "core" ? 4 : 0) + (installedSet.has(x.item.id) ? 2 : 0) + (x.item.origin === "lab" ? 0 : 1);
   scored.sort((a, b) => rank(b) - rank(a) || b.score - a.score || (a.item.id < b.item.id ? -1 : 1));
 
   const kept = [];

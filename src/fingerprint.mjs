@@ -200,6 +200,8 @@ export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() }
   if (sets.tests.size) sets.needs.add("testing");
   if (files.length > LARGE_CODEBASE_FILES) sets.needs.add("large-codebase");
   if ([...sets.stacks].some((s) => FRONTEND_STACKS.includes(s))) sets.needs.add("frontend-ui");
+  // A database client or ORM in the manifest is evidence of database work.
+  if (sets.data.size) sets.needs.add("database");
 
   const sourceFiles = [...langCounts.values()].reduce((a, b) => a + b, 0);
   const languages = [...langCounts].map(([lang, files]) => ({ lang, files })).sort((a, b) => b.files - a.files || (a.lang < b.lang ? -1 : 1)).slice(0, 5);
