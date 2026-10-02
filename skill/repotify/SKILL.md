@@ -11,7 +11,7 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 
 ## Flow
 
-1. **Fingerprint.** Run `repotify fingerprint`. Use its summary; do not open source files for this step. If it lists installed skills, also run `repotify audit`: it says which ones earn their place and which to remove, with reasons. Show that to the user with your picks; delete nothing without their OK.
+1. **Fingerprint.** Run `repotify fingerprint`. Use its summary; do not open source files for this step. If it lists installed skills, also run `repotify audit`: it says which ones earn their place and which to remove, with reasons and token cost (a once-skill like a codebase map is flagged after two weeks: it has done its job but still costs tokens every session). Show that to the user with your picks; delete nothing without their OK.
 2. **Intent, only if needed.** Run `repotify questions --json`. Answer each question yourself from the fingerprint and from what the user already said. Ask the user only what you cannot infer, at most 3 questions.
    - Claude Code: use the AskUserQuestion tool (project type: single choice; priorities and needs: multiSelect; at most 4 options per question, so offer the 4 most plausible).
    - Other agents: a short numbered list.
@@ -19,7 +19,7 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 4. **Judge.** Think about the whole project, not only its stack: what would make this agent feel like a pro version for this repo? Keep every core item. Keep ★ items unless you have a concrete reason not to. You may add a non-★ row when the project clearly needs it. Never invent items: use only ids from the table.
    For every chosen item, write one sentence: what it is and why it matters for THIS project, citing a concrete fact (a dependency, a file, the user's goal).
 5. **Present.**
-   - Claude Code: AskUserQuestion with multiSelect, grouped as "Core", "For your stack", "For your mission" (add a fourth group only if needed), at most 4 options per question. Label = item name; description = your one-sentence reason plus badges: ✓ verified, ⚠ caution (say plainly what it does), 💎 gem, 🔥 trending. Open with "Repotify picked these for your project because…".
+   - Claude Code: AskUserQuestion with multiSelect, grouped as "Core", "For your stack", "For your mission" (add a fourth group only if needed), at most 4 options per question. Label = item name; description = your one-sentence reason plus badges: ✓ verified, ⚠ caution (say plainly what it does), 💎 gem, 🔥 trending, ⏳ pays off once (say so: useful now, `repotify audit` will say when to remove it). Open with "Repotify picked these for your project because…".
    - Other agents: a numbered list; the user replies "all" or "1,3,5".
 6. **Install.** Run `repotify install <ids...> --yes`. It installs skills.
    - ⚙ items (hooks, MCP servers) change how you yourself run, so you never switch them on. The install output prints `repotify enable <id>`: give the user that command to run themselves (in Claude Code they can type `! <command>`). After an MCP server is enabled, the agent needs a restart.

@@ -32,27 +32,24 @@ Or just tell your agent: **"Set up Repotify for this project: https://github.com
 
 1. **Read.** It looks at your manifests and file names. Your code is never read or sent anywhere.
 2. **Ask.** At most three quick questions, and only what the project doesn't already answer.
-3. **Pick.** One best skill, MCP server or tool per job, from a catalog where every item passed a security scan and every skill was reviewed by three AI models.
+3. **Pick.** One best skill, MCP server or tool per job, from a catalog where every item passed a security scan, was reviewed by three AI models and classified by a decision model.
 4. **Install.** Each skill comes from a pinned commit, is hash-checked and scanned again on your machine. Hooks and MCP servers stay off until you switch them on.
 
-## The v2 pipeline
+## How the catalog is built
 
-Behind `recommend` is a five-step pipeline that closes the loop — recommend → measure → learn:
+Agents pick skills by reading a one-line description. Repotify reads the whole skill first.
 
-1. **Test.** Every catalog candidate runs its own tests before it can be recommended.
-2. **Classify.** A three-model jury scores quality and sorts items into capability classes.
-3. **Map.** A deterministic capability graph (with "try this if that fails" fallback edges) finds the right tool for each job, so overlaps never happen.
-4. **Narrow.** A question cascade — project signals first, learned preferences second, questions only as a last resort, ordered by information gain.
-5. **Present.** A conflict-free skill set inside a context budget, with measured effectiveness scores where available.
+1. **Find.** A research lab searches GitHub around the clock for agent skills, MCP servers and tools.
+2. **Vet.** Every file is read the way a shell would read it (hidden downloads, credential grabs, prompt injection), and three AI models score each skill's quality.
+3. **Classify.** A decision model ([Jev](https://openrouter.ai/docs/guides/community/jev)) reads each skill's full `SKILL.md` and answers five typed questions with a probability: is it software work at all, what is its one main job, which language or framework is it for, is it tied to one product, and does it pay off once, on every task, or now and then. Repotify's rules act only on confident answers and send the rest to a human. Against 49 hand-labelled skills: main job right 94% of the time (the jury's free-form labels: 52%), language 100% (86%), off-topic caught 98% (88%).
+4. **Map.** The answers become a capability graph: every skill is linked to the job it does, so one pick per job is a lookup, not a guess.
+5. **Pick.** Your project's manifests decide which jobs are wanted. One vetted skill per job, inside a context budget; hand-vetted picks first, lab finds fill the rest.
 
-Then Repotify measures: which skills were installed, invoked, kept after 7/30 days or removed, and your votes. A LinUCB bandit turns those anonymous signals into better rankings over time, and a fleet policy blends measurements across many developers into everyone's recommendations — see the telemetry policy below.
-
-> [!NOTE]
-> The v2 pipeline lives in `lib/pipeline/` and powers the `repotify recommend` command directly — fleet policy blending, opt-in Jev arbitration (`--arbitrate`), and Stage 0 propensity telemetry included.
+The classifier runs when the catalog is built, so you need no API key and no model calls: `repotify recommend` is deterministic and runs offline.
 
 ## Telemetry policy
 
-Repotify learns from anonymous usage signals, and you stay in control:
+Repotify is built to learn from anonymous usage signals. No collection server is running yet, so today nothing leaves your machine; this is what applies when one does:
 
 - **Default-ON with a notice.** The first time anything could be recorded, the CLI prints a notice on stderr. Nothing is measured before that.
 - **Kill switches.** `repotify telemetry off` (persisted), `REPOTIFY_TELEMETRY=0`, or `DO_NOT_TRACK=1` turn it off; nothing is sent and nothing is written when disabled.
@@ -95,13 +92,20 @@ One item per job, inside a context budget. Your agent stays fast instead of carr
 
 ## Clean up what you already have
 
-`repotify audit` looks at the skills already in your project and tells you which to keep and which to drop, with the reason. It never deletes anything.
+`repotify audit` looks at the skills already in your project and tells you which to keep and which to drop, with the reason and what each one costs in tokens. It never deletes anything.
+
+Some skills pay off once: a codebase map is great on day one, then keeps loading its description every session and its full instructions every time it triggers. The classifier marks these (⏳ in the candidate table), and after two weeks `audit` tells you it has done its job:
+
+```
+consider graphify   Pays off once (codebase knowledge graph); installed 33 days ago, so it has likely
+                    done its job ... (~90 tokens every session; ~10304 tokens per use)
+```
 
 <p align="center"><img src=".github/assets/audit.svg" alt="repotify audit: keeps the skills that serve the project, suggests removing ones for other stacks or duplicate jobs, and flags a skill that fails the security scan" width="100%"></p>
 
 ## The website
 
-[repotify.github.io/repotify](https://repotify.github.io/repotify/): 168 pages in 24 languages, one page per catalog item with public comments, and an effectiveness leaderboard ranked by measured evidence — no stars, no ratings.
+[repotify.github.io/repotify](https://repotify.github.io/repotify/): 24 languages, one page per catalog item with public comments.
 
 ## Commands
 
@@ -119,9 +123,11 @@ Works with **Claude Code**, **Cursor**, **Codex**, **Gemini CLI** and any agent 
 ## Roadmap
 
 - [x] Audit of installed skills, picks by evidence, Linux, macOS and Windows
-- [x] Rankings that learn from what developers keep and remove (Stage 0 telemetry, LinUCB bandit, fleet policy)
-- [x] Website with per-skill comments and an effectiveness leaderboard ranked by measured evidence
-- [ ] A larger catalog of vetted skills, MCP servers and tools, found around the clock by an AI research lab
+- [x] Every skill classified by a decision model: main job, language, lifecycle, off-topic gate
+- [x] Skills that pay off once are flagged when they have done their job
+- [x] Website with per-skill comments
+- [ ] A larger catalog, classified as it grows, found around the clock by an AI research lab
+- [ ] Rankings that learn from what developers keep and remove (measurement and the learner are built; the collection server is not live)
 - [ ] MCP mode: your agent calls Repotify as a tool
 
 ## Contributing

@@ -22,6 +22,21 @@ Next.js shop. Served through v2, the same 49 scenarios scored 80.6% with 176 dup
   the five graph edges that pointed at them. Fixed noisy tags on nextjs-developer, react-native-expert,
   microservices-architect, ai-agents-architect and data-engineer.
 - `test/served-engine.test.mjs` locks all of the above.
+- **Every skill classified by a decision model.** Jev (TypeSafe, via OpenRouter's Decisions API; any Jev-compatible
+  model works) reads each `SKILL.md` at catalog build time and answers five typed questions: off-topic gate, main job,
+  language or framework, product-bound, lifecycle. Rules act only on confident answers; curated items are never
+  relabelled. Against 49 hand labels: main job 94% (jury 52%), language 100% (86%), off-topic 98% (88%),
+  lifecycle 85%. No model calls on the user's machine. The old Jev wrapper never ran (it needed a script that
+  only existed on one VM and parsed a response shape the API does not return); it now calls the real API.
+- **Taxonomy:** architecture, database, DevOps/infra, data/ML, agent orchestration and TypeScript capabilities;
+  infra and database needs come only from evidence (Dockerfile, Terraform, a database client).
+- **Capability graph derived from the catalog:** one PROVIDES edge per item job (92), curated edges kept (114 in all).
+- **`repotify audit` flags skills that pay off once** (a codebase map, onboarding) two weeks after install, and every
+  audit line shows its token cost: always-on per session and per use. ⏳ marks them in the candidate table.
+- Catalog 103 → 92: one more off-topic skill out, ten unsure lab finds held for review
+  (`pipeline/classification-review.json`).
+- README and GUIDE: the learning loop is described as built but not live (it is not wired into `recommend` and no
+  collection server runs); the unused "every candidate runs its own tests" step is no longer claimed.
 
 ## 2.0.0 (2026-10-01)
 

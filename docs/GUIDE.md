@@ -14,27 +14,27 @@ The whole flow costs your agent about 4,700 tokens.
 
 ## The v2 recommendation pipeline
 
-Behind `recommend` (in `lib/pipeline/`) is a five-step pipeline that closes the loop — recommend → measure → learn:
+Behind `recommend` (in `lib/pipeline/`) is a deterministic pipeline: no model calls on your machine.
 
-1. **Test.** Every catalog candidate runs its own tests; failures and flaky results are recorded, not retried into silence.
-2. **Classify.** The three-model jury scores each skill for quality, specificity and maintenance; scores sort items into capability classes, and only verified or caution items can be promoted (blocked items never are).
-3. **Map.** A deterministic capability graph (a DAG, not a strict tree; multi-parent allowed) with "try this if that fails" fallback edges resolves each job to the right item, so nothing overlaps. A Jev decision model acts only as a signal inside classification and ranking — never as the sole decider.
-4. **Narrow.** A question cascade: project signals first, learned preferences second, questions only when both are empty — ordered by information gain, at most three.
-5. **Present.** A conflict-free skill set inside a context budget, with measured effectiveness scores where the fleet has earned them.
+1. **Vet** (catalog build). A shell-aware security scan of every file, then a three-model jury for quality.
+2. **Classify** (catalog build, `pipeline/classify-catalog.mjs`). A Jev-compatible decision model reads each `SKILL.md` and answers five typed questions with probabilities: off-topic gate, main job, language or framework, product-bound, lifecycle (once / every task / occasional). Rules in `pipeline/jev-classify.mjs` act only above measured bars (main job p ≥ 0.75, or ≥ 0.4 when the jury listed the same job; off-topic below 0.5 leaves the catalog; unsure lab items are held for review). Hand-curated items are never relabelled. Benchmark against 49 hand labels in `test/classify/` (`node test/classify/compare.mjs`, needs `JEV_API_KEY`): main job 94% vs the jury's 52%, language 100% vs 86%, off-topic gate 98% vs 88%, lifecycle 85%. Answers are stored in `pipeline/classification.json` and re-applied on every rebuild. Any Jev-compatible model works: set `JEV_ENDPOINT`, `JEV_MODEL` and `JEV_API_KEY`.
+3. **Map.** A deterministic capability graph (`data/graph-seed.json`): PROVIDES edges are derived from the catalog (`pipeline/graph-seed.mjs`), the rest (requires, depends-on, conflicts, supersedes, "try this if that fails" fallbacks) are curated. Every edge has a forcing-case test.
+4. **Narrow.** Project signals first; questions only when signals are missing, ordered by information gain, at most three. Skills written for a stack the project does not use are out; infrastructure and database skills need evidence (a Dockerfile or Terraform, a database client), not a project-type guess.
+5. **Present.** One item per job (cluster), core backbone always, hand-vetted before lab finds, optional items need a fit of 0.6, inside a context budget. Score = fit × merit (jury quality, trust, adoption, freshness, community).
 
-Then Repotify measures what happened: shown, installed, invoked, kept after 7/30 days, removed, voted. A LinUCB contextual bandit learns per-user rankings from those signals (accepted at a 200-round simulated regret ratio of 0.664 against a 0.80 bar), and a fleet policy blends anonymized measurements across developers into a shared prior — publish the proof, hide the recipe. An in-house evaluation harness (six arms: repotify, none, naive, jev, oracle, placebo; two-phase routing → task protocol) keeps the whole loop honest: series 3 measured must-include capture at 9/9 (100%, bar ≥ 85%) and zero breakage.
+The quality bar (`npm run eval`, 49 scenarios) runs this same engine, so a green eval means the sets users get are right.
 
-> [!NOTE]
-> The v2 pipeline is wired into the `repotify recommend` command: demand from project signals, capability-graph fallbacks, `--blocked` list, fleet policy blending, opt-in Jev arbitration (`--arbitrate` / `REPOTIFY_JEV=1`), and Stage 0 propensity telemetry.
+Measurement and learning are built but not live: Stage 0 telemetry logs episodes locally, and a LinUCB learner with off-policy evaluation (`lib/learn/`) is tested in simulation. They are not wired into `recommend` and no collection server runs, so rankings do not learn yet; exploration is off unless `REPOTIFY_EXPLORE=1`.
+
 
 ## Locked product decisions (8-question package, 2026-10-01)
 
 Approved product decisions and where they are enforced in code:
 
-- **R1 (DL-035).** Coarse classification (three-model jury + keyword overlap) plus seed context (manifest deps) is sufficient — no extra work.
+- **R1 (DL-035), revised 2026-10-02.** Coarse classification (three-model jury + keyword overlap) was not sufficient: measured against 49 hand labels the jury's main job was right 52% of the time, largely because the taxonomy had no slot for databases, DevOps or data/ML. The decision-model classifier (94%) now sets lab items' labels; the jury still scores quality.
 - **R2 (DL-036).** An edge that was not exercised by a forcing test may never enter the capability graph. Enforced by `lib/pipeline/graph/loader.mjs` (`R2 violation` on `tested !== true` or a missing test reference), locked by `test/karar-r2.test.mjs`.
 - **R4 (DL-037).** Usage signals (invoked, kept) never flow back into classification — they go to the bandit only (`oneShotLabel` → LinUCB). Classification stays jury + tests + seed context (`lib/pipeline/classify/index.mjs` has no usage-signal input).
-- **R6 (DL-038).** `data/graph-seed.json` is a frozen seed (version 1). Edge promotion happens only through a forcing test plus the telemetry threshold.
+- **R6 (DL-038), revised 2026-10-02.** Curated edges in `data/graph-seed.json` stay frozen; PROVIDES edges are derived from the classified catalog (`pipeline/graph-seed.mjs`) so they cannot go stale when a skill is relabelled. Every edge, derived or curated, still needs its forcing test (R2).
 - **Q5 (DL-039).** Taste profiles are project-scoped by default — every project gets its own profile. A user-global profile requires explicit opt-in. Consistent with the locked rule: never touch global installs.
 - **DL-040.** The fleet taste-model turn-on threshold is deliberately NOT a fixed number; it will be set from Stage 0 telemetry data using offline policy evaluation (`lib/learn/ope.mjs`).
 - **DL-041.** The leaderboard spec is approved: effectiveness is built from the one-shot label components (invoked, outcome, kept, removed, replaced), published with a 7-day delay, broken down by project type, reported as mean [min–max] with no stars or ratings.
