@@ -3,6 +3,7 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } fr
 import { join } from "node:path";
 import { homeDir, readConfig, writeConfig, TELEMETRY_ENDPOINT } from "./config.mjs";
 import { validateEvent, EVENT_TYPES } from "./telemetry-schema.mjs";
+import { telemetryEnabled } from "../lib/telemetry/consent.mjs";
 
 export { validateEvent, EVENT_TYPES };
 export const MAX_QUEUE = 1000;
@@ -20,14 +21,14 @@ export const NOTICE_DETAILS = [
   "It never collects code, prompts, file names, repository names, user names,",
   "transcripts, or IP addresses; only aggregated summaries ever leave the",
   "machine, and only via an explicit `repotify sync` that you confirm.",
-  "Kill switches: `repotify telemetry off`, REPOTIFY_TELEMETRY=0, DO_NOT_TRACK=1.",
+  "Kill switches: `repotify telemetry off`, REPOTIFY_TELEMETRY=0, DO_NOT_TRACK=1, NO_ANALYTICS=1.",
 ].join("\n");
 
 export function createTelemetry({ env = process.env, fetchImpl = fetch, now = new Date(), endpoint = TELEMETRY_ENDPOINT, version = "0.0.0" } = {}) {
   const dir = homeDir(env);
   const queuePath = join(dir, "queue.jsonl");
-  const config = readConfig(env);
-  const enabled = !(env.REPOTIFY_TELEMETRY === "0" || env.DO_NOT_TRACK === "1" || config.telemetry === false);
+  // One answer for both event logs (this queue and lib/telemetry's Stage 0 log): the same kill switches stop both.
+  const enabled = telemetryEnabled(env);
   const target = endpoint ?? env.REPOTIFY_TELEMETRY_URL ?? null;
 
   const readQueue = () => {

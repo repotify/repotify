@@ -55,8 +55,8 @@ test("events are queued locally and nothing is sent while the endpoint is null",
   assert.equal(first.ts, NOW.toISOString());
 });
 
-test("DO_NOT_TRACK and REPOTIFY_TELEMETRY=0 turn everything off, including the install id", () => {
-  for (const extra of [{ DO_NOT_TRACK: "1" }, { REPOTIFY_TELEMETRY: "0" }]) {
+test("DO_NOT_TRACK, NO_ANALYTICS and REPOTIFY_TELEMETRY=0 turn everything off, including the install id", () => {
+  for (const extra of [{ DO_NOT_TRACK: "1" }, { NO_ANALYTICS: "1" }, { REPOTIFY_TELEMETRY: "0" }]) {
     const dir = home();
     const t = createTelemetry({ env: envFor(dir, extra), now: NOW });
     assert.equal(t.enabled, false);

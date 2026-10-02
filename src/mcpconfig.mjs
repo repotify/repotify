@@ -21,13 +21,20 @@ function tomlTable(id, cfg) {
 }
 
 // `"KEY" = "value"` pairs of `[mcp_servers.<id>.env]`, as far as they can be read back.
+// A table header, `[a.b]` or an array of tables `[[a.b]]`; the name comes back without quotes or spaces.
+const TOML_HEADER = /^\s*\[\[?([^\]]+)\]\]?\s*(#.*)?$/;
+const headerName = (line) => {
+  const m = TOML_HEADER.exec(line);
+  return m ? m[1].replace(/\s+/g, "").replace(/["']/g, "") : null;
+};
+
 function tomlEnvOf(text, id) {
   const env = {};
   let inside = false;
   for (const line of text.split("\n")) {
-    const header = /^\s*\[([^\]]+)\]\s*$/.exec(line);
-    if (header) {
-      inside = header[1].replace(/\s+/g, "").replace(/["']/g, "") === `mcp_servers.${id}.env`;
+    const name = headerName(line);
+    if (name !== null) {
+      inside = name === `mcp_servers.${id}.env`;
       continue;
     }
     const kv = inside && /^\s*(?:"([^"]+)"|([\w.-]+))\s*=\s*("(?:\\.|[^"\\])*")\s*$/.exec(line);
@@ -119,11 +126,8 @@ export function removeMcp(id, agentId, { cwd }) {
     const keep = [];
     let skipping = false;
     for (const line of lines) {
-      const header = /^\s*\[([^\]]+)\]\s*$/.exec(line);
-      if (header) {
-        const name = header[1].replace(/\s+/g, "").replace(/["']/g, "");
-        skipping = name === `mcp_servers.${id}` || name.startsWith(`mcp_servers.${id}.`);
-      }
+      const name = headerName(line);
+      if (name !== null) skipping = name === `mcp_servers.${id}` || name.startsWith(`mcp_servers.${id}.`);
       if (!skipping) keep.push(line);
     }
     writeFileSync(path, keep.join("\n").replace(/\s+$/, "") + "\n");

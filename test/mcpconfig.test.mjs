@@ -118,3 +118,23 @@ test("installItem: tools are never executed, only described", async () => {
   const src = readFileSync(new URL("../src/install.mjs", import.meta.url), "utf8") + readFileSync(new URL("../src/mcpconfig.mjs", import.meta.url), "utf8");
   assert.ok(!src.includes("child_process"), "installer must not spawn processes");
 });
+
+test("removing a Codex server keeps the user's array tables and commented headers that follow it", () => {
+  const cwd = tmp();
+  mkdirSync(join(cwd, ".codex"));
+  const mine = '[[skills.config]]\npath = "/x"\nenabled = false\n\n[profiles.fast] # mine\nmodel = "o3"\n';
+  writeFileSync(join(cwd, ".codex/config.toml"), `[mcp_servers.context7]\ncommand = "npx"\n\n[mcp_servers.context7.env]\nTOKEN = "t"\n\n${mine}`);
+  removeMcp("context7", "codex", { cwd });
+  assert.equal(readFileSync(join(cwd, ".codex/config.toml"), "utf8"), mine);
+});
+
+test("updating a Codex server reads env only from its own env table", () => {
+  const cwd = tmp();
+  mkdirSync(join(cwd, ".codex"));
+  writeFileSync(join(cwd, ".codex/config.toml"), '[mcp_servers.context7]\ncommand = "npx"\n\n[mcp_servers.context7.env]\n"TOKEN" = "t"\n\n[[profiles]]\n"name" = "x"\n');
+  assert.equal(applyMcp(context7, "codex", { cwd, replace: true }).written, true);
+  const text = readFileSync(join(cwd, ".codex/config.toml"), "utf8");
+  assert.match(text, /\[mcp_servers\.context7\.env\]\n"TOKEN" = "t"\n/);
+  assert.doesNotMatch(text, /\[mcp_servers\.context7\.env\][^[]*"name"/);
+  assert.match(text, /\[\[profiles\]\]\n"name" = "x"/);
+});
