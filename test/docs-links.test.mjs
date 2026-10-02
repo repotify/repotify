@@ -3,11 +3,17 @@ import assert from "node:assert/strict";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const SKIP = new Set([".git", "node_modules", "fixtures"]);
 
+// The repository's own Markdown (tracked or new, not what .gitignore keeps out); without git, a walk.
 function markdownFiles(dir) {
+  const git = spawnSync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], { cwd: dir, encoding: "utf8" });
+  if (git.status === 0) {
+    return git.stdout.split("\0").filter((rel) => rel.endsWith(".md") && !rel.split("/").some((part) => SKIP.has(part)) && existsSync(join(dir, rel))).map((rel) => join(dir, rel));
+  }
   const out = [];
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     if (SKIP.has(e.name)) continue;

@@ -3,16 +3,32 @@ import assert from "node:assert/strict";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const SKIP = new Set(["node_modules", ".git", "fixtures", "work", "cache"]);
+const SOURCE = /\.(mjs|js|json|md|yml|yaml|toml|sql)$/;
 
+// What could be committed: tracked and new files, not what .gitignore keeps out (skills a developer installed into
+// this working copy, build output). Without git, every file but the skipped folders.
 function* walk(dir) {
+  const git = spawnSync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], { cwd: dir, encoding: "utf8" });
+  if (git.status === 0) {
+    for (const rel of git.stdout.split("\0").filter(Boolean)) {
+      if (rel.split("/").some((part) => SKIP.has(part)) || !SOURCE.test(rel)) continue;
+      try {
+        if (statSync(join(dir, rel)).isFile()) yield join(dir, rel);
+      } catch {
+        // Deleted in the working tree.
+      }
+    }
+    return;
+  }
   for (const name of readdirSync(dir)) {
     if (SKIP.has(name)) continue;
     const full = join(dir, name);
     if (statSync(full).isDirectory()) yield* walk(full);
-    else if (/\.(mjs|js|json|md|yml|yaml|toml|sql)$/.test(name)) yield full;
+    else if (SOURCE.test(name)) yield full;
   }
 }
 
