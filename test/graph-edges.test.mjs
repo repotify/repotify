@@ -16,10 +16,11 @@ import { loadCatalog } from "../src/catalog.mjs";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 let graph;
 let catalog;
-let seed;
+// Read at load time: the loop below generates one test per edge while the module loads, before any hook runs
+// (Node 18 does not run a top-level before() first).
+const seed = JSON.parse(readFileSync(join(root, "data", "graph-seed.json"), "utf8"));
 
 before(async () => {
-  seed = JSON.parse(readFileSync(join(root, "data", "graph-seed.json"), "utf8"));
   graph = loadSeedGraph(join(root, "data", "graph-seed.json"));
   ({ catalog } = await loadCatalog());
 });
