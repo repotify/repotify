@@ -8,6 +8,14 @@
     "repo": "trailofbits/skills"
   },
   {
+    "commit": "65d6e786832e2c52832713117bbbf5096b56f77f",
+    "id": "arbor",
+    "level": "rejected",
+    "path": "skills/arbor",
+    "reason": "remote-exec: references/arbor-upstream.md:19 git clone https://github.com/RUC-NLPIR/Arbor.git",
+    "repo": "k-dense-ai/scientific-agent-skills"
+  },
+  {
     "commit": "82fe8226252622fa807643bdca1710901198553a",
     "id": "modern-python",
     "level": "rejected",

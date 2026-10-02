@@ -7,7 +7,7 @@ import {
 import { splitPipelines } from "./shell.mjs";
 import { fileRules, isBinaryFile, hostsInScript, NETWORK_ALLOWLIST } from "./files.mjs";
 
-export const SCANNER_VERSION = "1.2.0";
+export const SCANNER_VERSION = "1.3.0";
 
 const RANK = { low: 0, medium: 1, high: 2, critical: 3 };
 const MAX_FINDINGS_PER_RULE_PER_FILE = 10;
@@ -36,9 +36,11 @@ export function escapeInvisible(text) {
   return out;
 }
 
+// Only a short window is escaped: a finding on a long line must not cost the whole line (one finding per hidden
+// character on a 100 KB line was quadratic and hung the scan).
 function excerptOf(line, index = 0) {
   const start = Math.max(0, Math.min(index, line.length) - 20);
-  const clean = escapeInvisible(line.slice(start).trimStart());
+  const clean = escapeInvisible(line.slice(start, start + 160).trimStart());
   return clean.length > 80 ? clean.slice(0, 79) + "…" : clean;
 }
 
@@ -181,17 +183,12 @@ function lineKind(fileKindValue, line) {
 function scanText(path, text) {
   const findings = [];
   const kind = fileKind(path, text);
-  const counts = new Map();
-  const push = (f) => {
-    const n = counts.get(f.rule) || 0;
-    if (n >= MAX_FINDINGS_PER_RULE_PER_FILE) return;
-    counts.set(f.rule, n + 1);
-    findings.push({ file: path, ...f });
-  };
+  // Excerpts are built only for the findings that are kept (see capPerRule).
+  const push = (f) => findings.push(f);
 
   const originalLines = text.split("\n");
   const hidden = hiddenCharFindings(text);
-  for (const f of hidden.findings) push({ ...f, excerpt: excerptOf(originalLines[f.line - 1] ?? "") });
+  for (const f of hidden.findings) push({ ...f, excerpt: () => excerptOf(originalLines[f.line - 1] ?? "") });
 
   const physical = hidden.clean.split("\n");
   const fences = kind === "doc" ? fenceMap(physical) : null;
@@ -226,7 +223,7 @@ function scanText(path, text) {
         note = severity === "high" ? "documentation context; needs human review" : "documentation context";
       }
       if (severity === "low" && !note) continue;
-      push({ rule: rule.id, severity, line: lineNo, excerpt: excerptOf(line, m.index), ...(note ? { note } : {}) });
+      push({ rule: rule.id, severity, line: lineNo, excerpt: () => excerptOf(line, m.index), ...(note ? { note } : {}) });
     }
   }
 
@@ -240,7 +237,8 @@ function scanText(path, text) {
     const { comments, prose } = shellOpts(fences?.[logical[i].line]);
     const hit = exfilWindow(lines, i, { comments, prose });
     if (hit) {
-      push({ rule: "exfiltration", severity: hit.severity, line: logical[i].line + 1, excerpt: excerptOf(lines[i]), note: "network send with secret" });
+      const at = lines[i];
+      push({ rule: "exfiltration", severity: hit.severity, line: logical[i].line + 1, excerpt: () => excerptOf(at), note: "network send with secret" });
       i += 2;
     }
   }
@@ -250,7 +248,24 @@ function scanText(path, text) {
     const blobLine = hidden.clean.slice(0, blob.index).split("\n").length;
     push({ rule: "obfuscation", severity: "high", line: blobLine, excerpt: "high-entropy blob with code execution", note: "encoded payload" });
   }
-  return findings;
+  return capPerRule(findings).map((f) => ({ file: path, ...f, excerpt: typeof f.excerpt === "function" ? f.excerpt() : f.excerpt }));
+}
+
+// At most MAX_FINDINGS_PER_RULE_PER_FILE findings per rule, and always the most severe ones: keeping the first ones
+// let ten harmless mentions of a pattern hide a critical one further down, and the file's level is computed from
+// what is kept.
+function capPerRule(findings) {
+  const groups = new Map();
+  findings.forEach((f, order) => {
+    if (!groups.has(f.rule)) groups.set(f.rule, []);
+    groups.get(f.rule).push({ f, order });
+  });
+  const kept = [];
+  for (const group of groups.values()) {
+    group.sort((a, b) => (RANK[b.f.severity] ?? -1) - (RANK[a.f.severity] ?? -1) || a.order - b.order);
+    kept.push(...group.slice(0, MAX_FINDINGS_PER_RULE_PER_FILE));
+  }
+  return kept.sort((a, b) => a.order - b.order).map(({ f }) => f);
 }
 
 const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
