@@ -8,7 +8,6 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { aggregate, loadRuns } from "../test/harness/report.mjs";
-import { EXPENSIVE_TTL_MS } from "../lib/pipeline/test-runner/retest.mjs";
 import { FLEET_INSTALL_THRESHOLD } from "../lib/telemetry/server/thresholds.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -16,13 +15,16 @@ const ROOT = join(here, "..");
 
 const isoDay = (ms) => new Date(ms).toISOString().slice(0, 10);
 
+// How long a jury score counts as current (the catalog pipeline's expensive-layer TTL).
+export const SCORE_TTL_MS = 30 * 86400000;
+
 export function buildData({ out = join(here, "dist"), today = new Date().toISOString().slice(0, 10) } = {}) {
   const meta = JSON.parse(readFileSync(join(ROOT, "catalog", "meta.json"), "utf8"));
   const items = JSON.parse(readFileSync(join(ROOT, "catalog", "items.json"), "utf8"));
   const catalogAt = new Date(meta.generatedAt).getTime();
-  // Jury/quality scores expire on the same 30-day TTL the pipeline uses for the
-  // expensive scoring layer; derived, not stored per item. Documented on skill pages.
-  const scoreExpiresAt = isoDay(catalogAt + EXPENSIVE_TTL_MS);
+  // Jury/quality scores are valid for 30 days from the catalog build; derived, not
+  // stored per item. Documented on skill pages.
+  const scoreExpiresAt = isoDay(catalogAt + SCORE_TTL_MS);
 
   const skills = items.map((it) => {
     const j = it.jury ?? {};

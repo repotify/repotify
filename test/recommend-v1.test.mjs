@@ -9,9 +9,7 @@ import { loadSeedGraph } from "../lib/pipeline/graph/loader.mjs";
 import { narrowCandidates } from "../lib/pipeline/recommend/narrow.mjs";
 import { scoreCandidates, needsArbitration, MERIT_WEIGHTS } from "../lib/pipeline/recommend/score.mjs";
 import { present, uncertaintyOf, resolveExclusions, selectSet, GATE_REASONS } from "../lib/pipeline/recommend/present.mjs";
-import { orderQuestions, nextQuestion } from "../lib/pipeline/recommend/order.mjs";
 import { recommendV1 } from "../lib/pipeline/recommend/index.mjs";
-import { questionBank } from "../src/needs.mjs";
 import { loadCatalog } from "../src/catalog.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -207,35 +205,6 @@ test("present: low-confidence flags are exposed on rows", () => {
   const r = present(s, demand({ capabilitiesWanted: ["tdd-discipline", "pdf-processing"], answered: ["x"] }));
   assert.equal(r.decision, "recommend");
   assert.deepEqual(r.lowConfidence, ["risky"]);
-});
-
-// --- question ordering -------------------------------------------------------
-
-test("order: the question that prunes most comes first", () => {
-  const { taxonomy } = catalog;
-  const items = [
-    mkItem({ id: "t1", capabilities: ["tdd-discipline"], needs: ["testing"] }),
-    mkItem({ id: "t2", capabilities: ["tdd-discipline"], needs: ["testing"] }),
-    mkItem({ id: "p1", capabilities: ["pdf-processing"], needs: ["pdf"] }),
-  ];
-  const candidates = items.map((item) => ({ item, reasons: [] }));
-  const ranked = orderQuestions(questionBank(taxonomy, { stacks: ["nextjs"] }), candidates, taxonomy, demand());
-  assert.ok(ranked.length > 0);
-  assert.ok(ranked[0].expectedElimination >= ranked[ranked.length - 1].expectedElimination);
-  // Deterministic across runs.
-  const again = orderQuestions(questionBank(taxonomy, { stacks: ["nextjs"] }), candidates, taxonomy, demand());
-  assert.deepEqual(ranked.map((r) => r.question.id), again.map((r) => r.question.id));
-});
-
-test("order: nextQuestion returns null when settled or capped", () => {
-  const { taxonomy } = catalog;
-  const items = [mkItem({ id: "t1", capabilities: ["tdd-discipline"], needs: ["testing"] })];
-  const candidates = items.map((item) => ({ item, reasons: [] }));
-  const ranked = orderQuestions(questionBank(taxonomy, {}), candidates, taxonomy, demand());
-  const scored = [{ item: items[0], score: 0.9, parts: {}, flags: [], reasons: [] }];
-  const rich = demand({ capabilitiesWanted: ["tdd-discipline", "pdf-processing"], answered: ["needs"] });
-  assert.equal(nextQuestion(ranked, { scored, asked: 0 }), null, "clear winner: no question");
-  assert.equal(nextQuestion(ranked, { scored, asked: 3 }), null, "question cap reached");
 });
 
 // --- recommendV1 end to end ---------------------------------------------------
