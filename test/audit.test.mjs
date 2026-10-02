@@ -165,3 +165,32 @@ test("a SKILL.md over 1 MiB is not parsed and is questioned", async () => {
   assert.equal(huge.verdict, "consider");
   assert.equal(huge.reasons[0].code, "oversized");
 });
+
+test("audit: a skill that pays off once is questioned after its grace period, with what it costs", async () => {
+  const { ONCE_GRACE_DAYS } = await import("../src/audit.mjs");
+  const root = mkTemp("repotify-audit-once-");
+  writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { express: "4.0.0" } }));
+  skill(root, ".claude/skills", "graphify", "Use for any question about a codebase: maps it into a knowledge graph.");
+  const installed = Date.parse("2026-09-01T00:00:00Z");
+  const lock = { version: 1, items: { graphify: { type: "tool", targets: [".claude/skills/graphify"], installedAt: new Date(installed).toISOString() } } };
+  assert.equal(catalog.items.find((i) => i.id === "graphify").lifecycle, "once", "the classifier marks graphify as paying off once");
+
+  const fresh = await audit(root, { lock, now: installed + (ONCE_GRACE_DAYS - 1) * 86400000 });
+  assert.equal(verdicts(fresh).graphify, "keep", "inside the grace period it is still doing its job");
+
+  const later = await audit(root, { lock, now: installed + 30 * 86400000 });
+  assert.equal(verdicts(later).graphify, "consider");
+  assert.deepEqual(codes(later, "graphify"), ["spent"]);
+  const text = formatAudit(later);
+  assert.match(text, /installed 30 days ago/);
+  assert.match(text, /tokens every session; ~\d+ tokens per use/);
+  assert.match(text, /Nothing was deleted/);
+});
+
+test("audit: skills that pay off on every task are never questioned for their age", async () => {
+  const root = mkTemp("repotify-audit-every-");
+  writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { express: "4.0.0" } }));
+  skill(root, ".claude/skills", "test-driven-development", "Use when implementing any feature: write the failing test first.");
+  const report = await audit(root, { now: Date.now() + 365 * 86400000 });
+  assert.equal(verdicts(report)["test-driven-development"], "keep");
+});

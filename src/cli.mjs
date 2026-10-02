@@ -162,6 +162,7 @@ function tableRows(rec, itemById, installed) {
       default: inSet.has(r.id),
       installed: installedSet.has(r.id),
       userEnables: item.type === "mcp" || item.type === "config",
+      lifecycle: item.lifecycle ?? null,
     };
   });
 }

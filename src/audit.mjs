@@ -46,7 +46,38 @@ const CAP_WORDS = {
 };
 
 // Reasons that make a skill worth questioning; "fits" and "caution" are information only.
-const QUESTIONED = new Set(["delisted", "platform", "stack", "unneeded", "oversized"]);
+const QUESTIONED = new Set(["delisted", "platform", "stack", "unneeded", "oversized", "spent"]);
+
+// A skill that pays off once (mapping a codebase, onboarding, a migration; the catalog's `lifecycle`, set by the
+// classifier) has likely done its job after this many days, while its description still loads every session.
+// An operating point, not a measurement: telemetry on kept/removed skills should tune it.
+export const ONCE_GRACE_DAYS = 14;
+const DAY_MS = 24 * 60 * 60 * 1000;
+// Rough English token count for context the agent loads (4 characters a token).
+export const tokensOf = (chars) => Math.round(chars / 4);
+
+// When was it installed: the lock records it for Repotify installs; otherwise the folder's own timestamp.
+function installedAt(skill, lockId, lock) {
+  const recorded = Date.parse(lock.items?.[lockId]?.installedAt ?? "");
+  if (Number.isFinite(recorded)) return recorded;
+  try {
+    return statSync(skill.abs).mtimeMs;
+  } catch {
+    return null;
+  }
+}
+
+function spent(skill, { item, lockId }, env) {
+  if (item?.lifecycle !== "once") return null;
+  const at = installedAt(skill, lockId, env.lock);
+  if (at == null) return null;
+  const days = Math.floor((env.now - at) / DAY_MS);
+  if (days < ONCE_GRACE_DAYS) return null;
+  return {
+    code: "spent",
+    text: `Pays off once (${inSentence(label(env.taxonomy, item.capabilities[0]))}); installed ${days} days ago, so it has likely done its job, yet its description loads every session and each use loads its ~${tokensOf(skill.bodyChars)}-token instructions. Remove it and reinstall when you need it again.`,
+  };
+}
 
 const firstSentence = (text) => text.split(/(?<=[.!?])\s/, 1)[0].slice(0, 240);
 
@@ -139,6 +170,8 @@ function judge(skill, { item, lockId }, env) {
   if (!env.relevance) {
     // No project to judge against (home folder or filesystem root): security and overlaps only.
   } else if (item) {
+    const done = spent(skill, { item, lockId }, env);
+    if (done) return { verdict: "consider", reasons: [done] };
     if (item.tier === "core") return { verdict: "keep", reasons: [{ code: "core", text: coreReasons.get(item.id) ?? "Core skill that helps any project." }] };
     if (platformMismatch(item, ctx)) {
       reasons.push({ code: "platform", text: `Web-only (${item.capabilities.map((c) => label(taxonomy, c)).join(", ")}), and this project has no web target (${ctx.platforms.join(", ")}).` });
@@ -221,14 +254,14 @@ function markOverlaps(results) {
   }
 }
 
-export async function auditSkills({ root, catalog, fingerprint: fp, needs, lock = { items: {} }, extraRoots = [] }) {
+export async function auditSkills({ root, catalog, fingerprint: fp, needs, lock = { items: {} }, extraRoots = [], now = Date.now() }) {
   const relevance = fp?.reason !== "home-or-root";
   const { taxonomy } = catalog;
   const demand = buildDemand({ taxonomy, fingerprint: fp, needs });
   const ctx = { ...demand, stacks: fp?.stacks ?? [], loadoutIds: [] };
   const byId = new Map(catalog.items.map((i) => [i.id, i]));
   const bySkillDir = new Map(catalog.items.filter((i) => i.path).map((i) => [i.path.split("/").pop(), i]));
-  const env = { taxonomy, ctx, relevance, stacks: projectStacks(fp?.stacks ?? []), coreReasons: new Map((catalog.core ?? []).map((c) => [c.id, c.reason])) };
+  const env = { taxonomy, ctx, relevance, lock, now: Number(now), stacks: projectStacks(fp?.stacks ?? []), coreReasons: new Map((catalog.core ?? []).map((c) => [c.id, c.reason])) };
   const skills = [...findInstalledSkills(root), ...extraRoots.flatMap((r) => findInstalledSkills(r.root, { scope: r.scope }))];
   const results = [];
   const texts = new Map();
@@ -269,11 +302,11 @@ export function formatAudit(report) {
   const lines = report.relevance ? [] : ["Not a project folder (home folder or filesystem root): checked security and overlaps only. Run `repotify audit` inside a project to judge relevance."];
   for (const [dir, t] of Object.entries(report.byDir)) {
     const over = t.alwaysOnChars > report.budget ? `, above the ${report.budget}-char budget` : "";
-    lines.push(`${dir}: ${t.skills} skill${t.skills === 1 ? "" : "s"}, ${t.alwaysOnChars} chars of always-on context${over}`);
+    lines.push(`${dir}: ${t.skills} skill${t.skills === 1 ? "" : "s"}, ${t.alwaysOnChars} chars (~${tokensOf(t.alwaysOnChars)} tokens) of always-on context${over}`);
     for (const r of report.skills.filter((x) => x.skillsDir === dir)) {
-      lines.push(`  ${MARK[r.verdict]} ${shownName(r.id).padEnd(31)} ${r.reasons.map((x) => x.text).join(" ")}${r.verdict !== "keep" ? `  (-${r.alwaysOnChars} chars)` : ""}`);
+      lines.push(`  ${MARK[r.verdict]} ${shownName(r.id).padEnd(31)} ${r.reasons.map((x) => x.text).join(" ")}${r.verdict !== "keep" ? `  (-${r.alwaysOnChars} chars, ~${tokensOf(r.alwaysOnChars)} tokens every session; ~${tokensOf(r.bodyChars)} tokens per use)` : ""}`);
     }
-    if (t.freed) lines.push(`  Removing the suggested ones frees ${t.freed} chars of always-on context.`);
+    if (t.freed) lines.push(`  Removing the suggested ones frees ${t.freed} chars (~${tokensOf(t.freed)} tokens) of context in every session.`);
   }
   const acts = report.skills.filter((r) => r.verdict !== "keep");
   if (acts.length) {

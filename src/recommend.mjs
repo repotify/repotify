@@ -294,6 +294,7 @@ export function recommend({ catalog, fingerprint: fp, needs, installed = [], bud
     default: defaults.has(s.item.id),
     installed: installedSet.has(s.item.id),
     userEnables: s.item.type === "mcp" || s.item.type === "config",
+    lifecycle: s.item.lifecycle ?? null,
   }));
   return {
     rows,
@@ -310,12 +311,12 @@ const BADGE_ICON = { verified: "✓", caution: "⚠", gem: "💎", trending: "�
 
 export function formatTable(rec) {
   const header = [
-    `Repotify candidates (★ = default set; ⚙ = hook or MCP server, the user enables it; context ${rec.budget.used}/${rec.budget.limit} chars${rec.loadout ? `; loadout ${rec.loadout}` : ""})`,
+    `Repotify candidates (★ = default set; ⚙ = hook or MCP server, the user enables it; ⏳ = pays off once, \`repotify audit\` says when to remove it; context ${rec.budget.used}/${rec.budget.limit} chars${rec.loadout ? `; loadout ${rec.loadout}` : ""})`,
     "mark id | type | cluster | score | badges | summary | why",
   ].join("\n");
   const fixed = rec.rows.map((r) => {
     const mark = r.installed ? "·" : r.default ? "★" : "·";
-    const badges = r.badges.map((b) => BADGE_ICON[b] ?? b).join("") + (r.userEnables ? "⚙" : "") + (r.installed ? " installed" : "");
+    const badges = r.badges.map((b) => BADGE_ICON[b] ?? b).join("") + (r.userEnables ? "⚙" : "") + (r.lifecycle === "once" ? "⏳" : "") + (r.installed ? " installed" : "");
     const why = r.reasons.slice(0, 3).join(",");
     return { head: `${mark} ${r.id} | ${r.type} | ${r.cluster} | ${r.score.toFixed(2)} | ${badges} | `, tail: ` | ${why}`, summary: r.summary };
   });
