@@ -3,13 +3,12 @@
 //
 // The coverage gate's jaccard variant drops a candidate when its max pairwise
 // Jaccard similarity (over demand-wanted tokens) with any selected item is
-// >= JACCARD_DROP (default 0.6, lib/pipeline/recommend/present.mjs). The
-// threshold is a module-level const with no env override, so the sweep
-// re-implements the gate's greedy loop faithfully here and validates the
-// re-implementation against the production `present()` at the default
-// threshold on every harness scenario. If the re-implementation ever drifts
-// from production, the script fails loudly (faithfulness check) instead of
-// publishing a misleading landscape.
+// >= JACCARD_DROP (default 0.6, lib/pipeline/recommend/present.mjs). The sweep
+// runs the production selectSet() with its jaccardDrop option at each
+// threshold. (It used to re-implement the loop; the copy drifted when the set
+// rules gained one-item-per-job, the fit floor and curated-first, and the
+// faithfulness check below failed CI.) The check still compares the sweep at
+// the default threshold with production present() on every harness scenario.
 //
 // For each threshold on the grid the script resolves the jaccard arm's set
 // for every scenario in test/harness/scenarios/ and scores it with the same
@@ -29,16 +28,17 @@ import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadCatalog, seedGraph } from "./arms.mjs";
 import { resolveNeeds } from "../../src/needs.mjs";
-import { buildDemand } from "../../src/recommend.mjs";
 import {
+  demandFor,
   narrowCandidates,
   scoreCandidates,
   resolveExclusions,
   present,
+  selectSet,
   SCORE_MARGIN,
   JACCARD_DROP,
   DEFAULT_BUDGET_CHARS,
-  GATE_REASONS,
+  MIN_CANDIDATE_FIT,
 } from "../../lib/pipeline/recommend/index.mjs";
 import { scoreRouting } from "./rubric.mjs";
 
@@ -66,140 +66,21 @@ export function scenarioInputs(catalog, graph, scenario) {
     ...scenario.fingerprint,
   };
   const resolved = resolveNeeds({ fingerprint: fp, answers: scenario.answers ?? {}, taxonomy: catalog.taxonomy });
-  const demand = {
-    ...buildDemand({ taxonomy: catalog.taxonomy, fingerprint: fp, needs: resolved }),
-    stacks: fp?.stacks ?? [],
-    answered: resolved.answered ?? [],
-  };
+  const demand = demandFor({ catalog, fingerprint: fp, needs: resolved });
   const narrowed = narrowCandidates({
     catalog, graph, demand,
     installed: [], blocked: [],
     answers: scenario.answers ?? {},
   });
-  const scored = scoreCandidates(narrowed, demand);
+  const scored = scoreCandidates(narrowed, demand, { minFit: MIN_CANDIDATE_FIT });
   const { kept } = resolveExclusions(scored, narrowed.exclusions);
   return { demand, kept };
 }
 
-// Faithful re-implementation of selectSet()'s jaccard-variant greedy loop
-// (lib/pipeline/recommend/present.mjs), parameterized by the drop threshold.
-// Duplication is deliberate: the threshold is a module const in production,
-// so the only way to sweep it without touching product code is to re-run the
-// loop here. The faithfulness check (compare against present() at the
-// default threshold) guards against drift.
+// The production gate (jaccard variant) at another drop threshold.
 export function simulateJaccardGate(kept, demand, threshold) {
-  const wantedCaps = new Set(demand.capabilitiesWanted ?? []);
-  const wantedNeeds = new Set(demand.needs ?? []);
-  const wantedStacks = new Set(demand.stacks ?? []);
-  const wantedTokensOf = (item) =>
-    new Set(
-      [...(item.capabilities ?? []), ...(item.needs ?? []), ...(item.stacks ?? [])].filter(
-        (t) => wantedCaps.has(t) || wantedNeeds.has(t) || wantedStacks.has(t),
-      ),
-    );
-  const jaccard = (a, b) => {
-    if (!a.size && !b.size) return 0;
-    let inter = 0;
-    for (const t of a) if (b.has(t)) inter++;
-    return inter / (a.size + b.size - inter);
-  };
-  // Mirrors estimateTokens() in present.mjs (P2: value per token, Turkish bias fix).
-  const estimateTokens = (item) => {
-    const chars = item.descriptionChars ?? 200;
-    const isTurkish = /[ğışçöüİ]/.test(item.summary ?? "");
-    return Math.max(12, Math.ceil(chars / (isTurkish ? 5.2 : 4.0)));
-  };
-  const valuePerToken = (s) => s.score / estimateTokens(s.item);
-  const topScore = kept.length ? Math.max(...kept.map((s) => s.score)) : 0;
-  const nearTop = (s) => s.score >= topScore - SCORE_MARGIN;
-  const round4 = (x) => Math.round(x * 10000) / 10000;
-
-  const servedCaps = new Set();
-  const servedNeeds = new Set();
-  const servedStacks = new Set();
-  const coverageOf = (s) => ({
-    caps: (s.item.capabilities ?? []).filter((c) => wantedCaps.has(c) && !servedCaps.has(c)),
-    needs: (s.item.needs ?? []).filter((n) => wantedNeeds.has(n) && !servedNeeds.has(n)),
-    stacks: (s.item.stacks ?? []).filter((x) => wantedStacks.has(x) && !servedStacks.has(x)),
-  });
-  const markServed = (s) => {
-    for (const c of (s.item.capabilities ?? []).filter((x) => wantedCaps.has(x))) servedCaps.add(c);
-    for (const n of (s.item.needs ?? []).filter((x) => wantedNeeds.has(x))) servedNeeds.add(n);
-    for (const x of (s.item.stacks ?? []).filter((y) => wantedStacks.has(y))) servedStacks.add(x);
-  };
-
-  const selectedTokenSets = []; // [{ id, tokens, score, caps }]
-  const maxSimilarity = (s) => {
-    const t = wantedTokensOf(s.item);
-    let best = { jaccard: 0, blocker: null, blockerScore: -Infinity, blockerCaps: new Set() };
-    for (const st of selectedTokenSets) {
-      const j = jaccard(t, st.tokens);
-      if (j > best.jaccard) {
-        best = { jaccard: j, blocker: st.id, blockerScore: st.score, blockerCaps: st.caps };
-      }
-    }
-    return best;
-  };
-
-  const gateDecision = (s) => {
-    if (s.item.tier === "core") {
-      return { pass: true, reason: GATE_REASONS.CORE_TIER_PASS, jaccard: null, blocker: null };
-    }
-    if (!wantedTokensOf(s.item).size) {
-      const cov = coverageOf(s);
-      const pass = cov.caps.length > 0 || cov.needs.length > 0 || cov.stacks.length > 0;
-      return {
-        pass,
-        reason: pass ? GATE_REASONS.STRICT_PASS : GATE_REASONS.NO_NEW_COVERAGE_STRICT,
-        jaccard: null,
-        blocker: null,
-      };
-    }
-    const { jaccard: j, blocker, blockerScore, blockerCaps } = maxSimilarity(s);
-    const jr = round4(j);
-    if (j >= threshold) {
-      const tied = s.score === blockerScore;
-      const candCaps = new Set(s.item.capabilities ?? []);
-      const addsKind = [...candCaps].some((c) => !blockerCaps.has(c));
-      if (!(tied && addsKind && nearTop(s))) {
-        return { pass: false, reason: GATE_REASONS.NO_NEW_COVERAGE_JACCARD, jaccard: jr, blocker };
-      }
-    }
-    return { pass: true, reason: GATE_REASONS.JACCARD_PASS, jaccard: jr, blocker };
-  };
-
-  const core = kept.filter((s) => s.item.tier === "core");
-  const rest = kept
-    .filter((s) => s.item.tier !== "core")
-    .sort((a, b) => valuePerToken(b) - valuePerToken(a) || (a.item.id < b.item.id ? -1 : 1));
-  const ordered = [...core, ...rest];
-
-  let used = 0;
-  const selected = [];
-  const decisions = [];
-  for (const s of ordered) {
-    const gd = gateDecision(s);
-    if (!gd.pass) {
-      decisions.push({ skill_id: s.item.id, decision: "dropped", reason: gd.reason, jaccard: gd.jaccard, blocker: gd.blocker });
-      continue;
-    }
-    const cost = s.item.descriptionChars ?? 200;
-    if (used + cost <= DEFAULT_BUDGET_CHARS) {
-      used += cost;
-      selected.push(s);
-      markServed(s);
-      selectedTokenSets.push({
-        id: s.item.id,
-        tokens: wantedTokensOf(s.item),
-        score: s.score,
-        caps: new Set(s.item.capabilities ?? []),
-      });
-      decisions.push({ skill_id: s.item.id, decision: "selected", reason: gd.reason, jaccard: gd.jaccard, blocker: gd.blocker });
-    } else {
-      decisions.push({ skill_id: s.item.id, decision: "dropped", reason: GATE_REASONS.BUDGET_EXCEEDED, jaccard: gd.jaccard, blocker: gd.blocker });
-    }
-  }
-  return { ids: selected.map((s) => s.item.id), decisions, budget: { used, limit: DEFAULT_BUDGET_CHARS } };
+  const r = selectSet(kept, { demand, jaccardDrop: threshold, budgetChars: DEFAULT_BUDGET_CHARS });
+  return { ids: r.selected.map((s) => s.item.id), decisions: r.gateDecisions, budget: r.budget };
 }
 
 // Compare the simulation at the shipped default against production present().

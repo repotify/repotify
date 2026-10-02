@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// One command for the whole repository: tests, recommendation quality, the catalog, the website and the npm package.
+// One command for the whole repository: tests, recommendation quality, the harness checks CI runs on catalog changes,
+// the catalog, the website and the npm package.
 // Usage: npm run check
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
@@ -13,6 +14,9 @@ const node = (...args) => [process.execPath, args];
 const steps = [
   ["tests", ...node("--test", "test/*.test.mjs")],
   ["recommendation quality", ...node("test/eval/run.mjs")],
+  // The catalog workflow's coverage-pilot job: it broke once while every other step stayed green.
+  ["harness", ...node("--test", "test/harness/*.test.mjs")],
+  ["gate sensitivity sweep", ...node("test/harness/jaccard-sensitivity.mjs", "--out", join(site, "jaccard-sensitivity.json"))],
   ["catalog", ...node("pipeline/verify.mjs", "catalog")],
   ["website", ...node("site/build.mjs", "--out", site)],
   ["npm package", process.platform === "win32" ? "npm.cmd" : "npm", ["pack", "--dry-run", "--json"]],

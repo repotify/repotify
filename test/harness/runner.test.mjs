@@ -66,7 +66,7 @@ describe("runner", () => {
     assert.equal(rec.contract_fail_task, false);
     assert.ok(typeof rec.pipeline_ms === "number");
     assert.ok(rec.phase1.tokens_est_in > 0 && rec.phase2.tokens_est_out > 0);
-    assert.equal(rec.skill_set_source, "recommend-defaultSet");
+    assert.equal(rec.skill_set_source, "v2-recommendV1", "the repotify arm measures the served engine");
     assert.ok(rec.content_sources["react-best-practices"], "content source recorded");
     assert.match(rec.raw_route_reply, /SKILLS:/);
   });
