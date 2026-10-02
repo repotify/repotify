@@ -27,6 +27,16 @@ is two more blocked skills, both explained below. Descriptive words (theft, malw
 backdoor …) were added to the documentation vocabulary so that security guides that *describe* attacks before showing them
 stay at caution; without them the rate was 5.5%.
 
+## Re-run on 2026-10-02 (scanner 1.3.0)
+
+Same four collections and commits. 127 skills: 99 verified, 17 caution, 3 quarantined, 8 rejected (blocked 11/127 =
+8.7%). Scanner 1.3.0 (the per-rule cap keeps the most severe findings) gives exactly the same verdicts as the scanner
+it replaced. Against the table above, three trailofbits skills are now rejected by the git-clone-and-build rule added on
+2026-10-01: `constant-time-analysis` (`git clone … vld && phpize`), `cargo-fuzz` (`git clone … ogg && cargo fuzz init`)
+and `libafl` (`git clone … LibAFL && ./build.sh`). Each has the agent fetch a third-party repository and build or run it:
+blocked by policy, like the remote-script cases below. These three account for the change in the totals. False
+alarms: unchanged at 2/127.
+
 ## Blocked skills (sent to the human review queue)
 
 | Skill | Level | Reason |

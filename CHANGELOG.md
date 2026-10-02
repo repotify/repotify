@@ -2,111 +2,69 @@
 
 ## 2.0.0 (2026-10-02)
 
-The first release of the v2 engine. It ships the 2.0.0 build below together with the fixes from its review.
+A new recommendation engine and a catalog whose every skill was read in full before it was classified.
 
-### Review fixes and the classifier
+### What changes for you
 
-Review on 2026-10-02: the quality bar scored the frozen v1 engine while `repotify recommend` served v2, so a 100%
-eval sat next to v2 sets that offered Spring Boot and rootkit analysis to a Flask app and Active Directory abuse to a
-Next.js shop. Served through v2, the same 49 scenarios scored 80.6% with 176 duplicate jobs.
+- **Every skill classified by a decision model.** At catalog build time Jev (TypeSafe, via OpenRouter's Decisions API;
+  any Jev-compatible model works) reads each `SKILL.md` and answers five typed questions: off-topic gate, main job,
+  language or framework, tied to one product, and lifecycle (pays off once, on every task, or now and then). Rules act
+  only on confident answers and hand-curated items are never relabelled. Against 49 hand labels: main job 94% (the
+  jury's free-form labels 52%), language 100% (86%), off-topic 98% (88%), lifecycle 85%. Nothing calls a model on
+  your machine.
+- **One pick per job.** A capability graph maps every item to the job it does. The default set holds one item per job
+  (cluster or exclusive group), the core backbone always, hand-vetted picks before lab finds, no skill written for a
+  stack the project does not use, and optional items only with a fit of 0.6 or more. What the project already has
+  (installed by Repotify or copied into an agent's skills folder) keeps its job and its share of the context budget,
+  and nothing that conflicts with it is offered. The table the agent reads has one row per job.
+- **Skills that pay off once.** `repotify audit` flags a codebase map or onboarding skill two weeks after install, and
+  every audit line shows its token cost: always-on per session and per use. ⏳ marks them in the table.
+- **Stack experts.** Angular, Vue, Django, FastAPI, Python, Go, Rust, Java and Spring, Kotlin, Swift, Flutter, PHP and
+  WordPress, Laravel, Rails, .NET, C++, NestJS, TypeScript and React Native projects get an expert for their stack, and
+  only theirs, from [jeffallan/claude-skills](https://github.com/jeffallan/claude-skills) (MIT) and other sources.
+- **Catalog: 91 items** (86 skills, 3 MCP servers, 1 tool, 1 config) from 17 repositories. Off-topic collections
+  (digital forensics, malware analysis, marketing), math-contest skills, a Telegram bot setup and skills that only
+  drive one product were removed; ten unsure lab finds wait for review.
+- **Security.** Scanner 1.3.0: a file's level comes from its most severe findings (before, ten harmless mentions of a
+  pattern could hide a critical one further down), and long lines of hidden characters no longer slow it down. Since
+  2026-10-01 it also catches `xargs`/`parallel` pipes into a shell, `curl` redirects, clone-and-build chains and more
+  `rm` and `sudo` forms, and the package guard checks `npx -p`, `npm exec` and registry overrides in the environment.
+  The jury no longer flags a skill for instructing its agent; only text aimed at the jury itself counts.
+- **Codex.** Removing or updating an MCP server keeps everything else in `.codex/config.toml` (array tables and
+  commented headers after the server were deleted before).
+- **Telemetry stays on your machine.** Usage signals are logged locally after a first-run notice; `repotify sync` is
+  the only way out, it asks first, and no collection server runs yet. Kill switches: `repotify telemetry off`,
+  `REPOTIFY_TELEMETRY=0`, `DO_NOT_TRACK=1`, `NO_ANALYTICS=1` (the last one now stops both local logs).
+- `recommend --arbitrate` (opt-in, needs a Jev key) asks only about the optional candidates; it used to ask which of
+  four core skills fits best. Exploration is off unless `REPOTIFY_EXPLORE=1`, and it never doubles a job.
 
-- **The eval measures the served engine.** `test/eval/run.mjs` runs `lib/pipeline/recommend` (the CLI's
-  deterministic path, shared through `demandFor` and `recommendLocal`). 108/108, 0 violations, 0 duplicate jobs.
-- **Fit means "does a job this project wants".** A specialist matching one wanted capability (semgrep) now fits
-  fully; the old matched/all-wanted ratio scored it near 0.2. Ranking multiplies fit by merit — jury quality, trust,
-  adoption, freshness, community — instead of adding near-constant gate and freshness terms.
-- **One item per job.** A cluster or exclusive group is served once, by its best item; core items claim theirs first.
-- **No off-stack skills.** An item written for specific stacks is a candidate only when the project uses one of them.
-- **The core backbone always ships**, also when the demand is too thin for extras (the reply still says why).
-  Empty projects get their curated loadout again. Optional items need a fit of 0.6 to join the default set.
-- **Exploration is off by default.** It swapped a random candidate into 1 in 20 sets while no learning loop reads
-  the logs (no telemetry endpoint yet). `REPOTIFY_EXPLORE=1` turns it on; episodes say `randomized` only then.
-- **Catalog: 103 items** (98 skills, 3 MCP servers, 1 tool, 1 config). Removed 39 off-topic items: a digital-forensics
-  and malware-analysis collection, a marketing collection, a Telegram bot setup and two math-contest skills, plus
-  the five graph edges that pointed at them. Fixed noisy tags on nextjs-developer, react-native-expert,
-  microservices-architect, ai-agents-architect and data-engineer.
-- `test/served-engine.test.mjs` locks all of the above.
-- **Every skill classified by a decision model.** Jev (TypeSafe, via OpenRouter's Decisions API; any Jev-compatible
-  model works) reads each `SKILL.md` at catalog build time and answers five typed questions: off-topic gate, main job,
-  language or framework, product-bound, lifecycle. Rules act only on confident answers; curated items are never
-  relabelled. Against 49 hand labels: main job 94% (jury 52%), language 100% (86%), off-topic 98% (88%),
-  lifecycle 85%. No model calls on the user's machine. The old Jev wrapper never ran (it needed a script that
-  only existed on one VM and parsed a response shape the API does not return); it now calls the real API.
-- **Taxonomy:** architecture, database, DevOps/infra, data/ML, agent orchestration and TypeScript capabilities;
-  infra and database needs come only from evidence (Dockerfile, Terraform, a database client).
-- **Capability graph derived from the catalog:** one PROVIDES edge per item job (92), curated edges kept (114 in all).
-- **`repotify audit` flags skills that pay off once** (a codebase map, onboarding) two weeks after install, and every
-  audit line shows its token cost: always-on per session and per use. ⏳ marks them in the candidate table.
-- Catalog 103 → 92: one more off-topic skill out, ten unsure lab finds held for review
-  (`pipeline/classification-review.json`).
-- README and GUIDE: the learning loop is described as built but not live (it is not wired into `recommend` and no
-  collection server runs); the unused "every candidate runs its own tests" step is no longer claimed.
+### Measured
 
-### The 2.0.0 build (2026-10-01, not released on its own)
+- Recommendation quality on 49 scenarios, run against the engine the CLI serves: 108/108 must-include, 0 violations,
+  0 duplicate jobs; the default set averages 12.1 items and 3,790 of 6,000 characters.
+- One setup costs the agent about 3,000 tokens (2,822–3,130 over seven fixture projects, `test/eval/flow-tokens.mjs`).
+- 820 tests on Node 18, 20, 22 and 24; coverage 94% of lines.
 
-The recommendation engine now runs a full five-step pipeline — test, classify, map, narrow, present — and learns
-in a closed loop: recommend → measure → learn. Built in ten phases (FAZ 0–10), each defended in an adversarial
-debate (advocate, critic, pragmatist) before its results were accepted.
+### Built, not live
 
-- **FAZ 0 — locked design.** 50-record decision log and a locked v2 design document.
-- **FAZ 1 — Stage 0 telemetry.** JSONL event stream with reward-agnostic validation: the validator rejects
-  reward/score/weight fields, so the client can never fabricate outcomes. Nothing is recorded before a first-run
-  notice on stderr. Off switches: `repotify telemetry off`, `REPOTIFY_TELEMETRY=0`, `DO_NOT_TRACK=1`. 32/32 tests.
-- **FAZ 2+3 — test runner and coarse classification.** Every catalog candidate runs its own tests; a jury
-  promotion path (proxy ≥ 0.8, verified or caution only — blocked never promotes), cumulative-drift checks
-  against the jury snapshot, and context labels that may only boost, never invent, evidence. 36/36 tests.
-- **FAZ 4+5 — capability graph and recommend v1.** A deterministic capability DAG (65 seeded edges, multi-parent
-  allowed) with "try this if that fails" fallback edges; recommend v1; a Jev decision model used only as a
-  signal inside classification and ranking, never as the sole decider. 163/163 tests.
-- **FAZ 7-harness — in-house evaluation harness.** Six arms (repotify, none, naive, jev, oracle, placebo),
-  two-phase protocol (routing → task), precision/F1. 40/40 harness tests; full suite 570/570. Pilot series 2
-  (z-ai/glm-5.3 via NVIDIA NIM, 30 runs): routing recall Δ +0.30 vs none, +0.20 vs naive; precision 1.0.
-- **FAZ 6 — learning bandit.** LinUCB contextual bandit over recommendation scores: 200-round simulation regret
-  ratio 0.664 (bar ≤ 0.80), worst of 5 seeds 0.762; jury scores warm-start the priors. 54/54 tests.
-- **FAZ 7-mini — acceptance series.** Series 3: 36 runs, 4 arms, z-ai/glm-5.3. Gates: must-include capture
-  9/9 = 100% (bar ≥ 85%) PASS; zero breakage PASS; task-score delta repotify−none +0.129, 95% CI [−0.01, 0.264]
-  — a weak pass at n=9; the 100-repo series is pre-registered in `test/harness/ACCEPTANCE-RULES.md`.
-  Budget: 92 of 100 model calls.
-- **FAZ 8 — site v2.** 168 pages in 24 languages; per-skill comments (moderation controls only behind
-  `?demo=moderation`, never on public pages); an effectiveness leaderboard reporting mean [min–max] over the
-  series-3 harness results — measured evidence, no stars, no ratings. Suite 647/647; eval 108/108, 0 violations.
-- **FAZ 9 — fleet telemetry.** Server-side nightly job (admit → snapshot → policy → gate → distribute);
-  production schema (4 tables; no install_id, nonce or IP columns, tested); the fleet policy blends into the v2
-  recommender; the public leaderboard stays gated behind 200 cumulative installs and k-anonymity (at least 5
-  contributing syncs per published bucket, 24-hour quarantine). `repotify sync` sends only anonymous aggregates,
-  and only after you confirm on the terminal. Full suite 662/662.
-- **FAZ 10 — release.** Version 2.0.0, this changelog, documentation refresh. `repotify recommend` now runs the
-  v2 pipeline (`lib/pipeline/recommend/`) directly: demand from project signals, capability-graph fallbacks,
-  `--blocked` list, fleet policy blending, opt-in Jev arbitration (`--arbitrate` / `REPOTIFY_JEV=1`), and Stage 0
-  propensity telemetry. Deferred per DL-051: serving-path exploration (quota semantics, arbitrate interaction,
-  and propensity-log consumer are open preconditions).
+The learning loop (LinUCB with off-policy evaluation, `lib/learn/`) and the fleet server (`lib/telemetry/server/`) are
+built and tested in simulation. They are not wired into `recommend` and nothing is deployed, so rankings do not learn
+from use yet. An evaluation harness (`test/harness/`) compares routing strategies on pilot scale; its series 3 results
+are on the website's leaderboard as mean [min–max] at n = 3 per cell.
 
-Catalog: 142 items from 24 repositories — 137 skills, 3 MCP servers, 1 tool, 1 config.
+### For maintainers
 
-Telemetry policy: default-ON with a first-run notice; kill switches above. Code, prompts, file names, repository
-names, user names and IP addresses are never collected. What gets published is the proof (which skills measure
-best at which jobs), never the recipe (raw data, taste profiles, scoring formulas, bandit weights).
-
-### Since 0.2.0: catalog and lab
-
-- **Stack experts for many more stacks.** Angular, Vue and Nuxt, Django, FastAPI, Python, Go, Rust, Java and Spring,
-  Kotlin, Swift, Flutter, PHP, Laravel, Rails, C# and .NET, C and C++, and NestJS projects now get an expert skill for
-  their stack, from [jeffallan/claude-skills](https://github.com/jeffallan/claude-skills) (MIT), security-scanned and
-  scored by the jury. Each one has its own capability, so it is picked only for its stack and never takes the place of
-  a core item. The catalog updates without a new npm release.
-- The scenario set gains Angular, Laravel, Rails, Java and .NET projects; the Django, FastAPI, Go, Rust, Vue and Flutter
-  scenarios require their expert, and scenarios on other stacks must not get it.
-- **Fewer false alarms from the jury.** Jurors flagged skills as suspicious for giving their agent instructions, which
-  is what a skill is for, and about a fifth of new findings lost their verified mark. Now only content aimed at the
-  jury itself counts: asking for a score, telling it to ignore its rules, posing as a system message.
-- `npm run check` names the failing tests.
-- The lab now adds vetted skills to the catalog on its own, every 30 minutes, only after the security scan, the jury,
-  the scenario set and `npm run check` pass. Four skills it added from a collection of leaked system prompts were
-  removed and that source is denylisted: its license is not the uploader's to give.
-- **No skills that only work with one product.** A skill written to drive one tool (a terminal multiplexer, a vendor
-  CLI, an agent add-on) does nothing in a project without it. The jury now names such a product and the lab declines
-  the skill; ten of them left the catalog.
-- The lab searches Codex topics too, and works through the most-starred Claude Code and Codex collections first.
+- The quality bar measures the served engine; before the review it scored the frozen v1 engine while users got v2
+  (which scored 80.6% with 176 duplicate jobs at the time).
+- `npm run check` also runs the harness tests and the gate's sensitivity sweep, which now calls the production
+  `selectSet()` instead of a copy that had drifted (the catalog workflow's coverage-pilot job was failing).
+- The capability graph is derived from the catalog (`pipeline/graph-seed.mjs`): one PROVIDES edge per item job (91),
+  curated edges kept (113 in all).
+- Unwired modules were removed: the per-candidate test runner, the keyword classifier and seed-context collector the Jev
+  classifier replaced, a second unused audit, and information-gain question ordering. The npm package ships only the
+  files the CLI loads, and a test checks it.
+- A source of leaked system prompts is denylisted (`pipeline/denylist.json`); the four skills taken from it were removed.
+- The lab's automatic publishing is paused; it will publish again once it applies the classifier's gate.
 
 ## 0.2.0 (2026-09-29)
 

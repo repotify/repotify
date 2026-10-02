@@ -12,12 +12,13 @@ app, Word and PowerPoint skills in a project whose dependencies only show Excel.
 |---|---|---|---|
 | 0.1.0: items scored one by one | 89 / 91 (97.8%) on 42 scenarios | 14 | 0 |
 | 0.2.0: evidence, platforms, coverage | 95 / 95 (100%) on 44 scenarios | 0 | 0 |
-| **0.2.0 + stack experts (catalog)** | **108 / 108 (100%)** on 49 scenarios | **0** | **0** |
+| 0.2.0 + stack experts (catalog) | 108 / 108 (100%) on 49 scenarios | 0 | 0 |
+| **2.0.0: the v2 engine the CLI serves** | **108 / 108 (100%)** on 49 scenarios | **0** | **0** |
 
 The 0.1.0 row uses the 42 scenarios that existed when the new engine was written (the 37 of 0.1.0, five new ones,
 stricter must-nots on four); two more (command-line tools built with Typer and commander) came from checking real
 repositories; five more (Angular, Laravel, Rails, Java, .NET) came with the stack experts, and each stack scenario now requires
-its own expert and rejects the others'. The default set averages 11.8 items and 3,782 of the 6,000 characters of
+its own expert and rejects the others'. The default set averages 12.1 items and 3,790 of the 6,000 characters of
 context budget. CI fails below 97% hits or on any violation. What changed is described in
 [ARCHITECTURE.md](ARCHITECTURE.md#the-recommendation-engine).
 
@@ -39,12 +40,14 @@ Spot checks on public projects (fingerprint and default set, beyond the core):
 |---|---|
 | Deliberately malicious samples (`test/fixtures/malicious/`) | 37 / 37 caught at their expected level |
 | Benign look-alikes (`test/fixtures/benign/`) | 24 / 24 pass below their ceiling |
-| Real skills from four public collections | 127 skills: 100 verified, 19 caution, 3 quarantined, 5 rejected |
+| Real skills from four public collections | 127 skills: 99 verified, 17 caution, 3 quarantined, 8 rejected |
 | False alarms on those real skills | 2 / 127 (1.6%); target ≤ 5% |
 
 The corpus is `anthropics/skills`, `obra/superpowers`, `trailofbits/skills` and `vercel-labs/agent-skills` at the
-commits listed in [the corpus report](reports/scan-corpus-report.md). The 0.2.0 scanner gives exactly the same
-verdicts as 1.2.0 on all 127 skills (re-run on 2026-09-29).
+commits listed in [the corpus report](reports/scan-corpus-report.md) (re-run on 2026-10-02 with scanner 1.3.0, which
+gives the same verdicts as the scanner it replaced on all 127 skills). Three more skills are rejected than in the
+report's first run: they tell the agent to clone a third-party repository and build or run it, which the scanner treats
+as remote code execution since 2026-10-01. The false alarms are still the same two.
 
 ### Scanning long lines
 
@@ -64,13 +67,17 @@ on Node 18 in CI and on slower machines.
 
 | What the agent reads | Budget | Now |
 |---|---|---|
-| `skill/repotify/SKILL.md` | 1,500 tokens | 1,373 |
+| `skill/repotify/SKILL.md` | 1,500 tokens | 1,488 |
+| One setup as the agent reads it: the start output, the skill, `questions --json`, the table and the install summary | — | 2,959 on average, 2,822–3,130 over the seven fixture projects (`node test/eval/flow-tokens.mjs`) |
 | The whole flow: skill, fingerprint, questions, a 30-row table, install summary, the agent's own writing | 5,000 tokens | within budget (`test/token-budget.test.mjs`) |
+
+Tokens are characters / 3.5, the conservative rule Repotify budgets with.
 
 ## Reproduce
 
 ```bash
 npm test                                   # includes the timing and token-budget tests
 npm run eval -- --verbose                  # recommendation quality, per scenario
+node test/eval/flow-tokens.mjs             # what one setup costs the agent, per fixture project
 node test/eval/scan-corpus.mjs <clones> --details   # scanner on real skills (clone the four collections first)
 ```

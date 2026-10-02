@@ -9,14 +9,17 @@ flowchart LR
   subgraph Maintainers
     D[pipeline/discover] --> C[pipeline/collect<br/>pinned commits]
     C --> G[pipeline/gate<br/>scanner, OSV, name squatting]
-    G --> J[pipeline/jury<br/>3 models, 3 vendors]
-    J --> P[pipeline/publish<br/>catalog/*.json + SHA-256 in meta.json]
+    G --> J[pipeline/jury<br/>2-3 models]
+    J --> K[pipeline/jev-classify<br/>main job, language, lifecycle]
+    K --> P[pipeline/publish<br/>catalog/*.json + SHA-256 in meta.json]
+    K --> M[pipeline/graph-seed<br/>data/graph-seed.json]
   end
   P -->|raw.githubusercontent.com, ETag| L[src/catalog<br/>remote → cache → bundled]
   subgraph "User's machine"
     F[src/fingerprint<br/>manifests and file names] --> N[src/needs<br/>≤ 3 questions, weights]
-    N --> R[src/recommend<br/>demand · fit · coverage · budget]
+    N --> R[lib/pipeline/recommend<br/>narrow · score · one per job · budget]
     L --> R
+    M --> R
     R --> I[src/install<br/>skills: hash + re-scan]
     R --> E[repotify enable<br/>hooks, MCP: the user]
     F --> A[src/audit<br/>installed skills]
@@ -31,7 +34,12 @@ flowchart LR
 | `src/cli.mjs` | Argument parsing and every command's output (`start`, `fingerprint`, `questions`, `recommend`, `audit`, `suggest`, `install`, `enable`, `remove`, `scan`, `update`, `vote`, `telemetry`, `guard`) |
 | `src/fingerprint.mjs`, `src/stackmap.mjs` | Local project scan: stacks, frameworks, needs, capability evidence, platforms, installed skills. `stackmap.mjs` is pure data |
 | `src/needs.mjs` | The few questions an agent may ask, and needs with evidence weights |
-| `src/recommend.mjs` | Recommendation engine (below) and the candidate table |
+| `lib/pipeline/recommend/` | The recommendation engine `recommend` runs (below): `narrow.mjs`, `score.mjs`, `present.mjs` (set, budget, candidate table), `index.mjs` (`demandFor`, `recommendLocal`, `recommendV1`) |
+| `lib/pipeline/graph/`, `data/graph-seed.json` | The capability graph: which item does which job, plus curated requires / depends-on / conflicts / supersedes / fallback edges, each with a forcing test |
+| `src/recommend.mjs` | Shared primitives (demand, fit, merit parts) used by the engine and by `audit`, and the table formatter; its own `recommend()` is the frozen v1 baseline the harness compares against |
+| `lib/signals/jev.mjs` | Client for Jev-compatible decision models: the catalog classifier and the opt-in `--arbitrate` |
+| `lib/telemetry/` | Local usage log (Stage 0), consent, privacy filter, `repotify sync` |
+| `lib/learn/`, `lib/telemetry/server/` | The learning loop and fleet server: built and tested in simulation, not wired into `recommend`, not deployed |
 | `src/catalog.mjs` | Catalog schema, integrity checks, loading with ETag cache, offline copy and rollback protection |
 | `src/install.mjs`, `src/mcpconfig.mjs`, `src/lock.mjs` | Installs (pinned commit, SHA-256, local re-scan), MCP config per agent, `repotify.lock.json` |
 | `src/agents.mjs` | Supported agents: skills folder, MCP config file, detection |
@@ -42,10 +50,11 @@ flowchart LR
 | `src/scan/` | Security scanner: `rules.mjs` (line rules), `shell.mjs` (shell structure), `files.mjs` (file-level rules), `typosquat.mjs` |
 | `src/telemetry*.mjs`, `src/feedback.mjs` | Anonymous usage signals (endpoint off until deployed), weekly votes |
 | `src/config.mjs`, `src/util.mjs`, `src/frontmatter.mjs` | URLs and settings, helpers, SKILL.md frontmatter |
-| `pipeline/` | Discovery, collection, security gate, LLM jury, clustering, publishing; `rehash.mjs` after a taxonomy edit |
+| `pipeline/` | Discovery, collection, security gate, LLM jury, the Jev classifier (`jev-classify.mjs`, `classify-catalog.mjs`), the graph seed, publishing; `rehash.mjs` after a taxonomy edit |
 | `catalog/` | The published catalog. Generated; `meta.json` holds the hashes clients verify |
 | `skill/repotify/SKILL.md` | The skill Repotify installs into the user's agent |
-| `test/eval/` | Recommendation scenarios (`test/eval/scenarios/`) and the scanner corpus run |
+| `test/eval/` | Recommendation scenarios (`test/eval/scenarios/`), the scanner corpus run and the setup cost (`flow-tokens.mjs`) |
+| `test/harness/` | Routing pilots and the gate's sensitivity sweep (run by `npm run check` and the catalog workflow) |
 | `test/` | `node:test` suites, malicious and benign scanner fixtures, fixture projects |
 | `pipeline/worker/` | Cloudflare Worker for anonymous analytics (not deployed yet) |
 | `docs/` | Maintainer guide (`guides/`), reports (`reports/`), translations (`i18n/`) |
@@ -54,20 +63,27 @@ flowchart LR
 
 ## The recommendation engine
 
+`repotify recommend` runs `lib/pipeline/recommend` with no model call (Jev arbitration is opt-in and paid).
+
 1. **Demand.** Needs come with a weight for how sure we are: seen in the project or said by the user (1.0), a stated
    priority (0.85), a default of the project type (0.75). Each need wants the capabilities the taxonomy maps it to.
    Dependency evidence narrows a broad need to the facets it shows: `openpyxl` means spreadsheets, not every office
    format, unless the user named the need. Platforms (web, mobile, desktop) come from dependencies.
-2. **Fit.** An item fits through the capabilities it provides (strong) and the needs it lists (weaker), scaled by the
-   evidence behind them. Stack items need a stack the project uses. Web-only capabilities (taxonomy `platform: web`)
-   do not fit an app with no web target. Core items always fit.
-3. **Score.** Fit times a prior: quality (jury), trust (scan level), adoption, freshness and community signals, with
-   Bayesian smoothing so new items are not punished.
-4. **One item per job.** Candidates are deduplicated by cluster, exclusive group and declared conflicts.
-5. **Coverage.** An optional item joins the default set only if it serves a wanted capability or need that nothing
-   chosen so far serves; otherwise it stays in the table as an alternative with `covered-by:<id>`. Stack expertise
-   and curated starter sets are exempt.
-6. **Budget.** Installed items and the core go first; the rest fill the context budget by value per character.
+2. **Narrow.** Candidates come from the capability graph (providers of each wanted job, fallbacks for blocked items)
+   and from the catalog. Out, each with a reason code: blocked items, web-only skills for an app with no web target,
+   items with no overlap with the demand, items written for stacks the project does not use, items already installed
+   (in the lock or in an agent's skills folder) and anything that conflicts with an installed item.
+3. **Score.** Fit times merit. Fit: one matched job is a full fit, stack experts need the stack, core items always
+   fit; candidates below a fit of 0.2 are dropped. Merit: jury quality, trust (scan level), adoption, freshness and
+   community signals, with Bayesian smoothing so new items are not punished.
+4. **One item per job.** A cluster or exclusive group is served once: installed items keep theirs, core items claim
+   theirs next, then the best item per job (a hand-vetted pick before a lab find). Declared conflicts drop the lower
+   scorer.
+5. **Coverage and budget.** An optional item needs a fit of 0.6 and must not be a near-duplicate of a chosen one
+   (wanted-token Jaccard below 0.6); the set fills the context budget by value per token, after what is installed.
+6. **Table.** The agent reads one row per job: installed items, the default set (★) and the best alternative for
+   each open job, so anything it adds keeps the setup conflict-free. When the demand is too thin, the core backbone
+   is offered with the reason, and the agent asks the questions from `repotify questions`.
 
 `npm run eval` measures this on the scenario set; see [BENCHMARKS.md](BENCHMARKS.md).
 

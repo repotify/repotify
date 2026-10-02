@@ -1,5 +1,8 @@
 # lib/learn — FAZ 6 learning loop
 
+> **Status:** built and tested in simulation only. It is not wired into `repotify recommend`, and no
+> collection server runs, so nothing here learns from real use yet (see docs/GUIDE.md).
+
 The closed loop: recommend → measure → learn. Pure JS, zero dependencies,
 Node 18+. All policy state lives on the user's machine (DL-014: local-first);
 the server only ever computes aggregate fleet policy from delayed snapshots.
