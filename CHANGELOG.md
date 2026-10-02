@@ -43,7 +43,8 @@ A new recommendation engine and a catalog whose every skill was read in full bef
 - Recommendation quality on 49 scenarios, run against the engine the CLI serves: 108/108 must-include, 0 violations,
   0 duplicate jobs; the default set averages 12.1 items and 3,790 of 6,000 characters.
 - One setup costs the agent about 3,000 tokens (2,822–3,130 over seven fixture projects, `test/eval/flow-tokens.mjs`).
-- 820 tests on Node 18, 20, 22 and 24; coverage 94% of lines.
+- 822 tests: all pass on Node 22 and 24; on Node 18 and 20, six worker tests that need `node:sqlite` are skipped.
+  Coverage 94% of lines.
 
 ### Built, not live
 
