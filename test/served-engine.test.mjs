@@ -129,3 +129,14 @@ test("the candidate table has one row per job, no noise below the fit floor, and
     for (const id of r.set) assert.ok(r.table.some((t) => t.id === id && t.default), `${s.name}: ${id} missing from the table`);
   }
 });
+
+test("Jev arbitration is asked only about optional items, never the core that tops every ranking", async () => {
+  const asked = [];
+  const arbitrate = async (ids) => {
+    asked.push(...ids);
+    return Object.fromEntries(ids.map((id, i) => [id, i === 0 ? 1 : 0]));
+  };
+  for (const s of scenarios) await recommendV1({ catalog, graph, demand: servedSet(s).demand }, { arbitrate });
+  assert.ok(asked.length > 0, "some scenario is ambiguous enough to ask");
+  for (const id of asked) assert.notEqual(itemById.get(id).tier, "core", `${id} is core`);
+});
