@@ -22,7 +22,7 @@
   "any_agent": "jedem Agenten, der .agents/skills liest",
   "why_title": "Dein Agent ist nur so gut wie das, was du ihm gibst",
   "why_1_title": "Zu viel Auswahl",
-  "why_1_text": "Es gibt Tausende Repositories mit Agent-Skills. Welche passen zu deinem Projekt?",
+  "why_1_text": "Repositories mit Agent-Skills sind überall verstreut. Welche passen zu deinem Projekt?",
   "why_2_title": "Ein echtes Sicherheitsrisiko",
   "why_2_text": "Ein Skill ist eine Anleitung, die dein Agent befolgt. Ein bösartiger kann Befehle auf deinem Rechner ausführen.",
   "why_3_title": "Aufgeblähter Kontext",

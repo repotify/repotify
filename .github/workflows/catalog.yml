@@ -1,10 +1,28 @@
 # Catalog build, started by hand: Actions → catalog-build → Run workflow (see docs/guides/operations.md).
 # Two jobs on purpose: `build` holds the LLM keys but can only read the repository;
 # `publish` can push but never sees an LLM key. Every action is pinned to a commit SHA.
+#
+# The `coverage-pilot` job is the odd one out on purpose: it fires automatically
+# on catalog / pipeline / harness changes (push + PR) and re-runs the coverage
+# pilot with --check plus the JACCARD_DROP sensitivity sweep, so a catalog
+# change can never silently regress the gate experiment's conclusion. It needs
+# no secrets and no network: the take-all mock agent is fully deterministic.
 name: catalog-build
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - "catalog/**"
+      - "lib/pipeline/**"
+      - "test/harness/**"
+      - ".github/workflows/catalog.yml"
+  pull_request:
+    paths:
+      - "catalog/**"
+      - "lib/pipeline/**"
+      - "test/harness/**"
+      - ".github/workflows/catalog.yml"
 
 permissions: {}
 
@@ -14,6 +32,9 @@ concurrency:
 
 jobs:
   build:
+    # The manual catalog build holds LLM keys: only ever on workflow_dispatch,
+    # never on catalog pushes/PRs (those run coverage-pilot instead).
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 120
     permissions:
@@ -118,3 +139,39 @@ jobs:
           git add catalog
           git commit -m "catalog: build $(node -p 'require("./catalog/meta.json").version')"
           git push
+
+  # Catalog-change regression gate: re-runs the coverage pilot (jaccard must
+  # not lose to strict) and the JACCARD_DROP sensitivity sweep whenever the
+  # catalog, the pipeline, or the harness changes. Deterministic, no secrets.
+  coverage-pilot:
+    if: github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+
+      - name: Coverage pilot (jaccard vs strict regression check)
+        env:
+          PILOT_REPS: "5"
+        run: node test/harness/pilot-coverage.mjs --check
+
+      - name: JACCARD_DROP sensitivity sweep
+        run: node test/harness/jaccard-sensitivity.mjs --out "$RUNNER_TEMP/jaccard-sensitivity.json"
+
+      - name: Harness unit tests (sweep + pilot check logic)
+        run: node --test test/harness/jaccard-sensitivity.test.mjs test/harness/pilot-check.test.mjs
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: jaccard-sensitivity-report
+          path: ${{ runner.temp }}/jaccard-sensitivity.json
+          retention-days: 30

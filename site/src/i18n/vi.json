@@ -22,7 +22,7 @@
   "any_agent": "mọi agent đọc .agents/skills",
   "why_title": "Agent của bạn chỉ tốt bằng những gì bạn trao cho nó",
   "why_1_title": "Quá nhiều lựa chọn",
-  "why_1_text": "Có hàng nghìn repository skill cho agent. Cái nào hợp với dự án của bạn?",
+  "why_1_text": "Các repository skill cho agent nằm rải rác khắp nơi. Cái nào hợp với dự án của bạn?",
   "why_2_title": "Rủi ro bảo mật có thật",
   "why_2_text": "Skill là một bộ chỉ dẫn mà agent làm theo. Một skill độc hại có thể chạy lệnh trên máy của bạn.",
   "why_3_title": "Ngữ cảnh phình to",

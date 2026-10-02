@@ -1,6 +1,6 @@
 {
   "name": "@repotify/repotify",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "description": "Every skill your repo needs, nothing it doesn't: a vetted, conflict-free set of agent skills, MCP servers and tools for Claude Code, Cursor, Codex and Gemini CLI.",
   "author": "Ahmet Bilal Deniz",
   "homepage": "https://github.com/repotify/repotify#readme",
@@ -29,6 +29,7 @@
     "src",
     "skill",
     "catalog",
+    "data/graph-seed.json",
     "README.md",
     "LICENSE",
     "AGENTS.md"

@@ -22,7 +22,7 @@
   "any_agent": "any agent that reads .agents/skills",
   "why_title": "Your agent is only as good as what you give it",
   "why_1_title": "Too many choices",
-  "why_1_text": "Thousands of skill repos, no map. Finding the ones that fit your project takes an afternoon.",
+  "why_1_text": "Skill repos are scattered everywhere, no map. Finding the ones that fit your project takes an afternoon.",
   "why_2_title": "A real security risk",
   "why_2_text": "A skill is instructions your agent obeys. A malicious one can steal secrets or run commands on your machine.",
   "why_3_title": "Context bloat",

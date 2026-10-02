@@ -22,7 +22,7 @@
   "any_agent": "alla agenter som läser .agents/skills",
   "why_title": "Din agent är bara så bra som det du ger den",
   "why_1_title": "För många val",
-  "why_1_text": "Det finns tusentals repon med agent-skills. Vilka passar ditt projekt?",
+  "why_1_text": "Repon med agent-skills ligger utspridda överallt. Vilka passar ditt projekt?",
   "why_2_title": "En verklig säkerhetsrisk",
   "why_2_text": "En skill är instruktioner som din agent följer. En skadlig skill kan köra kommandon på din dator.",
   "why_3_title": "Uppblåst kontext",

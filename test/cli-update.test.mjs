@@ -1,15 +1,27 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { enableAutoCheck } from "../src/update.mjs";
 
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
+
 const bin = fileURLToPath(new URL("../bin/repotify.mjs", import.meta.url));
 function project(lockItems) {
-  const cwd = mkdtempSync(join(tmpdir(), "rp-cliupd-"));
+  const cwd = mkTemp("rp-cliupd-");
   writeFileSync(join(cwd, "repotify.lock.json"), JSON.stringify({ version: 1, catalogVersion: "2026.01.01.1", items: lockItems }));
   return cwd;
 }
@@ -58,7 +70,7 @@ test("update --apply reports failures for ids it cannot update", () => {
 });
 
 test("enableAutoCheck works in a project without a .claude folder", () => {
-  const cwd = mkdtempSync(join(tmpdir(), "rp-cliupd-"));
+  const cwd = mkTemp("rp-cliupd-");
   assert.equal(enableAutoCheck({ cwd }).written, true);
   assert.ok(existsSync(join(cwd, ".claude/settings.json")));
 });

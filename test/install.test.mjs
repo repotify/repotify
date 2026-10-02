@@ -1,14 +1,26 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { installSkill, removeItem, rawUrl } from "../src/install.mjs";
 import { readLock } from "../src/lock.mjs";
 import { sha256 } from "../src/util.mjs";
 
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
+
 const COMMIT = "c".repeat(40);
-const tmp = () => mkdtempSync(join(tmpdir(), "rp-inst-"));
+const tmp = () => mkTemp("rp-inst-");
 const NOW = new Date("2026-09-28T10:00:00Z");
 
 function makeItem(files, over = {}) {
@@ -105,7 +117,8 @@ test("reinstalling a managed item replaces it cleanly", async () => {
   const v2files = { "SKILL.md": FILES["SKILL.md"] + "More.\n" };
   const v2 = makeItem(v2files, { commit: "d".repeat(40) });
   await installSkill(v2, { cwd, agents: ["claude-code"], fetchImpl: fakeFetch(v2, v2files), now: NOW });
-  assert.deepEqual(readdirSync(join(cwd, ".claude/skills/demo-skill")), ["SKILL.md"]);
+  // P4 instrumentation: the manifest is rewritten on reinstall (not a stray file).
+  assert.deepEqual(readdirSync(join(cwd, ".claude/skills/demo-skill")).sort(), [".repotify-instrument.json", "SKILL.md"]);
   assert.equal(readLock(cwd).items["demo-skill"].commit, "d".repeat(40));
 });
 

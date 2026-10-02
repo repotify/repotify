@@ -1,11 +1,23 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { parseInstallCommands, checkPackages, runHook, privateNpmScopes } from "../src/guard.mjs";
 import { installGuard, removeGuard } from "../src/install.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const NOW = new Date("2026-09-28T00:00:00Z");
 const daysAgo = (d) => new Date(NOW - d * 86400000).toISOString();
@@ -74,7 +86,7 @@ test("the hook blocks missing packages, asks about new ones and ignores other to
 });
 
 test("installGuard copies a standalone hook and merges settings without clobbering", () => {
-  const cwd = mkdtempSync(join(tmpdir(), "rp-guard-"));
+  const cwd = mkTemp("rp-guard-");
   mkdirSync(join(cwd, ".claude"));
   writeFileSync(join(cwd, ".claude/settings.json"), JSON.stringify({ permissions: { allow: ["Bash(ls)"] } }));
   const r = installGuard({ cwd });
@@ -95,7 +107,7 @@ test("installGuard copies a standalone hook and merges settings without clobberi
 });
 
 test("installGuard refuses to touch an unparseable settings file", () => {
-  const cwd = mkdtempSync(join(tmpdir(), "rp-guard-"));
+  const cwd = mkTemp("rp-guard-");
   mkdirSync(join(cwd, ".claude"));
   writeFileSync(join(cwd, ".claude/settings.json"), "{ nope");
   const r = installGuard({ cwd });
@@ -127,7 +139,7 @@ test("I3: a scoped package missing from the public registry asks instead of bloc
 });
 
 test("I3: scopes with a private registry in .npmrc are skipped entirely", async () => {
-  const cwd = mkdtempSync(join(tmpdir(), "rp-npmrc-"));
+  const cwd = mkTemp("rp-npmrc-");
   writeFileSync(join(cwd, ".npmrc"), "@acme:registry=https://npm.acme.internal/\n");
   const asked = [];
   const fetchImpl = async (url) => { asked.push(url); return new Response("{}", { status: 404 }); };
@@ -152,9 +164,9 @@ test("re-review M-i: npm aliases are looked up by the real package name", () => 
 });
 
 test("re-review M-i: private scopes from the user's ~/.npmrc are respected", () => {
-  const home = mkdtempSync(join(tmpdir(), "rp-home-"));
+  const home = mkTemp("rp-home-");
   writeFileSync(join(home, ".npmrc"), "@acme:registry=https://npm.acme.internal/\n");
-  const cwd = mkdtempSync(join(tmpdir(), "rp-proj-"));
+  const cwd = mkTemp("rp-proj-");
   const r = privateNpmScopes(cwd, { home });
   assert.ok(r.scopes.has("@acme"));
 });

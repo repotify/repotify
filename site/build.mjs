@@ -5,6 +5,9 @@
 import { copyFileSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildData } from "./build-data.mjs";
+import { buildSubPages, slug } from "./build-sub.mjs";
+export { slug };
 
 const here = dirname(fileURLToPath(import.meta.url));
 const SRC = join(here, "src");
@@ -18,9 +21,9 @@ export const LANGUAGES = [
   ["ar", "ar"], ["fa", "fa"], ["he", "he"], ["hi", "hi"], ["id", "id"], ["vi", "vi"], ["th", "th"], ["sv", "sv"], ["cs", "cs"],
 ].map(([code, dir]) => ({ code, dir, rtl: ["ar", "fa", "he"].includes(code) }));
 
-const escapeHtml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+export const escapeHtml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 // Body text: escaped, with `code` marked up. Attributes and <title>: escaped, backticks dropped.
-const text = (s) => escapeHtml(s).replace(/`([^`]+)`/g, "<code>$1</code>");
+export const text = (s) => escapeHtml(s).replace(/`([^`]+)`/g, "<code>$1</code>");
 const attr = (s) => escapeHtml(String(s).replace(/`/g, ""));
 
 const ICONS = {
@@ -77,7 +80,7 @@ function jsonLd(s, l, version) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-export function renderPage(template, strings, l, { version, langs = LANGUAGES, all = {} }) {
+export function renderPage(template, strings, l, { version, langs = LANGUAGES, all = {}, skillCount = null }) {
   const computed = {
     lang: l.code,
     dir: l.rtl ? "rtl" : "ltr",
@@ -85,6 +88,10 @@ export function renderPage(template, strings, l, { version, langs = LANGUAGES, a
     home: "./",
     canonical: pageUrl(l),
     version,
+    skill_count: skillCount == null ? "" : String(skillCount),
+    og_image_alt: skillCount == null
+      ? "Repotify logo"
+      : `Repotify: ${skillCount} agent skills, the right ones for your repo`,
     og_image: `${BASE_URL}assets/og.png`,
     hreflang: [
       ...langs.map((x) => `<link rel="alternate" hreflang="${x.code}" href="${pageUrl(x)}">`),
@@ -113,9 +120,11 @@ export function renderPage(template, strings, l, { version, langs = LANGUAGES, a
   });
 }
 
-function sitemap(langs, today) {
+function sitemap(langs, today, extraPaths = []) {
   const alternates = langs.map((x) => `    <xhtml:link rel="alternate" hreflang="${x.code}" href="${pageUrl(x)}"/>`).join("\n");
   const urls = langs.map((l) => `  <url>\n    <loc>${pageUrl(l)}</loc>\n    <lastmod>${today}</lastmod>\n${alternates}\n    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE_URL}"/>\n  </url>`);
+  // English-only v2 sub-pages (skills index/detail, leaderboard): no translations.
+  for (const p of extraPaths) urls.push(`  <url>\n    <loc>${BASE_URL}${p}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join("\n")}\n</urlset>\n`;
 }
 
@@ -130,25 +139,62 @@ const NOT_FOUND = (version) => `<!doctype html>
 <p style="margin-top:28px"><a class="btn primary" href="${BASE_PATH}">Repotify home</a></p></section></main></body></html>
 `;
 
+// FAZ 8.4: no inflated copy — the real catalog count is injected at build time,
+// per language (explicit map, digits are language-neutral).
+const COUNT_PHRASE = {
+  "ar": (n) => `${n} مهارة وكيل.`, "cs": (n) => `${n} skillů pro agenty.`,
+  "de": (n) => `${n} Agent-Skills.`, "en": (n) => `${n} agent skills.`,
+  "es": (n) => `${n} skills de agente.`, "fa": (n) => `${n} مهارت ایجنت.`,
+  "fr": (n) => `${n} skills d'agent.`, "he": (n) => `${n} סקילים לסוכנים.`,
+  "hi": (n) => `${n} एजेंट स्किल्स।`, "id": (n) => `${n} skill agen.`,
+  "it": (n) => `${n} skill per agenti.`, "ja": (n) => `${n}のエージェントスキル。`,
+  "ko": (n) => `${n}개의 에이전트 스킬.`, "nl": (n) => `${n} agent-skills.`,
+  "pl": (n) => `${n} skilli agentów.`, "pt-BR": (n) => `${n} skills de agente.`,
+  "ru": (n) => `${n} навыков для агентов.`, "sv": (n) => `${n} agent-skills.`,
+  "th": (n) => `${n} สกิลเอเจนต์`, "tr": (n) => `${n} ajan skill'i.`,
+  "uk": (n) => `${n} навичок для агентів.`, "vi": (n) => `${n} skill cho agent.`,
+  "zh-CN": (n) => `${n} 个代理技能。`, "zh-TW": (n) => `${n} 個代理技能。`,
+};
+const stripPunct = (s) => String(s).replace(/[.!。؟?]+$/, "");
+
+function injectRealCount(all, count) {
+  for (const l of LANGUAGES) {
+    const s = all[l.code];
+    const make = COUNT_PHRASE[l.code] ?? COUNT_PHRASE.en;
+    const newHero = make(count);
+    // meta_title embeds the same phrase ("Repotify: <phrase>, …"); swap it too.
+    // Case-insensitive: some locales capitalize the hero but not the meta title.
+    const oldPhrase = stripPunct(s.hero_title_a).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    s.meta_title = s.meta_title.replace(new RegExp(oldPhrase, "i"), stripPunct(newHero));
+    s.hero_title_a = newHero;
+  }
+}
+
 export function build({ out = join(here, "dist"), today = new Date().toISOString().slice(0, 10) } = {}) {
   const version = JSON.parse(readFileSync(join(here, "..", "package.json"), "utf8")).version;
   const template = readFileSync(join(SRC, "template.html"), "utf8");
   const all = Object.fromEntries(LANGUAGES.map((l) => [l.code, JSON.parse(readFileSync(join(SRC, "i18n", `${l.code}.json`), "utf8"))]));
   rmSync(out, { recursive: true, force: true });
   mkdirSync(join(out, "assets"), { recursive: true });
+  const data = buildData({ out, today });
+  injectRealCount(all, data.skillCount);
   for (const l of LANGUAGES) {
     const dir = join(out, l.dir);
     mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, "index.html"), renderPage(template, all[l.code], l, { version, all }));
+    writeFileSync(join(dir, "index.html"), renderPage(template, all[l.code], l, { version, all, skillCount: data.skillCount }));
   }
   for (const f of readdirSync(join(SRC, "assets"))) copyFileSync(join(SRC, "assets", f), join(out, "assets", f));
   copyFileSync(join(SRC, "styles.css"), join(out, "assets", "styles.css"));
+  copyFileSync(join(SRC, "sub.css"), join(out, "assets", "sub.css"));
   copyFileSync(join(SRC, "app.js"), join(out, "assets", "app.js"));
-  writeFileSync(join(out, "sitemap.xml"), sitemap(LANGUAGES, today));
+  copyFileSync(join(SRC, "comments.js"), join(out, "assets", "comments.js"));
+  const sub = buildSubPages({ out, version, today });
+  writeFileSync(join(out, "sitemap.xml"), sitemap(LANGUAGES, today,
+    ["skills/", "leaderboard/", ...sub.ids.map((id) => `skills/${id}/`)]));
   writeFileSync(join(out, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}sitemap.xml\n`);
   writeFileSync(join(out, "404.html"), NOT_FOUND(version));
   writeFileSync(join(out, ".nojekyll"), "");
-  return { out, pages: LANGUAGES.length, version };
+  return { out, pages: LANGUAGES.length + sub.pages, version, skills: sub.skills };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

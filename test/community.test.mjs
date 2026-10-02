@@ -1,12 +1,24 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, existsSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, existsSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { voteDue, keptEvents } from "../src/feedback.mjs";
 import { fetchCommunity, mergeCommunity } from "../pipeline/community.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const DAY = 86400000;
 const NOW = new Date("2026-09-28T12:00:00Z");
@@ -44,15 +56,20 @@ const fixture = fileURLToPath(new URL("./fixtures/projects/nextjs-saas", import.
 const run = (home, args, extra = {}, cwd = fixture) =>
   spawnSync(process.execPath, [bin, ...args], { cwd, encoding: "utf8", env: { ...process.env, REPOTIFY_HOME: home, REPOTIFY_OFFLINE: "1", REPOTIFY_TELEMETRY: "", DO_NOT_TRACK: "", ...extra } });
 const queue = (home) => (existsSync(join(home, "queue.jsonl")) ? readFileSync(join(home, "queue.jsonl"), "utf8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l)) : []);
+const stage0 = (home) => (existsSync(join(home, "stage0.jsonl")) ? readFileSync(join(home, "stage0.jsonl"), "utf8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l)) : []);
 
-test("CLI: recommend queues a shown event, vote records a vote, and nothing is sent", () => {
-  const home = mkdtempSync(join(tmpdir(), "rp-cli-tel-"));
+test("CLI: recommend logs a Stage 0 recommendation episode, vote records a vote, and nothing is sent", () => {
+  const home = mkTemp("rp-cli-tel-");
   assert.equal(run(home, ["recommend"]).status, 0);
-  const shown = queue(home).find((e) => e.type === "shown");
-  assert.ok(shown.items.includes("graphify"));
-  assert.ok(shown.stacks.includes("nextjs"));
+  const rec = stage0(home).find((e) => e.type === "recommendation");
+  assert.ok(rec, "recommendation episode logged in Stage 0 format");
+  assert.ok(rec.candidates.length > 0);
+  assert.ok(rec.candidates.every((c) => c.propensity > 0 && c.propensity < 1), "B1: 0 < p < 1");
+  assert.equal(rec.randomized, true, "P3: ε-greedy policy is stochastic");
+  assert.ok(rec.candidates.every((c) => typeof c.is_explore === "boolean"), "P3: is_explore filled");
+  assert.ok(rec.candidates.some((c) => c.shown), "some candidates marked shown");
   assert.equal(run(home, ["vote", "--due"]).stdout.trim(), "due");
-  const proj = mkdtempSync(join(tmpdir(), "rp-vote-proj-"));
+  const proj = mkTemp("rp-vote-proj-");
   writeFileSync(join(proj, "repotify.lock.json"), JSON.stringify({ version: 1, items: { graphify: { type: "tool", targets: [] } } }));
   assert.equal(run(home, ["vote", "graphify", "up"], {}, proj).status, 0);
   assert.equal(queue(home).find((e) => e.type === "vote").vote, "up");
@@ -64,7 +81,7 @@ test("CLI: recommend queues a shown event, vote records a vote, and nothing is s
 });
 
 test("CLI: telemetry off stops all queuing", () => {
-  const home = mkdtempSync(join(tmpdir(), "rp-cli-tel-"));
+  const home = mkTemp("rp-cli-tel-");
   run(home, ["telemetry", "off"]);
   run(home, ["recommend"]);
   assert.deepEqual(queue(home), []);
@@ -72,7 +89,7 @@ test("CLI: telemetry off stops all queuing", () => {
 });
 
 test("CLI: DO_NOT_TRACK=1 queues nothing", () => {
-  const home = mkdtempSync(join(tmpdir(), "rp-cli-tel-"));
+  const home = mkTemp("rp-cli-tel-");
   run(home, ["recommend"], { DO_NOT_TRACK: "1" });
   assert.deepEqual(queue(home), []);
 });

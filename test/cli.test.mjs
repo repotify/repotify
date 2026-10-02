@@ -1,10 +1,22 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const bin = fileURLToPath(new URL("../bin/repotify.mjs", import.meta.url));
 const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
@@ -42,17 +54,19 @@ test("questions lists only what is unknown", () => {
   assert.ok(!j.some((q) => q.id === "projectType"));
 });
 
-const tmpHome = mkdtempSync(join(tmpdir(), "rp-cli-home-"));
-const offline = (cwd, ...args) => spawnSync(process.execPath, [bin, ...args], { encoding: "utf8", cwd, env: { ...process.env, REPOTIFY_OFFLINE: "1", REPOTIFY_TELEMETRY: "0", REPOTIFY_HOME: tmpHome } });
+const tmpHome = mkTemp("rp-cli-home-");
+const offline = (cwd, ...args) => spawnSync(process.execPath, [bin, ...args], { encoding: "utf8", cwd, env: { ...process.env, REPOTIFY_OFFLINE: "1", REPOTIFY_TELEMETRY: "0", REPOTIFY_HOME: tmpHome, REPOTIFY_NO_EXPLORE: "1" } });
 
 test("recommend prints the candidate table from the bundled catalog when offline", () => {
   const r = offline(projects + "nextjs-saas", "recommend");
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /^Repotify candidates/);
-  assert.match(r.stdout, /★ graphify \|/);
+  assert.match(r.stdout, /^★ \S+ \|/m);
   const j = JSON.parse(offline(projects + "nextjs-saas", "recommend", "--json").stdout);
+  assert.equal(j.decision, "recommend");
   assert.ok(j.rows.length > 0);
-  assert.ok(j.defaultSet.includes("react-best-practices"));
+  assert.deepEqual(j.defaultSet, j.set);
+  assert.ok(j.defaultSet.includes("webapp-testing"));
 });
 
 test("recommend accepts answers as flags for projects that cannot be inferred", () => {

@@ -1,13 +1,25 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { mcpSnippet, applyMcp, removeMcp } from "../src/mcpconfig.mjs";
 import { installItem, removeItem } from "../src/install.mjs";
 import { readLock } from "../src/lock.mjs";
 
-const tmp = () => mkdtempSync(join(tmpdir(), "rp-mcp-"));
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
+
+const tmp = () => mkTemp("rp-mcp-");
 const playwright = { id: "playwright-mcp", type: "mcp", setup: { steps: ["x"], mcp: { command: "npx", args: ["-y", "@playwright/mcp@0.0.82"] } }, security: { level: "verified" } };
 const context7 = { id: "context7", type: "mcp", setup: { steps: ["x"], mcp: { command: "npx", args: ["-y", "@upstash/context7-mcp@4.1.1"], env: { TOKEN: "<your token>" } } }, security: { level: "verified" } };
 

@@ -1,17 +1,29 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { cpSync, mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { parseGitHubRepo, originOf, skillFolders, buildSuggestion, formatSuggestion, submissionUrl, KINDS } from "../src/suggest.mjs";
 
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
+
 const fixtures = fileURLToPath(new URL("./fixtures/", import.meta.url));
 const bin = fileURLToPath(new URL("../bin/repotify.mjs", import.meta.url));
 
 function repo({ remote = "git@github.com:octo/pdf-skill.git", skills = [""], license = "MIT License\n\nCopyright (c) 2026" } = {}) {
-  const dir = mkdtempSync(join(tmpdir(), "repotify-suggest-"));
+  const dir = mkTemp("repotify-suggest-");
   mkdirSync(join(dir, ".git"));
   if (remote) writeFileSync(join(dir, ".git", "config"), `[core]\n\tbare = false\n[remote "origin"]\n\turl = ${remote}\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n`);
   for (const rel of skills) {

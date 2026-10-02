@@ -22,7 +22,7 @@
   "any_agent": "každým agentem, který čte .agents/skills",
   "why_title": "Váš agent je jen tak dobrý, jak dobré věci mu dáte",
   "why_1_title": "Příliš mnoho možností",
-  "why_1_text": "Existují tisíce repozitářů se skilly pro agenty. Které se hodí k vašemu projektu?",
+  "why_1_text": "Repozitáře se skilly pro agenty jsou všude. Které se hodí k vašemu projektu?",
   "why_2_title": "Skutečné bezpečnostní riziko",
   "why_2_text": "Skill je sada pokynů, kterými se váš agent řídí. Škodlivý skill může na vašem počítači spouštět příkazy.",
   "why_3_title": "Přeplněný kontext",

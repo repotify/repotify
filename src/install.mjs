@@ -7,6 +7,7 @@ import { readLock, writeLock } from "./lock.mjs";
 import { scanFiles } from "./scan/index.mjs";
 import { safeRelPath, sha256, compareSemver } from "./util.mjs";
 import { applyMcp, mcpSnippet, removeMcp, agentForMcpFile } from "./mcpconfig.mjs";
+import { wrapInstalledSkill, unwrapInstalledSkill } from "../lib/telemetry/instrument.mjs";
 
 export const RAW_BASE = "https://raw.githubusercontent.com";
 const MAX_DOWNLOAD_BYTES = 5 * 1024 * 1024;
@@ -129,6 +130,16 @@ export async function installSkill(item, opts) {
     lock.items[item.id] = entry;
     if (catalogVersion) lock.catalogVersion = catalogVersion;
     writeLock(cwd, lock);
+    // P4 instrumentation: installation is the instrumentation point. Wrap
+    // every written skill target so later invoke reports resolve to this
+    // catalog skill_id (invoke_observed=true downstream). Best-effort: a
+    // failed wrap warns but never fails the install.
+    try {
+      for (const t of targets) {
+        const r = wrapInstalledSkill({ dir: join(cwd, t), skillId: item.id, installedAt: now.toISOString() });
+        if (!r.ok && process.env.REPOTIFY_DEBUG) console.warn(`repotify: instrument wrap failed for ${t}: ${r.reason}`);
+      }
+    } catch { /* never break an install */ }
     return entry;
   } finally {
     rmSync(staging, { recursive: true, force: true });
@@ -260,7 +271,11 @@ export function removeItem(id, { cwd }) {
   } else if (entry.type === "config") {
     removeGuard({ cwd });
   } else {
-    for (const t of entry.targets ?? []) if (isSkillTarget(t)) rmSync(join(cwd, t), { recursive: true, force: true });
+    for (const t of entry.targets ?? []) {
+      // P4: remove the instrumentation manifest with the skill (best-effort).
+      try { unwrapInstalledSkill(join(cwd, t)); } catch { /* ignore */ }
+      if (isSkillTarget(t)) rmSync(join(cwd, t), { recursive: true, force: true });
+    }
   }
   delete lock.items[id];
   writeLock(cwd, lock);

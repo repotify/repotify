@@ -1,7 +1,7 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import { main } from "../src/cli.mjs";
 import assert from "node:assert/strict";
-import { mkdtempSync, cpSync, readFileSync, statSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { mkdtempSync, cpSync, readFileSync, statSync, existsSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,12 +13,12 @@ const fixture = fileURLToPath(new URL("./fixtures/projects/nextjs-saas", import.
 const skillSrc = fileURLToPath(new URL("../skill/repotify/SKILL.md", import.meta.url));
 
 function project() {
-  const dir = mkdtempSync(join(tmpdir(), "rp-flow-"));
+  const dir = mkTemp("rp-flow-");
   cpSync(fixture, dir, { recursive: true });
   return dir;
 }
 const run = (cwd, args, env = {}) =>
-  spawnSync(process.execPath, [bin, ...args], { cwd, encoding: "utf8", env: { ...process.env, REPOTIFY_OFFLINE: "1", REPOTIFY_TELEMETRY: "0", REPOTIFY_HOME: join(cwd, ".home"), ...env } });
+  spawnSync(process.execPath, [bin, ...args], { cwd, encoding: "utf8", env: { ...process.env, REPOTIFY_OFFLINE: "1", REPOTIFY_TELEMETRY: "0", REPOTIFY_HOME: join(cwd, ".home"), REPOTIFY_NO_EXPLORE: "1", ...env } });
 
 test("running with no command installs the repotify skill for the detected agent", () => {
   const cwd = project();
@@ -75,6 +75,18 @@ test("--help lists every command", () => {
 
 import { formatInstallSummary } from "../src/cli.mjs";
 
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
+
 test("the install summary stays under 1,050 characters and never cuts a line", () => {
   const results = Array.from({ length: 30 }, (_, i) => ({ id: `some-long-skill-name-${i}`, ok: true, type: "skill", written: true, entry: { targets: [`.claude/skills/some-long-skill-name-${i}`], level: "verified" } }));
   results.push({ id: "omniroute", ok: true, type: "tool", steps: ["npm install -g omniroute@3.8.50", "omniroute"], verify: "curl -s http://localhost:20128/v1/models", level: "caution" });
@@ -121,7 +133,7 @@ test("unexpected errors print one line, not a stack trace", async () => {
 });
 
 test("M1: in the home folder repotify does not install itself or write a lock", () => {
-  const home = mkdtempSync(join(tmpdir(), "rp-homedir-"));
+  const home = mkTemp("rp-homedir-");
   const r = run(home, [], { CLAUDECODE: "1", HOME: home, USERPROFILE: home }); // USERPROFILE: the home folder on Windows
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /home folder or filesystem root/);

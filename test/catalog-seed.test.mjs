@@ -1,6 +1,6 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { parseFrontmatter, snapshotSkill } from "../pipeline/collect.mjs";
@@ -8,6 +8,18 @@ import { validateCatalog } from "../src/catalog.mjs";
 import { SCANNER_VERSION, levelFromFindings } from "../src/scan/index.mjs";
 import { sha256 } from "../src/util.mjs";
 import { GATE_VERSION } from "../pipeline/gate.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 test("parseFrontmatter reads plain, quoted, folded and multi-line values", () => {
   assert.deepEqual(parseFrontmatter("---\nname: pdf\ndescription: Reads PDFs.\n---\n# x"), { name: "pdf", description: "Reads PDFs." });
@@ -23,7 +35,7 @@ test("parseFrontmatter reads plain, quoted, folded and multi-line values", () =>
 });
 
 test("snapshotSkill hashes files in sorted order and skips .git", async () => {
-  const dir = mkdtempSync(join(tmpdir(), "rp-snap-"));
+  const dir = mkTemp("rp-snap-");
   mkdirSync(join(dir, "skills", "demo", "scripts"), { recursive: true });
   mkdirSync(join(dir, "skills", "demo", ".git"), { recursive: true });
   writeFileSync(join(dir, "skills", "demo", "SKILL.md"), "---\nname: demo\ndescription: Demo skill.\n---\nBody\n");

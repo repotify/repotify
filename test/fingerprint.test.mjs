@@ -1,10 +1,22 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, symlinkSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, symlinkSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fingerprint, formatFingerprint } from "../src/fingerprint.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const projects = fileURLToPath(new URL("./fixtures/projects/", import.meta.url));
 const fp = (name, opts) => fingerprint(join(projects, name), opts);
@@ -81,7 +93,7 @@ test("solidity projects are detected", async () => {
 });
 
 test("the walk is bounded by maxFiles and stays fast", async () => {
-  const dir = mkdtempSync(join(tmpdir(), "rp-big-"));
+  const dir = mkTemp("rp-big-");
   for (let d = 0; d < 10; d++) {
     mkdirSync(join(dir, `d${d}`));
     for (let i = 0; i < 20; i++) writeFileSync(join(dir, `d${d}`, `f${i}.js`), "x");
@@ -94,7 +106,7 @@ test("the walk is bounded by maxFiles and stays fast", async () => {
 });
 
 test("the home directory and filesystem root are treated as no project", async () => {
-  const dir = mkdtempSync(join(tmpdir(), "rp-home-"));
+  const dir = mkTemp("rp-home-");
   writeFileSync(join(dir, "package.json"), '{"dependencies":{"react":"1"}}');
   const f = await fingerprint(dir, { homeDir: dir });
   assert.equal(f.empty, true);
@@ -104,16 +116,16 @@ test("the home directory and filesystem root are treated as no project", async (
 
 test("the home directory is recognised under another spelling of its path", async () => {
   // macOS: the temp folder is /var/..., the working directory /private/var/...
-  const dir = mkdtempSync(join(tmpdir(), "rp-home-"));
+  const dir = mkTemp("rp-home-");
   writeFileSync(join(dir, "package.json"), '{"dependencies":{"react":"1"}}');
-  const alias = join(mkdtempSync(join(tmpdir(), "rp-alias-")), "home");
+  const alias = join(mkTemp("rp-alias-"), "home");
   symlinkSync(dir, alias, "dir");
   assert.equal((await fingerprint(dir, { homeDir: alias })).reason, "home-or-root");
   assert.equal((await fingerprint(alias, { homeDir: dir })).reason, "home-or-root");
 });
 
 test("large projects infer large-codebase", async () => {
-  const dir = mkdtempSync(join(tmpdir(), "rp-large-"));
+  const dir = mkTemp("rp-large-");
   writeFileSync(join(dir, "package.json"), "{}");
   for (let i = 0; i < 1600; i++) writeFileSync(join(dir, `m${i}.ts`), "");
   const f = await fingerprint(dir);
@@ -129,7 +141,7 @@ test("formatFingerprint stays within 1400 characters", async () => {
 });
 
 test("projects kept inside the project (fixtures, examples, templates) do not change its stacks", async () => {
-  const dir = mkdtempSync(join(tmpdir(), "repotify-fp-"));
+  const dir = mkTemp("repotify-fp-");
   writeFileSync(join(dir, "package.json"), JSON.stringify({ name: "cli-tool", bin: "cli.mjs" }));
   for (const sub of ["test/fixtures/web", "examples/next-demo", "templates/flutter-app", "internal/testdata/py"]) mkdirSync(join(dir, sub), { recursive: true });
   writeFileSync(join(dir, "test/fixtures/web/package.json"), JSON.stringify({ dependencies: { react: "19.0.0", stripe: "17.0.0" } }));

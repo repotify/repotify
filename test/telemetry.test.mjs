@@ -1,13 +1,25 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, existsSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, existsSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createTelemetry, validateEvent, EVENT_TYPES, NOTICE, MAX_QUEUE } from "../src/telemetry.mjs";
+import { createTelemetry, validateEvent, EVENT_TYPES, NOTICE, NOTICE_DETAILS, MAX_QUEUE } from "../src/telemetry.mjs";
 import { TELEMETRY_ENDPOINT } from "../src/config.mjs";
 
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
+
 const NOW = new Date("2026-09-28T12:00:00Z");
-const home = () => mkdtempSync(join(tmpdir(), "rp-tel-"));
+const home = () => mkTemp("rp-tel-");
 const envFor = (dir, extra = {}) => ({ REPOTIFY_HOME: dir, ...extra });
 const queueLines = (dir) => (existsSync(join(dir, "queue.jsonl")) ? readFileSync(join(dir, "queue.jsonl"), "utf8").trim().split("\n").filter(Boolean) : []);
 
@@ -76,14 +88,18 @@ test("the queue is bounded", () => {
   assert.equal(queueLines(dir).length, MAX_QUEUE);
 });
 
-test("the one-time notice explains what is and is not collected", () => {
+test("the one-time notice is the frozen FAZ 0 text; details explain what is and is not collected", () => {
   const dir = home();
   const t = createTelemetry({ env: envFor(dir), now: NOW });
   assert.equal(t.noticeNeeded(), true);
   t.markNoticeShown();
   assert.equal(createTelemetry({ env: envFor(dir), now: NOW }).noticeNeeded(), false);
-  assert.match(NOTICE, /never/i);
-  assert.match(NOTICE, /REPOTIFY_TELEMETRY=0/);
+  // DL-009: exact wording frozen at FAZ 0 — a single line.
+  assert.equal(NOTICE, "Repotify measures which skills actually work and shares anonymous usage counts to improve recommendations. Turn off any time: `repotify telemetry off`.");
+  assert.equal(NOTICE.split("\n").length, 1, "the notice is one line");
+  assert.match(NOTICE_DETAILS, /never/i);
+  assert.match(NOTICE_DETAILS, /REPOTIFY_TELEMETRY=0/);
+  assert.match(NOTICE_DETAILS, /repotify sync/);
 });
 
 test("a self-hosted endpoint receives batches and the queue is cleared on success", async () => {

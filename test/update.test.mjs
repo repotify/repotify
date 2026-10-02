@@ -1,6 +1,6 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { checkUpdates, applyUpdates, selfUpdateSkill, enableAutoCheck, weeklyCheckDue } from "../src/update.mjs";
@@ -11,7 +11,7 @@ import { sha256 } from "../src/util.mjs";
 const NOW = new Date("2026-09-28T10:00:00Z");
 const C1 = "1".repeat(40);
 const C2 = "2".repeat(40);
-const tmp = () => mkdtempSync(join(tmpdir(), "rp-upd-"));
+const tmp = () => mkTemp("rp-upd-");
 const V1 = { "SKILL.md": "---\nname: demo\ndescription: v1\n---\nVersion one.\n" };
 const V2 = { "SKILL.md": "---\nname: demo\ndescription: v2\n---\nVersion two.\n" };
 
@@ -98,6 +98,18 @@ test("enableAutoCheck adds one SessionStart hook and keeps existing settings", (
 });
 
 import { installItem } from "../src/install.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const mcpItem = (version, level = "verified") => ({ id: "ctx", type: "mcp", repo: "a/b", setup: { steps: ["x"], mcp: { command: "npx", args: ["-y", `ctx-mcp@${version}`] } }, security: { level } });
 

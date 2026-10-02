@@ -1,3 +1,10 @@
+// FROZEN (v1 reference engine, 2026-10-01, P1 engine-duality fix).
+// Do NOT extend this file: it is the frozen v1 baseline used by the eval
+// runner (test/eval/run.mjs) and the harness "v1-baseline" arm
+// (test/harness/arms.mjs). All new recommendation work goes to the v2
+// pipeline in lib/pipeline/recommend/ (recommendV1). The only sanctioned
+// future change here is extraction of shared primitives into lib/scoring/
+// (consolidation option 1, post-"bas") — never behavioral changes.
 // Recommendation engine: demand, fit, score, conflicts, coverage, context budget, candidate table.
 
 export const WEIGHTS = { quality: 0.35, trust: 0.25, adoption: 0.2, freshness: 0.1, community: 0.1 };

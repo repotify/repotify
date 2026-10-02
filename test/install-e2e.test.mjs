@@ -1,12 +1,24 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
-import { mkdtempSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, readFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
 import { sha256 } from "../src/util.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const bin = fileURLToPath(new URL("../bin/repotify.mjs", import.meta.url));
 const bundled = fileURLToPath(new URL("../catalog/", import.meta.url));
@@ -62,7 +74,7 @@ function run(args, env, cwd) {
 test("CLI installs one skill for Claude Code, Cursor and Codex from a served catalog", async () => {
   const server = await serve(buildCatalog());
   const base = `http://127.0.0.1:${server.address().port}`;
-  const cwd = mkdtempSync(join(tmpdir(), "rp-e2e-"));
+  const cwd = mkTemp("rp-e2e-");
   const env = { REPOTIFY_CATALOG_URL: `${base}/catalog`, REPOTIFY_RAW_BASE: `${base}/raw`, REPOTIFY_HOME: join(cwd, ".home"), REPOTIFY_TELEMETRY: "0" };
   try {
     const r = await run(["install", "e2e-skill", "--agent", "claude-code,cursor,codex", "--yes"], env, cwd);

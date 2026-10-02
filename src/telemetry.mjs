@@ -8,11 +8,19 @@ export { validateEvent, EVENT_TYPES };
 export const MAX_QUEUE = 1000;
 const BATCH = 100;
 
-export const NOTICE = [
-  "Repotify collects anonymous usage signals to rank items better: a random install id, agent type,",
-  "stack/need categories, which catalog items were shown, picked, kept after 7 days or removed, and your votes.",
-  "It never collects code, file names, repository names, user names, or stores IP addresses.",
-  "Turn it off any time: REPOTIFY_TELEMETRY=0 (or DO_NOT_TRACK=1), or run `repotify telemetry off`.",
+// FAZ 0 / DL-009 — exact first-run notice text, FROZEN. Do not reword:
+// the wording is a locked decision ("bildirimden önce veri yok" T1).
+export const NOTICE =
+  "Repotify measures which skills actually work and shares anonymous usage counts to improve recommendations. Turn off any time: `repotify telemetry off`.";
+
+// Everything else the notice implies, shown on `repotify telemetry status`.
+export const NOTICE_DETAILS = [
+  "What is measured: a random install id, agent type, which catalog items were",
+  "shown, installed, invoked, kept after 7/30 days or removed, and your votes.",
+  "It never collects code, prompts, file names, repository names, user names,",
+  "transcripts, or IP addresses; only aggregated summaries ever leave the",
+  "machine, and only via an explicit `repotify sync` that you confirm.",
+  "Kill switches: `repotify telemetry off`, REPOTIFY_TELEMETRY=0, DO_NOT_TRACK=1.",
 ].join("\n");
 
 export function createTelemetry({ env = process.env, fetchImpl = fetch, now = new Date(), endpoint = TELEMETRY_ENDPOINT, version = "0.0.0" } = {}) {

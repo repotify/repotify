@@ -12,6 +12,34 @@ The [README](../README.md) is the short version. This page has the details.
 
 The whole flow costs your agent about 4,700 tokens.
 
+## The v2 recommendation pipeline
+
+Behind `recommend` (in `lib/pipeline/`) is a five-step pipeline that closes the loop — recommend → measure → learn:
+
+1. **Test.** Every catalog candidate runs its own tests; failures and flaky results are recorded, not retried into silence.
+2. **Classify.** The three-model jury scores each skill for quality, specificity and maintenance; scores sort items into capability classes, and only verified or caution items can be promoted (blocked items never are).
+3. **Map.** A deterministic capability graph (a DAG, not a strict tree; multi-parent allowed) with "try this if that fails" fallback edges resolves each job to the right item, so nothing overlaps. A Jev decision model acts only as a signal inside classification and ranking — never as the sole decider.
+4. **Narrow.** A question cascade: project signals first, learned preferences second, questions only when both are empty — ordered by information gain, at most three.
+5. **Present.** A conflict-free skill set inside a context budget, with measured effectiveness scores where the fleet has earned them.
+
+Then Repotify measures what happened: shown, installed, invoked, kept after 7/30 days, removed, voted. A LinUCB contextual bandit learns per-user rankings from those signals (accepted at a 200-round simulated regret ratio of 0.664 against a 0.80 bar), and a fleet policy blends anonymized measurements across developers into a shared prior — publish the proof, hide the recipe. An in-house evaluation harness (six arms: repotify, none, naive, jev, oracle, placebo; two-phase routing → task protocol) keeps the whole loop honest: series 3 measured must-include capture at 9/9 (100%, bar ≥ 85%) and zero breakage.
+
+> [!NOTE]
+> The v2 pipeline is wired into the `repotify recommend` command: demand from project signals, capability-graph fallbacks, `--blocked` list, fleet policy blending, opt-in Jev arbitration (`--arbitrate` / `REPOTIFY_JEV=1`), and Stage 0 propensity telemetry.
+
+## Locked product decisions (8-question package, 2026-10-01)
+
+Approved product decisions and where they are enforced in code:
+
+- **R1 (DL-035).** Coarse classification (three-model jury + keyword overlap) plus seed context (manifest deps) is sufficient — no extra work.
+- **R2 (DL-036).** An edge that was not exercised by a forcing test may never enter the capability graph. Enforced by `lib/pipeline/graph/loader.mjs` (`R2 violation` on `tested !== true` or a missing test reference), locked by `test/karar-r2.test.mjs`.
+- **R4 (DL-037).** Usage signals (invoked, kept) never flow back into classification — they go to the bandit only (`oneShotLabel` → LinUCB). Classification stays jury + tests + seed context (`lib/pipeline/classify/index.mjs` has no usage-signal input).
+- **R6 (DL-038).** `data/graph-seed.json` is a frozen seed (version 1). Edge promotion happens only through a forcing test plus the telemetry threshold.
+- **Q5 (DL-039).** Taste profiles are project-scoped by default — every project gets its own profile. A user-global profile requires explicit opt-in. Consistent with the locked rule: never touch global installs.
+- **DL-040.** The fleet taste-model turn-on threshold is deliberately NOT a fixed number; it will be set from Stage 0 telemetry data using offline policy evaluation (`lib/learn/ope.mjs`).
+- **DL-041.** The leaderboard spec is approved: effectiveness is built from the one-shot label components (invoked, outcome, kept, removed, replaced), published with a 7-day delay, broken down by project type, reported as mean [min–max] with no stars or ratings.
+- **DL-042.** Platform fallback weights for unobservable channels (e.g. `invoked`) are NOT fixed; they will be calibrated on Stage 0 data in the FAZ 11 OPE calibration harness. The locked rule stands: an unobserved channel is masked (recorded as unknown, never scored as 0).
+
 ## Security model
 
 | Level | Meaning | What happens |
@@ -55,7 +83,8 @@ The agent is detected automatically; override with `--agent claude-code,cursor,c
 | `repotify update --check` | Lists catalog updates for what you installed; `--apply` installs scanned updates |
 | `repotify scan <dir>` | Runs the security scanner on any skill folder |
 | `repotify vote <id> up\|down` | Rates an item you installed (at most weekly) |
-| `repotify telemetry status\|on\|off` | Anonymous usage signals; the endpoint is off, so nothing is sent |
+| `repotify telemetry status\|on\|off` | Anonymous usage signals, default-ON with a first-run notice; queued locally until you `sync`; kill switches: `telemetry off`, `REPOTIFY_TELEMETRY=0`, `DO_NOT_TRACK=1` |
+| `repotify sync` | Sends an anonymous aggregate summary to the fleet server — only aggregates, and only after you confirm on the terminal |
 | `repotify guard --self-test` | Checks the package guard; Claude Code runs `repotify guard --hook` itself |
 
 ## What Repotify changes on your machine
@@ -91,7 +120,20 @@ The maintainers rebuild the catalog through this pipeline, and your client alway
 
 ## Privacy
 
-Repotify is designed to learn from anonymous signals (which items were shown, picked, kept after 7 days or removed, and votes). It never collects code, file names, repository names or user names, and never stores IP addresses. The collection endpoint is **not configured yet**, so nothing is sent; events only stay in a local queue. Opt out at any time with `REPOTIFY_TELEMETRY=0` or `DO_NOT_TRACK=1`.
+Repotify learns from anonymous usage signals, and you stay in control.
+
+- **Default-ON with a notice.** The first time anything could be recorded, the CLI prints this on stderr — nothing is measured before it:
+
+  > Repotify measures which skills actually work and shares anonymous usage counts to improve recommendations. Turn off any time: `repotify telemetry off`.
+
+- **Kill switches.** `repotify telemetry off` (persisted in config), `REPOTIFY_TELEMETRY=0`, `DO_NOT_TRACK=1` — and `NO_ANALYTICS=1` is honored too. When disabled, nothing is recorded and nothing is sent; the off command itself produces no telemetry.
+- **What is measured.** A random install id, agent type, which catalog items were shown, installed, invoked, kept after 7/30 days or removed, and your votes. Events are validated as reward-agnostic: reward/score/weight fields are rejected, so the client can never fabricate outcomes.
+- **What is never collected.** Code, prompts, transcripts, file names, repository names, user names, IP addresses. The server schema has no install_id, nonce or IP columns — this is locked by tests.
+- **Fleet learning.** Signals stay in a local queue. Only `repotify sync` sends anything: anonymous aggregates, and only after you confirm on the terminal. The fleet server runs a nightly job (admit → snapshot → policy → gate → distribute) with k-anonymity (a skill's aggregate is published only when at least 5 distinct syncs contributed; 24-hour quarantine before counts influence public aggregates) and the public leaderboard stays gated behind 200 cumulative installs. Published is the proof — which skills measure best at which jobs — never the recipe: raw data, taste profiles, scoring formulas and bandit weights stay private.
+
+## The website
+
+The official site ([repotify.github.io/repotify](https://repotify.github.io/repotify/), built from `site/`) is 168 pages in 24 languages, generated statically with no trackers. Each catalog item gets a page with public comments (moderation controls only behind `?demo=moderation`, never on public pages). The [effectiveness leaderboard](https://repotify.github.io/repotify/leaderboard/) ranks routing strategies by measured harness evidence, reported as mean [min–max] — no stars, no ratings. A fleet effectiveness leaderboard stays behind a feature flag until the 200-install threshold is reached.
 
 ## Official sources
 
@@ -111,3 +153,5 @@ npm run eval      # recommendation quality on the scenario set
 ```
 
 The catalog pipeline lives in `pipeline/`; how to run and review it is in [docs/guides/operations.md](guides/operations.md).
+
+Test helpers are not tests: `test/learn-harness.mjs` is the shared FAZ 6 simulation harness imported by `test/learn-sim.test.mjs` (only `test/*.test.mjs` runs under `npm test`). `test/harness/` holds the eval/pilot runners; their generated outputs land in `test/harness/runs/` and are git-ignored (except `series3.jsonl`, which the site build loads as a data source), as is the agent working-state dir `hidden_files/`.

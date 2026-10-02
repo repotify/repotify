@@ -79,11 +79,19 @@ test("re-review I-3: ordinary download lines are not rejected", () => {
 test("re-review I-2: long lines scan in linear time", () => {
   // Linear work takes about 4x as long on a line 4x longer; quadratic work about 16x. Comparing two sizes of the same
   // input keeps the check meaningful on slow machines and under coverage instrumentation, where absolute times grow.
+  // Wall-clock samples are noisy (GC pauses, parallel test files and other workers sharing the CPU). Each size pair
+  // is measured back-to-back so both share the same machine phase, and the verdict uses the MEDIAN of the pairwise
+  // large/small ratios: one slow (or one freakishly fast) sample corrupts only its own pair, never the median.
+  // (S13: single samples flaked at 12-42x, medians of sizes at 12x, minima of sizes at 35x on a busy machine;
+  // median-of-pairs stayed at 3.7-5.8.) A true quadratic regression lands every pair near 16x and is still caught
+  // by the < 9 threshold.
   const time = (content, path) => {
     const t0 = process.hrtime.bigint();
     scan(content + "\n", path);
     return Number(process.hrtime.bigint() - t0) / 1e6;
   };
+  const PAIRS = 7;
+  const median = (xs) => xs.slice().sort((a, b) => a - b)[Math.floor(xs.length / 2)];
   for (const [label, unit, n, path] of [
     ["download chain", "curl -o x ;", 5000, "a.sh"],
     ["pipes", "curl |", 5000, "a.sh"],
@@ -91,11 +99,22 @@ test("re-review I-2: long lines scan in linear time", () => {
     ["uploads", "curl -F x ", 5000, "a.sh"],
     ["wget", "wget ", 10000, "SKILL.md"],
   ]) {
-    time(unit.repeat(n), path);
-    const small = Math.max(time(unit.repeat(n), path), 5);
-    const large = time(unit.repeat(n * 4), path);
-    assert.ok(large / small < 9, `${label}: ${small.toFixed(0)} ms at ${n}, ${large.toFixed(0)} ms at ${n * 4}`);
-    assert.ok(large < 10000, `${label}: ${large.toFixed(0)} ms`);
+    // Back-to-back pairs: both sizes share the same machine phase, so the ratio is phase-immune.
+    const smallC = unit.repeat(n);
+    const largeC = unit.repeat(n * 4);
+    time(smallC, path);
+    time(largeC, path); // warm-up: JIT + regex caches
+    const ratios = [], larges = [];
+    for (let k = 0; k < PAIRS; k++) {
+      const small = Math.max(time(smallC, path), 5);
+      const large = time(largeC, path);
+      ratios.push(large / small);
+      larges.push(large);
+    }
+    const ratio = median(ratios);
+    const largeMed = median(larges);
+    assert.ok(ratio < 9, `${label}: median ratio ${ratio.toFixed(2)} (pairs ${ratios.map((r) => r.toFixed(1)).join(",")})`);
+    assert.ok(largeMed < 10000, `${label}: ${largeMed.toFixed(0)} ms`);
   }
 });
 

@@ -1,6 +1,6 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { buildDemand, platformsOf, platformMismatch, fitScore, recommend } from "../src/recommend.mjs";
@@ -9,6 +9,18 @@ import { fingerprint } from "../src/fingerprint.mjs";
 import { validateCatalog } from "../src/catalog.mjs";
 import { rehashCatalog } from "../pipeline/rehash.mjs";
 import { sha256 } from "../src/util.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const read = (f) => JSON.parse(readFileSync(new URL(`../catalog/${f}`, import.meta.url), "utf8"));
 const catalog = { items: read("items.json"), taxonomy: read("taxonomy.json"), loadouts: read("loadouts.json"), core: read("core.json") };
@@ -95,12 +107,12 @@ test("an optional item that adds nothing the set does not already serve stays ou
 });
 
 test("the fingerprint reports platforms and capability evidence from dependencies", async () => {
-  const dir = mkdtempSync(join(tmpdir(), "repotify-fp-"));
+  const dir = mkTemp("repotify-fp-");
   writeFileSync(join(dir, "package.json"), JSON.stringify({ dependencies: { expo: "51.0.0", "react-native": "0.74.0", exceljs: "4.4.0" } }));
   const fp = await fingerprint(dir);
   assert.deepEqual(fp.platforms, ["mobile"]);
   assert.deepEqual(fp.capabilityHints, ["spreadsheets"]);
-  const web = mkdtempSync(join(tmpdir(), "repotify-fp-"));
+  const web = mkTemp("repotify-fp-");
   writeFileSync(join(web, "package.json"), JSON.stringify({ dependencies: { expo: "51.0.0", "react-dom": "18.3.1", "react-native-web": "0.19.0" } }));
   assert.deepEqual((await fingerprint(web)).platforms, ["mobile", "web"], "an Expo app with a web target keeps web skills");
 });
@@ -108,7 +120,7 @@ test("the fingerprint reports platforms and capability evidence from dependencie
 test("taxonomy platforms are validated, and rehash rewrites hashes only for a valid catalog", () => {
   const bad = { ...taxonomy, capabilities: { ...taxonomy.capabilities, "webapp-testing": { ...taxonomy.capabilities["webapp-testing"], platform: "moon" } } };
   assert.ok(validateCatalog({ ...catalog, taxonomy: bad }).some((e) => e.includes("unknown platform moon")));
-  const dir = mkdtempSync(join(tmpdir(), "repotify-cat-"));
+  const dir = mkTemp("repotify-cat-");
   for (const f of ["items.json", "taxonomy.json", "loadouts.json", "core.json", "meta.json"]) writeFileSync(join(dir, f), readFileSync(new URL(`../catalog/${f}`, import.meta.url)));
   const meta = rehashCatalog(dir, { now: new Date("2031-01-02T00:00:00Z") });
   assert.equal(meta.version, "2031.01.02.1");

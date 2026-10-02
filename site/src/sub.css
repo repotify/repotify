@@ -1,0 +1,85 @@
+/* FAZ 8 sub-pages: skills index/detail, leaderboard, comments. Pairs with assets/styles.css. */
+.sub { max-width: 1080px; margin: 0 auto; padding: 96px 24px 64px; }
+.subhead h1 { font-size: clamp(2rem, 4.5vw, 3rem); letter-spacing: -0.02em; margin: 0 0 12px; }
+.crumb { margin: 0 0 16px; color: var(--muted, #9aa); font-size: 0.9rem; }
+.crumb a { color: inherit; }
+.detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.skill-id { color: var(--muted, #9aa); }
+.seclv { font-family: ui-monospace, monospace; font-size: 0.8rem; padding: 4px 10px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+.seclv.verified { color: #4ade80; border-color: #4ade8055; background: #4ade8012; }
+.seclv.caution { color: #fbbf24; border-color: #fbbf2455; background: #fbbf2412; }
+.seclv.quarantined, .seclv.rejected { color: #f87171; border-color: #f8717155; background: #f8717112; }
+.seclv.unknown { color: #9aa; border-color: #9aa5; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 28px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin: 24px 0; }
+.skill-card h3 { margin: 0; font-size: 1.05rem; }
+.skill-card h3 a { color: inherit; text-decoration: none; }
+.skill-card h3 a:hover { text-decoration: underline; }
+.skill-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.skill-sum { color: var(--muted, #9aa); font-size: 0.92rem; margin: 8px 0 12px; }
+.skill-meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; font-size: 0.85rem; color: var(--muted, #9aa); }
+.score b { color: #fff; font-size: 1rem; }
+.dims { font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+.dims b { color: #fff; font-weight: 600; }
+.tags { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 12px 0 0; }
+.tags li { font-size: 0.78rem; padding: 3px 9px; border: 1px solid #ffffff22; border-radius: 999px; color: var(--muted, #9aa); }
+.search input { width: 100%; max-width: 420px; padding: 10px 14px; border-radius: 10px; border: 1px solid #ffffff22; background: #ffffff08; color: inherit; font: inherit; }
+.countline { color: var(--muted, #9aa); font-size: 0.9rem; }
+/* S14: empty-state block (infra for future "coming soon" / catalog blind-spot
+   sections; live use: skills-index filter no-results). */
+.empty { border: 1.5px dashed #ffffff2a; border-radius: 14px; padding: 48px 24px; text-align: center; max-width: 560px; margin: 24px auto; }
+.empty-icon { width: 40px; height: 40px; color: #9aa; margin-bottom: 12px; }
+.empty h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.empty p { margin: 0 0 12px; }
+.empty p:last-child { margin-bottom: 0; }
+.bignum { font-size: 2.4rem; font-weight: 700; margin: 4px 0 12px; }
+.bignum span { font-size: 1rem; font-weight: 400; color: var(--muted, #9aa); }
+.meter { display: grid; grid-template-columns: 110px 1fr 48px; align-items: center; gap: 10px; margin: 8px 0; font-size: 0.9rem; }
+.meter .track { height: 8px; border-radius: 4px; background: #ffffff14; overflow: hidden; }
+.meter .track i { display: block; height: 100%; background: linear-gradient(90deg, #7c6cff, #4ade80); }
+.meter em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums; }
+.facts { display: grid; gap: 8px; margin: 12px 0; }
+.facts > div { display: flex; justify-content: space-between; gap: 12px; font-size: 0.92rem; }
+.facts dt { color: var(--muted, #9aa); }
+.facts dd { margin: 0; text-align: right; }
+.models { list-style: none; padding: 0; margin: 8px 0; display: grid; gap: 4px; font-size: 0.85rem; }
+.muted { color: var(--muted, #9aa); }
+.small { font-size: 0.85rem; }
+.sub h2 { font-size: 1.3rem; margin: 20px 0 8px; }
+.sub h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+/* Leaderboard */
+.scn { text-transform: capitalize; margin-top: 32px; }
+.twrap { overflow-x: auto; }
+table.lb { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 12px 0 8px; }
+table.lb th, table.lb td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #ffffff14; vertical-align: top; }
+table.lb th { color: var(--muted, #9aa); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
+table.lb tr.hl td { background: #7c6cff0d; }
+.ci { color: var(--muted, #9aa); font-size: 0.82em; white-space: nowrap; }
+.datanote, .fleet, .method { margin: 24px 0; }
+/* S14: "How we measure" pilot-results table. */
+.method h3 { font-size: 1.02rem; margin: 20px 0 8px; }
+table.mini { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 10px 0 6px; }
+table.mini th, table.mini td { text-align: right; padding: 8px 10px; border-bottom: 1px solid #ffffff14; vertical-align: top; font-variant-numeric: tabular-nums; }
+table.mini th:first-child, table.mini td:first-child { text-align: left; }
+table.mini th { color: var(--muted, #9aa); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+table.mini tr.win td { color: #4ade80; }
+table.mini tr.win td:first-child { color: inherit; }
+.flag { font-size: 0.75rem; font-family: ui-monospace, monospace; padding: 3px 10px; border-radius: 999px; background: #fbbf2420; color: #fbbf24; border: 1px solid #fbbf2455; vertical-align: middle; }
+.protolabel { border: 1px solid #7c6cff55; background: #7c6cff12; border-radius: 10px; padding: 10px 14px; font-size: 0.88rem; }
+.expired-banner { border: 1px solid #fbbf2455; background: #fbbf2412; border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; }
+.score.expired b { color: #fbbf24; }
+/* Comments */
+.comments { margin-top: 24px; }
+.comment { border-top: 1px solid #ffffff14; padding: 12px 0; }
+.comment header { font-size: 0.9rem; margin-bottom: 4px; }
+.comment p { margin: 4px 0 0; white-space: pre-wrap; }
+#cform { display: grid; gap: 12px; max-width: 640px; margin-top: 12px; }
+#cform label { display: grid; gap: 6px; font-size: 0.9rem; }
+#cform input, #cform select, #cform textarea { padding: 10px 12px; border-radius: 10px; border: 1px solid #ffffff22; background: #ffffff08; color: inherit; font: inherit; }
+.modq { margin-top: 20px; border: 1px dashed #ffffff2a; border-radius: 12px; padding: 12px 16px; }
+.modq summary { cursor: pointer; font-weight: 600; }
+.moditem { border-top: 1px solid #ffffff14; padding: 8px 0; }
+.modbtns { display: flex; gap: 8px; margin-top: 8px; }
+.modbtns button { padding: 6px 14px; border-radius: 8px; border: 1px solid #ffffff2a; background: #ffffff10; color: inherit; cursor: pointer; font: inherit; font-size: 0.85rem; }
+.modbtns button:hover { background: #ffffff1c; }
+@media (max-width: 640px) { .sub { padding-top: 80px; } .meter { grid-template-columns: 90px 1fr 44px; } }

@@ -1,0 +1,157 @@
+==================== TRANSCRIPT: harness design debate, 2026-10-01 ====================
+QUESTION: what does this harness NOT measure that it must measure? Where are the blind spots?
+
+----- ROLE 1: ADVOCATE (input prompt) -----
+You are reviewing an LLM-agent eval harness design (Repotify v2, internal measurement, no real users yet).
+
+DESIGN (condensed):
+- Purpose: measure whether a skill recommender helps an agent. Same task run under 3 arms: A "repotify" (pipeline's recommended skill set), B "none" (bare agent), C "naive" (seeded random skill set, same size as A).
+- Agent = one chat-completion call (GLM-5.3). Prompt: project context + task + skill cards (id + 160-char summary). Reply contract: first line "SKILLS: <ids or NONE>", then "DELIVERABLE:" + solution.
+- Metrics: (1) routing recall = chosen∩must-include / must-include; (2) task success = deterministic rubric (contains/regex/not-contains checks on the deliverable, no LLM judge); (3) estimated tokens (chars/4, API exposes no usage); (4) retries on malformed replies (max 2).
+- 5 pilot scenarios (js-frontend, python-api, cli-tool, testing, docs), each a short code/docs task with 5-point rubric. 2 reps per arm (repeatable via --runs N). Results appended as JSONL (event: harness_run), later merged with the telemetry event schema.
+- Model-agnostic: driver registry (nvidia chat, mock); a Jev decision-model arm exists for routing-signal runs. New model = config entry.
+- Known limits: single-turn agent (no tool use, no multi-step), estimated not measured tokens, rubrics are shallow, GLM non-determinism means reps are random draws.
+
+Respond in English, max 250 words, blunt, no flattery.
+
+YOUR ROLE: ADVOCATE. Output ONLY your verdict, no thinking preamble, no meta-commentary. Max 300 words. Defend: what does this design measure correctly, what real decisions will the numbers support, why is this the right v1 scope? End with: WEAKEST POINT: <one sentence>.
+
+----- ROLE 1: ADVOCATE (output) -----
+The user wants me to play the role of an ADVOCATE for this eval harness design. I need to defend what it measures correctly, what real decisions the numbers will support, and why this is the right v1 scope. Max 300 words (the prompt says max 250 words in one place and max 300 in another — the role instruction says max 300 words, so I'll aim for under 300, probably closer to 250 to be safe). Blunt, no flattery, no preamble, end with "WEAKEST POINT: <one sentence>".
+
+Let me think about what the design actually gets right:
+
+1. **Three-arm comparison with proper control**: A (repotify) vs B (none) vs C (naive, same size as A). The naive arm is the crucial one — it controls for "any skills help" vs "the *right* skills help." Many eval designs skip this and overclaim. Same-size seeding controls for prompt-length/context effects. This isolates the recommender's signal from mere skill injection.
+
+2. **Routing recall as a separable metric**: They decompose the question into (a) can the agent pick the right skills, and (b) do the right skills improve the deliverable. This separates the routing problem from the end-task problem. If recall is high but success doesn't move, the skill cards or summaries are the problem, not the recommender. That's a diagnostic, not just a scoreboard.
+
+3. **Deterministic rubric, no LLM judge**: Removes judge variance, judge bias, judge cost. Rubric checks (contains/regex/not-contains) are reproducible. Shallow, yes — but shallow and *knowable* beats deep and noisy at pilot scale. You can diff two runs and know the delta is real signal, not judge drift.
+
+4. **Cheap, fast, repeatable**: Single-turn, one call, --runs N, JSONL append. You can run 100 reps overnight. Statistical power comes from reps, not per-run sophistication. With 2 reps default and cheap runs, scaling reps is trivial.
+
+5. **Model-agnostic driver registry + mock driver**: You can test the harness itself deterministically (mock), and swap models via config. The Jev decision-model arm lets you test routing signal without chat noise. This means the harness outlives GLM-5.3.
+
+6. **Honest accounting of limits**: They list the known limits themselves. Estimated tokens flagged as estimated. Non-determinism treated as random draws — which is the correct statistical frame: reps are samples, you report distributions, not single runs.
+
+What real decisions will the numbers support?
+
+- Go/no-go on investing more in the recommender pipeline.
+- Whether skill cards' 160-char summaries are informative enough for routing (recall tells you directly).
+- Whether to build multi-turn/tool-use agent v2 or fix routing first.
+- Which scenarios the recommender helps in (per-scenario breakdown) — where to focus.
+- Whether the delta A vs C justifies the pipeline cost vs just seeding random skills (if naive ≈ repotify, the recommender is dead weight).
+
+Why is this the right v1 scope?
+
+- Single-turn isolates the variable of interest: skill selection. Multi-turn agents confound skill effect with planning/tool-use variance. You can't attribute deltas in a multi-step agent with 5 scenarios and 2 reps.
+- Small scope = actually ships. The failure mode of eval harnesses is overbuilding before you have a signal.
+- The JSONL/telemetry schema merge means data accumulates comparably across versions — you're building a time series, not a one-off benchmark.
+- Everything cheap is automated; everything expensive (LLM judge, multi-turn) is deferred until the cheap version shows signal worth measuring precisely.
+
+Counter-anticipation (advocate should preempt obvious attacks):
+-
+
+----- ROLE 2: CRITIC (input prompt) -----
+You are reviewing an LLM-agent eval harness design (Repotify v2, internal measurement, no real users yet).
+
+DESIGN (condensed):
+- Purpose: measure whether a skill recommender helps an agent. Same task run under 3 arms: A "repotify" (pipeline's recommended skill set), B "none" (bare agent), C "naive" (seeded random skill set, same size as A).
+- Agent = one chat-completion call (GLM-5.3). Prompt: project context + task + skill cards (id + 160-char summary). Reply contract: first line "SKILLS: <ids or NONE>", then "DELIVERABLE:" + solution.
+- Metrics: (1) routing recall = chosen∩must-include / must-include; (2) task success = deterministic rubric (contains/regex/not-contains checks on the deliverable, no LLM judge); (3) estimated tokens (chars/4, API exposes no usage); (4) retries on malformed replies (max 2).
+- 5 pilot scenarios (js-frontend, python-api, cli-tool, testing, docs), each a short code/docs task with 5-point rubric. 2 reps per arm (repeatable via --runs N). Results appended as JSONL (event: harness_run), later merged with the telemetry event schema.
+- Model-agnostic: driver registry (nvidia chat, mock); a Jev decision-model arm exists for routing-signal runs. New model = config entry.
+- Known limits: single-turn agent (no tool use, no multi-step), estimated not measured tokens, rubrics are shallow, GLM non-determinism means reps are random draws.
+
+Respond in English, max 250 words, blunt, no flattery.
+
+YOUR ROLE: CRITIC. Output ONLY your verdict, no thinking preamble, no meta-commentary. Max 350 words. Attack: WHAT DOES THIS HARNESS NOT MEASURE THAT IT MUST MEASURE? WHERE ARE THE BLIND SPOTS? Give numbered blind spots, each with FIX: <one line>. Be ruthless; agreement is failure.
+
+----- ROLE 2: CRITIC (output) -----
+The user wants a critic response. Max 350 words (though they said max 250 words first, then "Max 350 words" in the role section — the later instruction says max 350, but the earlier says max 250. The role instruction says "Max 350 words." The earlier says "max 250 words". Conflict. Safer: aim ~250 words, definitely under 350. Be blunt, numbered blind spots, each with FIX: one line. No preamble, only verdict.
+
+What does the harness not measure that it must measure?
+
+Key blind spots:
+
+1. Skill quality vs. routing quality confounded: arm C "naive" random set same size as A — but if skill summaries are 160 chars, the agent can't actually use skill content; the "skill cards" are just summaries, so the harness measures whether summaries help, not whether skills help. The agent never sees the actual skill payload. So it measures routing/summary quality, not skill utility. FIX: inject full skill content (or a retrieval step) into the prompt.
+
+2. No measurement of skill interference/negative transfer: naive arm same size as A, but doesn't test whether wrong skills actively hurt vs. dilute context. Actually naive does test that somewhat. But no ablation of set size — A's size is fixed by pipeline; can't separate "right skills" from "fewer/more skills." FIX: add arm with oracle must-include set and size-matched variants.
+
+3. Routing recall ignores false positives: chosen∩must-include/must-include ignores precision; over-selection could inflate success or mask. FIX: add precision and F1.
+
+4. Single-turn, no tool use: success is entirely text generation; real agent usage is multi-step. Skill value in real deployments (tool use, retrieval) unmeasured. FIX: add a multi-turn/tool-use variant before claiming pipeline value.
+
+5. Rubric shallow: contains/regex — deliverable can pass rubric while being wrong code; success metric may not track actual task quality. FIX: add execution-based checks (run tests, compile) for code scenarios.
+
+6. 2 reps per arm, 5 scenarios: n=2, non-deterministic model — no statistical power; can't distinguish signal from noise. FIX: run ≥20 reps, report CIs, power analysis.
+
+7. Token estimation chars/4 is biased across arms (skill cards differ in length across arms? Actually naive same size as A so similar). But no cost/latency measurement of the pipeline itself — the recommender's overhead isn't counted; the comparison isn't net value. FIX: measure end-to-end cost including recommender tokens/latency.
+
+8. Malformed replies counted as retries but not as failures? Max 2 retries — then what? Not specified how exhausted retries are scored. FIX: define exhausted-retry outcome as failure and report rate.
+
+9. No prompt-sensitivity check: results may hinge on reply contract formatting; single prompt = single point estimate of prompt design. FIX: vary prompt phrasing/seeds.
+
+10. Must-include ground truth: who defines must-include? If the same pipeline authors rubrics and must-include sets, circularity — recommender optimized toward the same labels. FIX: independent labeling, inter-annotator agreement.
+
+11. GLM-5.3 single model: "model-agnostic" driver but all results from one model; generalization unmeasured. FIX: run ≥2 models before claims.
+
+12. No measurement of skill summary quality: 160-char summaries — the bottleneck may be summary writing, not recommendation. Confound: A vs C differ in which summaries, but summaries fixed. Fine.
+
+13. Contamination/memorization: tasks like js-frontend may be solvable from model priors; bare agent B may already succeed, ceiling effects. FIX: check baseline ceiling; pick harder tasks.
+
+14. JSONL merge with telemetry schema — no schema validation mentioned? Minor.
+
+15. No logging of the actual chosen skills vs. deliverable content linkage — can't tell if skills were used or ignored. FIX: ablation where skill ids are replaced with dummies of same length to test whether content matters vs. format.
+
+That last one is good: placebo arm — same format, dummy content. Distinguishes "skill content helps" from "prompt structure
+
+----- ROLE 3: PRAGMATIST (input prompt) -----
+You are reviewing an LLM-agent eval harness design (Repotify v2, internal measurement, no real users yet).
+
+DESIGN (condensed):
+- Purpose: measure whether a skill recommender helps an agent. Same task run under 3 arms: A "repotify" (pipeline's recommended skill set), B "none" (bare agent), C "naive" (seeded random skill set, same size as A).
+- Agent = one chat-completion call (GLM-5.3). Prompt: project context + task + skill cards (id + 160-char summary). Reply contract: first line "SKILLS: <ids or NONE>", then "DELIVERABLE:" + solution.
+- Metrics: (1) routing recall = chosen∩must-include / must-include; (2) task success = deterministic rubric (contains/regex/not-contains checks on the deliverable, no LLM judge); (3) estimated tokens (chars/4, API exposes no usage); (4) retries on malformed replies (max 2).
+- 5 pilot scenarios (js-frontend, python-api, cli-tool, testing, docs), each a short code/docs task with 5-point rubric. 2 reps per arm (repeatable via --runs N). Results appended as JSONL (event: harness_run), later merged with the telemetry event schema.
+- Model-agnostic: driver registry (nvidia chat, mock); a Jev decision-model arm exists for routing-signal runs. New model = config entry.
+- Known limits: single-turn agent (no tool use, no multi-step), estimated not measured tokens, rubrics are shallow, GLM non-determinism means reps are random draws.
+
+Respond in English, max 250 words, blunt, no flattery.
+
+YOUR ROLE: PRAGMATIST. Output ONLY your verdict, no thinking preamble, no meta-commentary. Max 300 words. The pilot budget is tiny (tens of model calls). Rank: which 2 changes give the most measurement value per engineering hour? What is over-engineered for v1 and should be cut? Concrete, no philosophy. End with: CUT: <items> / KEEP: <items>.
+
+----- ROLE 3: PRAGMATIST (output) -----
+The user wants a pragmatist review of an eval harness design. Max 300 words, blunt, concrete. Rank 2 changes with most measurement value per engineering hour, identify over-engineering to cut, end with CUT/KEEP lists.
+
+Let me think about the actual design:
+
+- 3 arms: repotify vs none vs naive (random skill set same size). Good control design actually.
+- Single chat call, reply contract SKILLS: then DELIVERABLE:.
+- Metrics: routing recall, task success (deterministic rubric), estimated tokens, retries.
+- 5 pilot scenarios, 2 reps per arm = 30 calls. Tiny budget.
+- Model-agnostic driver registry, Jev decision-model arm, config entries for new models.
+- Known limits acknowledged.
+
+What's the biggest measurement weakness given tiny budget?
+
+1. 2 reps per arm with GLM non-determinism → variance is huge. n=2 per arm per scenario means differences are noise. The single highest-value change: more reps on fewer scenarios. E.g., cut to 2-3 scenarios, run 5-10 reps each. Statistical power. That's cheap: it's just --runs N, already supported. Zero engineering hours, just budget reallocation. Actually the harness already supports --runs N, so this is a config change, not engineering. Massive value.
+
+2. The reply contract parsing: retries on malformed replies. With a tiny budget, retries eat calls. But more importantly: the SKILLS: first-line contract conflates routing with task success. If the model messes the format, you lose the sample. A cheap fix: structured output / JSON mode, or fallback parse. But is that worth engineering hours? Maybe moderate.
+
+3. Estimated tokens chars/4 — fine for v1, don't touch.
+
+4. The naive arm: seeded random skill set same size as A. Good control. Keep.
+
+5. Over-engineered: driver registry with mock + nvidia chat + Jev decision-model arm. For a pilot with tens of calls, multi-driver abstraction is speculative. The Jev arm is for "routing-signal runs" — cut for v1, it's a second experiment. Mock driver is useful for CI though — cheap, keep? Mock driver is basically free and tests parsing. Hmm, pragmatist: mock driver is cheap and catches contract bugs; keep. The registry abstraction itself is over-engineering but if already built, whatever. The question asks what should be cut — the Jev arm, the multi-model registry generality, telemetry event schema merging (JSONL merged with telemetry event schema later — that's integration work not needed for pilot).
+
+6. Rubrics: 5-point contains/regex — shallow but deterministic. Don't add LLM judge in v1 (adds variance + cost). Keep shallow.
+
+7. Routing recall requires "must-include" skill labels — fine.
+
+8. Single-turn agent: acknowledged limit, fine for measuring routing signal.
+
+Top 2 changes ranked by value per engineering hour:
+
+Change 1: Reallocate reps — fewer scenarios, more reps per arm (e.g., 3 scenarios × 3 arms × 6-8 reps). Zero new code (uses --runs N). This is the single biggest lever: with n=2 you cannot distinguish anything; you'll burn the whole pilot and learn nothing. Also report per-scenario deltas with sign test or just descriptive.
+
+Change 2: Harden the reply contract cheaply — either JSON/structured output mode if the API supports it, or a lenient parser + record parse failures as a metric rather than retrying. Retries with max 2 on a 30-call budget can silently eat 20% of budget. Actually a cheaper option: log raw replies always (they probably do), and make the parser tolerant (regex for SKILLS anywhere in first lines). Engineering hours: ~1-2

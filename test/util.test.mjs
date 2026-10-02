@@ -1,9 +1,21 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { sha256, estimateTokens, safeRelPath, readJsonSafe, stableStringify } from "../src/util.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 test("sha256 matches the known vector", () => {
   assert.equal(sha256("abc"), "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
@@ -27,7 +39,7 @@ test("safeRelPath rejects traversal, absolute, backslash and NUL paths", () => {
 });
 
 test("readJsonSafe tolerates a BOM and reports invalid JSON", () => {
-  const dir = mkdtempSync(join(tmpdir(), "rp-"));
+  const dir = mkTemp("rp-");
   writeFileSync(join(dir, "a.json"), "\uFEFF{\"x\":1}");
   writeFileSync(join(dir, "b.json"), "{nope");
   assert.deepEqual(readJsonSafe(join(dir, "a.json")), { ok: true, value: { x: 1 } });

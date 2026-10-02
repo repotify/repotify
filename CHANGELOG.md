@@ -1,5 +1,50 @@
 # Changelog
 
+## 2.0.0 (2026-10-01)
+
+The recommendation engine now runs a full five-step pipeline — test, classify, map, narrow, present — and learns
+in a closed loop: recommend → measure → learn. Built in ten phases (FAZ 0–10), each defended in an adversarial
+debate (advocate, critic, pragmatist) before its results were accepted.
+
+- **FAZ 0 — locked design.** 50-record decision log and a locked v2 design document.
+- **FAZ 1 — Stage 0 telemetry.** JSONL event stream with reward-agnostic validation: the validator rejects
+  reward/score/weight fields, so the client can never fabricate outcomes. Nothing is recorded before a first-run
+  notice on stderr. Off switches: `repotify telemetry off`, `REPOTIFY_TELEMETRY=0`, `DO_NOT_TRACK=1`. 32/32 tests.
+- **FAZ 2+3 — test runner and coarse classification.** Every catalog candidate runs its own tests; a jury
+  promotion path (proxy ≥ 0.8, verified or caution only — blocked never promotes), cumulative-drift checks
+  against the jury snapshot, and context labels that may only boost, never invent, evidence. 36/36 tests.
+- **FAZ 4+5 — capability graph and recommend v1.** A deterministic capability DAG (65 seeded edges, multi-parent
+  allowed) with "try this if that fails" fallback edges; recommend v1; a Jev decision model used only as a
+  signal inside classification and ranking, never as the sole decider. 163/163 tests.
+- **FAZ 7-harness — in-house evaluation harness.** Six arms (repotify, none, naive, jev, oracle, placebo),
+  two-phase protocol (routing → task), precision/F1. 40/40 harness tests; full suite 570/570. Pilot series 2
+  (z-ai/glm-5.3 via NVIDIA NIM, 30 runs): routing recall Δ +0.30 vs none, +0.20 vs naive; precision 1.0.
+- **FAZ 6 — learning bandit.** LinUCB contextual bandit over recommendation scores: 200-round simulation regret
+  ratio 0.664 (bar ≤ 0.80), worst of 5 seeds 0.762; jury scores warm-start the priors. 54/54 tests.
+- **FAZ 7-mini — acceptance series.** Series 3: 36 runs, 4 arms, z-ai/glm-5.3. Gates: must-include capture
+  9/9 = 100% (bar ≥ 85%) PASS; zero breakage PASS; task-score delta repotify−none +0.129, 95% CI [−0.01, 0.264]
+  — a weak pass at n=9; the 100-repo series is pre-registered in `test/harness/ACCEPTANCE-RULES.md`.
+  Budget: 92 of 100 model calls.
+- **FAZ 8 — site v2.** 168 pages in 24 languages; per-skill comments (moderation controls only behind
+  `?demo=moderation`, never on public pages); an effectiveness leaderboard reporting mean [min–max] over the
+  series-3 harness results — measured evidence, no stars, no ratings. Suite 647/647; eval 108/108, 0 violations.
+- **FAZ 9 — fleet telemetry.** Server-side nightly job (admit → snapshot → policy → gate → distribute);
+  production schema (4 tables; no install_id, nonce or IP columns, tested); the fleet policy blends into the v2
+  recommender; the public leaderboard stays gated behind 200 cumulative installs and k-anonymity (at least 5
+  contributing syncs per published bucket, 24-hour quarantine). `repotify sync` sends only anonymous aggregates,
+  and only after you confirm on the terminal. Full suite 662/662.
+- **FAZ 10 — release.** Version 2.0.0, this changelog, documentation refresh. `repotify recommend` now runs the
+  v2 pipeline (`lib/pipeline/recommend/`) directly: demand from project signals, capability-graph fallbacks,
+  `--blocked` list, fleet policy blending, opt-in Jev arbitration (`--arbitrate` / `REPOTIFY_JEV=1`), and Stage 0
+  propensity telemetry. Deferred per DL-051: serving-path exploration (quota semantics, arbitrate interaction,
+  and propensity-log consumer are open preconditions).
+
+Catalog: 142 items from 24 repositories — 137 skills, 3 MCP servers, 1 tool, 1 config.
+
+Telemetry policy: default-ON with a first-run notice; kill switches above. Code, prompts, file names, repository
+names, user names and IP addresses are never collected. What gets published is the proof (which skills measure
+best at which jobs), never the recipe (raw data, taste profiles, scoring formulas, bandit weights).
+
 ## Unreleased
 
 - **Stack experts for many more stacks.** Angular, Vue and Nuxt, Django, FastAPI, Python, Go, Rust, Java and Spring,

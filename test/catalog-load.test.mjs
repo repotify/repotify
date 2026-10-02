@@ -1,6 +1,6 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, cpSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, cpSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,7 +32,7 @@ function fakeFetch(files, { etag = '"v1"', calls = [] } = {}) {
   };
 }
 
-const tmp = () => mkdtempSync(join(tmpdir(), "rp-load-"));
+const tmp = () => mkTemp("rp-load-");
 
 test("compareVersions orders date versions", () => {
   assert.ok(compareVersions("2026.09.28.2", "2026.09.28.10") < 0);
@@ -109,6 +109,18 @@ test("a corrupted cache is ignored", async () => {
 });
 
 import { verifyCatalogDir } from "../src/catalog.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 test("verifyCatalogDir accepts the bundled catalog and rejects a tampered copy", () => {
   const ok = verifyCatalogDir(bundledDir);

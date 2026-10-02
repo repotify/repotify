@@ -23,3 +23,9 @@ repotify.lock.json
 
 # Built website (site/build.mjs)
 site/dist/
+
+# Agent working state and generated harness outputs (never product code)
+hidden_files/
+test/harness/runs/*
+# ...except the one harness output the site build loads as a data source
+!test/harness/runs/series3.jsonl

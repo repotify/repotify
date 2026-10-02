@@ -22,7 +22,7 @@
   "any_agent": "tout agent qui lit .agents/skills",
   "why_title": "Votre agent ne vaut que ce que vous lui donnez",
   "why_1_title": "Trop de choix",
-  "why_1_text": "Il existe des milliers de dépôts de skills d'agent. Lesquels conviennent à votre projet ?",
+  "why_1_text": "Les dépôts de skills d'agent sont éparpillés partout. Lesquels conviennent à votre projet ?",
   "why_2_title": "Un vrai risque de sécurité",
   "why_2_text": "Un skill est un ensemble d'instructions que votre agent suit. Un skill malveillant peut exécuter des commandes sur votre machine.",
   "why_3_title": "Un contexte surchargé",

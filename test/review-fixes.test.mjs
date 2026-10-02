@@ -1,7 +1,7 @@
 // Regression tests for the minor findings of the 2026-09-28 code review.
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, symlinkSync, cpSync, readdirSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, symlinkSync, cpSync, readdirSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,7 +15,19 @@ import { sha256 } from "../src/util.mjs";
 import { scanFiles } from "../src/scan/index.mjs";
 import { detectLauncher } from "../src/cli.mjs";
 
-const tmp = () => mkdtempSync(join(tmpdir(), "rp-rf-"));
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
+
+const tmp = () => mkTemp("rp-rf-");
 const NOW = new Date("2026-09-28T10:00:00Z");
 const root = fileURLToPath(new URL("..", import.meta.url));
 const bundledDir = join(root, "catalog");

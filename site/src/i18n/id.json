@@ -22,7 +22,7 @@
   "any_agent": "agen apa pun yang membaca .agents/skills",
   "why_title": "Agen Anda hanya sebaik apa yang Anda berikan",
   "why_1_title": "Terlalu banyak pilihan",
-  "why_1_text": "Ada ribuan repositori skill agen. Mana yang cocok untuk proyek Anda?",
+  "why_1_text": "Repositori skill agen tersebar di mana-mana. Mana yang cocok untuk proyek Anda?",
   "why_2_title": "Risiko keamanan yang nyata",
   "why_2_text": "Skill adalah sekumpulan instruksi yang diikuti agen Anda. Skill berbahaya bisa menjalankan perintah di mesin Anda.",
   "why_3_title": "Konteks yang membengkak",

@@ -8,14 +8,21 @@ import { fileURLToPath } from "node:url";
 import { scanDir } from "./scan/index.mjs";
 import { fingerprint, formatFingerprint } from "./fingerprint.mjs";
 import { questionBank, formatQuestions, resolveNeeds } from "./needs.mjs";
-import { recommend, formatTable } from "./recommend.mjs";
+import { formatTable, buildDemand, pickLoadout } from "./recommend.mjs";
 import { loadCatalog, BUNDLED_DIR } from "./catalog.mjs";
 import { catalogUrl, homeDir, NPX_LAUNCHER } from "./config.mjs";
 import { readJsonSafe } from "./util.mjs";
 import { detectAgents, parseAgentList, skillTargets } from "./agents.mjs";
 import { installItem, removeItem, installSelf } from "./install.mjs";
 import { runHook, parseInstallCommands } from "./guard.mjs";
-import { createTelemetry, NOTICE } from "./telemetry.mjs";
+import { createTelemetry, NOTICE, NOTICE_DETAILS } from "./telemetry.mjs";
+import { recommendV1, DEFAULT_BUDGET_CHARS as V1_BUDGET_CHARS } from "../lib/pipeline/recommend/index.mjs";
+import { loadSeedGraph } from "../lib/pipeline/graph/loader.mjs";
+import { loadFleetPolicy } from "../lib/telemetry/fleet-policy.mjs";
+import { arbitrateWithJev, jevLooksAvailable } from "../lib/signals/jev.mjs";
+import { createTracker } from "../lib/telemetry/store.mjs";
+import { noticeNeeded as s0NoticeNeeded, markNoticeShown as s0MarkNoticeShown } from "../lib/telemetry/consent.mjs";
+import { AGENT_IDS } from "../lib/telemetry/schema.mjs";
 import { voteDue, keptEvents } from "./feedback.mjs";
 import { checkUpdates, applyUpdates, selfUpdateSkill, enableAutoCheck, weeklyCheckDue, sanitizeLauncher, AUTO_CHECK_ARGS } from "./update.mjs";
 import { AGENTS } from "./agents.mjs";
@@ -58,7 +65,7 @@ export function detectLauncher(binPath = BIN_PATH) {
   return `node "${binPath}"`;
 }
 
-const VALUE_FLAGS = ["agent", "needs", "type", "priorities", "budget", "answers", "apply", "kind", "why", "license"];
+const VALUE_FLAGS = ["agent", "needs", "type", "priorities", "budget", "answers", "apply", "kind", "why", "license", "blocked"];
 const out = (io, text) => io.stdout.write(text.endsWith("\n") ? text : text + "\n");
 const err = (io, text) => io.stderr.write(text.endsWith("\n") ? text : text + "\n");
 const csv = (v) => (typeof v === "string" ? v.split(",").map((s) => s.trim()).filter(Boolean) : []);
@@ -68,9 +75,18 @@ function telemetry(io) {
 }
 
 // Queues anonymous events and flushes; flushing is a no-op while no endpoint is configured.
+// T1: no data before the notice — events are dropped until the user has seen
+// the first-run telemetry notice (noticeNeeded), even when enabled.
 async function track(io, events) {
   const t = telemetry(io);
   if (!t.enabled) return;
+  if (t.noticeNeeded()) {
+    // First tracking touchpoint, whatever the command: the user sees the
+    // notice at the moment collection begins (stderr, so JSON on stdout stays
+    // parseable), then the events flow. T1 holds — nothing was written before.
+    err(io, NOTICE);
+    t.markNoticeShown();
+  }
   let agent = "unknown";
   try {
     agent = detectAgents({ env: io.env ?? {}, cwd: io.cwd })[0] ?? "unknown";
@@ -122,19 +138,166 @@ async function cmdQuestions(args, io) {
   return 0;
 }
 
+// Capability graph seed, bundled with the package (package.json "files").
+const GRAPH_SEED_PATH = fileURLToPath(new URL("../data/graph-seed.json", import.meta.url));
+
+// Map v2 ranked rows to the legacy table row shape so formatTable/--json keep
+// working. The full ranked slate is shown (old UX); rows in the v2 selected
+// set carry the default-set mark.
+function tableRows(rec, itemById, installed) {
+  const inSet = new Set(rec.set ?? []);
+  const installedSet = new Set(installed);
+  const reasonsById = new Map((rec.rows ?? []).map((r) => [r.id, r.reasons ?? []]));
+  return (rec.ranked ?? []).map((r) => {
+    const item = itemById.get(r.id) ?? {};
+    return {
+      id: r.id,
+      type: item.type ?? "skill",
+      tier: item.tier,
+      cluster: item.cluster,
+      score: Math.round(r.score * 100) / 100,
+      badges: [item.security?.level === "caution" ? "caution" : "verified"],
+      summary: item.summary ?? "",
+      reasons: reasonsById.get(r.id) ?? [],
+      default: inSet.has(r.id),
+      installed: installedSet.has(r.id),
+      userEnables: item.type === "mcp" || item.type === "config",
+    };
+  });
+}
+
+// Stage 0 propensity telemetry (FAZ 10 d1, item 7; P3 DL-051): the old
+// {type:"shown"} event is replaced by a Stage 0 "recommendation" episode —
+// the full slate with one propensity per considered candidate (B1: 0 < p < 1).
+// The serving policy is ε-greedy (ε=0.05 default, DL-051): with prob ε the set
+// contains one exploration swap. Propensities are the ε-greedy propensities:
+// p=(1-ε)+ε/n for the greedy pick, p=ε/n for the rest — never degenerate 0/1.
+// `is_explore` marks the exploration-swapped candidate (single producer:
+// this function, DL-051d). `randomized:true` — counterfactual estimators
+// (lib/learn/ope.mjs, DL-051c) may trust these propensities. Fail-open:
+// telemetry never breaks the command.
+function trackRecommendationV1(io, { rec, catalogVersion, budgetChars }) {
+  const env = io.env ?? {};
+  // Preserve the first-run notice behavior (T1): shown once on stderr, then
+  // events flow. Same config keys as the legacy pipeline.
+  if (s0NoticeNeeded(env)) {
+    err(io, NOTICE);
+    s0MarkNoticeShown(env);
+  }
+  let agent = "unknown";
+  try {
+    const a = detectAgents({ env, cwd: io.cwd })[0] ?? "unknown";
+    agent = AGENT_IDS.includes(a) ? a : "unknown";
+  } catch {
+    // Detection problems never block the command.
+  }
+  const ranked = (rec.ranked ?? []).slice(0, 100); // schema cap: max 100 candidates
+  if (!ranked.length) return false;
+  // ε-greedy propensities (P3): the serving policy explores with prob ε.
+  // Greedy pick: (1-ε) + ε/n. Others: ε/n. Strictly inside (0,1) — B1.
+  const eps = rec.exploreEpsilon ?? 0;
+  const n = ranked.length;
+  const selected = new Set(rec.set ?? []);
+  const exploreId = rec.exploreItemId ?? null;
+  const candidates = ranked.map((r, i) => {
+    const isGreedyPick = selected.has(r.id) && r.id !== exploreId;
+    // The exploration swap (if any) was chosen uniformly among non-set
+    // candidates; the greedy set items keep (1-ε)+ε/n.
+    const propensity = isGreedyPick
+      ? (1 - eps) + eps / n
+      : eps / n;
+    return {
+      skill_id: r.id,
+      position: i,
+      propensity: Math.min(1 - 1e-9, Math.max(1e-9, propensity)),
+      shown: selected.has(r.id),
+      raw_score: r.score,
+      is_explore: r.id === exploreId,
+    };
+  });
+  try {
+    const t = createTracker({ env, dir: homeDir(env) });
+    return t.track({
+      type: "recommendation",
+      episode_id: t.newEpisodeId(),
+      agent,
+      cli_version: VERSION,
+      catalog_version: catalogVersion,
+      policy_name: "repotify-v2",
+      policy_version: "1",
+      budget_chars: budgetChars,
+      randomized: true,
+      candidates,
+      // Gate decision audit trail (BACKLOG: gate karar loglama): one
+      // structured record per gate-evaluated candidate — reason code,
+      // Jaccard, blocker. Capped for log hygiene; the catalog is ~142 items.
+      gate_decisions: (rec.gateDecisions ?? []).slice(0, 200),
+    });
+  } catch {
+    return false;
+  }
+}
+
 async function cmdRecommend(args, io) {
   const { catalog, notice } = await getCatalog(io, args.flags);
   const fp = await fingerprint(io.cwd);
-  const resolved = resolveNeeds({ fingerprint: fp, answers: answersFrom(args.flags), taxonomy: catalog.taxonomy });
+  const answers = answersFrom(args.flags);
+  const resolved = resolveNeeds({ fingerprint: fp, answers, taxonomy: catalog.taxonomy });
   const budget = Number(args.flags.budget) > 0 ? Number(args.flags.budget) : undefined;
   const installed = Object.keys(readJsonSafe(join(io.cwd, "repotify.lock.json")).value?.items ?? {});
-  const rec = recommend({ catalog, fingerprint: fp, needs: resolved, installed, ...(budget ? { budgetChars: budget } : {}) });
-  await track(io, [{ type: "shown", items: rec.rows.map((r) => r.id), stacks: fp.stacks, needs: resolved.needs, projectType: resolved.projectType, catalogVersion: catalog.meta.version }]);
+  // d1: the CLI now drives the v2 pipeline. Demand translation reuses the old
+  // engine's buildDemand (same taxonomy/need-weight semantics) plus the
+  // fingerprint stacks and answered keys the v2 narrower/scorer read.
+  const demand = {
+    ...buildDemand({ taxonomy: catalog.taxonomy, fingerprint: fp, needs: resolved }),
+    stacks: fp?.stacks ?? [],
+    answered: resolved.answered ?? [],
+  };
+  const graph = loadSeedGraph(GRAPH_SEED_PATH);
+  const blocked = csv(args.flags.blocked);
+  const fleetPolicy = loadFleetPolicy({ env: io.env ?? {} });
+  const itemById = new Map(catalog.items.map((i) => [i.id, i]));
+  // Jev arbitration is a paid call: opt-in via --arbitrate or REPOTIFY_JEV=1.
+  // recommendV1 consults it only when the local top-2 is genuinely ambiguous.
+  const jevOptIn = Boolean(args.flags.arbitrate) || (io.env ?? {}).REPOTIFY_JEV === "1";
+  const arbitrate = jevOptIn && jevLooksAvailable()
+    ? (ids) => arbitrateWithJev(ids, {
+        state: { needs: demand.needs, stacks: demand.stacks },
+        describe: (id) => itemById.get(id)?.summary ?? id,
+      })
+    : null;
+  const rec = await recommendV1(
+    { catalog, graph, demand, installed, blocked, budgetChars: budget, answers },
+    { arbitrate, fleetPolicy, exploreEpsilon: (io.env ?? {}).REPOTIFY_NO_EXPLORE === "1" ? 0 : 0.05 },
+  );
+  // Empty-project loadout (legacy behavior): presentation-only — the v2
+  // pipeline has no loadout concept.
+  const loadout = fp?.empty ? pickLoadout(catalog.loadouts, resolved) : null;
+  trackRecommendationV1(io, { rec, catalogVersion: catalog.meta.version, budgetChars: budget });
+  const rows = tableRows(rec, itemById, installed);
+  const tableInput = {
+    rows,
+    budget: rec.budget ?? { used: 0, limit: budget ?? V1_BUDGET_CHARS },
+    loadout: loadout?.id ?? null,
+  };
   if (args.flags.json) {
-    out(io, JSON.stringify({ ...rec, projectType: resolved.projectType, needs: resolved.needs, catalogVersion: catalog.meta.version, notice: notice ?? null }, null, 2));
+    out(io, JSON.stringify({
+      ...rec,
+      rows,
+      defaultSet: rec.set,
+      loadout: loadout?.id ?? null,
+      projectType: resolved.projectType,
+      needs: resolved.needs,
+      catalogVersion: catalog.meta.version,
+      notice: notice ?? null,
+    }, null, 2));
   } else {
     if (notice) out(io, notice);
-    out(io, formatTable(rec));
+    if (rec.decision === "reject") {
+      out(io, `Repotify candidates: no confident recommendation (${rec.reason}${rec.detail ? ` — ${rec.detail}` : ""}).`);
+      if (rec.advice) out(io, rec.advice);
+    }
+    out(io, formatTable(tableInput));
   }
   return 0;
 }
@@ -442,8 +605,19 @@ async function cmdTelemetry(args, io) {
   }
   const endpoint = (await import("./config.mjs")).TELEMETRY_ENDPOINT ?? io.env?.REPOTIFY_TELEMETRY_URL ?? null;
   const queued = t.enabled ? (await t.flush()).queued : 0;
-  out(io, `Telemetry: ${t.enabled ? "on" : "off"}; ${endpoint ? `endpoint ${endpoint}` : "endpoint not configured (nothing is sent)"}; ${queued} event(s) queued locally.`);
+  out(io, `Telemetry: ${t.enabled ? "on" : "off"}; ${endpoint ? `endpoint ${endpoint}` : "endpoint not configured (nothing is sent)"}; ${queued} event(s) queued locally.\n${NOTICE_DETAILS}`);
   return 0;
+}
+
+// `repotify sync`: the only path by which anything leaves the machine.
+// All logic lives in lib/telemetry/sync.mjs; the CLI only routes io.
+async function cmdSync(args, io) {
+  if (args.positionals.length > 0) {
+    err(io, "Usage: repotify sync");
+    return 2;
+  }
+  const sync = await import("../lib/telemetry/sync.mjs");
+  return sync.runSyncCommand(io, {});
 }
 
 function agentsFromTargets(targets) {
@@ -536,7 +710,7 @@ export const COMMANDS = {
   start: { run: cmdStart, help: "start [--agent a,b]                  Default: install the repotify skill for your agent and summarize the project" },
   fingerprint: { run: cmdFingerprint, help: "fingerprint [--json]                 Summarize this project (local; code is not read)" },
   questions: { run: cmdQuestions, help: "questions [--json]                   Questions to ask only when the answer is unknown" },
-  recommend: { run: cmdRecommend, help: "recommend [--type t] [--needs a,b]   Conflict-free candidate table (--json, --budget N)" },
+  recommend: { run: cmdRecommend, help: "recommend [--type t] [--needs a,b]   Conflict-free candidate table (--json, --budget N, --blocked a,b, --arbitrate)" },
   suggest: { run: cmdSuggest, help: "suggest [dir|github-url] [--why text]  Suggest your repo for the catalog (pre-filled form; nothing is sent)" },
   audit: { run: cmdAudit, help: "audit [--user] [--json]              Which installed skills earn their place, which to remove, and why" },
   install: { run: cmdInstall, help: "install <id...> [--yes] [--agent a,b] Install catalog skills (hash-checked, re-scanned)" },
@@ -546,6 +720,7 @@ export const COMMANDS = {
   update: { run: cmdUpdate, help: "update [--check|--apply a,b|--enable-auto-check] Vetted updates for installed items" },
   vote: { run: cmdVote, help: "vote <id> up|down | --due | --dismiss  Rate an installed item (at most weekly)" },
   telemetry: { run: cmdTelemetry, help: "telemetry [status|on|off]           Anonymous usage signals (endpoint currently off)" },
+  sync: { run: cmdSync, help: "sync                                  Send an anonymous aggregate summary to the fleet server (you confirm first)" },
   guard: { run: cmdGuard, help: "guard --hook | --self-test           Package guard (Claude Code PreToolUse hook)" },
 };
 

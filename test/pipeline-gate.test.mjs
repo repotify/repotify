@@ -1,11 +1,23 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { packageFindings, setupSecurity, securityRecord, GATE_VERSION } from "../pipeline/gate.mjs";
 import { writeCatalogFiles, nextVersion } from "../pipeline/publish.mjs";
 import { sha256 } from "../src/util.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const jsonResponse = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 
@@ -68,7 +80,7 @@ test("nextVersion is date based and increments within a day", () => {
 });
 
 test("writeCatalogFiles writes stable JSON and a meta file with matching hashes", () => {
-  const dir = mkdtempSync(join(tmpdir(), "rp-cat-"));
+  const dir = mkTemp("rp-cat-");
   const meta = writeCatalogFiles(dir, { items: [{ id: "b" }, { id: "a" }], loadouts: [], core: [] }, { now: new Date("2026-09-28T00:00:00Z") });
   const items = readFileSync(join(dir, "items.json"));
   assert.deepEqual(JSON.parse(items).map((i) => i.id), ["a", "b"]);

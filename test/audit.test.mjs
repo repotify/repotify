@@ -1,6 +1,6 @@
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,6 +8,18 @@ import { spawnSync } from "node:child_process";
 import { auditSkills, formatAudit, findInstalledSkills } from "../src/audit.mjs";
 import { fingerprint } from "../src/fingerprint.mjs";
 import { resolveNeeds } from "../src/needs.mjs";
+
+// Test temp dirs: track every mkdtempSync dir and remove them all in after(),
+// or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
+const tempDirs = [];
+const mkTemp = (prefix) => {
+  const d = mkdtempSync(join(tmpdir(), prefix));
+  tempDirs.push(d);
+  return d;
+};
+after(() => {
+  for (const d of tempDirs) rmSync(d, { recursive: true, force: true });
+});
 
 const read = (f) => JSON.parse(readFileSync(new URL(`../catalog/${f}`, import.meta.url), "utf8"));
 const catalog = { items: read("items.json"), taxonomy: read("taxonomy.json"), loadouts: read("loadouts.json"), core: read("core.json"), meta: read("meta.json") };
@@ -21,7 +33,7 @@ function skill(root, dir, id, description) {
 
 // A Next.js app that makes PDFs, with a mix of useful, useless, duplicated and unsafe skills installed.
 function project() {
-  const root = mkdtempSync(join(tmpdir(), "repotify-audit-"));
+  const root = mkTemp("repotify-audit-");
   writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { next: "15.0.0", react: "19.0.0", "react-dom": "19.0.0", pdfkit: "0.15.0" } }));
   skill(root, ".claude/skills", "test-driven-development", "Use when implementing any feature: write the failing test first.");
   skill(root, ".claude/skills", "pptx", "Create and edit PowerPoint slide decks.");
@@ -78,7 +90,7 @@ test("audit: the same skill for two different agents is not an overlap", async (
 });
 
 test("audit: web-only skills are questioned in a mobile app, kept in a web app", async () => {
-  const root = mkdtempSync(join(tmpdir(), "repotify-audit-"));
+  const root = mkTemp("repotify-audit-");
   writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { expo: "51.0.0", "react-native": "0.74.0" } }));
   skill(root, ".claude/skills", "webapp-testing", "Test web apps with Playwright.");
   const r = await audit(root);
@@ -114,7 +126,7 @@ test("repotify audit --json runs end to end, and start points to it when skills 
 });
 
 test("audit with no skills says so", async () => {
-  const root = mkdtempSync(join(tmpdir(), "repotify-audit-"));
+  const root = mkTemp("repotify-audit-");
   assert.match(formatAudit(await audit(root)), /no installed skills found/);
 });
 
@@ -130,7 +142,7 @@ test("audit in the home folder judges security and overlaps only, and says so", 
 });
 
 test("names a cloned repository controls are shown safely, and only real catalog ids become commands", { skip: process.platform === "win32" }, async () => {
-  const root = mkdtempSync(join(tmpdir(), "repotify-audit-"));
+  const root = mkTemp("repotify-audit-");
   writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { next: "15.0.0", react: "19.0.0", "react-dom": "19.0.0" } }));
   skill(root, ".claude/skills", "odd;name", "Flutter widget patterns for mobile apps.");
   skill(root, ".claude/skills", "esc\u001bname", "Flutter widget patterns for mobile apps.");
@@ -144,7 +156,7 @@ test("names a cloned repository controls are shown safely, and only real catalog
 });
 
 test("a SKILL.md over 1 MiB is not parsed and is questioned", async () => {
-  const root = mkdtempSync(join(tmpdir(), "repotify-audit-"));
+  const root = mkTemp("repotify-audit-");
   writeFileSync(join(root, "package.json"), JSON.stringify({ dependencies: { next: "15.0.0" } }));
   mkdirSync(join(root, ".claude/skills/huge"), { recursive: true });
   writeFileSync(join(root, ".claude/skills/huge/SKILL.md"), "---\nname: huge\ndescription: x\n---\n" + "a".repeat(1024 * 1024 + 10));
