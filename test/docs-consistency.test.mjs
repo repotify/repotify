@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { COMMANDS } from "../src/cli.mjs";
 
 // The documentation promises commands, versions and files; these tests keep the promises true as the code changes.
@@ -22,7 +22,12 @@ test("the changelog's newest version is the package version", () => {
 });
 
 test("everything package.json ships or runs exists", () => {
-  for (const f of pkg.files) assert.ok(existsSync(new URL(f, root)), `files: ${f}`);
+  for (const f of pkg.files) {
+    // "dir/*.mjs": the folder exists and the pattern matches at least one file in it.
+    const m = /^(.*)\/\*(\.[a-z]+)$/.exec(f);
+    if (m) assert.ok(existsSync(new URL(`${m[1]}/`, root)) && readdirSync(new URL(`${m[1]}/`, root)).some((x) => x.endsWith(m[2])), `files: ${f}`);
+    else assert.ok(existsSync(new URL(f, root)), `files: ${f}`);
+  }
   for (const f of Object.values(pkg.bin)) assert.ok(existsSync(new URL(f, root)), `bin: ${f}`);
   for (const [name, script] of Object.entries(pkg.scripts)) {
     const file = /node (\S+\.mjs)/.exec(script)?.[1];

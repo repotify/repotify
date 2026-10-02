@@ -30,6 +30,10 @@
     "skill",
     "catalog",
     "data/graph-seed.json",
+    "lib/pipeline/graph/*.mjs",
+    "lib/pipeline/recommend/*.mjs",
+    "lib/signals/*.mjs",
+    "lib/telemetry/*.mjs",
     "README.md",
     "LICENSE",
     "AGENTS.md"
