@@ -152,3 +152,19 @@ test("the first install that writes something thanks the user once, and never ag
   assert.equal(second.status, 0, second.stderr);
   assert.doesNotMatch(second.stdout, /A star on GitHub/);
 });
+
+test("a skill already in the agent's folder (copied by hand) is shown as installed, not offered again", () => {
+  const cwd = project();
+  const plain = JSON.parse(run(cwd, ["recommend", "--json"]).stdout);
+  const id = plain.defaultSet.find((x) => !["test-driven-development", "writing-plans", "brainstorming"].includes(x) && plain.rows.find((r) => r.id === x).type === "skill");
+  mkdirSync(join(cwd, ".claude/skills", id), { recursive: true });
+  writeFileSync(join(cwd, ".claude/skills", id, "SKILL.md"), `---\nname: ${id}\ndescription: copied by hand\n---\n`);
+  const r = run(cwd, ["recommend", "--json"]);
+  assert.equal(r.status, 0, r.stderr);
+  const rec = JSON.parse(r.stdout);
+  assert.ok(!rec.defaultSet.includes(id), `${id} offered again`);
+  const row = rec.rows.find((x) => x.id === id);
+  assert.ok(row.installed && !row.default, JSON.stringify(row));
+  const cluster = row.cluster;
+  assert.ok(!rec.rows.some((x) => x.id !== id && x.cluster === cluster), "nothing else for its job");
+});

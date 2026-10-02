@@ -32,26 +32,40 @@ test("exploreEpsilon=0: deterministic, no exploration markers", async () => {
   assert.equal(r.exploreEpsilon, 0);
 });
 
-test("exploreEpsilon=1: always explores when possible", async () => {
-  const demand = demandFor({ stacks: ["python"], platforms: [], capabilityHints: [], inferredNeeds: ["data-processing"] });
-  // rng: first call < 1 (explore), second picks candidate index.
+// A web app: the table has open jobs (alternates) and the set has optional items to swap.
+const webApp = { stacks: ["nextjs", "react", "typescript", "node"], platforms: ["web"], capabilityHints: [], inferredNeeds: ["frontend-ui", "testing", "e2e-testing"], frameworks: ["next"] };
+const clustersOf = (ids) => ids.map((id) => catalog.items.find((i) => i.id === id)?.cluster);
+
+test("exploreEpsilon=1: explores whenever an open job and an optional set item exist", async () => {
+  const demand = demandFor(webApp);
+  // rng: first call < 1 (explore), second picks the alternate.
   let calls = 0;
   const rng = () => (calls++ === 0 ? 0.5 : 0.0);
   const r = await recommendV1({ catalog, graph, demand }, { exploreEpsilon: 1, rng });
-  if (r.decision === "recommend" && r.set.length > 0) {
-    assert.equal(r.explored, true);
-    assert.ok(r.exploreItemId);
-    assert.ok(r.set.includes(r.exploreItemId), "explore item is in the set");
-  }
+  assert.equal(r.decision, "recommend");
+  assert.ok(r.exploreCandidates > 0);
+  assert.equal(r.explored, true);
+  assert.ok(r.set.includes(r.exploreItemId), "explore item is in the set");
+  assert.equal(new Set(clustersOf(r.set)).size, r.set.length, "still one item per job");
 });
 
-test("exploration only swaps with safety-filtered candidates", async () => {
-  const demand = demandFor({ stacks: ["python"], platforms: [], capabilityHints: [], inferredNeeds: ["data-processing"] });
+test("exploration only swaps in an alternate from the candidate table, never a core item out", async () => {
+  const demand = demandFor(webApp);
+  const base = await recommendV1({ catalog, graph, demand });
   let calls = 0;
   const rng = () => (calls++ === 0 ? 0.5 : 0.999);
   const r = await recommendV1({ catalog, graph, demand }, { exploreEpsilon: 1, rng });
-  if (r.explored) {
-    const rankedIds = new Set(r.ranked.map((x) => x.id));
-    assert.ok(rankedIds.has(r.exploreItemId), "explore item comes from the ranked (filtered) list");
+  assert.equal(r.explored, true);
+  const alternates = base.table.filter((t) => !t.default && !t.installed).map((t) => t.id);
+  assert.ok(alternates.includes(r.exploreItemId), "explore item is a table alternate");
+  for (const id of base.set) {
+    if (catalog.items.find((i) => i.id === id).tier === "core") assert.ok(r.set.includes(id), `${id} kept`);
   }
+});
+
+test("no open job, no exploration: the swap never doubles a job", async () => {
+  const demand = demandFor({ stacks: ["python"], platforms: [], capabilityHints: [], inferredNeeds: ["data-processing"] });
+  const r = await recommendV1({ catalog, graph, demand }, { exploreEpsilon: 1, rng: () => 0 });
+  if (!r.exploreCandidates) assert.equal(r.explored, false);
+  assert.equal(new Set(clustersOf(r.set)).size, r.set.length);
 });

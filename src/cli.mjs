@@ -141,14 +141,11 @@ async function cmdQuestions(args, io) {
 // Capability graph seed, bundled with the package (package.json "files").
 const GRAPH_SEED_PATH = fileURLToPath(new URL("../data/graph-seed.json", import.meta.url));
 
-// Map v2 ranked rows to the legacy table row shape so formatTable/--json keep
-// working. The full ranked slate is shown (old UX); rows in the v2 selected
-// set carry the default-set mark.
-function tableRows(rec, itemById, installed) {
-  const inSet = new Set(rec.set ?? []);
-  const installedSet = new Set(installed);
-  const reasonsById = new Map((rec.rows ?? []).map((r) => [r.id, r.reasons ?? []]));
-  return (rec.ranked ?? []).map((r) => {
+// The engine's candidate table (one row per job: installed items, the default
+// set, the best alternate for each open job) in the row shape formatTable and
+// --json use.
+function tableRows(rec, itemById) {
+  return (rec.table ?? []).map((r) => {
     const item = itemById.get(r.id) ?? {};
     return {
       id: r.id,
@@ -158,9 +155,9 @@ function tableRows(rec, itemById, installed) {
       score: Math.round(r.score * 100) / 100,
       badges: [item.security?.level === "caution" ? "caution" : "verified"],
       summary: item.summary ?? "",
-      reasons: reasonsById.get(r.id) ?? [],
-      default: inSet.has(r.id),
-      installed: installedSet.has(r.id),
+      reasons: r.reasons ?? [],
+      default: r.default,
+      installed: r.installed,
       userEnables: item.type === "mcp" || item.type === "config",
       lifecycle: item.lifecycle ?? null,
     };
@@ -195,18 +192,20 @@ function trackRecommendationV1(io, { rec, catalogVersion, budgetChars }) {
   const ranked = (rec.ranked ?? []).slice(0, 100); // schema cap: max 100 candidates
   if (!ranked.length) return false;
   // ε-greedy propensities (P3): the serving policy explores with prob ε.
-  // Greedy pick: (1-ε) + ε/n. Others: ε/n. Strictly inside (0,1) — B1.
+  // Greedy pick: (1-ε) + ε/n. Alternates: ε/n, n being the alternates the swap
+  // draws from uniformly (the table's open jobs); anything else is never drawn.
+  // Clamped strictly inside (0,1) — B1.
   const eps = rec.exploreEpsilon ?? 0;
-  const n = ranked.length;
+  const pool = new Set((rec.table ?? []).filter((r) => !r.default && !r.installed).map((r) => r.id));
+  if (rec.exploreItemId) pool.add(rec.exploreItemId);
+  const n = Math.max(1, pool.size);
   const selected = new Set(rec.set ?? []);
   const exploreId = rec.exploreItemId ?? null;
   const candidates = ranked.map((r, i) => {
     const isGreedyPick = selected.has(r.id) && r.id !== exploreId;
-    // The exploration swap (if any) was chosen uniformly among non-set
-    // candidates; the greedy set items keep (1-ε)+ε/n.
     const propensity = isGreedyPick
       ? (1 - eps) + eps / n
-      : eps / n;
+      : pool.has(r.id) ? eps / n : 0;
     return {
       skill_id: r.id,
       position: i,
@@ -254,7 +253,9 @@ async function cmdRecommend(args, io) {
   const answers = answersFrom(args.flags);
   const resolved = resolveNeeds({ fingerprint: fp, answers, taxonomy: catalog.taxonomy });
   const budget = Number(args.flags.budget) > 0 ? Number(args.flags.budget) : undefined;
-  const installed = Object.keys(readJsonSafe(join(io.cwd, "repotify.lock.json")).value?.items ?? {});
+  // Installed means in the lock or already in an agent's skills folder (put there by hand
+  // or by another tool): either way it is not offered again, and it holds its job.
+  const installed = [...new Set([...Object.keys(readLock(io.cwd).items), ...(fp.agents?.skills ?? [])])];
   // d1: the CLI now drives the v2 pipeline. Demand translation reuses the old
   // engine's buildDemand (same taxonomy/need-weight semantics) plus the
   // fingerprint stacks and answered keys the v2 narrower/scorer read.
@@ -283,7 +284,7 @@ async function cmdRecommend(args, io) {
   // pipeline has no loadout concept.
   const loadout = fp?.empty ? pickLoadout(catalog.loadouts, resolved) : null;
   trackRecommendationV1(io, { rec, catalogVersion: catalog.meta.version, budgetChars: budget });
-  const rows = tableRows(rec, itemById, installed);
+  const rows = tableRows(rec, itemById);
   const tableInput = {
     rows,
     budget: rec.budget ?? { used: 0, limit: budget ?? V1_BUDGET_CHARS },
@@ -729,7 +730,7 @@ export const COMMANDS = {
   update: { run: cmdUpdate, help: "update [--check|--apply a,b|--enable-auto-check] Vetted updates for installed items" },
   vote: { run: cmdVote, help: "vote <id> up|down | --due | --dismiss  Rate an installed item (at most weekly)" },
   telemetry: { run: cmdTelemetry, help: "telemetry [status|on|off]           Anonymous usage signals (endpoint currently off)" },
-  sync: { run: cmdSync, help: "sync                                  Send an anonymous aggregate summary to the fleet server (you confirm first)" },
+  sync: { run: cmdSync, help: "sync                                  Send an anonymous summary to a fleet server you configure (none runs yet; you confirm first)" },
   guard: { run: cmdGuard, help: "guard --hook | --self-test           Package guard (Claude Code PreToolUse hook)" },
 };
 

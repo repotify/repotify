@@ -83,3 +83,49 @@ test("the catalog holds coding skills: no forensics or marketing collections, no
   const seed = readFileSync(join(root, "pipeline", "seed-sources.json"), "utf8");
   for (const repo of offTopicRepos) assert.ok(!seed.includes(`"repo":"${repo}"`), `seed still lists ${repo}`);
 });
+
+// 2026-10-02 audit: the v2 engine forgot what the project already had. After
+// installing frontend-design, sql-pro and differential-review it starred
+// image-to-code, database-optimizer and claude-security (the same three jobs),
+// and a skill copied in by hand was starred again although `install` refuses it.
+const webApp = { empty: false, stacks: ["nextjs", "node", "react", "typescript"], platforms: ["web"], inferredNeeds: ["database", "e2e-testing", "frontend-ui", "testing"], frameworks: ["next"], agents: { configured: [], skills: [] } };
+const webDemand = () => demandFor({ catalog, fingerprint: webApp, needs: resolveNeeds({ fingerprint: webApp, answers: {}, taxonomy: catalog.taxonomy }) });
+
+test("installed items keep their job: nothing else is offered for it, and their context counts", async () => {
+  const installed = ["frontend-design", "sql-pro", "differential-review"];
+  const fresh = await recommendV1({ catalog, graph, demand: webDemand() });
+  const r = await recommendV1({ catalog, graph, demand: webDemand(), installed });
+  const heldClusters = new Set(installed.map((id) => itemById.get(id).cluster));
+  for (const id of r.set) {
+    assert.ok(!installed.includes(id), `${id} is installed already`);
+    assert.ok(!heldClusters.has(itemById.get(id).cluster), `${id} does the job of an installed item`);
+  }
+  for (const id of installed) assert.ok(r.table.some((t) => t.id === id && t.installed && !t.default), `${id} listed as installed`);
+  const chars = (ids) => ids.reduce((n, id) => n + itemById.get(id).descriptionChars, 0);
+  assert.equal(r.budget.used, chars(installed) + chars(r.set));
+  assert.ok(fresh.set.includes("frontend-design") && fresh.set.includes("sql-pro"));
+});
+
+test("a candidate that conflicts with an installed item is not offered", () => {
+  const [a, b] = ["ask-navigator", "behavioral-modes"];
+  assert.ok(itemById.get(a).conflicts.includes(b), "fixture: the catalog pairs them");
+  const narrowed = recommendLocal({ catalog, graph, demand: webDemand(), installed: [a] }).narrowed;
+  const out = narrowed.eliminated.find((e) => e.id === b);
+  assert.ok(!narrowed.candidates.some((c) => c.item.id === b));
+  assert.ok(out.reasons.includes(`conflicts-with-installed:${a}`), JSON.stringify(out));
+});
+
+test("the candidate table has one row per job, no noise below the fit floor, and a reason on every row", () => {
+  for (const s of scenarios) {
+    const { demand } = servedSet(s);
+    const r = recommendLocal({ catalog, graph, demand });
+    const clusters = r.table.map((t) => itemById.get(t.id).cluster);
+    assert.equal(new Set(clusters).size, clusters.length, `${s.name}: a job listed twice (${clusters.join(",")})`);
+    for (const t of r.table) {
+      const s2 = r.scored.find((x) => x.item.id === t.id);
+      if (itemById.get(t.id).tier !== "core") assert.ok(s2.parts.classFit >= 0.2, `${s.name}: ${t.id} fit ${s2.parts.classFit}`);
+      assert.ok(t.reasons.length > 0, `${s.name}: ${t.id} has no reason`);
+    }
+    for (const id of r.set) assert.ok(r.table.some((t) => t.id === id && t.default), `${s.name}: ${id} missing from the table`);
+  }
+});
