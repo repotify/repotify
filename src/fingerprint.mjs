@@ -12,6 +12,10 @@ const SKIP_DIRS = new Set([
 ]);
 const MANIFESTS = new Set(["package.json", "pyproject.toml", "Pipfile", "go.mod", "Cargo.toml", "Gemfile", "composer.json", "pubspec.yaml"]);
 const SKILL_DIRS = [".claude/skills", ".cursor/skills", ".agents/skills", ".gemini/skills"];
+// Agent folders hold what agents load (skills with their own scripts, hooks), not the project's code: their files
+// never count as languages, manifests or size. Installing a skill with Python helpers must not make a Next.js app a
+// Python project.
+const AGENT_DIRS = new Set([".claude", ".cursor", ".agents", ".gemini", ".codex"]);
 const LARGE_CODEBASE_FILES = 1500;
 const MAX_MANIFEST_BYTES = 512 * 1024;
 
@@ -19,6 +23,7 @@ const isManifest = (name) => MANIFESTS.has(name) || /^requirements.*\.txt$/.test
 
 async function walk(root, maxFiles) {
   const files = [];
+  const agentDirs = [];
   let truncated = false;
   const queue = [""];
   while (queue.length) {
@@ -33,7 +38,9 @@ async function walk(root, maxFiles) {
     for (const e of entries) {
       const path = rel ? `${rel}/${e.name}` : e.name;
       if (e.isDirectory()) {
-        if (!SKIP_DIRS.has(e.name)) queue.push(path);
+        if (AGENT_DIRS.has(e.name)) {
+          if (!rel) agentDirs.push(e.name);
+        } else if (!SKIP_DIRS.has(e.name)) queue.push(path);
       } else if (e.isFile()) {
         if (files.length >= maxFiles) {
           truncated = true;
@@ -44,7 +51,29 @@ async function walk(root, maxFiles) {
     }
     if (truncated) break;
   }
-  return { files, truncated };
+  return { files, truncated, agentDirs };
+}
+
+// Skill folders (with a SKILL.md) directly under each agent's skills directory.
+async function installedSkills(root) {
+  const out = [];
+  for (const sd of SKILL_DIRS) {
+    let entries;
+    try {
+      entries = await readdir(join(root, sd), { withFileTypes: true });
+    } catch {
+      continue;
+    }
+    for (const e of entries) {
+      if (!(e.isDirectory() || e.isSymbolicLink())) continue;
+      try {
+        if ((await stat(join(root, sd, e.name, "SKILL.md"))).isFile()) out.push({ dir: sd, name: e.name });
+      } catch {
+        // No SKILL.md: not a skill.
+      }
+    }
+  }
+  return out;
 }
 
 const normPy = (name) => name.trim().toLowerCase().replace(/_/g, "-").replace(/\[.*$/, "");
@@ -142,7 +171,7 @@ export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() }
   const root = resolve(dir);
   const real = realPath(root);
   if (real === realPath(homeDir) || real === parse(real).root) return emptyFingerprint("home-or-root");
-  const { files, truncated } = await walk(root, maxFiles);
+  const { files, truncated, agentDirs } = await walk(root, maxFiles);
   const sets = {
     stacks: new Set(), frameworks: new Set(), infra: new Set(), tests: new Set(), data: new Set(), llm: new Set(), needs: new Set(),
     caps: new Set(), platforms: new Set(), agents: new Set(), skills: new Set(),
@@ -163,17 +192,19 @@ export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() }
     if (entry.agent) sets.agents.add(entry.agent);
   };
 
+  // An agent folder says which agent is configured (FILE_MAP matches "<folder>/"); its skills are listed, not scanned.
+  for (const dir of agentDirs) for (const [re, entry] of FILE_MAP) if (re.test(`${dir}/`)) apply(entry);
+  for (const skill of await installedSkills(root)) {
+    sets.skills.add(skill.name);
+    if (skill.dir === ".agents/skills") sets.agents.add("generic");
+  }
+
   for (const path of files) {
     const name = path.split("/").pop();
     const dot = name.lastIndexOf(".");
     const lang = dot > 0 ? LANG_BY_EXT[name.slice(dot).toLowerCase()] : undefined;
     if (lang) langCounts.set(lang, (langCounts.get(lang) ?? 0) + 1);
     for (const [re, entry] of FILE_MAP) if (re.test(path)) apply(entry);
-    for (const sd of SKILL_DIRS) {
-      const m = path.startsWith(sd + "/") ? /^([^/]+)\/SKILL\.md$/.exec(path.slice(sd.length + 1)) : null;
-      if (m) sets.skills.add(m[1]);
-    }
-    if (path.startsWith(".agents/skills/")) sets.agents.add("generic");
     if (isManifest(name)) {
       manifests.push(path);
       let text = "";

@@ -159,3 +159,28 @@ test("pyproject dependency groups: included group names are not packages", async
   const deps = manifestDeps("pyproject.toml", '[project]\ndependencies = ["rich>=13"]\n\n[dependency-groups]\ndev = [\n  {include-group = "tests"},\n  "ruff==0.6.0",\n]\ntests = ["pytest"]\n');
   assert.deepEqual(deps, ["rich", "ruff", "pytest"]);
 });
+
+test("installed skills and hooks are not the project's code: their files never change languages, stacks or size", async () => {
+  const dir = mkTemp("rp-fp-agentdirs-");
+  writeFileSync(join(dir, "package.json"), JSON.stringify({ dependencies: { next: "15" } }));
+  mkdirSync(join(dir, "app"));
+  for (const f of ["a.tsx", "b.tsx", "c.tsx"]) writeFileSync(join(dir, "app", f), "export default 1\n");
+  const before = await fingerprint(dir);
+  const skill = join(dir, ".claude", "skills", "webapp-testing");
+  mkdirSync(join(skill, "scripts"), { recursive: true });
+  writeFileSync(join(skill, "SKILL.md"), "---\nname: webapp-testing\ndescription: x\n---\n");
+  for (const f of ["with_server.py", "probe.py", "util.py"]) writeFileSync(join(skill, "scripts", f), "print(1)\n");
+  writeFileSync(join(skill, "requirements.txt"), "django\n");
+  mkdirSync(join(dir, ".claude", "hooks"));
+  writeFileSync(join(dir, ".claude", "hooks", "repotify-guard.mjs"), "export {}\n");
+  mkdirSync(join(dir, ".agents", "skills", "other"), { recursive: true });
+  writeFileSync(join(dir, ".agents", "skills", "other", "SKILL.md"), "---\nname: other\n---\n");
+  const after = await fingerprint(dir);
+  assert.deepEqual(after.languages, before.languages);
+  assert.deepEqual(after.stacks, before.stacks);
+  assert.ok(!after.stacks.includes("python") && !after.stacks.includes("django"));
+  assert.deepEqual(after.manifests, ["package.json"]);
+  assert.equal(after.size.files, before.size.files);
+  assert.deepEqual(after.agents.skills, ["other", "webapp-testing"]);
+  assert.deepEqual(after.agents.configured, ["claude-code", "generic"]);
+});
