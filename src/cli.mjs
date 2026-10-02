@@ -734,6 +734,17 @@ export const COMMANDS = {
   guard: { run: cmdGuard, help: "guard --hook | --self-test           Package guard (Claude Code PreToolUse hook)" },
 };
 
+// A reader that stops early (`repotify recommend | head`, `| grep -q`) closes the pipe while Repotify may still
+// write. That is not a failure: the command finishes its work and exits with its own code, instead of a stack trace
+// and exit code 1 that make an agent think a finished install failed.
+export function quietPipes(...streams) {
+  for (const stream of streams) {
+    stream.on("error", (error) => {
+      if (error?.code !== "EPIPE" && error?.code !== "ERR_STREAM_DESTROYED") throw error;
+    });
+  }
+}
+
 // Entry point for bin/: an unexpected error becomes one line on stderr; the stack only with REPOTIFY_DEBUG.
 export async function main(argv, io, run = runCli) {
   try {

@@ -168,3 +168,18 @@ test("a skill already in the agent's folder (copied by hand) is shown as install
   const cluster = row.cluster;
   assert.ok(!rec.rows.some((x) => x.id !== id && x.cluster === cluster), "nothing else for its job");
 });
+
+test("output piped into a reader that stops early (`| head`) is not a crash", { skip: process.platform === "win32" }, () => {
+  const cli = new URL("../src/cli.mjs", import.meta.url).href;
+  const child = `import { quietPipes } from ${JSON.stringify(cli)}; quietPipes(process.stdout, process.stderr); process.stdout.write("a\\n"); setTimeout(() => { process.stdout.write("b\\n"); process.exitCode = 0; }, 300);`;
+  const script = join(mkTemp("rp-epipe-"), "child.mjs");
+  writeFileSync(script, child);
+  const r = spawnSync("sh", ["-c", `"${process.execPath}" "${script}" | head -1`], { encoding: "utf8" });
+  assert.equal(r.stdout.split("\n")[0], "a");
+  assert.doesNotMatch(r.stderr, /EPIPE|Unhandled/, r.stderr);
+  const bare = join(mkTemp("rp-epipe-"), "bare.mjs");
+  writeFileSync(bare, `process.stdout.write("a\\n"); setTimeout(() => process.stdout.write("b\\n"), 300);`);
+  const crash = spawnSync("sh", ["-c", `"${process.execPath}" "${bare}" | head -1`], { encoding: "utf8" });
+  assert.match(crash.stderr, /EPIPE/, "without quietPipes Node crashes: the case is real");
+  assert.match(readFileSync(bin, "utf8"), /quietPipes\(process\.stdout, process\.stderr\)/, "bin/ uses it");
+});
