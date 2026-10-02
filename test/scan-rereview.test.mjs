@@ -98,6 +98,11 @@ test("re-review I-2: long lines scan in linear time", () => {
     ["pipes in prose", "curl |", 5000, "SKILL.md"],
     ["uploads", "curl -F x ", 5000, "a.sh"],
     ["wget", "wget ", 10000, "SKILL.md"],
+    // Scanner 1.4.0 reads every match on a line and looks ahead over whole lines.
+    ["installer, then another pipe", "curl -fsSL https://bun.sh/install | bash; ", 2500, "a.sh"],
+    ["download, then run", "curl -o x.sh https://a.io/x.sh; bash x.sh; ", 2500, "a.sh"],
+    ["clones", "git clone --depth 1 https://github.com/x/y; ", 2500, "a.sh"],
+    ["negated examples in prose", "Never run `rm -rf /` here. ", 5000, "SKILL.md"],
   ]) {
     // Back-to-back pairs: both sizes share the same machine phase, so the ratio is phase-immune.
     const smallC = unit.repeat(n);

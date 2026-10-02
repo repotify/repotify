@@ -37,6 +37,14 @@ and `libafl` (`git clone … LibAFL && ./build.sh`). Each has the agent fetch a 
 blocked by policy, like the remote-script cases below. These three account for the change in the totals. False
 alarms: unchanged at 2/127.
 
+## Re-run on 2026-10-02 (scanner 1.4.0)
+
+Same four collections and commits: the same 127 verdicts as 1.3.0. Scanner 1.4.0 judges every match on a line, not the
+first one, looks ahead over whole lines for download-then-run and reads more `git clone` forms. A wider run over 4,580
+skills from 50 public repositories the research lab had collected changes one verdict: a digital-forensics skill that
+clones a third-party tool into `/opt/regripper` and runs `perl /opt/regripper/rip.pl` is now rejected (the named target
+folder hid it before). Scanning time is unchanged.
+
 ## Blocked skills (sent to the human review queue)
 
 | Skill | Level | Reason |

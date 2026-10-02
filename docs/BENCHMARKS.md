@@ -38,14 +38,14 @@ Spot checks on public projects (fingerprint and default set, beyond the core):
 
 | Test | Result |
 |---|---|
-| Deliberately malicious samples (`test/fixtures/malicious/`) | 37 / 37 caught at their expected level |
-| Benign look-alikes (`test/fixtures/benign/`) | 24 / 24 pass below their ceiling |
+| Deliberately malicious samples (`test/fixtures/malicious/`) | 45 / 45 caught at their expected level |
+| Benign look-alikes (`test/fixtures/benign/`) | 28 / 28 pass below their ceiling |
 | Real skills from four public collections | 127 skills: 99 verified, 17 caution, 3 quarantined, 8 rejected |
 | False alarms on those real skills | 2 / 127 (1.6%); target ≤ 5% |
 
 The corpus is `anthropics/skills`, `obra/superpowers`, `trailofbits/skills` and `vercel-labs/agent-skills` at the
-commits listed in [the corpus report](reports/scan-corpus-report.md) (re-run on 2026-10-02 with scanner 1.3.0, which
-gives the same verdicts as the scanner it replaced on all 127 skills). Three more skills are rejected than in the
+commits listed in [the corpus report](reports/scan-corpus-report.md) (re-run on 2026-10-02 with scanner 1.4.0, which
+gives the same verdicts as the scanners it replaced on all 127 skills). Three more skills are rejected than in the
 report's first run: they tell the agent to clone a third-party repository and build or run it, which the scanner treats
 as remote code execution since 2026-10-01. The false alarms are still the same two.
 

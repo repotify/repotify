@@ -1,7 +1,10 @@
 // Content rules for the security scanner.
-// Each rule inspects one line (or a small window of lines) of a text file. Regexes never use unbounded `[^\n]*`
-// between two parts, so scanning stays linear on long lines; shell structure comes from ./shell.mjs.
-import { splitPipelines, statementSpan, fetchIndex, downloadTarget, stageRunPaths, runsFileTest, fetchTargets, runsPipedInput, commandWords, baseName, INTERPRETERS } from "./shell.mjs";
+// Each rule inspects one line (or a small window of lines) of a text file and returns every match on it, so a harmless
+// or official-looking match early on a line cannot hide a dangerous one later on the same line: the scanner reports the
+// most severe. Regexes never use unbounded `[^\n]*` between two parts, and bounded gaps are lazy so one match never
+// swallows the next; scanning stays linear on long lines. Shell structure comes from ./shell.mjs.
+import { posix } from "node:path";
+import { splitPipelines, statementSpan, fetchIndex, downloadTarget, stageRunPaths, runPath, fetchTargets, runsPipedInput, commandWords, baseName, INTERPRETERS } from "./shell.mjs";
 
 export const SCRIPT_EXTENSIONS = new Set([
   ".sh", ".bash", ".zsh", ".fish", ".py", ".js", ".mjs", ".cjs", ".ts", ".mts", ".cts", ".tsx", ".jsx",
@@ -81,15 +84,15 @@ const SECRET_RE =
   /(\$\{?[A-Z0-9_]*(KEY|TOKEN|SECRET|PASSWORD|PASSWD|CREDENTIALS?)\b|process\.env\b|os\.environ\b|\bgetenv\(|\bprintenv\b|\benv\s*\||\.ssh\/|id_rsa|\.aws\/credentials)/;
 
 const SEND_RES = [
-  /\bcurl\b[^\n]{0,300}\s(-d|--data(-binary|-raw|-urlencode)?|-F|--form|-T|--upload-file)\b/,
-  /\bfetch\([\s\S]{0,300}?method\s*:\s*['"`](POST|PUT)['"`]/i,
-  /\brequests\.(post|put)\(/,
-  /\bhttpx\.(post|put)\(/,
-  /\baxios\.(post|put)\(/,
-  /\burlopen\([^)]{0,300}data\s*=/,
-  /\bnc\s+(-\w+\s+){0,8}[\w.-]+\s+\d{2,5}\b/,
-  /Invoke-(WebRequest|RestMethod)[^\n]{0,300}-Method\s+(Post|Put)/i,
-  /\bwget\b[^\n]{0,300}--post-(data|file)/,
+  /\bcurl\b[^\n]{0,300}?\s(-d|--data(-binary|-raw|-urlencode)?|-F|--form|-T|--upload-file)\b/g,
+  /\bfetch\([\s\S]{0,300}?method\s*:\s*['"`](POST|PUT)['"`]/gi,
+  /\brequests\.(post|put)\(/g,
+  /\bhttpx\.(post|put)\(/g,
+  /\baxios\.(post|put)\(/g,
+  /\burlopen\([^)]{0,300}data\s*=/g,
+  /\bnc\s+(-\w+\s+){0,8}[\w.-]+\s+\d{2,5}\b/g,
+  /Invoke-(WebRequest|RestMethod)[^\n]{0,300}?-Method\s+(Post|Put)/gi,
+  /\bwget\b[^\n]{0,300}?--post-(data|file)/g,
 ];
 
 const URL_RE = /https?:\/\/[^\s'"`<>()]+/gi;
@@ -139,44 +142,123 @@ function readingsOf(ctx, line) {
   return [splitPipelines(line, opts), splitPipelines(line, { ...opts, quotes: false })];
 }
 
-const GIT_CLONE_RE = /(?:^|[\s;&|(`])git\s+clone\s+(?:--[a-zA-Z-]+=?(?:\S+)?\s+)*(["']?)(https?:\/\/[^'"`\s]+)\1/;
+// The scanner judges at most this many matches of one rule on one line; a line with more is sent to human review
+// instead of being read further (see scanText). Collecting stops one past it, so the scanner can tell.
+export const MAX_LINE_MATCHES = 32;
 
-// `git clone <url>` downloads a whole tree; running anything from it within the next few commands is the
-// same shape as download-then-run. `cd <dir>` stages are tracked so `cd evil && ./setup.sh` resolves
-// inside the clone. Like the curl/wget path, this is aggressive by design: a skill that clones a repo
-// and executes its scripts is the attack, whatever the host.
-function gitCloneThenRun(line, ctx) {
-  const lines = ctx?.lines ?? [line];
+// Matches of one rule on one line, in order, one per position (both readings of a line often find the same command).
+// A clean line allocates nothing: rules return the shared empty list. `overflow` marks a list the rule stopped filling
+// because the line held more than the scanner reads. Lists stay short, so a linear check beats a Set.
+const NO_MATCHES = Object.freeze([]);
+function addMatch(list, m) {
+  if (!list) return [m];
+  if (!list.some((x) => x.index === m.index)) list.push(m);
+  return list;
+}
+const isFull = (list) => list !== null && list.length > MAX_LINE_MATCHES;
+function overflowing(list) {
+  const out = list ?? [];
+  out.overflow = true;
+  return out;
+}
+
+function mergeMatches(...lists) {
+  let out = null;
+  let overflow = false;
+  for (const l of lists) {
+    if (l.overflow) overflow = true;
+    for (const m of l) out = addMatch(out, m);
+  }
+  return overflow ? overflowing(out) : out ?? NO_MATCHES;
+}
+
+const RUN_LOOKAHEAD_LINES = 5;
+
+// Every stage of the lines after line `ctx.i` that a download or clone on it may be run by. Whole lines and every stage
+// count: a cap on either was a way around the rule (a dozen no-op commands, or a long line before the run). The scanner
+// splits each line once (ctx.pipelinesOf), so looking ahead from every line stays linear.
+function followingStages(ctx, opts) {
+  const lines = ctx?.lines ?? [];
   const i = ctx?.i ?? 0;
+  const out = [];
+  for (let j = i + 1; j < Math.min(lines.length, i + 1 + RUN_LOOKAHEAD_LINES); j++) {
+    out.push(...(ctx.pipelinesOf ? ctx.pipelinesOf(j, opts) : splitPipelines(lines[j], opts)).flat());
+  }
+  return out;
+}
+
+// A stage's run paths are worked out once, however many downloads look ahead to it.
+const RUN_PATHS = new WeakMap();
+function runPathsOf(stage) {
+  let paths = RUN_PATHS.get(stage);
+  if (!paths) RUN_PATHS.set(stage, (paths = stageRunPaths(stage.text)));
+  return paths;
+}
+
+// Options that take the next word as their value: git's own (`git -C dir clone`) and those of `git clone`.
+const GIT_VALUE_OPTIONS = new Set(["-C", "-c", "--git-dir", "--work-tree", "--namespace", "--config-env"]);
+const CLONE_VALUE_OPTIONS = new Set([
+  "-b", "--branch", "-o", "--origin", "-c", "--config", "-j", "--jobs", "-u", "--upload-pack", "--depth", "--reference",
+  "--reference-if-able", "--separate-git-dir", "--shallow-since", "--shallow-exclude", "--template", "--server-option",
+  "--bundle-uri", "--filter",
+]);
+const CLONE_URL_RE = /^(?:(?:https?|ssh|git):\/\/\S+|[\w.-]+@[\w.-]+:\S+)$/i;
+
+// A path as `cd` and the shell resolve it from `cwd` ("." is where the commands start); absolute paths stay absolute.
+const resolvePath = (cwd, path) => posix.normalize(path.startsWith("/") ? path : `${cwd}/${path}`).replace(/(.)\/+$/, "$1");
+
+// What `git clone` in this stage fetches and the folder it writes: the folder named after the URL, or "." and any other
+// folder given after it. Options may come before or after the URL (`git clone --depth 1 -b v1 <url> [dir]`).
+function cloneOf(stageText) {
+  const words = commandWords(stageText);
+  if (baseName(words[0] ?? "") !== "git") return null;
+  let k = 1;
+  while (k < words.length && words[k].startsWith("-")) k += GIT_VALUE_OPTIONS.has(words[k]) ? 2 : 1;
+  if (words[k] !== "clone") return null;
+  const args = [];
+  let options = true;
+  for (k += 1; k < words.length; k++) {
+    const w = words[k];
+    if (options && w === "--") options = false;
+    else if (options && w.startsWith("-")) k += CLONE_VALUE_OPTIONS.has(w) ? 1 : 0;
+    else args.push(w);
+  }
+  const url = args[0];
+  if (!url || !CLONE_URL_RE.test(url)) return null;
+  const named = args[1] ?? url.replace(/[?#].*$/, "").split(/[/:]/).filter(Boolean).pop()?.replace(/\.git$/, "");
+  return named ? { url, dir: resolvePath(".", named) } : null;
+}
+
+// True when `path` (resolved) lies inside the clone written to `dir` (resolved; "." is the folder the commands start in).
+function insideClone(path, dir) {
+  if (dir === ".") return !path.startsWith("/") && path !== ".." && !path.startsWith("../");
+  return path === dir || path.startsWith(dir + "/");
+}
+
+// `git clone` downloads a whole tree; running anything from it within the next few commands is the same shape as
+// download-then-run. `cd <dir>` stages are tracked so `cd evil && ./setup.sh` resolves inside the clone. Like the
+// curl/wget path, this is aggressive by design: a skill that clones a repo and executes its scripts is the attack,
+// whatever the host.
+function gitCloneThenRun(line, ctx) {
   const opts = { comments: Boolean(ctx?.comments), prose: Boolean(ctx?.prose) };
   const unq = (t) => t.replace(/^["']|["']$/g, "");
+  let found = null;
   for (const pipelines of readingsOf(ctx, line)) {
     const own = pipelines.flat();
+    let following = null;
+    let clones = 0;
     for (let k = 0; k < own.length; k++) {
-      const g = GIT_CLONE_RE.exec(own[k].text);
-      if (!g) continue;
-      let dir = "";
-      try {
-        const seg = new URL(g[2]).pathname.split("/").filter(Boolean).pop() ?? "";
-        dir = seg.replace(/\.git$/, "");
-      } catch {
-        continue;
-      }
-      if (!dir || dir === "." || dir === ".." || /[/\\]/.test(dir)) continue;
-      const later = own.slice(k + 1, k + 1 + RUN_LOOKAHEAD_STAGES);
-      for (let j = i + 1; j < Math.min(lines.length, i + 1 + RUN_LOOKAHEAD_LINES) && later.length < RUN_LOOKAHEAD_STAGES; j++) {
-        later.push(...splitPipelines(lines[j].slice(0, 2000), opts).flat().slice(0, RUN_LOOKAHEAD_STAGES));
-      }
-      let cwd = "";
-      for (const st of later.slice(0, RUN_LOOKAHEAD_STAGES)) {
+      if (!/\bclone\b/.test(own[k].text)) continue;
+      const clone = cloneOf(own[k].text);
+      if (!clone) continue;
+      if (++clones > MAX_LINE_MATCHES) return overflowing(found);
+      following ??= followingStages(ctx, opts);
+      let cwd = ".";
+      for (const st of [...own.slice(k + 1), ...following]) {
         const words = commandWords(st.text);
         if (!words.length) continue;
         if (words[0] === "cd" && words[1] && !words[1].startsWith("-")) {
-          const d = unq(words[1]);
-          if (d === "/") cwd = "";
-          else if (d === "..") cwd = cwd.split("/").slice(0, -1).join("/");
-          else if (d.startsWith("/")) cwd = d.replace(/^\//, "");
-          else if (!d.includes("..")) cwd = (cwd ? cwd + "/" : "") + d.replace(/^\.\//, "");
+          cwd = resolvePath(cwd, unq(words[1]));
           continue;
         }
         // Only flag file executions, not bare commands run inside the dir (`cd d && ls` is fine):
@@ -189,27 +271,31 @@ function gitCloneThenRun(line, ctx) {
           const dashC = words.indexOf("-c");
           fileWord = words.slice(1).find((w, idx) => !w.startsWith("-") && (dashC < 0 || idx + 1 < dashC) && looksFile(w)) ?? null;
         }
-        if (!fileWord) continue;
-        const norm = unq(fileWord).replace(/^\.\//, "");
-        const resolved = norm.startsWith("/") ? norm.slice(1) : (cwd ? cwd + "/" : "") + norm;
-        if (resolved === dir || resolved.startsWith(dir + "/")) {
-          return { index: own[k].start + g.index, length: g[0].trimEnd().length, text: g[0].trim() };
-        }
+        if (!fileWord || !insideClone(resolvePath(cwd, unq(fileWord)), clone.dir)) continue;
+        const at = own[k].text.search(/\S/);
+        const text = own[k].text.slice(at).trimEnd();
+        found = addMatch(found, { index: own[k].start + at, length: text.length, text });
+        if (isFull(found)) return found;
+        break;
       }
     }
   }
-  return null;
+  return found ?? NO_MATCHES;
 }
 
 // `curl …/wget …/irm …` piped into an interpreter, possibly through other stages (`| tee x | sudo -E bash`).
 function pipeToInterpreter(line, ctx) {
+  let found = null;
   for (const pipelines of readingsOf(ctx, line)) {
     for (const stages of pipelines) {
       let first = null;
       for (const stage of stages) {
         if (first && runsPipedInput(stage.text, { prose: Boolean(ctx?.prose) })) {
           const index = first.stage.start + first.at;
-          return { index, length: stage.start + stage.text.length - index, text: first.stage.text.slice(first.at) };
+          found = addMatch(found, { index, length: stage.start + stage.text.length - index, text: first.stage.text.slice(first.at) });
+          if (isFull(found)) return found;
+          first = null;
+          continue;
         }
         if (!first) {
           const at = fetchIndex(stage.text);
@@ -218,43 +304,41 @@ function pipeToInterpreter(line, ctx) {
       }
     }
   }
-  return null;
+  return found ?? NO_MATCHES;
 }
-
-const RUN_LOOKAHEAD_LINES = 5;
-const RUN_LOOKAHEAD_STAGES = 12;
 
 // A download to a file that a later command runs, on the same line or within the next few lines.
 function downloadThenRun(line, ctx) {
-  const lines = ctx?.lines ?? [line];
-  const i = ctx?.i ?? 0;
   const opts = { comments: Boolean(ctx?.comments), prose: Boolean(ctx?.prose) };
-  // A stage's run paths are worked out once, however many downloads before it look ahead to it.
-  const runPaths = new Map();
-  const pathsOf = (st) => {
-    let paths = runPaths.get(st);
-    if (!paths) runPaths.set(st, (paths = stageRunPaths(st.text)));
-    return paths;
-  };
+  let found = null;
   for (const pipelines of readingsOf(ctx, line)) {
     const own = pipelines.flat();
+    const downloads = [];
     for (let k = 0; k < own.length; k++) {
       const at = fetchIndex(own[k].text);
       if (at < 0) continue;
       const fetch = own[k].text.slice(at);
       const file = downloadTarget(fetch);
-      if (!file) continue;
-      const later = own.slice(k + 1, k + 1 + RUN_LOOKAHEAD_STAGES);
-      for (let j = i + 1; j < Math.min(lines.length, i + 1 + RUN_LOOKAHEAD_LINES) && later.length < RUN_LOOKAHEAD_STAGES; j++) {
-        later.push(...splitPipelines(lines[j].slice(0, 2000), opts).flat().slice(0, RUN_LOOKAHEAD_STAGES));
+      if (file) downloads.push({ k, at, fetch, want: runPath(file) });
+    }
+    if (!downloads.length) continue;
+    // The last stage that runs each path and each base name; a download is run when a stage after it runs either.
+    const lastRun = new Map();
+    [...own, ...followingStages(ctx, opts)].forEach((st, n) => {
+      for (const p of runPathsOf(st)) {
+        lastRun.set(`path:${p.path}`, n);
+        if (p.base) lastRun.set(`base:${p.base}`, n);
       }
-      const runs = runsFileTest(file);
-      if (later.slice(0, RUN_LOOKAHEAD_STAGES).some((st) => runs(pathsOf(st)))) {
-        return { index: own[k].start + at, length: fetch.trimEnd().length, text: fetch };
+    });
+    for (const d of downloads) {
+      const after = (key) => (lastRun.get(key) ?? -1) > d.k;
+      if (after(`path:${d.want.path}`) || (d.want.base && after(`base:${d.want.base}`))) {
+        found = addMatch(found, { index: own[d.k].start + d.at, length: d.fetch.trimEnd().length, text: d.fetch });
+        if (isFull(found)) return found;
       }
     }
   }
-  return null;
+  return found ?? NO_MATCHES;
 }
 
 const SUBSTITUTION_RES = [
@@ -265,7 +349,7 @@ const SUBSTITUTION_RES = [
   /\b(python[23]?|node|ruby|perl|php)\s+<\(\s*(curl|wget)\b/i,
   /\b(iex|Invoke-Expression)\s*\(*\s*(iwr|irm|Invoke-WebRequest|Invoke-RestMethod|New-Object\s+(System\.)?Net\.WebClient|\[(System\.)?Net\.WebClient\])/i,
   /\bDownloadString\s*\([^)\n]{0,300}\)\s*\)?\s*\|\s*(iex|Invoke-Expression)\b/i,
-  /\b(iex|Invoke-Expression)\b[^\n]{0,60}\.DownloadString\s*\(/i,
+  /\b(iex|Invoke-Expression)\b[^\n]{0,60}?\.DownloadString\s*\(/i,
 ];
 
 // Uploads of local files: curl -F x=@f / -F x=<f / -d @f / --data-* @f / -T f, wget --post-file, PowerShell -InFile.
@@ -275,26 +359,39 @@ const UPLOAD_WGET_RE = /(?:^|\s)--post-file[=\s]/;
 const UPLOAD_PS_RE = /(?:^|\s)-InFile\s/i;
 
 function fileUpload(line, ctx) {
+  let found = null;
   for (const stage of readingsOf(ctx, line).flat(2)) {
     const at = fetchIndex(stage.text);
     if (at < 0) continue;
     const fetch = stage.text.slice(at);
     const tool = fetch.split(/\s/, 1)[0].toLowerCase();
     const re = tool === "curl" ? UPLOAD_CURL_RE : tool === "wget" ? UPLOAD_WGET_RE : UPLOAD_PS_RE;
-    if (re.test(fetch)) return { index: stage.start + at, length: fetch.trimEnd().length, text: fetch };
+    if (re.test(fetch)) found = addMatch(found, { index: stage.start + at, length: fetch.trimEnd().length, text: fetch });
+    if (isFull(found)) break;
   }
-  return null;
+  return found ?? NO_MATCHES;
 }
 
-// Line rules: {id, severity(kind) -> severity, test(line) -> match|null}
-// `match` is {index, length} of the offending span so documentation context can ignore the span itself.
-function reRule(res) {
+// Line rules: {id, severity(kind) -> severity, matches(line, ctx) -> [match]}, matches in reading order.
+// A match is {index, length, text} of the offending span so documentation context can ignore the span itself.
+// Every regex runs as a global one, so all of its matches on a line come from one linear pass.
+function reAll(res) {
+  const all = res.map((re) => new RegExp(re.source, re.flags.includes("g") ? re.flags : `${re.flags}g`));
   return (line) => {
-    for (const re of res) {
-      const m = re.exec(line);
-      if (m) return { index: m.index, length: m[0].length, text: m[0] };
+    let found = null;
+    for (const re of all) {
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(line)) !== null) {
+        found = addMatch(found, { index: m.index, length: m[0].length, text: m[0] });
+        if (isFull(found)) {
+          re.lastIndex = 0;
+          return found;
+        }
+        if (m[0].length === 0) re.lastIndex++;
+      }
     }
-    return null;
+    return found ?? NO_MATCHES;
   };
 }
 
@@ -306,6 +403,7 @@ const RM_RECURSIVE_FLAG = /(?:^|\s)(?:-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)(?=\s|
 const RM_DANGEROUS_TARGET = /(?:^|[\s"'])(\/|~|~\/|\$HOME\/?|\/\*|\$\{HOME\}\/?)(?=\s|$|;|&|\||"|')/;
 
 function dangerousRm(line) {
+  let found = null;
   const start = /\brm(?=\s|$)/g;
   let m;
   while ((m = start.exec(line))) {
@@ -317,10 +415,38 @@ function dangerousRm(line) {
     const t = RM_DANGEROUS_TARGET.exec(rest);
     if (!t) continue;
     const end = t.index + t[0].length;
-    return { index: m.index, length: end, text: rest.slice(0, end) };
+    found = addMatch(found, { index: m.index, length: end, text: rest.slice(0, end) });
+    if (isFull(found)) break;
   }
-  return null;
+  return found ?? NO_MATCHES;
 }
+
+const substitutions = reAll(SUBSTITUTION_RES);
+const IGNORE_PREVIOUS_RE =
+  /\b(ignore|disregard|forget|override)\s+(all\s+|any\s+)?((the|your|my)\s+)?(previous|prior|above|earlier|preceding|system|original)\s+(instructions|prompts?|rules|messages|directions|directives)/i;
+const injections = reAll([
+  IGNORE_PREVIOUS_RE,
+  /\byou are now\s+(DAN|no longer|free from|unrestricted|jailbroken|in (developer|god|dan) mode|an? (unrestricted|unfiltered|uncensored))/i,
+  /\b(do not|don't|never)\s+(tell|inform|notify|alert|show|reveal (this |it )?to|mention (this |it )?to)\s+(the\s+)?user\b/i,
+  /\bwithout\s+(asking|telling|informing|notifying|alerting)\s+(the\s+)?user\b/i,
+  /\b(note|message|instructions?)\s+(to|for)\s+(the\s+)?(ai|llm|evaluator|reviewer|grader|judge|scanner|model)\b/i,
+  /\b(rate|score|grade|mark)\s+(this|the)\s+(skill|repo|repository|item|plugin|tool)\s+(as\s+)?(\d|high|safe|perfect|verified)/i,
+  /\bgive\s+(this|it)\s+(a\s+)?(high|perfect|top|maximum|10|5)\b/i,
+  /\b(this|the) (skill|content|file) is (verified|safe|trusted)[^.]*(do not|don't) (scan|flag|review)/i,
+]);
+const leetInjections = reAll([IGNORE_PREVIOUS_RE]);
+const destructive = reAll([
+  // `chmod -R 777 /`, `chmod --recursive 777 /` and the symbolic equivalent `chmod -R a+rwx /`.
+  /\bchmod\s+(?:-[a-zA-Z]*R[a-zA-Z]*\s+|--recursive\s+)?(?:0?777|a\+rwx)\b/,
+  // `dd of=/dev/sda …` in any argument order, including virtio (`vda`) and MMC (`mmcblk0`) disks.
+  /\bdd\s+[^\n]{0,300}?of=\/dev\/(sd|nvme|hd|vd|mmcblk|disk)/,
+  // `nc -e /bin/sh …` hands the network to a shell: the classic reverse shell.
+  /\bnc\s+(?:-[a-zA-Z]*e|--exec\b)/,
+  /\bmkfs(\.\w+)?\s/,
+  /:\(\)\s*\{\s*:\s*\|\s*:\s*&\s*\}\s*;\s*:/,
+  />\s*\/dev\/(sd[a-z]|nvme\d|disk\d)/,
+  /\bformat\s+c:/i,
+]);
 
 export const LINE_RULES = [
   {
@@ -329,8 +455,8 @@ export const LINE_RULES = [
     // Descriptive words next to a runnable command are written by the item's author: they can send it to human
     // review, but only a negation right before it lowers it to caution.
     strictDocContext: true,
-    test(line, ctx) {
-      return pipeToInterpreter(line, ctx) ?? downloadThenRun(line, ctx) ?? gitCloneThenRun(line, ctx) ?? reRule(SUBSTITUTION_RES)(line);
+    matches(line, ctx) {
+      return mergeMatches(pipeToInterpreter(line, ctx), downloadThenRun(line, ctx), gitCloneThenRun(line, ctx), substitutions(line));
     },
     // `text` is the fetch command itself, so a URL in a comment or elsewhere on the line cannot vouch for it.
     adjust(text) {
@@ -346,10 +472,10 @@ export const LINE_RULES = [
   {
     id: "credential-access",
     severity: () => "critical",
-    test: reRule([
+    matches: reAll([
       /~\/\.ssh\b|\$HOME\/\.ssh\b|\bid_rsa\b|\bid_ed25519\b|\bid_ecdsa\b/,
-      /\.aws\/credentials\b|\.netrc\b|\.docker\/config\.json\b|\.kube\/config\b|\.git-credentials\b|\.npmrc\b.{0,300}_authToken/,
-      /(Google\/Chrome|Chromium|BraveSoftware|Microsoft\/Edge|\.mozilla\/firefox|Firefox\/Profiles)[^\n]{0,300}(Cookies|Login Data|Local State|key4\.db|logins\.json)/i,
+      /\.aws\/credentials\b|\.netrc\b|\.docker\/config\.json\b|\.kube\/config\b|\.git-credentials\b|\.npmrc\b.{0,300}?_authToken/,
+      /(Google\/Chrome|Chromium|BraveSoftware|Microsoft\/Edge|\.mozilla\/firefox|Firefox\/Profiles)[^\n]{0,300}?(Cookies|Login Data|Local State|key4\.db|logins\.json)/i,
       /\b(Login Data|logins\.json|key4\.db)\b/,
       /Library\/Keychains|\bsecurity\s+(find|dump)-(generic-password|internet-password|keychain)\b/,
       /\b(cat|type|less|more|head|tail|source|base64)\s+[^\s|;&]*\.env\b(?!\.example|\.sample|\.template)/,
@@ -359,12 +485,12 @@ export const LINE_RULES = [
   {
     id: "exfiltration",
     severity: () => "critical",
-    test: reRule([EXFIL_DOMAINS_RE]),
+    matches: reAll([EXFIL_DOMAINS_RE]),
   },
   {
     id: "exfiltration",
     severity: () => "high",
-    test: fileUpload,
+    matches: fileUpload,
     adjust(text) {
       if (targetsAllowed(statementSpan(text, 0), KNOWN_API_HOSTS)) return { severity: "low", note: "upload to a known API" };
       return { severity: "high", note: "uploads a local file" };
@@ -373,85 +499,75 @@ export const LINE_RULES = [
   {
     id: "prompt-injection",
     severity: () => "high",
-    test(line, ctx) {
-      const match = reRule([
-        /\b(ignore|disregard|forget|override)\s+(all\s+|any\s+)?((the|your|my)\s+)?(previous|prior|above|earlier|preceding|system|original)\s+(instructions|prompts?|rules|messages|directions|directives)/i,
-        /\byou are now\s+(DAN|no longer|free from|unrestricted|jailbroken|in (developer|god|dan) mode|an? (unrestricted|unfiltered|uncensored))/i,
-        /\b(do not|don't|never)\s+(tell|inform|notify|alert|show|reveal (this |it )?to|mention (this |it )?to)\s+(the\s+)?user\b/i,
-        /\bwithout\s+(asking|telling|informing|notifying|alerting)\s+(the\s+)?user\b/i,
-        /\b(note|message|instructions?)\s+(to|for)\s+(the\s+)?(ai|llm|evaluator|reviewer|grader|judge|scanner|model)\b/i,
-        /\b(rate|score|grade|mark)\s+(this|the)\s+(skill|repo|repository|item|plugin|tool)\s+(as\s+)?(\d|high|safe|perfect|verified)/i,
-        /\bgive\s+(this|it)\s+(a\s+)?(high|perfect|top|maximum|10|5)\b/i,
-        /\b(this|the) (skill|content|file) is (verified|safe|trusted)[^.]*(do not|don't) (scan|flag|review)/i,
-      ])(line);
-      if (match) return match;
-      // Leet-speak dodge (`ign0re previous instructions`): normalize the obvious substitutions and
-      // re-test only the ignore/disregard pattern, keeping the false-positive surface small.
-      // The substitution is 1:1, so the reported span still lines up with the original line.
+    matches(line) {
+      // Leet-speak dodge (`ign0re previous instructions`): normalize the obvious substitutions and re-read only the
+      // ignore/disregard pattern, keeping the false-positive surface small. The substitution is 1:1, so a span found
+      // in the normalized line lines up with the original one.
       const deleet = line.replace(/[013457@]/g, (c) => ({ 0: "o", 1: "l", 3: "e", 4: "a", 5: "s", 7: "t", "@": "a" })[c]);
-      if (deleet === line) return null;
-      return reRule([
-        /\b(ignore|disregard|forget|override)\s+(all\s+|any\s+)?((the|your|my)\s+)?(previous|prior|above|earlier|preceding|system|original)\s+(instructions|prompts?|rules|messages|directions|directives)/i,
-      ])(deleet);
+      return deleet === line ? injections(line) : mergeMatches(injections(line), leetInjections(deleet));
     },
   },
   {
     id: "obfuscation",
     severity: () => "high",
-    test: reRule([
+    matches: reAll([
       /\beval\s*\(\s*(atob|Buffer\.from|unescape|decodeURIComponent)\s*\(/,
       /\bexec\s*\(\s*(base64\.b64decode|codecs\.decode|zlib\.decompress|marshal\.loads|bytes\.fromhex)/,
       /\b(new\s+)?Function\s*\(\s*(atob|Buffer\.from)\s*\(/,
-      /\bbase64\s+(-d|--decode|-D)\b[^\n]{0,300}\|\s*(sudo\s+)?(ba|z)?sh\b/,
+      /\bbase64\s+(-d|--decode|-D)\b[^\n]{0,300}?\|\s*(sudo\s+)?(ba|z)?sh\b/,
       /\bString\.fromCharCode\((\s*\d+\s*,){20,}/,
     ]),
   },
   {
     id: "dangerous-command",
     severity: (kind) => "high",
-    test(line) {
-      return dangerousRm(line) ?? reRule([
-        // `chmod -R 777 /`, `chmod --recursive 777 /` and the symbolic equivalent `chmod -R a+rwx /`.
-        /\bchmod\s+(?:-[a-zA-Z]*R[a-zA-Z]*\s+|--recursive\s+)?(?:0?777|a\+rwx)\b/,
-        // `dd of=/dev/sda …` in any argument order, including virtio (`vda`) and MMC (`mmcblk0`) disks.
-        /\bdd\s+[^\n]{0,300}of=\/dev\/(sd|nvme|hd|vd|mmcblk|disk)/,
-        // `nc -e /bin/sh …` hands the network to a shell: the classic reverse shell.
-        /\bnc\s+(?:-[a-zA-Z]*e|--exec\b)/,
-        /\bmkfs(\.\w+)?\s/,
-        /:\(\)\s*\{\s*:\s*\|\s*:\s*&\s*\}\s*;\s*:/,
-        />\s*\/dev\/(sd[a-z]|nvme\d|disk\d)/,
-        /\bformat\s+c:/i,
-      ])(line);
+    matches(line) {
+      return mergeMatches(dangerousRm(line), destructive(line));
     },
   },
   {
     id: "dangerous-command",
     severity: (kind) => (kind === "script" ? "high" : "medium"),
     // Flags between sudo and the command must not hide it: `sudo -n id`, `sudo -u root id`.
-    test: reRule([/(^|[\s;&|(`])sudo(\s+--?[a-zA-Z][\w-]*(=\S+)?)*\s+[a-z]/]),
+    matches: reAll([/(^|[\s;&|(`])sudo(\s+--?[a-zA-Z][\w-]*(=\S+)?)*\s+[a-z]/]),
   },
 ];
 
-// Multi-line rule: a network send and a secret within a 3-line window. Only the send statement's own destinations
-// count: a known-API URL in a comment or on a neighbouring line cannot vouch for `curl … "$U"`.
-export function exfilWindow(lines, i, { comments = false, prose = false } = {}) {
-  const window = lines.slice(i, i + 3).join("\n");
-  if (!SECRET_RE.test(lines[i]) && !SEND_RES.some((re) => re.test(lines[i]))) return null;
-  if (!SECRET_RE.test(window)) return null;
-  const send = SEND_RES.map((re) => re.exec(window)).find(Boolean);
-  if (!send) return null;
-  const statement = statementSpan(window, send.index, { comments, quotes: !prose });
+// How a send of data with a secret nearby is judged from its own statement: null when it goes to a known API.
+function sendSeverity(statement) {
   if (/^(curl|wget)\b/.test(statement)) {
     if (targetsAllowed(statement, KNOWN_API_HOSTS)) return null;
-    return { severity: fetchTargets(statement).some((t) => /^https?:\/\//i.test(t)) ? "critical" : "high" };
+    return fetchTargets(statement).some((t) => /^https?:\/\//i.test(t)) ? "critical" : "high";
   }
   const hosts = urlHosts(statement);
   if (hosts.length && hosts.every((h) => hostAllowed(h, KNOWN_API_HOSTS))) return null;
-  return { severity: hosts.length ? "critical" : "high" };
+  return hosts.length ? "critical" : "high";
 }
 
-// Long high-entropy blob combined with an execution primitive in the same file.
-const BLOB_RE = /[A-Za-z0-9+/=]{200,}|(?:[0-9a-fA-F]{2}){100,}/;
+// Multi-line rule: a network send and a secret within a 3-line window. Only each send statement's own destinations
+// count: a known-API URL in a comment or on a neighbouring line cannot vouch for `curl … "$U"`, and a send to a known
+// API cannot vouch for another send in the same window. A window with more sends than the scanner reads is sent to
+// human review.
+export function exfilWindow(lines, i, { comments = false, prose = false } = {}) {
+  const window = lines.slice(i, i + 3).join("\n");
+  if (!SECRET_RE.test(lines[i]) && !SEND_RES.some((re) => lines[i].search(re) >= 0)) return null;
+  if (!SECRET_RE.test(window)) return null;
+  let worst = null;
+  let sends = 0;
+  for (const re of SEND_RES) {
+    for (const send of window.matchAll(re)) {
+      if (++sends > MAX_LINE_MATCHES) return { severity: worst ?? "high" };
+      const severity = sendSeverity(statementSpan(window, send.index, { comments, quotes: !prose }));
+      if (severity === "critical") return { severity };
+      worst = severity ?? worst;
+    }
+  }
+  return worst ? { severity: worst } : null;
+}
+
+// Long high-entropy blob combined with an execution primitive in the same file. Every blob counts: a dull one first
+// (a run of padding) must not hide an encoded payload after it.
+const BLOB_RE = /[A-Za-z0-9+/=]{200,}|(?:[0-9a-fA-F]{2}){100,}/g;
 const EXEC_RE = /\b(eval|exec|Function\(|child_process|subprocess|os\.system|popen|spawn|execSync)\b/;
 
 export function entropy(s) {
@@ -466,10 +582,10 @@ export function entropy(s) {
 }
 
 export function blobWithExec(text) {
-  const m = BLOB_RE.exec(text);
-  if (!m) return null;
-  const threshold = /^[0-9a-fA-F]+$/.test(m[0]) ? 3.5 : 4.0;
-  if (entropy(m[0]) < threshold) return null;
   if (!EXEC_RE.test(text)) return null;
-  return { index: m.index };
+  for (const m of text.matchAll(BLOB_RE)) {
+    const threshold = /^[0-9a-fA-F]+$/.test(m[0]) ? 3.5 : 4.0;
+    if (entropy(m[0]) >= threshold) return { index: m.index };
+  }
+  return null;
 }

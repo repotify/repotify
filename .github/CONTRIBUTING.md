@@ -62,7 +62,8 @@ releases.
 - **Zero runtime dependencies.** Use Node built-ins only.
 - **Scanner changes** need a malicious fixture for what they catch, a benign one for what they must not flag, and a
   corpus run (`node test/eval/scan-corpus.mjs <clones> --details`) that keeps the false-alarm rate at or below 5%. Regexes
-  may not use an unbounded `[^\n]*` between two parts; there is a timing test.
+  may not use an unbounded `[^\n]*` between two parts; there is a timing test. Bump `SCANNER_VERSION`, then re-gate the
+  catalog at its pinned commits: `node pipeline/regate.mjs`.
 - **The LLM jury may lower trust, never raise it.** No change may let model output make an item safer.
 - **Never commit keys or tokens.** CI secrets live in GitHub Actions secrets.
 - **Catalog files are generated.** Change `pipeline/seed-sources.json` or the pipeline, then rebuild; do not edit

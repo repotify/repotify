@@ -50,7 +50,7 @@ flowchart LR
 | `src/scan/` | Security scanner: `rules.mjs` (line rules), `shell.mjs` (shell structure), `files.mjs` (file-level rules), `typosquat.mjs` |
 | `src/telemetry*.mjs`, `src/feedback.mjs` | Anonymous usage signals (endpoint off until deployed), weekly votes |
 | `src/config.mjs`, `src/util.mjs`, `src/frontmatter.mjs` | URLs and settings, helpers, SKILL.md frontmatter |
-| `pipeline/` | Discovery, collection, security gate, LLM jury, the Jev classifier (`jev-classify.mjs`, `classify-catalog.mjs`), the graph seed, publishing; `rehash.mjs` after a taxonomy edit |
+| `pipeline/` | Discovery, collection, security gate, LLM jury, the Jev classifier (`jev-classify.mjs`, `classify-catalog.mjs`), the graph seed, publishing; `rehash.mjs` after a taxonomy edit, `regate.mjs` after a scanner change |
 | `catalog/` | The published catalog. Generated; `meta.json` holds the hashes clients verify |
 | `skill/repotify/SKILL.md` | The skill Repotify installs into the user's agent |
 | `test/eval/` | Recommendation scenarios (`test/eval/scenarios/`), the scanner corpus run and the setup cost (`flow-tokens.mjs`) |

@@ -80,6 +80,9 @@
     },
     "git-clone-inspect": {
       "maxLevel": "verified"
+    },
+    "two-official-installers": {
+      "maxLevel": "caution"
     }
   },
   "malicious": {
@@ -252,6 +255,14 @@
       "rule": "remote-exec"
     },
     "git-clone-run": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "decoy-installer-first": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "git-clone-options-run": {
       "minLevel": "rejected",
       "rule": "remote-exec"
     }

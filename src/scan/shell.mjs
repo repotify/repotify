@@ -261,7 +261,7 @@ export function downloadTarget(fetchText) {
 const normPath = (p) => unquote(p).replace(/^\.[\\/]/, "");
 
 // A path as `runsFile` compares it: the normalized path and its base name.
-const runPath = (w) => {
+export const runPath = (w) => {
   const path = normPath(w);
   return { path, base: baseName(path) };
 };

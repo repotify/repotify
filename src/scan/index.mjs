@@ -1,13 +1,13 @@
 import { lstat, readdir, readFile, readlink } from "node:fs/promises";
 import { join, relative, sep } from "node:path";
 import {
-  LINE_RULES, DOC_CONTEXT_RE, NEGATION_BEFORE_RE, DETECTION_FENCES, fileKind, isHiddenChar, isTagChar, isBidiChar,
-  isZeroWidth, exfilWindow, blobWithExec,
+  LINE_RULES, DOC_CONTEXT_RE, NEGATION_BEFORE_RE, DETECTION_FENCES, MAX_LINE_MATCHES, fileKind, isHiddenChar, isTagChar,
+  isBidiChar, isZeroWidth, exfilWindow, blobWithExec,
 } from "./rules.mjs";
 import { splitPipelines } from "./shell.mjs";
 import { fileRules, isBinaryFile, hostsInScript, NETWORK_ALLOWLIST } from "./files.mjs";
 
-export const SCANNER_VERSION = "1.3.0";
+export const SCANNER_VERSION = "1.4.0";
 
 const RANK = { low: 0, medium: 1, high: 2, critical: 3 };
 const MAX_FINDINGS_PER_RULE_PER_FILE = 10;
@@ -199,6 +199,12 @@ function scanText(path, text) {
     const inShellFence = Boolean(f && f.lang !== null && SHELL_FENCES.has(f.lang));
     return { inShellFence, comments: kind === "script" || inShellFence, prose: kind === "doc" && !(f && f.lang !== null) };
   };
+  // Each line is split into pipelines once per reading, however many lines before it look ahead to it.
+  const split = [];
+  const pipelinesOf = (j, opts) => {
+    const cache = (split[(opts.comments ? 1 : 0) | (opts.prose ? 2 : 0) | (opts.quotes === false ? 4 : 0)] ??= []);
+    return (cache[j] ??= splitPipelines(lines[j], opts));
+  };
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const lineNo = logical[i].line + 1;
@@ -209,20 +215,35 @@ function scanText(path, text) {
     const effective = lineKind(kind, line);
     const forcedDoc = kind === "detection" || Boolean(f && f.closed && DETECTION_FENCES.has(f.lang));
     const mayDemote = effective === "doc" && !inShellFence;
-    const ctx = { lines, i, comments, prose, readings: [splitPipelines(line, { comments, prose }), splitPipelines(line, { comments, prose, quotes: false })] };
+    const ctx = { lines, i, comments, prose, pipelinesOf, readings: [pipelinesOf(i, { comments, prose }), pipelinesOf(i, { comments, prose, quotes: false })] };
     for (const rule of LINE_RULES) {
-      const m = rule.test(line, ctx);
-      if (!m) continue;
-      let severity = rule.severity(effective);
-      let note;
-      const adjusted = rule.adjust?.(m.text, line);
-      if (adjusted) ({ severity, note } = adjusted);
-      if (mayDemote && RANK[severity] > RANK.medium && (forcedDoc || docContext(line, m))) {
-        const strict = rule.strictDocContext && severity === "critical" && !forcedDoc;
-        severity = strict && !NEGATION_BEFORE_RE.test(line.slice(0, m.index)) ? "high" : "medium";
-        note = severity === "high" ? "documentation context; needs human review" : "documentation context";
+      const matches = rule.matches(line, ctx);
+      if (!matches.length && !matches.overflow) continue;
+      const full = rule.severity(effective);
+      // Every match on the line is judged and the most severe is reported: an official installer, an allowed API or a
+      // documented example early on a line must not vouch for a different command later on it.
+      let worst = null;
+      for (const m of matches.slice(0, MAX_LINE_MATCHES)) {
+        let severity = full;
+        let note;
+        const adjusted = rule.adjust?.(m.text, line);
+        if (adjusted) ({ severity, note } = adjusted);
+        if (mayDemote && RANK[severity] > RANK.medium && (forcedDoc || docContext(line, m))) {
+          const strict = rule.strictDocContext && severity === "critical" && !forcedDoc;
+          severity = strict && !NEGATION_BEFORE_RE.test(line.slice(0, m.index)) ? "high" : "medium";
+          note = severity === "high" ? "documentation context; needs human review" : "documentation context";
+        }
+        if (!worst || RANK[severity] > RANK[worst.severity]) worst = { m, severity, note };
+        if (RANK[severity] >= RANK[full]) break;
       }
-      if (severity === "low" && !note) continue;
+      // More matches than the scanner reads on one line: the unread ones are not assumed harmless.
+      const capped = RANK[full] > RANK.high ? "high" : full;
+      if ((matches.overflow || matches.length > MAX_LINE_MATCHES) && (!worst || RANK[worst.severity] < RANK[capped])) {
+        const at = worst?.m ?? matches[0] ?? { index: 0 };
+        worst = { m: at, severity: capped, note: "more matches on one line than the scanner reads; needs human review" };
+      }
+      if (!worst || (worst.severity === "low" && !worst.note)) continue;
+      const { m, severity, note } = worst;
       push({ rule: rule.id, severity, line: lineNo, excerpt: () => excerptOf(line, m.index), ...(note ? { note } : {}) });
     }
   }
@@ -279,7 +300,8 @@ function detectionRunFindings(texts) {
   for (const t of texts) {
     const lines = t.text.split("\n");
     for (let i = 0; i < lines.length; i++) {
-      const m = re.exec(lines[i].slice(0, 4000));
+      // The whole line: the pattern is linear, and a cut-off let padding hide the run.
+      const m = re.exec(lines[i]);
       if (m) out.push({ file: t.path, rule: "remote-exec", severity: "high", line: i + 1, excerpt: excerptOf(lines[i], m.index), note: "runs a detection-rule file" });
     }
   }
