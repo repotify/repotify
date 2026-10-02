@@ -262,13 +262,16 @@ async function cmdRecommend(args, io) {
   const blocked = csv(args.flags.blocked);
   const fleetPolicy = loadFleetPolicy({ env: io.env ?? {} });
   const itemById = new Map(catalog.items.map((i) => [i.id, i]));
-  // Jev arbitration is a paid call: opt-in via --arbitrate or REPOTIFY_JEV=1.
-  // recommendV1 consults it only when the local top-2 is genuinely ambiguous.
-  const jevOptIn = Boolean(args.flags.arbitrate) || (io.env ?? {}).REPOTIFY_JEV === "1";
-  const arbitrate = jevOptIn && jevLooksAvailable()
+  // Jev arbitration is a paid call with the user's own key (JEV_API_KEY): opt-in
+  // via --arbitrate or REPOTIFY_JEV=1. recommendV1 consults it only when the
+  // local top-2 is genuinely ambiguous.
+  const env = io.env ?? process.env;
+  const jevOptIn = Boolean(args.flags.arbitrate) || env.REPOTIFY_JEV === "1";
+  const arbitrate = jevOptIn && jevLooksAvailable({ env })
     ? (ids) => arbitrateWithJev(ids, {
         state: { needs: demand.needs, stacks: demand.stacks },
         describe: (id) => itemById.get(id)?.summary ?? id,
+        env,
       })
     : null;
   const rec = await recommendV1(

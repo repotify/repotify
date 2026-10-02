@@ -1,0 +1,229 @@
+{
+  "note": "Off-topic items removed from the catalog on 2026-10-02, kept here (pinned, metadata only) so the classifier benchmark can check it rejects them.",
+  "items": [
+    {
+      "id": "acquiring-disk-image-with-dd-and-dcfldd",
+      "type": "skill",
+      "name": "acquiring-disk-image-with-dd-and-dcfldd",
+      "repo": "mukul975/anthropic-cybersecurity-skills",
+      "path": "skills/acquiring-disk-image-with-dd-and-dcfldd",
+      "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "a297f5c609e2cbfdb55711fc3db064733abe2e4ae55ce11d3e0deca48bb5de25"
+        },
+        {
+          "path": "references/api-reference.md",
+          "sha256": "8ac33edc7d46564d1b69874099e17eb3cd9e85e4743bc880f25c4e621a8e8a7b"
+        },
+        {
+          "path": "scripts/agent.py",
+          "sha256": "885613c1aa72f549911e88e2226854b0a3b3d765e0df849477c26ed63afb3d85"
+        }
+      ],
+      "summary": "Forensically acquire bit‑for‑bit disk images with dd or dcfldd, including write‑blocking, hashing, split imaging, and documentation.",
+      "capabilities": [
+        "security-review",
+        "verification-gate"
+      ],
+      "stacks": [
+        "*"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "analyzing-ransomware-encryption-mechanisms",
+      "type": "skill",
+      "name": "analyzing-ransomware-encryption-mechanisms",
+      "repo": "mukul975/anthropic-cybersecurity-skills",
+      "path": "skills/analyzing-ransomware-encryption-mechanisms",
+      "commit": "54a798831d2266a3ca61ce68a7acb80b81160d57",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "a941b58ef0ba43a31e24ae7ece1b743a585efed9e37792b9ca063e0798be1cbe"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "9b0ad1aeba938fb63912ea25b83f01b14be7bc3e968dff16a06e11859f8aa062"
+        },
+        {
+          "path": "references/api-reference.md",
+          "sha256": "7a03a0c88bed791c92a1df02c3b764b98c7429d749691a00c353ebb58d487b50"
+        },
+        {
+          "path": "scripts/agent.py",
+          "sha256": "3f1a4532f13552d1f1db00a770e9840d89fb33bcb0f67ba1e16c79d602d460e4"
+        }
+      ],
+      "summary": "Guides analysis of ransomware encryption algorithms, key management, and file encryption routines to assess decryption feasibility and iden…",
+      "capabilities": [
+        "security-review",
+        "static-analysis"
+      ],
+      "stacks": [
+        "python"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "anthropics-configure",
+      "type": "skill",
+      "name": "configure",
+      "repo": "anthropics/claude-plugins-official",
+      "path": "external_plugins/telegram/skills/configure",
+      "commit": "ab024cdcfa7ca80be204acd4907656ba5a968589",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "16b06bf2ac5ede250d0c620ce4e6cf3878c9704246b8f52390fde5f280a17f73"
+        }
+      ],
+      "summary": "Configures a Telegram bot by managing the bot token and access policies in a state directory.",
+      "capabilities": [
+        "implementation-planning"
+      ],
+      "stacks": [
+        "*"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "math-olympiad",
+      "type": "skill",
+      "name": "math-olympiad",
+      "repo": "anthropics/claude-plugins-official",
+      "path": "plugins/math-olympiad/skills/math-olympiad",
+      "commit": "ab024cdcfa7ca80be204acd4907656ba5a968589",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "f697e195d343520f3db551bd4fb44c5120504ee2c47a9cc2016cd57767f23403"
+        },
+        {
+          "path": "evals/trigger_eval.json",
+          "sha256": "672a9d8c3804c74683cd779126ab6a7c310081b290f04de863962f3631ebb196"
+        },
+        {
+          "path": "references/adversarial_prompts.md",
+          "sha256": "686f5913da4e3291d64989f1bacb8f99fe69cdb3b5b9e64c8390151e870bae2a"
+        },
+        {
+          "path": "references/attempt_agent.md",
+          "sha256": "8716d7cad5ec2a05d8e6e48f4042721638b97dec83bd11eee1f7734697ba84bf"
+        },
+        {
+          "path": "references/known_constructions.md",
+          "sha256": "5135bca2eb1c448f1144cda2b1cfa796be5cb6a082306e589ad8308636b1e065"
+        },
+        {
+          "path": "references/model_tier_defaults.md",
+          "sha256": "fa44e35b3c73c12c4098568df2d8fc6ff54dbed16b8d592e82272554c3eeaeb0"
+        },
+        {
+          "path": "references/presentation_prompts.md",
+          "sha256": "19eb3e242eb5879a5fe2768eea9d0e5a35b3df38a5c02cccd101e0b1f07e7d09"
+        },
+        {
+          "path": "references/solver_heuristics.md",
+          "sha256": "a934fc5252d1a0776e6390c5a943af7f7b32324cf5454e3dce94b3681daa842e"
+        },
+        {
+          "path": "references/verifier_patterns.md",
+          "sha256": "b72657c916d5cd0baa464d5ad59fce9fedb6f870f46b8dd9610632b08a591f56"
+        },
+        {
+          "path": "scripts/check_latex.sh",
+          "sha256": "052151934c82b7a5d91a5bb3ba2a1611f22fc661929cf819f7e3d954bdb22721"
+        },
+        {
+          "path": "scripts/compile_pdf.sh",
+          "sha256": "1e990d377d79b1d08b993833e7dcce8c5c82ed5ab34ad72c009b42f2e068b243"
+        }
+      ],
+      "summary": "Solves competition math problems using multi-agent reasoning and adversarial verification to produce verified proofs or honest abstention.",
+      "capabilities": [
+        "implementation-planning"
+      ],
+      "stacks": [
+        "*"
+      ],
+      "license": "Apache-2.0"
+    },
+    {
+      "id": "paywalls",
+      "type": "skill",
+      "name": "paywalls",
+      "repo": "coreyhaines31/marketingskills",
+      "path": "skills/paywalls",
+      "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "d062c03f6b99e76ffaa367a1494ba80098b2033d4d74609b895373a024a8eac1"
+        },
+        {
+          "path": "evals/evals.json",
+          "sha256": "6b3ad98bb057a8da6c6e26b1f75bc1f654aaae4e9a6903801051eaca9e3cc3a6"
+        },
+        {
+          "path": "references/experiments.md",
+          "sha256": "5a5760e23c4809ddbc123905e0073ebca2653e7edad29482db810b825d62bd19"
+        }
+      ],
+      "summary": "Comprehensive guide for designing and optimizing in-app paywalls, upgrade screens, and feature gates to convert free users to paid plans.",
+      "capabilities": [
+        "implementation-planning",
+        "frontend-design",
+        "design-brainstorming"
+      ],
+      "stacks": [
+        "*"
+      ],
+      "license": "MIT"
+    },
+    {
+      "id": "referrals",
+      "type": "skill",
+      "name": "referrals",
+      "repo": "coreyhaines31/marketingskills",
+      "path": "skills/referrals",
+      "commit": "5b2c0007766c6a1cf1d53fd8fc73e979e0821022",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "103bd339d6d7796fae1128487c1560f38feecd94898d0d7c44ca0383f4c809d9"
+        },
+        {
+          "path": "evals/evals.json",
+          "sha256": "4571af1f18088b12450b9a02d37ff8299e779e44b46ef6f44094119337a0a051"
+        },
+        {
+          "path": "references/affiliate-programs.md",
+          "sha256": "3479ba24987c24654191f02bbf57fa5ff89eecde8e93cf22c65538bed2c356b4"
+        },
+        {
+          "path": "references/program-examples.md",
+          "sha256": "2baad60cdb251414ea559bd4dcf23d6c394ff66e593ae9392453f2e24f585c8a"
+        },
+        {
+          "path": "references/viral-mechanisms.md",
+          "sha256": "04224240fae94bcf9bc64c7d8cac507bdd570049144e4df33946ac4ae8a483e4"
+        }
+      ],
+      "summary": "Expert guidance for designing, implementing, and optimizing customer referral and affiliate growth programs.",
+      "capabilities": [
+        "design-brainstorming"
+      ],
+      "stacks": [
+        "*"
+      ],
+      "license": "MIT"
+    }
+  ]
+}
