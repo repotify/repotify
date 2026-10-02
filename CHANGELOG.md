@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased (fixes on top of 2.0.0)
+## 2.0.0 (2026-10-02)
+
+The first release of the v2 engine. It ships the 2.0.0 build below together with the fixes from its review.
+
+### Review fixes and the classifier
 
 Review on 2026-10-02: the quality bar scored the frozen v1 engine while `repotify recommend` served v2, so a 100%
 eval sat next to v2 sets that offered Spring Boot and rootkit analysis to a Flask app and Active Directory abuse to a
@@ -38,7 +42,7 @@ Next.js shop. Served through v2, the same 49 scenarios scored 80.6% with 176 dup
 - README and GUIDE: the learning loop is described as built but not live (it is not wired into `recommend` and no
   collection server runs); the unused "every candidate runs its own tests" step is no longer claimed.
 
-## 2.0.0 (2026-10-01)
+### The 2.0.0 build (2026-10-01, not released on its own)
 
 The recommendation engine now runs a full five-step pipeline — test, classify, map, narrow, present — and learns
 in a closed loop: recommend → measure → learn. Built in ten phases (FAZ 0–10), each defended in an adversarial
@@ -83,7 +87,7 @@ Telemetry policy: default-ON with a first-run notice; kill switches above. Code,
 names, user names and IP addresses are never collected. What gets published is the proof (which skills measure
 best at which jobs), never the recipe (raw data, taste profiles, scoring formulas, bandit weights).
 
-## Unreleased
+### Since 0.2.0: catalog and lab
 
 - **Stack experts for many more stacks.** Angular, Vue and Nuxt, Django, FastAPI, Python, Go, Rust, Java and Spring,
   Kotlin, Swift, Flutter, PHP, Laravel, Rails, C# and .NET, C and C++, and NestJS projects now get an expert skill for
