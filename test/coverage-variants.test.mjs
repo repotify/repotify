@@ -11,6 +11,7 @@ import {
   GATE_REASONS,
 } from "../lib/pipeline/recommend/present.mjs";
 
+// Each synthetic item does its own job (cluster = id) unless a test sets one.
 const mkItem = (over) => ({
   id: "x",
   type: "skill",
@@ -25,6 +26,7 @@ const mkItem = (over) => ({
   signals: { lastCommitDays: 5 },
   conflicts: [],
   ...over,
+  cluster: over.cluster ?? over.id ?? "x",
 });
 const mk = (id, score, caps, needs = []) => ({
   item: mkItem({ id, capabilities: caps, needs }),

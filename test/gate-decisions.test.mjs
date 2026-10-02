@@ -12,6 +12,7 @@ import {
 } from "../lib/pipeline/recommend/present.mjs";
 import { validateEvent } from "../lib/telemetry/schema.mjs";
 
+// Each synthetic item does its own job (cluster = id) unless a test sets one.
 const mkItem = (over) => ({
   id: "xa",
   type: "skill",
@@ -26,6 +27,7 @@ const mkItem = (over) => ({
   signals: { lastCommitDays: 5 },
   conflicts: [],
   ...over,
+  cluster: over.cluster ?? over.id ?? "x",
 });
 const mk = (id, score, caps, needs = [], over = {}) => ({
   item: mkItem({ id, capabilities: caps, needs, ...over }),

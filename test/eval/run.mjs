@@ -1,20 +1,24 @@
 #!/usr/bin/env node
 // Recommendation quality on the scenario set.
 // "Hit" = a must-include id is in the recommended default set; a violation = a must-not id is in it.
+// It runs the engine the CLI serves (lib/pipeline/recommend, deterministic path), not the v1 baseline.
 import { isMain } from "../../src/util.mjs";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { recommend } from "../../src/recommend.mjs";
+import { demandFor, recommendLocal } from "../../lib/pipeline/recommend/index.mjs";
+import { loadSeedGraph } from "../../lib/pipeline/graph/loader.mjs";
 import { resolveNeeds } from "../../src/needs.mjs";
 
 const here = fileURLToPath(new URL(".", import.meta.url));
+const SEED_GRAPH = join(here, "..", "..", "data", "graph-seed.json");
 
 export function loadScenarios(dir = join(here, "scenarios")) {
   return readdirSync(dir).filter((f) => f.endsWith(".json")).sort().map((f) => JSON.parse(readFileSync(join(dir, f), "utf8")));
 }
 
-export function runEval(scenarios, catalog) {
+export function runEval(scenarios, catalog, { graph = loadSeedGraph(SEED_GRAPH) } = {}) {
+  const itemById = new Map(catalog.items.map((i) => [i.id, i]));
   let hits = 0;
   let total = 0;
   let clusterDuplicates = 0;
@@ -24,9 +28,10 @@ export function runEval(scenarios, catalog) {
   for (const s of scenarios) {
     const fp = { empty: false, stacks: [], inferredNeeds: [], agents: { configured: [], skills: [] }, ...s.fingerprint };
     const needs = resolveNeeds({ fingerprint: fp, answers: s.answers ?? {}, taxonomy: catalog.taxonomy });
-    const rec = recommend({ catalog, fingerprint: fp, needs });
-    const chosen = new Set(rec.defaultSet);
-    const clusters = rec.rows.map((r) => r.cluster);
+    const rec = recommendLocal({ catalog, graph, demand: demandFor({ catalog, fingerprint: fp, needs }), answers: s.answers ?? {} });
+    const defaultSet = rec.set;
+    const chosen = new Set(defaultSet);
+    const clusters = defaultSet.map((id) => itemById.get(id)?.cluster);
     clusterDuplicates += clusters.length - new Set(clusters).size;
     let sHits = 0;
     for (const id of s.mustInclude ?? []) {
@@ -37,7 +42,7 @@ export function runEval(scenarios, catalog) {
       } else misses.push({ scenario: s.name, id });
     }
     for (const id of s.mustNotInclude ?? []) if (chosen.has(id)) violations.push({ scenario: s.name, id });
-    perScenario.push({ name: s.name, hits: sHits, of: (s.mustInclude ?? []).length, defaultSet: rec.defaultSet, budget: rec.budget.used });
+    perScenario.push({ name: s.name, hits: sHits, of: (s.mustInclude ?? []).length, defaultSet, budget: rec.budget?.used ?? 0 });
   }
   const avg = (f) => (perScenario.length ? perScenario.reduce((n, x) => n + f(x), 0) / perScenario.length : 0);
   return {

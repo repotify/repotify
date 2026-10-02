@@ -105,7 +105,7 @@ function skillsIndex(skills, meta, version) {
 <section class="subhead">
   <h1>Skill catalog</h1>
   <p class="section-lead">${meta.count} skills, each one scanned for risk and scored by a 3-model jury. Scores expire after 30 days and are re-run — an expired score is never served silently.</p>
-  <p class="search"><input id="q" type="search" placeholder="Filter 142 skills…" aria-label="Filter skills" autocomplete="off"></p>
+  <p class="search"><input id="q" type="search" placeholder="Filter ${meta.count} skills…" aria-label="Filter skills" autocomplete="off"></p>
   <p class="countline" aria-live="polite"><span id="shown">${meta.count}</span> of ${meta.count} shown · catalog ${esc(meta.catalogVersion)}</p>
 </section>
 <section class="grid3" id="cards">${cards}</section>

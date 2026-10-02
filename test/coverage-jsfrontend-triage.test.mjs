@@ -15,6 +15,7 @@ import {
   JACCARD_DROP,
 } from "../lib/pipeline/recommend/present.mjs";
 
+// Each synthetic item does its own job (cluster = id) unless a test sets one.
 const mkItem = (over) => ({
   id: "t",
   type: "skill",
@@ -29,6 +30,7 @@ const mkItem = (over) => ({
   signals: { lastCommitDays: 5 },
   conflicts: [],
   ...over,
+  cluster: over.cluster ?? over.id ?? "x",
 });
 const mk = (id, score, over) => ({
   item: mkItem({ id, ...over }),

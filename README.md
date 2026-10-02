@@ -121,7 +121,7 @@ Works with **Claude Code**, **Cursor**, **Codex**, **Gemini CLI** and any agent 
 - [x] Audit of installed skills, picks by evidence, Linux, macOS and Windows
 - [x] Rankings that learn from what developers keep and remove (Stage 0 telemetry, LinUCB bandit, fleet policy)
 - [x] Website with per-skill comments and an effectiveness leaderboard ranked by measured evidence
-- [ ] A larger catalog of vetted skills, MCP servers and tools, found around the clock by an AI research lab (142 items from 24 repositories today)
+- [ ] A larger catalog of vetted skills, MCP servers and tools, found around the clock by an AI research lab
 - [ ] MCP mode: your agent calls Repotify as a tool
 
 ## Contributing

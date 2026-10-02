@@ -9,15 +9,15 @@ part of DECISION-PACKAGE-FAZ11.md, not executed unilaterally.
 | Importer | Imports | Role |
 |---|---|---|
 | `pipeline/loadouts.mjs` (tracked, v1 catalog pipeline) | `qualityScore`, `trustScore` | `value()` ranking for loadout picking; trust gate (`trustScore(...) !== null`) |
-| `test/eval/run.mjs` | `recommend` | eval runner baseline |
 | `test/harness/arms.mjs` | `recommend` | harness "repotify" arm = v1 `recommend` defaultSet |
 | `test/recommend*.test.mjs`, `test/token-budget.test.mjs`, `test/enable.test.mjs` | `recommend`, `formatTable`, `pickLoadout`, `buildDemand`, `platformMismatch`, `fitScore` | v1 engine unit tests |
 
 ## What v2 (`lib/pipeline/recommend/`) does NOT reuse
 
-`lib/pipeline/recommend/index.mjs` imports only from `./narrow.mjs`, `./score.mjs`,
-`./present.mjs`, `./order.mjs`, `./audit.mjs`, `../../telemetry/fleet-policy.mjs`.
-It does **not** import `qualityScore`/`trustScore`/`fitScore` from `src/recommend.mjs`.
+**Update 2026-10-02 (option 1, first step):** v2 now shares v1's primitives instead of
+re-deriving them — `score.mjs` imports `fitScore`, `qualityScore`, `adoptionScore`,
+`communityScore` and `WEIGHTS`; `index.mjs` imports `buildDemand` and `pickLoadout`.
+`test/eval/run.mjs` measures v2 (`recommendLocal`), the engine the CLI serves.
 
 ## The overlap (why this is tech debt, not just duplication)
 
@@ -25,8 +25,8 @@ It does **not** import `qualityScore`/`trustScore`/`fitScore` from `src/recommen
   `src/recommend.mjs` and are consumed by the **tracked** v1 catalog pipeline
   (`pipeline/loadouts.mjs`) — while v2's recommend path has its own scoring in
   `lib/pipeline/recommend/score.mjs`.
-- The eval harness's "repotify" arm and the eval runner still measure the **v1**
-  engine. If v2 is the shipped engine, the harness measures the wrong thing;
+- The eval runner measures v2 since 2026-10-02. The harness's "repotify" arm still
+  measures the **v1** engine. If v2 is the shipped engine, the harness measures the wrong thing;
   if v1 is still the reference, the CLI migration (FAZ 10 d1) created two truths.
 
 ## Consolidation options (Ahmet decides)

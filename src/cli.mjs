@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { scanDir } from "./scan/index.mjs";
 import { fingerprint, formatFingerprint } from "./fingerprint.mjs";
 import { questionBank, formatQuestions, resolveNeeds } from "./needs.mjs";
-import { formatTable, buildDemand, pickLoadout } from "./recommend.mjs";
+import { formatTable, pickLoadout } from "./recommend.mjs";
 import { loadCatalog, BUNDLED_DIR } from "./catalog.mjs";
 import { catalogUrl, homeDir, NPX_LAUNCHER } from "./config.mjs";
 import { readJsonSafe } from "./util.mjs";
@@ -16,7 +16,7 @@ import { detectAgents, parseAgentList, skillTargets } from "./agents.mjs";
 import { installItem, removeItem, installSelf } from "./install.mjs";
 import { runHook, parseInstallCommands } from "./guard.mjs";
 import { createTelemetry, NOTICE, NOTICE_DETAILS } from "./telemetry.mjs";
-import { recommendV1, DEFAULT_BUDGET_CHARS as V1_BUDGET_CHARS } from "../lib/pipeline/recommend/index.mjs";
+import { recommendV1, demandFor, DEFAULT_BUDGET_CHARS as V1_BUDGET_CHARS } from "../lib/pipeline/recommend/index.mjs";
 import { loadSeedGraph } from "../lib/pipeline/graph/loader.mjs";
 import { loadFleetPolicy } from "../lib/telemetry/fleet-policy.mjs";
 import { arbitrateWithJev, jevLooksAvailable } from "../lib/signals/jev.mjs";
@@ -169,7 +169,7 @@ function tableRows(rec, itemById, installed) {
 // Stage 0 propensity telemetry (FAZ 10 d1, item 7; P3 DL-051): the old
 // {type:"shown"} event is replaced by a Stage 0 "recommendation" episode —
 // the full slate with one propensity per considered candidate (B1: 0 < p < 1).
-// The serving policy is ε-greedy (ε=0.05 default, DL-051): with prob ε the set
+// The serving policy is ε-greedy (ε=0 by default, 0.05 with REPOTIFY_EXPLORE=1; DL-051): with prob ε the set
 // contains one exploration swap. Propensities are the ε-greedy propensities:
 // p=(1-ε)+ε/n for the greedy pick, p=ε/n for the rest — never degenerate 0/1.
 // `is_explore` marks the exploration-swapped candidate (single producer:
@@ -226,16 +226,25 @@ function trackRecommendationV1(io, { rec, catalogVersion, budgetChars }) {
       policy_name: "repotify-v2",
       policy_version: "1",
       budget_chars: budgetChars,
-      randomized: true,
+      randomized: eps > 0, // only an exploring policy yields propensities OPE may trust
       candidates,
       // Gate decision audit trail (BACKLOG: gate karar loglama): one
       // structured record per gate-evaluated candidate — reason code,
-      // Jaccard, blocker. Capped for log hygiene; the catalog is ~142 items.
+      // Jaccard, blocker. Capped for log hygiene; the catalog is ~100 items.
       gate_decisions: (rec.gateDecisions ?? []).slice(0, 200),
     });
   } catch {
     return false;
   }
+}
+
+// Exploration (DL-051) swaps one set item for a random candidate. It only pays
+// off once a learning loop consumes the logged propensities, and none runs yet
+// (TELEMETRY_ENDPOINT is null), so until then it would only hand users a random
+// skill. Off by default; REPOTIFY_EXPLORE=1 turns it on for experiments.
+export const EXPLORE_EPSILON = 0.05;
+function exploreEpsilonFor(env) {
+  return env.REPOTIFY_EXPLORE === "1" && env.REPOTIFY_NO_EXPLORE !== "1" ? EXPLORE_EPSILON : 0;
 }
 
 async function cmdRecommend(args, io) {
@@ -248,11 +257,7 @@ async function cmdRecommend(args, io) {
   // d1: the CLI now drives the v2 pipeline. Demand translation reuses the old
   // engine's buildDemand (same taxonomy/need-weight semantics) plus the
   // fingerprint stacks and answered keys the v2 narrower/scorer read.
-  const demand = {
-    ...buildDemand({ taxonomy: catalog.taxonomy, fingerprint: fp, needs: resolved }),
-    stacks: fp?.stacks ?? [],
-    answered: resolved.answered ?? [],
-  };
+  const demand = demandFor({ catalog, fingerprint: fp, needs: resolved });
   const graph = loadSeedGraph(GRAPH_SEED_PATH);
   const blocked = csv(args.flags.blocked);
   const fleetPolicy = loadFleetPolicy({ env: io.env ?? {} });
@@ -268,7 +273,7 @@ async function cmdRecommend(args, io) {
     : null;
   const rec = await recommendV1(
     { catalog, graph, demand, installed, blocked, budgetChars: budget, answers },
-    { arbitrate, fleetPolicy, exploreEpsilon: (io.env ?? {}).REPOTIFY_NO_EXPLORE === "1" ? 0 : 0.05 },
+    { arbitrate, fleetPolicy, exploreEpsilon: exploreEpsilonFor(io.env ?? {}) },
   );
   // Empty-project loadout (legacy behavior): presentation-only — the v2
   // pipeline has no loadout concept.

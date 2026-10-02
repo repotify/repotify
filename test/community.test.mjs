@@ -65,8 +65,11 @@ test("CLI: recommend logs a Stage 0 recommendation episode, vote records a vote,
   assert.ok(rec, "recommendation episode logged in Stage 0 format");
   assert.ok(rec.candidates.length > 0);
   assert.ok(rec.candidates.every((c) => c.propensity > 0 && c.propensity < 1), "B1: 0 < p < 1");
-  assert.equal(rec.randomized, true, "P3: ε-greedy policy is stochastic");
+  assert.equal(rec.randomized, false, "exploration is off by default: the episode is not randomized");
   assert.ok(rec.candidates.every((c) => typeof c.is_explore === "boolean"), "P3: is_explore filled");
+  const exploring = mkTemp("rp-cli-tel-");
+  assert.equal(run(exploring, ["recommend"], { REPOTIFY_EXPLORE: "1" }).status, 0);
+  assert.equal(stage0(exploring).find((e) => e.type === "recommendation").randomized, true, "P3: with REPOTIFY_EXPLORE=1 the ε-greedy policy is stochastic");
   assert.ok(rec.candidates.some((c) => c.shown), "some candidates marked shown");
   assert.equal(run(home, ["vote", "--due"]).stdout.trim(), "due");
   const proj = mkTemp("rp-vote-proj-");

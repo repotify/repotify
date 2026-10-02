@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { loadSeedGraph } from "../lib/pipeline/graph/loader.mjs";
 import { narrowCandidates } from "../lib/pipeline/recommend/narrow.mjs";
-import { scoreCandidates, needsArbitration, BASELINE_WEIGHTS } from "../lib/pipeline/recommend/score.mjs";
+import { scoreCandidates, needsArbitration, MERIT_WEIGHTS } from "../lib/pipeline/recommend/score.mjs";
 import { present, uncertaintyOf, resolveExclusions, selectSet, GATE_REASONS } from "../lib/pipeline/recommend/present.mjs";
 import { orderQuestions, nextQuestion } from "../lib/pipeline/recommend/order.mjs";
 import { recommendV1 } from "../lib/pipeline/recommend/index.mjs";
@@ -25,6 +25,7 @@ before(async () => {
 
 // --- Synthetic fixtures -----------------------------------------------------
 
+// Each synthetic item does its own job (cluster = id) unless a test sets one.
 const mkItem = (over) => ({
   id: "x",
   type: "skill",
@@ -39,6 +40,7 @@ const mkItem = (over) => ({
   signals: { lastCommitDays: 5 },
   conflicts: [],
   ...over,
+  cluster: over.cluster ?? over.id ?? "x",
 });
 
 const mkCatalog = (items) => ({
@@ -105,8 +107,8 @@ test("narrow: demand with no overlap eliminates, every elimination has a reason"
 
 // --- score ------------------------------------------------------------------
 
-test("score: baseline weights sum to 1 and gate punishes caution", () => {
-  const sum = Object.values(BASELINE_WEIGHTS).reduce((a, b) => a + b, 0);
+test("score: merit weights sum to 1 and gate punishes caution", () => {
+  const sum = Object.values(MERIT_WEIGHTS).reduce((a, b) => a + b, 0);
   assert.ok(Math.abs(sum - 1) < 1e-9);
   const good = mkItem({ id: "a", capabilities: ["tdd-discipline"] });
   const meh = mkItem({ id: "b", capabilities: ["tdd-discipline"], security: { level: "caution" } });

@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased (fixes on top of 2.0.0)
+
+Review on 2026-10-02: the quality bar scored the frozen v1 engine while `repotify recommend` served v2, so a 100%
+eval sat next to v2 sets that offered Spring Boot and rootkit analysis to a Flask app and Active Directory abuse to a
+Next.js shop. Served through v2, the same 49 scenarios scored 80.6% with 176 duplicate jobs.
+
+- **The eval measures the served engine.** `test/eval/run.mjs` runs `lib/pipeline/recommend` (the CLI's
+  deterministic path, shared through `demandFor` and `recommendLocal`). 108/108, 0 violations, 0 duplicate jobs.
+- **Fit means "does a job this project wants".** A specialist matching one wanted capability (semgrep) now fits
+  fully; the old matched/all-wanted ratio scored it near 0.2. Ranking multiplies fit by merit — jury quality, trust,
+  adoption, freshness, community — instead of adding near-constant gate and freshness terms.
+- **One item per job.** A cluster or exclusive group is served once, by its best item; core items claim theirs first.
+- **No off-stack skills.** An item written for specific stacks is a candidate only when the project uses one of them.
+- **The core backbone always ships**, also when the demand is too thin for extras (the reply still says why).
+  Empty projects get their curated loadout again. Optional items need a fit of 0.6 to join the default set.
+- **Exploration is off by default.** It swapped a random candidate into 1 in 20 sets while no learning loop reads
+  the logs (no telemetry endpoint yet). `REPOTIFY_EXPLORE=1` turns it on; episodes say `randomized` only then.
+- **Catalog: 103 items** (98 skills, 3 MCP servers, 1 tool, 1 config). Removed 39 off-topic items: a digital-forensics
+  and malware-analysis collection, a marketing collection, a Telegram bot setup and two math-contest skills, plus
+  the five graph edges that pointed at them. Fixed noisy tags on nextjs-developer, react-native-expert,
+  microservices-architect, ai-agents-architect and data-engineer.
+- `test/served-engine.test.mjs` locks all of the above.
+
 ## 2.0.0 (2026-10-01)
 
 The recommendation engine now runs a full five-step pipeline — test, classify, map, narrow, present — and learns

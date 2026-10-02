@@ -32,7 +32,7 @@ const byId = (id) => seed.edges.find((e) => e.id === id);
 // Debate fix (eleştirmen): tested:true is a flag that can lie. The contract
 // above checks the reference format; this one checks the reference RESOLVES —
 // the file exists and generates one forcing case per seed edge, named by edge
-// id (the actual per-edge execution is then verified by the 65 passing
+// id (the actual per-edge execution is then verified by the passing
 // generated cases below).
 test("seed contract: every test reference resolves to a real forcing-case generator", () => {
   for (const e of seed.edges) {
