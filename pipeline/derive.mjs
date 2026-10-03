@@ -8,13 +8,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isMain } from "../src/util.mjs";
-import { parseFrontmatter } from "../src/frontmatter.mjs";
 import { ID_RE, MAX_SUMMARY, PUBLISHABLE_LEVELS, validateCatalog } from "../src/catalog.mjs";
 import { SCANNER_VERSION } from "../src/scan/index.mjs";
 import { jevConfig } from "../lib/signals/jev.mjs";
-import { createStore, obsKey } from "./store.mjs";
-import { scanTree, skillQuestions } from "./observe.mjs";
-import { licenseFromText } from "./collect.mjs";
+import { createStore } from "./store.mjs";
+import { scanTree, skillQuestions, repoFacts, jevKeyer } from "./observe.mjs";
+import { shingles, isCopy, compareRank, isOwnSource, LARGE_COLLECTION } from "./copies.mjs";
 import { extendTaxonomy, needsFor } from "./jev-classify.mjs";
 import { extendTaxonomyV2 } from "./taxonomy.mjs";
 import { unsafeSummary } from "./run.mjs";
@@ -25,7 +24,7 @@ import { serverObservations, mcpSetup, startsServer } from "./mcp.mjs";
 import { flag } from "./lib/cli.mjs";
 
 // Bump when a rule changes; every derived item records it.
-export const DERIVE_VERSION = "1";
+export const DERIVE_VERSION = "2";
 
 // The operating points of the rules. Set by reading the store's distributions, not fitted.
 // Stricter than the curated catalog's bars (jev-classify BARS): these items had no human look. Measured on the 49
@@ -50,6 +49,13 @@ export const RULES = Object.freeze({
 // 10,000 and 200; one offered to any project needs ten times the downloads and five times the stars, because a tool
 // for one bundler or one service passes for "any project" more easily than it should.
 export const DEFAULT_EVIDENCE = Object.freeze({ quality: 0.85, job: 0.85, installs: 1000, reputation: 0.65, downloads: 10000, stars: 200, anyStackDownloads: 100000, anyStackStars: 1000 });
+
+// How many skills one large collection (copies.mjs LARGE_COLLECTION) may list: the most installed, then the best made.
+// Measured on the store (2026-10-03): six collections hold 11,600 of 420,000 folders, most of them other people's
+// skills; uncapped, one of them supplied 274 of the catalog's 431 derived skills.
+export const COLLECTION_LIMIT = 15;
+// How many better-placed holders of the same name a skill is compared with, at most.
+const NAME_COMPARISONS = 25;
 
 export const PERMISSIVE = new Set(["MIT", "MIT-0", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "Unlicense", "0BSD", "CC0-1.0", "CC-BY-4.0", "MPL-2.0", "BSL-1.0", "Zlib", "BlueOak-1.0.0"]);
 export const ALL_AGENTS = ["claude-code", "cursor", "codex", "gemini-cli", "generic"];
@@ -88,13 +94,6 @@ const SERIOUS_FLAG = /\b(malware|malicious|backdoor|steal|exfiltrat|scam|phishin
 const slug = (text) => String(text).toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "").replace(/-{2,}/g, "-").slice(0, 64).replace(/-+$/, "");
 const DAY = 86400000;
 
-// The license of one skill folder: the repository's, or a license file inside the folder.
-function skillLicense(store, rec, tree) {
-  if (rec.license && rec.license !== "NOASSERTION") return rec.license;
-  const file = (store.getTree(tree) ?? []).find((e) => e.sha256 && /^(licen[cs]e|copying)(\.(md|txt|rst))?$/i.test(e.path));
-  return file ? licenseFromText(store.getBlob(file.sha256)?.toString("utf8") ?? "") : null;
-}
-
 // A summary an agent can be shown: the skill's own description, plain, short, with no command or link in it.
 export function summaryOf(description) {
   const text = String(description ?? "").replace(/\s+/g, " ").trim();
@@ -104,26 +103,53 @@ export function summaryOf(description) {
   return unsafeSummary(s) ? null : s;
 }
 
-// Every stored skill with what the rules need to know about it.
+// The skills the decision model has answered about, with what the rules need to know, and where every skill in the
+// store is held (by content and by name) for the copy rule. Read from the observe index: no SKILL.md is opened for a
+// skill nobody asked about, which is nearly all of a large store.
 function candidates(store, { taxonomy, model }) {
-  const questions = skillQuestions(taxonomy);
+  const keyOf = jevKeyer(skillQuestions(taxonomy), model);
+  const answered = store.listObs("jev");
   const out = [];
+  const repos = new Map();
+  const byMd = new Map();
+  const byName = new Map();
+  const byPath = new Map();
+  const keys = new Map();
+  const push = (map, key, value) => (map.get(key) ?? map.set(key, []).get(key)).push(value);
+  let stored = 0;
   for (const name of store.listRepos()) {
-    const rec = store.getRepo(name);
-    if (!rec || rec.error || !rec.head) continue;
-    for (const s of rec.skills ?? []) {
-      if (!s.tree || !s.skillMd) continue;
-      const md = store.getBlob(s.skillMd)?.toString("utf8") ?? "";
-      const fm = parseFrontmatter(md);
-      out.push({
-        repo: name, rec, skill: s, fm, folder: s.path.split("/").pop() || name.split("/")[1],
-        scan: scanTree(store, s.tree),
-        answers: store.getObs("jev", obsKey("jev", s.skillMd, questions, model)),
-        reputation: store.getObs("reputation", reputationKey(name)),
-      });
+    const full = store.getRepo(name);
+    if (!full || full.error || !full.head) continue;
+    const facts = repoFacts(store, name, full);
+    // Only what the rules read: a large collection's full record is megabytes.
+    const rec = { head: full.head, license: full.license ?? null, meta: full.meta ?? null, folders: facts.skills.length };
+    repos.set(name, rec);
+    for (const s of facts.skills) {
+      if (!s.skillMd) continue;
+      stored++;
+      const folder = s.path.split("/").pop() || name.split("/")[1];
+      const holder = { repo: name, path: s.path, skillMd: s.skillMd, hidden: s.hidden };
+      push(byMd, s.skillMd, holder);
+      byPath.set(`${name}/${s.path}`, holder);
+      for (const n of new Set([slug(folder), slug(s.name ?? "")])) if (n) push(byName, n, holder);
+      // A text held by a thousand repositories is hashed once.
+      const key = keys.get(s.skillMd) ?? keys.set(s.skillMd, keyOf(s.skillMd)).get(s.skillMd);
+      if (!answered.has(key)) continue;
+      out.push({ repo: name, rec, skill: s, fm: { name: s.name, description: s.description }, folder, key });
     }
   }
-  return out;
+  const reputations = new Map();
+  const reputationOf = (repo) => {
+    if (!reputations.has(repo)) reputations.set(repo, store.getObs("reputation", reputationKey(repo)));
+    return reputations.get(repo);
+  };
+  const answers = new Map();
+  for (const c of out) {
+    if (!answers.has(c.key)) answers.set(c.key, store.getObs("jev", c.key));
+    c.answers = answers.get(c.key);
+    c.reputation = reputationOf(c.repo);
+  }
+  return { all: out.filter((c) => c.answers), stored, repos, byMd, byName, byPath, reputationOf };
 }
 
 // An MCP server is a tool for the agent whatever it reaches, so "the agent's own work" fits every job. One for
@@ -150,15 +176,12 @@ function judgeAnswers(a, taxonomy, { fits = (job, purpose) => purposeFits(job, p
 }
 
 // The rules, one candidate at a time: the item it becomes, or why it does not.
-function judge(c, { taxonomy, installsOf, originalOf, outOfScopeRepo }) {
+function judge(c, { taxonomy, installsOf, outOfScopeRepo }) {
   const a = c.answers;
   const why = [];
   if (c.skill.hidden && !installsOf(c)) why.push("kept in the repository's own agent folder");
-  if (!c.scan || !["verified", "caution"].includes(c.scan.level)) why.push(`security ${c.scan?.level ?? "not scanned"}`);
-  if (!a) why.push("not classified yet");
+  if (!["verified", "caution"].includes(c.skill.scan)) why.push(`security ${c.skill.scan ?? "not scanned"}`);
   if (why.length) return { why };
-  const original = originalOf(c);
-  if (original !== c.repo) return { why: [`copy of a skill in ${original}`] };
   const fit = judgeAnswers(a, taxonomy);
   if (fit.why) return fit;
   const { stack } = fit;
@@ -174,23 +197,14 @@ function judge(c, { taxonomy, installsOf, originalOf, outOfScopeRepo }) {
 }
 
 export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], now = new Date(), model = jevConfig().model } = {}) {
-  const all = candidates(store, { taxonomy, model });
+  const { all, stored, repos, byMd, byName, byPath, reputationOf } = candidates(store, { taxonomy, model });
   // Installs per skill on skills.sh, by repository and skill name.
   const installs = new Map(leaderboard.map((s) => [`${s.source}/${String(s.skill).toLowerCase()}`, s.installs]));
   const installsOf = (c) => installs.get(`${c.repo}/${c.folder.toLowerCase()}`) ?? installs.get(`${c.repo}/${String(c.fm.name ?? "").toLowerCase()}`) ?? null;
-  // A skill held by several repositories belongs to the oldest of them.
-  const holders = new Map();
-  for (const c of all) (holders.get(c.skill.skillMd) ?? holders.set(c.skill.skillMd, []).get(c.skill.skillMd)).push(c);
-  const created = (c) => Date.parse(c.rec.meta?.createdAt ?? "") || Infinity;
-  const originalOf = (c) => {
-    const hs = holders.get(c.skill.skillMd);
-    return hs.length < 2 ? c.repo : [...hs].sort((x, y) => created(x) - created(y) || (y.rec.meta?.stars ?? 0) - (x.rec.meta?.stars ?? 0) || (x.repo < y.repo ? -1 : 1))[0].repo;
-  };
   // A repository whose skills are mostly off-topic or security operations: its other skills are suspect too, since one
   // misread job is enough to put a penetration test under "mobile testing".
   const profile = new Map();
   for (const c of all) {
-    if (!c.answers) continue;
     const p = profile.get(c.repo) ?? { n: 0, off: 0 };
     p.n++;
     if (c.answers.coding < RULES.coding || OUT_OF_SCOPE.has(c.answers.job) || c.answers.purpose === "operations") p.off++;
@@ -204,15 +218,101 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
   const curatedPaths = new Set(curated.filter((i) => i.repo).map((i) => `${i.repo.toLowerCase()}/${i.path ?? ""}`));
   const items = [];
   const dropped = [];
-  for (const c of all.sort((x, y) => (y.rec.meta?.stars ?? 0) - (x.rec.meta?.stars ?? 0) || (x.repo < y.repo ? -1 : 1) || (x.skill.path < y.skill.path ? -1 : 1))) {
+  const whereOf = (c) => ({ repo: c.repo, path: c.skill.path, commit: c.rec.head });
+  const drop = (c, reason, level = "declined") => dropped.push({ ...whereOf(c), id: slug(c.fm.name || c.folder), level, reason });
+
+  // Each skill on its own: license, scan, the model's answers, the research.
+  const passed = [];
+  for (const c of all) {
     if (curatedPaths.has(`${c.repo}/${c.skill.path}`)) continue;
-    const license = skillLicense(store, c.rec, c.skill.tree);
-    const verdict = PERMISSIVE.has(license) ? judge(c, { taxonomy, installsOf, originalOf, outOfScopeRepo }) : { why: [`license ${license ?? "unknown"}`] };
-    const where = { repo: c.repo, path: c.skill.path, commit: c.rec.head };
-    if (verdict.why) {
-      dropped.push({ ...where, id: slug(c.fm.name || c.folder), level: verdict.review ? "review" : "declined", reason: verdict.why.join("; ") });
-      continue;
+    c.license = c.rec.license && c.rec.license !== "NOASSERTION" ? c.rec.license : c.skill.license ?? null;
+    const verdict = PERMISSIVE.has(c.license) ? judge(c, { taxonomy, installsOf, outOfScopeRepo }) : { why: [`license ${c.license ?? "unknown"}`] };
+    if (verdict.why) drop(c, verdict.why.join("; "), verdict.review ? "review" : "declined");
+    else passed.push(Object.assign(c, { verdict }));
+  }
+
+  // Copies (see copies.mjs). Where a holder of a skill stands as its likely origin:
+  const flagged = (repo) => {
+    const rep = reputationOf(repo);
+    return Boolean(rep && (rep.inflated || rep.needsReview));
+  };
+  const standing = (h) => ({ repo: h.repo, path: h.path, hidden: h.hidden, curated: curatedPaths.has(`${h.repo}/${h.path}`), flagged: flagged(h.repo), large: (repos.get(h.repo)?.folders ?? 0) >= LARGE_COLLECTION, stars: repos.get(h.repo)?.meta?.stars ?? 0 });
+  const sets = new Map();
+  const shinglesOf = (skillMd) => {
+    if (!sets.has(skillMd)) sets.set(skillMd, shingles(store.getBlob(skillMd)?.toString("utf8") ?? ""));
+    return sets.get(skillMd);
+  };
+  // A hand-vetted item whose repository the store does not hold cannot be compared with: a skill of its name waits.
+  const vettedSkills = curated.filter((i) => i.repo && (i.type === undefined || i.type === "skill"));
+  const heldOf = (i) => byPath.get(`${i.repo.toLowerCase()}/${i.path ?? ""}`) ?? null;
+  const textOf = (i) => store.getBlob(heldOf(i)?.skillMd ?? (i.files ?? []).find((f) => f.path === "SKILL.md")?.sha256 ?? "")?.toString("utf8") ?? null;
+  const vettedNames = new Map();
+  for (const i of vettedSkills) {
+    if (heldOf(i)) continue;
+    for (const n of new Set([slug(i.id), slug(i.name ?? ""), slug((i.path ?? "").split("/").pop() ?? "")])) if (n) vettedNames.set(n, i.id);
+  }
+  const copyOf = (c) => {
+    const me = c.standing;
+    // The same SKILL.md, byte for byte, held where it more likely comes from.
+    const origin = byMd.get(c.skill.skillMd).map(standing).sort(compareRank)[0];
+    if (origin.repo !== c.repo) return `copy of a skill in ${origin.repo}`;
+    if (origin.path !== c.skill.path) return `the same skill as ${origin.path} in its repository`;
+    // The same name and nearly the same text, held where it more likely comes from.
+    const names = [...new Set([slug(c.folder), slug(c.fm.name ?? "")])].filter(Boolean);
+    for (const n of names) if (vettedNames.has(n)) return `named like the hand-vetted ${vettedNames.get(n)}, whose text the store does not hold to compare`;
+    // Its better-placed holders first, one per distinct text.
+    const seen = new Set([c.skill.skillMd]);
+    const better = names.flatMap((n) => byName.get(n) ?? []).map((h) => ({ ...standing(h), skillMd: h.skillMd })).filter((h) => compareRank(h, me) < 0).sort(compareRank)
+      .filter((h) => !seen.has(h.skillMd) && seen.add(h.skillMd)).slice(0, NAME_COMPARISONS);
+    const mine = shinglesOf(c.skill.skillMd);
+    for (const h of better) if (isCopy(mine, shinglesOf(h.skillMd), { sameName: true })) return h.repo === c.repo ? `nearly the same skill as ${h.path} in its repository` : `near copy of a skill in ${h.repo}`;
+    // A large collection's skill named like one a known source keeps: collections carry old revisions whose text has
+    // drifted from the original (measured: a collection's mcp-builder shares 21% of its runs with the current one).
+    const source = me.large ? better.find((h) => h.repo !== c.repo && (h.curated || isOwnSource(h))) : null;
+    if (source) return `a collection's copy of ${names[0]}, which ${source.repo} keeps`;
+    return null;
+  };
+  // Then against what is already in: a hand-vetted item or a better-placed skill for the same job with nearly the same
+  // text, whatever its name.
+  const inJob = new Map();
+  const jobOf = (job) => inJob.get(job) ?? inJob.set(job, []).get(job);
+  for (const i of vettedSkills) {
+    const text = textOf(i);
+    if (text != null) for (const job of i.capabilities ?? []) jobOf(job).push({ id: i.id, set: shingles(text) });
+  }
+  const unique = [];
+  for (const c of passed) c.standing = standing({ repo: c.repo, path: c.skill.path, hidden: c.skill.hidden });
+  for (const c of passed.sort((x, y) => compareRank(x.standing, y.standing))) {
+    let why = copyOf(c);
+    if (!why) {
+      const mine = shinglesOf(c.skill.skillMd);
+      const twin = jobOf(c.answers.job).find((o) => isCopy(mine, o.set));
+      if (twin) why = `nearly the same text as ${twin.id}`;
+      else jobOf(c.answers.job).push({ id: `${c.repo}/${c.skill.path}`, set: mine });
     }
+    if (why) drop(c, why, /hand-vetted .* does not hold/.test(why) ? "review" : "declined");
+    else unique.push(c);
+  }
+
+  // A large collection lists a few skills, the ones with the most to show for themselves.
+  const perCollection = new Map();
+  const finalists = [];
+  const merit = (x, y) => (installsOf(y) ?? 0) - (installsOf(x) ?? 0) || y.answers.quality - x.answers.quality || (y.answers.jobP ?? 0) - (x.answers.jobP ?? 0) || (x.skill.path < y.skill.path ? -1 : 1);
+  for (const c of [...unique].sort(merit)) {
+    if (c.rec.folders >= LARGE_COLLECTION) {
+      const n = perCollection.get(c.repo) ?? 0;
+      if (n >= COLLECTION_LIMIT) {
+        drop(c, `a collection of ${c.rec.folders} skills lists its ${COLLECTION_LIMIT} most used and best made`);
+        continue;
+      }
+      perCollection.set(c.repo, n + 1);
+    }
+    finalists.push(c);
+  }
+
+  for (const c of finalists.sort((x, y) => (y.rec.meta?.stars ?? 0) - (x.rec.meta?.stars ?? 0) || (x.repo < y.repo ? -1 : 1) || (x.skill.path < y.skill.path ? -1 : 1))) {
+    const { verdict } = c;
+    const where = whereOf(c);
     let id = slug(c.fm.name || c.folder);
     if (!ID_RE.test(id) || used.has(id) || GENERIC_NAMES.has(id)) id = slug(`${c.repo.split("/")[0]}-${id}`);
     if (!ID_RE.test(id) || used.has(id)) {
@@ -225,12 +325,14 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
     const stacks = verdict.stack ? [verdict.stack] : ["*"];
     const specific = !stacks.includes("*");
     const tree = store.getTree(c.skill.tree);
+    const scan = scanTree(store, c.skill.tree);
     const rep = c.reputation;
     const pushed = Date.parse(c.rec.meta?.pushedAt ?? "");
-    const repoSkills = (c.rec.skills ?? []).filter((x) => x.tree).length;
+    const repoSkills = c.rec.folders;
     const itemInstalls = installsOf(c);
     const named = (rep?.bestSkills ?? []).some((n) => [c.folder, c.fm.name].filter(Boolean).some((x) => String(x).toLowerCase() === String(n).toLowerCase()));
-    const evidence = (itemInstalls ?? 0) >= DEFAULT_EVIDENCE.installs || ((rep?.score ?? 0) >= DEFAULT_EVIDENCE.reputation && named);
+    // A repository whose stars the research found inflated vouches for nothing: only installs count for its skills.
+    const evidence = (itemInstalls ?? 0) >= DEFAULT_EVIDENCE.installs || ((rep?.score ?? 0) >= DEFAULT_EVIDENCE.reputation && !rep.inflated && named);
     const defaultEligible = evidence && a.quality >= DEFAULT_EVIDENCE.quality && (a.jobP ?? 0) >= DEFAULT_EVIDENCE.job;
     if (SENSITIVE_JOBS.has(a.job) && !defaultEligible && taxonomy.stacks[verdict.stack]?.kind !== "product") {
       dropped.push({ ...where, id, level: "review", reason: `${a.job} needs the project's provider or proven use` });
@@ -240,11 +342,11 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
     items.push({
       id, type: "skill", name: String(c.fm.name || c.folder).slice(0, 80), repo: c.repo, path: c.skill.path, commit: c.rec.head,
       files: tree.filter((e) => e.sha256).map((e) => ({ path: e.path, sha256: e.sha256 })),
-      license, summary: verdict.summary,
+      license: c.license, summary: verdict.summary,
       capabilities: [job], cluster: job, needs: needsFor(job, taxonomy), stacks,
       agents: ALL_AGENTS,
       tier: /-expertise$/.test(job) && specific ? "stack" : "mission",
-      conflicts: [], descriptionChars: String(c.fm.description ?? "").length,
+      conflicts: [], descriptionChars: c.skill.descriptionChars ?? 0,
       ...((a.lifecycleP ?? 0) >= RULES.lifecycle ? { lifecycle: a.lifecycle } : {}),
       origin: "lab",
       quality: a.quality,
@@ -252,19 +354,19 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
       signals: {
         stars: c.rec.meta?.stars ?? null, starVelocity30d: null, coUsage: 0,
         lastCommitDays: Number.isFinite(pushed) ? Math.max(0, Math.floor((now - pushed) / DAY)) : null,
-        mentions30d: 0, installs: itemInstalls, copies: holders.get(c.skill.skillMd).length - 1, repoSkills,
+        mentions30d: 0, installs: itemInstalls, copies: new Set(byMd.get(c.skill.skillMd).map((h) => h.repo)).size - 1, repoSkills,
       },
       defaultEligible,
       // Only serious flags travel with the item; "no description" and the like stay in the research record.
       ...(rep ? { reputation: { score: rep.score, inflated: rep.inflated, starTrust: rep.starTrust, flags: (rep.flags ?? []).filter((f) => SERIOUS_FLAG.test(f.text)).slice(0, 3).map((f) => f.text) } } : {}),
       community: { shown: 0, selected: 0, kept7d: 0, removed: 0, rating: 0, votes: 0 },
-      security: { level: c.scan.level, findings: c.scan.findings, scannedAt: now.toISOString(), scannerVersion: SCANNER_VERSION, gateVersion: GATE_VERSION },
-      badges: c.scan.level === "caution" ? ["caution"] : [],
+      security: { level: scan.level, findings: scan.findings, scannedAt: now.toISOString(), scannerVersion: SCANNER_VERSION, gateVersion: GATE_VERSION },
+      badges: scan.level === "caution" ? ["caution"] : [],
       setup: null,
       derive: DERIVE_VERSION,
     });
   }
-  return { items, dropped, considered: all.length };
+  return { items, dropped, considered: stored, classified: all.length };
 }
 
 // Repotify's own hooks (`builtin` entries in the seed) belong to every catalog: one the catalog does not hold yet
@@ -404,7 +506,7 @@ if (isMain(import.meta.url)) {
   }
   const all = [...curated, ...items];
   const errors = validateCatalog({ items: all, taxonomy, loadouts: read("loadouts.json"), core });
-  const summary = { considered, derived: items.length, servers: servers.items.length, curated: curated.length, total: all.length, dropped: dropped.length, reasons, errors: errors.slice(0, 5) };
+  const summary = { considered, classified: skills.classified, derived: items.length, servers: servers.items.length, curated: curated.length, total: all.length, dropped: dropped.length, reasons, errors: errors.slice(0, 5) };
   if (flag(args, "--report", null)) writeFileSync(flag(args, "--report"), JSON.stringify({ summary, items: items.map((i) => ({ id: i.id, type: i.type, repo: i.repo, path: i.path, job: i.capabilities[0], stacks: i.stacks, quality: i.quality, installs: i.signals.installs, downloads: i.signals.downloads, defaultEligible: i.defaultEligible })), dropped }, null, 1));
   console.log(JSON.stringify(summary, null, 1));
   if (errors.length) process.exitCode = 1;

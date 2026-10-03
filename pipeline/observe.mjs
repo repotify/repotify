@@ -262,7 +262,10 @@ export async function observeAll(store, { taxonomy, jev = true, maxAsks = Infini
   const keyOf = jevKeyer(questions, model);
   const answeredKeys = store.listObs("jev");
   const installs = new Map((store.getState("skills-sh")?.skills ?? []).map((s) => [`${String(s.source).toLowerCase()}/${String(s.skill).toLowerCase()}`, s.installs]));
-  const plan = planAsks(repos, { installs, isAnswered: (md) => answeredKeys.has(keyOf(md)), perRepo });
+  // A text held by a thousand repositories is hashed once.
+  const known = new Map();
+  const isAnswered = (md) => known.get(md) ?? known.set(md, answeredKeys.has(keyOf(md))).get(md);
+  const plan = planAsks(repos, { installs, isAnswered, perRepo });
   Object.assign(stats, plan.stats, { asked: 0, failed: 0 });
   let streak = 0;
   await mapLimit([...plan.todo, ...plan.sameName].slice(0, maxAsks), concurrency, async (s) => {
