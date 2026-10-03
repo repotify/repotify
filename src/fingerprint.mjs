@@ -2,7 +2,7 @@ import { realpathSync } from "node:fs";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join, parse, resolve } from "node:path";
-import { DEP_MAP, FILE_MAP, LANG_BY_EXT, LANG_STACK, FRONTEND_STACKS } from "./stackmap.mjs";
+import { DEP_MAP, DEP_PREFIXES, FILE_MAP, LANG_BY_EXT, LANG_STACK, FRONTEND_STACKS } from "./stackmap.mjs";
 
 const SKIP_DIRS = new Set([
   "node_modules", ".git", "dist", "build", "out", ".next", ".nuxt", ".svelte-kit", ".venv", "venv", "env",
@@ -221,7 +221,7 @@ export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() }
       if (name === "pubspec.yaml") sets.stacks.add("dart");
       if (name === "pyproject.toml" || name === "Pipfile" || name.startsWith("requirements")) sets.stacks.add("python");
       for (const dep of manifestDeps(name, text)) {
-        const entry = DEP_MAP[dep] ?? DEP_MAP[dep.toLowerCase()];
+        const entry = DEP_MAP[dep] ?? DEP_MAP[dep.toLowerCase()] ?? DEP_PREFIXES.find(([prefix]) => dep.toLowerCase().startsWith(prefix))?.[1];
         if (entry) apply(entry);
       }
     }
