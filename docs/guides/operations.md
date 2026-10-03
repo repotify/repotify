@@ -10,6 +10,24 @@ push; the catalog is rebuilt only by hand (see [Building the catalog](#building-
 
 There is no schedule; a maintainer rebuilds the catalog when it is worth it.
 
+The catalog has two parts. The hand-vetted items (the seed, the jury) are built by `pipeline/run.mjs`, on GitHub or
+locally, as described below. Everything else is derived from a content store that lives outside the repository:
+
+```bash
+GITHUB_TOKEN=… node pipeline/crawl.mjs --store STORE --discover        # fetch skill folders, once each
+JEV_API_KEY=… node pipeline/observe.mjs --store STORE                  # scan and classify what is new
+node pipeline/research.mjs --store STORE --env-file FILE               # what people say about each repository
+JEV_API_KEY=… node pipeline/mcp.mjs --store STORE                      # MCP registry, downloads, stars, gate
+node pipeline/derive.mjs --store STORE --dry-run --report report.json  # what the rules keep and why
+node pipeline/derive.mjs --store STORE                                 # write catalog/
+npm run eval && npm test                                               # 108/108 and no violation before committing
+```
+
+`derive` keeps the hand-vetted items it finds in `catalog/items.json`, adds Repotify's own hooks from the seed, and
+replaces every derived item. **Running `pipeline/run.mjs` or the catalog-build workflow rewrites `catalog/` from the
+seed alone: run `derive` again afterwards, or the crawled items are gone.** A taxonomy change (a new job or stack)
+changes the questions, so `observe` and `mcp --from-state` ask again before `derive` sees answers.
+
 - **On GitHub:** Actions → **catalog-build** → **Run workflow**. The `build` job discovers, gates and scores items with
   the jury keys; the `publish` job re-verifies the result, runs the tests and commits `catalog/` as `catalog: build <version>`.
   Without the jury keys the run stops instead of publishing a catalog without scores.

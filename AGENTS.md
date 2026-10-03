@@ -13,6 +13,7 @@ Hooks and MCP servers change how you run: the user switches them on with `repoti
 
 ## If you are working on this repository
 
-- Node.js 18+, no dependencies. Run `npm test` before every commit; `npm run eval` checks recommendation quality.
+- Node.js 18+, no dependencies. Run `npm test` before every commit; `npm run eval` checks recommendation quality and `node test/eval/router.mjs` the skill router.
+- Catalog items from the crawl are derived (`node pipeline/derive.mjs --store DIR`), never edited by hand; see `docs/guides/operations.md`.
 - Security rules live in `src/scan/`; every rule needs a malicious and a benign fixture in `test/fixtures/`.
 - Product text (README, skill, CLI output, catalog) is English.
