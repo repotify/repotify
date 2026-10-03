@@ -14,7 +14,7 @@ import { startUi } from "./ui.mjs";
 import { driftOf, readProjectState, writeProjectState, staleLine } from "./track.mjs";
 import { formatTable, pickLoadout } from "./recommend.mjs";
 import { loadCatalog } from "./catalog.mjs";
-import { catalogUrl, homeDir, NPX_LAUNCHER } from "./config.mjs";
+import { catalogUrl, DEFAULT_CATALOG_URL, envOverrides, homeDir, NPX_LAUNCHER } from "./config.mjs";
 import { detectAgents, parseAgentList, runningAgents, skillTargets } from "./agents.mjs";
 import { installItem, removeItem, installSelf, backfillJobs } from "./install.mjs";
 import { runHook, parseInstallCommands } from "./guard.mjs";
@@ -75,10 +75,10 @@ const err = (io, text) => io.stderr.write(text.endsWith("\n") ? text : text + "\
 const csv = (v) => (typeof v === "string" ? v.split(",").map((s) => s.trim()).filter(Boolean) : []);
 
 function telemetry(io) {
-  return createTelemetry({ env: io.env ?? {}, fetchImpl: io.fetchImpl ?? fetch, version: VERSION });
+  return createTelemetry({ env: io.env ?? {}, version: VERSION });
 }
 
-// Queues anonymous events and flushes; flushing is a no-op while no endpoint is configured.
+// Queues anonymous events locally. Nothing is sent from here: `repotify sync` is the only way out.
 // T1: no data before the notice — events are dropped until the user has seen
 // the first-run telemetry notice (noticeNeeded), even when enabled.
 async function track(io, events) {
@@ -98,11 +98,14 @@ async function track(io, events) {
     // Detection problems never block the command.
   }
   for (const e of events) t.track({ agent, ...e });
-  await t.flush();
 }
 
 export async function getCatalog(io, flags = {}) {
   const env = io.env ?? {};
+  // A changed catalog source decides everything that is recommended and installed: never silent.
+  if (env.REPOTIFY_CATALOG_URL && env.REPOTIFY_CATALOG_URL !== DEFAULT_CATALOG_URL && !flags.offline && env.REPOTIFY_OFFLINE !== "1") {
+    err(io, `Note: the catalog is read from ${String(env.REPOTIFY_CATALOG_URL).replace(/[^\x20-\x7e]/g, "?").slice(0, 200)} (REPOTIFY_CATALOG_URL), not from Repotify's own repository.`);
+  }
   return loadCatalog({
     url: catalogUrl(env),
     cacheDir: join(homeDir(env), "cache", "catalog"),
@@ -404,7 +407,9 @@ const MAX_INSTALL_SUMMARY = 1050;
 // Items that change how the agent itself runs: hooks and MCP servers. An agent never switches these on; the user does,
 // with `repotify enable`, after seeing what will be written.
 const AGENT_CONFIG_TYPES = new Set(["mcp", "config"]);
-const launcherOf = (io) => readLock(io.cwd).items.repotify?.launcher ?? detectLauncher();
+// How to call this copy again. Never read from repotify.lock.json: a cloned repository can ship that file, and what
+// it says would end up in a hook command or in front of the user as a command to run.
+const launcherOf = () => detectLauncher();
 
 async function ask(io, question) {
   const rl = createInterface({ input: io.stdin, output: io.stdout });
@@ -482,7 +487,8 @@ async function cmdInstall(args, io) {
       const agentConfig = AGENT_CONFIG_TYPES.has(item.type);
       const r = await installItem(item, {
         cwd: io.cwd, agents, confirm: Boolean(args.flags.yes) && !agentConfig, acceptCaution: Boolean(args.flags["accept-caution"]),
-        fetchImpl: io.fetchImpl ?? fetch, catalogVersion: catalog.meta.version,
+        fetchImpl: io.fetchImpl ?? fetch, catalogVersion: catalog.meta.version, launcher: detectLauncher(),
+        offline: Boolean(args.flags.offline) || io.env?.REPOTIFY_OFFLINE === "1",
       });
       results.push({ id, ok: true, level: item.security?.level, ...r, ...(agentConfig ? { userEnables: `${launcherOf(io)} enable ${id}` } : {}) });
     } catch (e) {
@@ -535,7 +541,7 @@ async function cmdEnable(args, io) {
   }
   const { catalog } = await getCatalog(io, args.flags);
   const byId = new Map(catalog.items.map((i) => [i.id, i]));
-  const opts = { cwd: io.cwd, agents, fetchImpl: io.fetchImpl ?? fetch, catalogVersion: catalog.meta.version, acceptCaution: Boolean(args.flags["accept-caution"]) };
+  const opts = { cwd: io.cwd, agents, fetchImpl: io.fetchImpl ?? fetch, catalogVersion: catalog.meta.version, acceptCaution: Boolean(args.flags["accept-caution"]), launcher: detectLauncher() };
   let failed = false;
   for (const id of ids) {
     const item = byId.get(id);
@@ -670,9 +676,10 @@ async function cmdTelemetry(args, io) {
     err(io, "Usage: repotify telemetry [status|on|off]");
     return 2;
   }
-  const endpoint = (await import("./config.mjs")).TELEMETRY_ENDPOINT ?? io.env?.REPOTIFY_TELEMETRY_URL ?? null;
-  const queued = t.enabled ? (await t.flush()).queued : 0;
-  out(io, `Telemetry: ${t.enabled ? "on" : "off"}; ${endpoint ? `endpoint ${endpoint}` : "endpoint not configured (nothing is sent)"}; ${queued} event(s) queued locally.\n${NOTICE_DETAILS}`);
+  const fleet = io.env?.REPOTIFY_TELEMETRY_URL ?? null;
+  out(io, `Telemetry: ${t.enabled ? "on" : "off"}; ${t.queued()} event(s) kept locally; nothing is sent unless you run \`repotify sync\` (${fleet ? `fleet server ${fleet}` : "no fleet server configured"}).\n${NOTICE_DETAILS}`);
+  const overrides = envOverrides(io.env ?? {});
+  if (overrides.length) out(io, `Environment overrides in effect: ${overrides.join(", ")}.`);
   return 0;
 }
 
@@ -695,7 +702,7 @@ async function cmdUpdate(args, io) {
   const env = io.env ?? {};
   if (args.flags["enable-auto-check"]) {
     if (userConsentMissing(args, io, "The weekly update check (a Claude Code SessionStart hook)")) return 2;
-    const launcher = sanitizeLauncher(readLock(io.cwd).items.repotify?.launcher ?? detectLauncher());
+    const launcher = sanitizeLauncher(detectLauncher());
     if (!args.flags.yes && !(await ask(io, `Add a SessionStart hook to .claude/settings.json that runs \`${launcher} ${AUTO_CHECK_ARGS}\` once a week? [y/N] `))) {
       out(io, "Nothing changed.");
       return 0;
@@ -717,7 +724,7 @@ async function cmdUpdate(args, io) {
       }
     }
     const { catalog } = await getCatalog(io, args.flags);
-    const results = await applyUpdates(ids, { cwd: io.cwd, catalog, fetchImpl: io.fetchImpl ?? fetch, acceptCaution: Boolean(args.flags["accept-caution"]) });
+    const results = await applyUpdates(ids, { cwd: io.cwd, catalog, fetchImpl: io.fetchImpl ?? fetch, acceptCaution: Boolean(args.flags["accept-caution"]), offline: Boolean(args.flags.offline) || env.REPOTIFY_OFFLINE === "1" });
     out(io, results.map((r) => (r.ok ? `✓ ${r.id} updated` : `✗ ${r.id}: ${r.error}`)).join("\n") || "Nothing to update.");
     return results.some((r) => !r.ok) ? 1 : 0;
   }
@@ -749,6 +756,7 @@ async function updateLines(io, flags, now) {
     lines.push(`Apply with: repotify update --apply ${r.items.map((u) => u.id).join(",")}`);
   }
   for (const id of r.removedFromCatalog) lines.push(`⚠ ${id} is no longer in the catalog (quarantined or removed upstream); consider \`repotify remove ${id}\`.`);
+  if (r.heldBack.length) lines.push(`Not offered: ${r.heldBack.join(", ")} came from a newer catalog than the one in use (${catalog.meta.version}); an older catalog never replaces it.`);
   if (self.updated) lines.push(`Refreshed the repotify skill (${self.from ?? "?"} → ${self.to}).`);
   return { lines, catalog, notice };
 }
@@ -798,7 +806,14 @@ async function cmdScan(args, io) {
     err(io, `Not a directory: ${target}`);
     return 2;
   }
-  const r = await scanDir(dir);
+  let r;
+  try {
+    // The same limits as `repotify audit`: a folder too large to read is not vetted, and says so.
+    r = await scanDir(dir, { maxFiles: 400, maxBytes: 30 * 1024 * 1024 });
+  } catch (error) {
+    err(io, `Not scanned: ${target} is ${error.message}.`);
+    return 1;
+  }
   if (args.flags.json) {
     out(io, JSON.stringify(r, null, 2));
   } else {
@@ -811,6 +826,20 @@ async function cmdScan(args, io) {
   }
   return r.level === "rejected" || r.level === "quarantined" ? 1 : 0;
 }
+
+// Every variable the CLI reads. The ones that change where data comes from or goes to are announced when set.
+export const ENV_HELP = [
+  "REPOTIFY_OFFLINE=1          Use the bundled or cached catalog; never touch the network (installs are refused)",
+  "REPOTIFY_HOME=<dir>         Where the cache, settings and local logs live (default ~/.repotify)",
+  "REPOTIFY_TELEMETRY=0        Turn local measurement off (also DO_NOT_TRACK=1, NO_ANALYTICS=1)",
+  "REPOTIFY_TELEMETRY_URL=<u>  Fleet server `repotify sync` sends its summary to, after you confirm (none by default)",
+  "REPOTIFY_CATALOG_URL=<u>    Read the catalog from another place (announced on every run)",
+  "REPOTIFY_RAW_BASE=<u>       Download skill files from another host (files must still match the catalog's hashes)",
+  "REPOTIFY_EXPLORE=1          Let recommend try a less certain pick now and then (REPOTIFY_NO_EXPLORE=1 forbids it)",
+  "REPOTIFY_JEV=1              Let recommend ask a paid model to break ties, with your own JEV_API_KEY",
+  "REPOTIFY_COVERAGE_VARIANT   How overlapping picks are dropped: jaccard (default), strict, loose, hybrid",
+  "REPOTIFY_DEBUG=1            Print the stack trace of an unexpected error (may show local paths)",
+];
 
 export const COMMANDS = {
   start: { run: cmdStart, help: "start [--agent a,b]                  Default: install the repotify skill for your agent and summarize the project" },
@@ -862,7 +891,7 @@ export async function runCli(argv, io) {
   }
   const [name = "start", ...rest] = args.positionals;
   if (args.flags.help || name === "help") {
-    out(io, `repotify ${VERSION}\n\nCommands:\n` + Object.values(COMMANDS).map((c) => "  " + c.help).join("\n"));
+    out(io, `repotify ${VERSION}\n\nCommands:\n` + Object.values(COMMANDS).map((c) => "  " + c.help).join("\n") + "\n\nEnvironment:\n" + ENV_HELP.map((l) => "  " + l).join("\n"));
     return 0;
   }
   const command = COMMANDS[name];

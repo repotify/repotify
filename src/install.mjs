@@ -7,7 +7,7 @@ import { readLock, writeLock } from "./lock.mjs";
 import { sanitizeLauncher } from "./config.mjs";
 import { scanFiles } from "./scan/index.mjs";
 import { safeRelPath, sha256, compareSemver, readJsonSafe } from "./util.mjs";
-import { applyMcp, mcpSnippet, removeMcp, agentForMcpFile, commandLines } from "./mcpconfig.mjs";
+import { applyMcp, mcpSnippet, removeMcp, agentForMcpFile, commandLines, envLines, riskyEnvNames } from "./mcpconfig.mjs";
 import { wrapInstalledSkill, unwrapInstalledSkill } from "../lib/telemetry/instrument.mjs";
 
 export const RAW_BASE = "https://raw.githubusercontent.com";
@@ -75,6 +75,10 @@ function reviewedFindingsOnly(item, scan) {
 export async function installSkill(item, opts) {
   const { cwd, agents, fetchImpl = fetch, now = new Date(), acceptCaution = false, catalogVersion = null } = opts;
   const rawBase = opts.rawBase ?? process.env.REPOTIFY_RAW_BASE ?? RAW_BASE;
+  // Installing downloads the skill's files: with REPOTIFY_OFFLINE=1 that is refused up front instead of timing out.
+  if (opts.offline) {
+    throw new InstallError("OFFLINE", `${item.id}: REPOTIFY_OFFLINE=1 is set and installing a skill downloads its files; unset it to install`);
+  }
   for (const f of item.files ?? []) {
     if (safeRelPath(f.path) !== f.path) throw new InstallError("UNSAFE_PATH", `Refusing unsafe path in catalog: ${f.path}`);
   }
@@ -253,7 +257,12 @@ function removeEmptyStaging(dir) {
 // Local scan of an MCP server's setup steps and command line, before anything is written (install and update).
 export function checkMcpSetup(item) {
   const m = item.setup?.mcp ?? {};
-  const setupScan = scanFiles([{ path: "setup.sh", content: [...(item.setup?.steps ?? []), ...commandLines(m.command, m.args ?? [])].join("\n") + "\n" }]);
+  // The environment is part of the command: a variable can point the package manager at another registry.
+  const risky = riskyEnvNames(m.env);
+  if (risky.length) {
+    throw new InstallError("BLOCKED", `${item.id}: its MCP entry sets ${risky.slice(0, 5).join(", ")}, which changes what gets installed or loaded; refused`);
+  }
+  const setupScan = scanFiles([{ path: "setup.sh", content: [...(item.setup?.steps ?? []), ...commandLines(m.command, m.args ?? []), ...envLines(m.env)].join("\n") + "\n" }]);
   if (setupScan.level === "rejected" || setupScan.level === "quarantined") {
     throw new InstallError("BLOCKED", `${item.id}: its MCP command failed the local security scan (${setupScan.findings[0]?.rule})`);
   }
@@ -284,7 +293,9 @@ export async function installItem(item, opts) {
     return { type: "mcp", written: targets.length > 0, steps, results };
   }
   if (item.type === "config" && HOOKS[item.id]) {
-    const launcher = readLock(cwd).items.repotify?.launcher;
+    // The launcher comes from the running copy (opts.launcher), never from repotify.lock.json: a cloned repository
+    // can ship that file, and the launcher becomes a command that runs at every session start.
+    const launcher = opts.launcher ?? null;
     if (!confirm) return { type: "config", written: false, preview: hookPreview(item.id, { launcher }) };
     const r = installHook(item.id, { cwd, launcher });
     if (r.written) recordLock(cwd, item.id, { type: "config", repo: null, targets: r.targets, agents: ["claude-code"], installedAt: now.toISOString(), catalogVersion, level: "verified" }, catalogVersion);
@@ -359,6 +370,16 @@ export function installSelf({ cwd, agents, version, now = new Date(), sourceDir 
     // The skill source is unreadable: never report "up to date" for something that was not verified.
     throw new InstallError("SOURCE_MISSING", `Cannot install the repotify skill: the source folder is missing or unreadable (${sourceDir})`);
   }
+  // Repotify's own skill is the instruction file with the most authority over the agent, so it passes the same scan
+  // as every other skill before it is copied anywhere. Symlinks are scanned as links (and refused), never followed.
+  const selfScan = scanFiles(listFiles(sourceDir).map((f) => {
+    const full = join(sourceDir, f);
+    return lstatSync(full).isSymbolicLink() ? { path: f, content: "", size: 0, isSymlink: true, linkTarget: readlinkSync(full) } : { path: f, content: readFileSync(full) };
+  }));
+  if (selfScan.level === "rejected" || selfScan.level === "quarantined") {
+    const top = selfScan.findings.find((f) => f.severity === "critical" || f.severity === "high");
+    throw new InstallError("BLOCKED", `The repotify skill in ${sourceDir} failed the security scan (${selfScan.level}: ${top?.rule} in ${top?.file}); not installed. Reinstall Repotify from npm.`);
+  }
   const result = { installed: [], upToDate: [], untouched: [] };
   // Never let an older Repotify overwrite the skill written by a newer one.
   const newerInstalled = lock.items.repotify?.version && compareSemver(lock.items.repotify.version, version) > 0;
@@ -394,7 +415,7 @@ export function installSelf({ cwd, agents, version, now = new Date(), sourceDir 
     return result;
   }
   if (result.installed.length || !previous || (launcher && previous.launcher !== launcher)) {
-    lock.items.repotify = { type: "self", version, targets, installedAt: now.toISOString(), contentHash: wanted, launcher: launcher ?? previous?.launcher ?? null };
+    lock.items.repotify = { type: "self", version, targets, installedAt: now.toISOString(), contentHash: wanted, launcher: launcher || previous?.launcher ? sanitizeLauncher(launcher ?? previous?.launcher) : null };
     writeLock(cwd, lock);
   }
   return result;

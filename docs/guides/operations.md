@@ -49,8 +49,11 @@ The workflow's `GITHUB_TOKEN` is used read-only for discovery and issue submissi
 
 ## Turning analytics on (after the Cloudflare account is available)
 
-Follow `pipeline/worker/README.md`, then set `TELEMETRY_ENDPOINT` in `src/config.mjs` to the Worker URL, release a new version,
-and set `REPOTIFY_STATS_URL`. Until then the client only keeps a local queue and sends nothing.
+The client has no code that sends raw events: its queue stays on the user's machine, and the only way out is
+`repotify sync`, which sends aggregates to the fleet server (`lib/telemetry/server/`) after the user confirms. The
+older Worker in `pipeline/worker/` stored raw events with an install id; no released client feeds it any more, and it
+must not be given a client again without changing the privacy text in the README, the guide, the skill and the
+first-run notice. `REPOTIFY_STATS_URL` (community counts for the pipeline) stays unset until the fleet server exists.
 
 ## Publishing to npm
 

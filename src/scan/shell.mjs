@@ -207,17 +207,47 @@ export function commandName(stageText) {
 }
 
 const FETCH_RE = /(?:^|[\s("'])(curl|wget|irm|iwr|Invoke-WebRequest|Invoke-RestMethod)(?=\s|$)/i;
+const FETCH_TOOLS = new Set(["curl", "wget", "irm", "iwr", "invoke-webrequest", "invoke-restmethod"]);
 
-// Index of a fetch command inside a stage, or -1. Prose may precede it ("First run: curl …").
+// The names a command word can stand for. The shell drops quotes and escapes inside a word (`c'u'rl`, `c\url` and
+// `\curl` all run curl) and a path runs its last segment (`/usr/bin/curl`, `C:\tools\curl.exe`). A backslash is an
+// escape in a POSIX shell and a separator on Windows, so both readings are returned.
+export function commandReadings(word) {
+  const bare = word.replace(/['"]/g, "");
+  const asPath = baseName(bare);
+  if (!bare.includes("\\")) return [asPath];
+  const asEscape = baseName(bare.replace(/\\/g, ""));
+  return asEscape === asPath ? [asPath] : [asPath, asEscape];
+}
+
+// The fetch tool a command word runs (`curl` for `c'u'rl`, `\curl`, `/usr/bin/curl`), or null.
+export function fetchToolOf(word) {
+  return commandReadings(word ?? "").find((n) => FETCH_TOOLS.has(n)) ?? null;
+}
+
+// A word that may hide a fetch tool behind quotes, escapes or a path. One linear pass; only reached when the plain
+// reading found nothing.
+const FETCH_WORD_RE = /(?:^|[\s(])([\w.:~\\/'"-]{3,200})(?=\s|$)/g;
+
+// Index of a fetch command inside a stage, or -1. Prose may precede it ("First run: curl …"). The plain spelling is
+// tried first; the second pass reads each word the way the shell does, so `c'u'rl … | sh` is the same finding as
+// `curl … | sh`.
 export function fetchIndex(stageText) {
   const m = FETCH_RE.exec(stageText);
-  return m ? m.index + m[0].length - m[1].length : -1;
+  if (m) return m.index + m[0].length - m[1].length;
+  if (!/['"\\/]/.test(stageText)) return -1;
+  FETCH_WORD_RE.lastIndex = 0;
+  let w;
+  while ((w = FETCH_WORD_RE.exec(stageText)) !== null) {
+    if (fetchToolOf(w[1])) return w.index + w[0].length - w[1].length;
+  }
+  return -1;
 }
 
 // The file a fetch command writes, if any: curl -o/--output/-O, wget -O/--output-document or wget's default name.
 export function downloadTarget(fetchText) {
   const words = shellWords(fetchText);
-  const tool = words[0].toLowerCase();
+  const tool = fetchToolOf(words[0]) ?? words[0].toLowerCase();
   const urls = words.filter((w) => /^https?:\/\//i.test(w));
   const remoteName = () => {
     if (!urls.length) return null;
@@ -306,7 +336,7 @@ const CLUSTER_VALUE = /[HdFuoXAebcTwmxUEKrzYyCQ]$/;
 // The destinations a curl or wget command talks to: every argument that is not an option or an option's value.
 export function fetchTargets(statement) {
   const words = shellWords(statement);
-  const tool = baseName(words[0] ?? "");
+  const tool = fetchToolOf(words[0]) ?? baseName(words[0] ?? "");
   const values = tool === "wget" ? WGET_VALUE_FLAGS : CURL_VALUE_FLAGS;
   const out = [];
   for (let i = 1; i < words.length; i++) {
@@ -349,7 +379,9 @@ export function runsPipedInput(stageText, { prose = false } = {}) {
     return raw.slice(1).some((w) => INTERPRETERS.has(baseName(w.replace(/^[`'"]+|[`'"]+$/g, ""))));
   }
   const words = commandWords(stageText);
-  const name = baseName(words[0] ?? "");
+  // `pyth\on` and `b'a'sh` are interpreters too: take the reading that is one.
+  const readings = commandReadings(words[0] ?? "");
+  const name = readings.find((n) => INTERPRETERS.has(n)) ?? readings[0];
   // `curl … | tee >(sh)`: process substitution feeds the output to a shell's stdin.
   if (/>[ \t]*\(\s*(ba|z|da|k)?sh\b/i.test(stageText)) return true;
   if (!INTERPRETERS.has(name)) return false;

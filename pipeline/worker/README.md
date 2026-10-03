@@ -1,5 +1,9 @@
 # Repotify analytics Worker
 
+> **Retired.** Since 2.0.0 the CLI has no code that sends raw events (they carry an install id and a timestamp, which
+> the privacy promise rules out). Nothing feeds this Worker; `repotify sync` and `lib/telemetry/server/` replace it.
+> The text below is kept for the record.
+
 Receives anonymous events from the Repotify CLI and serves aggregate stats to the catalog pipeline.
 The CLI ships with the endpoint **disabled** (`TELEMETRY_ENDPOINT = null` in `src/config.mjs`); until this Worker is
 deployed, events only stay in each user's local queue.

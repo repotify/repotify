@@ -80,7 +80,7 @@ test("CLI: recommend logs a Stage 0 recommendation episode, vote records a vote,
   assert.equal(run(home, ["vote", "not-installed", "up"], {}, proj).status, 1);
   const status = run(home, ["telemetry", "status"]).stdout;
   assert.match(status, /on/);
-  assert.match(status, /endpoint not configured/);
+  assert.match(status, /nothing is sent unless you run `repotify sync` \(no fleet server configured\)/);
 });
 
 test("CLI: telemetry off stops all queuing", () => {

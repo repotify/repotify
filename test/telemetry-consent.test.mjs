@@ -93,7 +93,7 @@ test("CLI: `telemetry on` re-enables, `status` reports without tracking", async 
   h = ioFor(d);
   assert.equal(await main(["telemetry", "status"], h.io), 0);
   assert.match(h.text.out, /Telemetry: on/);
-  assert.match(h.text.out, /endpoint not configured/);
+  assert.match(h.text.out, /nothing is sent unless you run `repotify sync`/);
   assert.equal(existsSync(join(d, "queue.jsonl")), false, "status queues nothing");
   assert.equal(existsSync(join(d, "stage0.jsonl")), false, "status writes nothing");
 });

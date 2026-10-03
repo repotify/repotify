@@ -54,12 +54,14 @@ test("update --enable-auto-check needs the user: without a terminal or --yes it 
   assert.equal(existsSync(join(cwd, ".claude/settings.json")), false);
 });
 
-test("update --enable-auto-check --yes writes the SessionStart hook with the recorded launcher", () => {
+test("update --enable-auto-check --yes writes the SessionStart hook with the running copy's launcher, never the lock's", () => {
   const cwd = project({ repotify: { type: "self", version: "0.1.0", targets: [], launcher: 'node "/opt/repotify/bin/repotify.mjs"' } });
   assert.equal(run(cwd, ["update", "--enable-auto-check", "--yes"]).status, 0);
   const s = JSON.parse(readFileSync(join(cwd, ".claude/settings.json"), "utf8"));
   assert.equal(s.hooks.SessionStart.length, 1);
-  assert.equal(s.hooks.SessionStart[0].hooks[0].command, 'node "/opt/repotify/bin/repotify.mjs" update --check --quiet --weekly');
+  // The lock is a file a cloned repository can ship: what it names as the launcher is not what runs at session start.
+  assert.match(s.hooks.SessionStart[0].hooks[0].command, /^node "[^"]*[\\/]bin[\\/]repotify\.mjs" update --check --quiet --weekly$/);
+  assert.doesNotMatch(s.hooks.SessionStart[0].hooks[0].command, /\/opt\/repotify/);
 });
 
 test("update --apply reports failures for ids it cannot update", () => {

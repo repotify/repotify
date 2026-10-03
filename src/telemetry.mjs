@@ -1,13 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { homeDir, readConfig, writeConfig, TELEMETRY_ENDPOINT } from "./config.mjs";
+import { homeDir, readConfig, writeConfig } from "./config.mjs";
 import { validateEvent, EVENT_TYPES } from "./telemetry-schema.mjs";
 import { telemetryEnabled } from "../lib/telemetry/consent.mjs";
 
 export { validateEvent, EVENT_TYPES };
 export const MAX_QUEUE = 1000;
-const BATCH = 100;
 
 // FAZ 0 / DL-009 — exact first-run notice text, FROZEN. Do not reword:
 // the wording is a locked decision ("bildirimden önce veri yok" T1).
@@ -24,12 +23,13 @@ export const NOTICE_DETAILS = [
   "Kill switches: `repotify telemetry off`, REPOTIFY_TELEMETRY=0, DO_NOT_TRACK=1, NO_ANALYTICS=1.",
 ].join("\n");
 
-export function createTelemetry({ env = process.env, fetchImpl = fetch, now = new Date(), endpoint = TELEMETRY_ENDPOINT, version = "0.0.0" } = {}) {
+// The local event queue. Nothing here talks to the network: raw events (they carry the install id and a timestamp)
+// never leave the machine. The only way out is `repotify sync`, which sends aggregates after the user confirms.
+export function createTelemetry({ env = process.env, now = new Date(), version = "0.0.0" } = {}) {
   const dir = homeDir(env);
   const queuePath = join(dir, "queue.jsonl");
   // One answer for both event logs (this queue and lib/telemetry's Stage 0 log): the same kill switches stop both.
   const enabled = telemetryEnabled(env);
-  const target = endpoint ?? env.REPOTIFY_TELEMETRY_URL ?? null;
 
   const readQueue = () => {
     try {
@@ -77,29 +77,7 @@ export function createTelemetry({ env = process.env, fetchImpl = fetch, now = ne
         return false;
       }
     },
-    async flush() {
-      if (!enabled) return { sent: 0, queued: 0 };
-      let lines = readQueue();
-      if (!target || !lines.length) return { sent: 0, queued: lines.length };
-      let sent = 0;
-      while (lines.length) {
-        const batch = lines.slice(0, BATCH);
-        try {
-          const res = await fetchImpl(`${target.replace(/\/$/, "")}/v1/events`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ events: batch.map((l) => JSON.parse(l)) }),
-            signal: AbortSignal.timeout(5000),
-          });
-          if (!res.ok) break;
-        } catch {
-          break;
-        }
-        sent += batch.length;
-        lines = lines.slice(BATCH);
-        writeQueue(lines);
-      }
-      return { sent, queued: lines.length };
-    },
+    // How many events wait in the local queue.
+    queued: () => (enabled ? readQueue().length : 0),
   };
 }

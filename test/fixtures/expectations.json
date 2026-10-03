@@ -1,5 +1,8 @@
 {
   "benign": {
+    "anti-pattern-table": {
+      "maxLevel": "verified"
+    },
     "api-client": {
       "maxLevel": "caution"
     },
@@ -24,8 +27,20 @@
     "env-setup": {
       "maxLevel": "verified"
     },
+    "git-clone-docs": {
+      "maxLevel": "verified"
+    },
+    "git-clone-inspect": {
+      "maxLevel": "verified"
+    },
+    "git-clone-tests": {
+      "maxLevel": "verified"
+    },
     "git-workflow": {
       "maxLevel": "verified"
+    },
+    "html-comments": {
+      "maxLevel": "caution"
     },
     "i18n-json": {
       "maxLevel": "verified"
@@ -42,6 +57,9 @@
     "persian-text": {
       "maxLevel": "verified"
     },
+    "powershell-flags": {
+      "maxLevel": "verified"
+    },
     "python-lint": {
       "maxLevel": "verified"
     },
@@ -49,6 +67,9 @@
       "maxLevel": "verified"
     },
     "rm-safe": {
+      "maxLevel": "verified"
+    },
+    "safe-instructions": {
       "maxLevel": "verified"
     },
     "security-auditor-docs": {
@@ -66,6 +87,12 @@
     "tdd-discipline": {
       "maxLevel": "verified"
     },
+    "turkish-docs": {
+      "maxLevel": "verified"
+    },
+    "two-official-installers": {
+      "maxLevel": "caution"
+    },
     "uv-installer": {
       "maxLevel": "caution"
     },
@@ -73,15 +100,6 @@
       "maxLevel": "verified"
     },
     "yara-rules": {
-      "maxLevel": "caution"
-    },
-    "git-clone-docs": {
-      "maxLevel": "verified"
-    },
-    "git-clone-inspect": {
-      "maxLevel": "verified"
-    },
-    "two-official-installers": {
       "maxLevel": "caution"
     }
   },
@@ -118,7 +136,19 @@
       "minLevel": "rejected",
       "rule": "remote-exec"
     },
+    "continuation-split-fetch": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
     "curl-pipe-bash": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "curl-redirect-run": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "decoy-installer-first": {
       "minLevel": "rejected",
       "rule": "remote-exec"
     },
@@ -150,6 +180,10 @@
       "minLevel": "rejected",
       "rule": "exfiltration"
     },
+    "escaped-fetch": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
     "evaluator-note": {
       "minLevel": "quarantined",
       "rule": "prompt-injection"
@@ -166,6 +200,22 @@
       "minLevel": "quarantined",
       "rule": "exfiltration"
     },
+    "git-clone-extensionless": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "git-clone-options-run": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "git-clone-run": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "hidden-comment-negation": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
     "hidden-tag-instructions": {
       "minLevel": "rejected",
       "rule": "hidden-unicode"
@@ -174,7 +224,15 @@
       "minLevel": "quarantined",
       "rule": "prompt-injection"
     },
+    "ignore-previous-turkish": {
+      "minLevel": "quarantined",
+      "rule": "prompt-injection"
+    },
     "inline-code-imperative": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "installer-encoded-path": {
       "minLevel": "rejected",
       "rule": "remote-exec"
     },
@@ -198,11 +256,23 @@
       "minLevel": "rejected",
       "rule": "exfiltration"
     },
+    "pipe-xargs": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
     "postinstall-script": {
       "minLevel": "caution",
       "rule": "install-script"
     },
+    "powershell-encoded": {
+      "minLevel": "quarantined",
+      "rule": "obfuscation"
+    },
     "powershell-iex": {
+      "minLevel": "rejected",
+      "rule": "remote-exec"
+    },
+    "quote-split-fetch": {
       "minLevel": "rejected",
       "rule": "remote-exec"
     },
@@ -238,6 +308,10 @@
       "minLevel": "rejected",
       "rule": "remote-exec"
     },
+    "unsafe-instructions": {
+      "minLevel": "quarantined",
+      "rule": "unsafe-instruction"
+    },
     "zero-width-split-keyword": {
       "minLevel": "rejected",
       "rule": "remote-exec"
@@ -245,26 +319,6 @@
     "zero-width-stego": {
       "minLevel": "rejected",
       "rule": "hidden-unicode"
-    },
-    "pipe-xargs": {
-      "minLevel": "rejected",
-      "rule": "remote-exec"
-    },
-    "curl-redirect-run": {
-      "minLevel": "rejected",
-      "rule": "remote-exec"
-    },
-    "git-clone-run": {
-      "minLevel": "rejected",
-      "rule": "remote-exec"
-    },
-    "decoy-installer-first": {
-      "minLevel": "rejected",
-      "rule": "remote-exec"
-    },
-    "git-clone-options-run": {
-      "minLevel": "rejected",
-      "rule": "remote-exec"
     }
   }
 }

@@ -370,7 +370,7 @@ export function deriveMcp(store, { taxonomy, curated = [], used = new Set(), now
       signals: { stars: s.stars ?? null, starVelocity30d: null, coUsage: 0, lastCommitDays: null, mentions30d: 0, downloads: s.downloads },
       defaultEligible,
       community: { shown: 0, selected: 0, kept7d: 0, removed: 0, rating: 0, votes: 0 },
-      security: { level: sec.level, findings: sec.findings, scannedAt: sec.scannedAt ?? now.toISOString(), scannerVersion: SCANNER_VERSION, gateVersion: GATE_VERSION },
+      security: { level: sec.level, findings: sec.findings, scannedAt: sec.scannedAt ?? now.toISOString(), scannerVersion: sec.scannerVersion ?? SCANNER_VERSION, gateVersion: sec.gateVersion ?? GATE_VERSION },
       badges: sec.level === "caution" ? ["caution"] : [],
       setup: mcpSetup(s),
       derive: DERIVE_VERSION,

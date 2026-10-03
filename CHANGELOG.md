@@ -84,6 +84,51 @@ after the install.
 - `recommend --arbitrate` (opt-in, needs a Jev key) asks only about the optional candidates; it used to ask which of
   four core skills fits best. Exploration is off unless `REPOTIFY_EXPLORE=1`, and it never doubles a job.
 
+### Security hardening (external audit, 2026-10-03)
+
+An outside audit ran its claims against the code; each confirmed finding is fixed with tests that cover the whole
+class of inputs, not the one reported example (`test/audit-fixes.test.mjs`). What it means for you:
+
+- **Hooks cannot be hijacked through the lock file.** The command a hook runs is the published package or
+  `node "<absolute path>/repotify.mjs"`, taken from the copy you are running. It used to be read from
+  `repotify.lock.json` and only checked for shell characters, so `sh -c "…"` or `node -e …` in a cloned repository's
+  lock became a command at every session start.
+- **Scanner 1.5.0.** A fetch tool is recognised however the shell would read it (`c'u'rl`, `c\url`, `\curl`,
+  `/usr/bin/curl`, a word split over a `\` line break); warning words inside an HTML comment or a hidden element no
+  longer turn a command into "documentation"; PowerShell `-EncodedCommand` and `FromBase64String | iex` are
+  obfuscation; `git clone … && python setup` counts without a file extension; an encoded path is not an official
+  installer. New: "ignore the previous instructions" in ten languages, and a rule for instructions that are unsafe to
+  follow (wave a warning through, read `.env` into the conversation, load instructions from a URL).
+- **`verified` is said for what it is:** scanned for known malicious patterns, not "safe to follow"
+  ([docs/guides/security.md](docs/guides/security.md)).
+- **The package guard reads dressed-up installs** (`sudo -E`, `env`, `nice`, absolute paths, `npm.cmd`, `pip3.11`,
+  `python -u -m pip`, `-r requirements.txt`) and **asks when it could not check**: registry unreachable, install from
+  a URL (including `name @ https://…`), a registry it does not know. Before, each of these passed in silence.
+- **Raw usage events can no longer be sent.** `REPOTIFY_TELEMETRY_URL` used to switch on a second path that posted
+  the local event queue (install id and timestamps) from six commands without asking. That code is gone; the variable
+  only names the server for `repotify sync`, which sends aggregates after you confirm.
+- **MCP servers: the environment is checked too.** An entry that sets `npm_config_registry`, `UV_INDEX_URL`,
+  `NODE_OPTIONS`, `PATH` and the like is refused by the gate and by `enable`, never written, and flagged by `audit`.
+  On an update, a value you set is kept over the catalog's.
+- **A catalog check that could not run is not a pass.** If npm, PyPI or OSV does not answer, the item is not
+  published (it used to go in as "caution"). Packages first published in the last 14 days are marked. Stored MCP gate
+  results are per scanner and gate version.
+- **Catalog loading.** A cache is used only for the source it came from (one run with `REPOTIFY_CATALOG_URL` could
+  leave a catalog that outranked the real one forever); the same version with other content is refused; a changed
+  source is announced; a catalog over 60 days old says so.
+- **`audit`** scans Repotify's own skill like any other, says when a skill could not be scanned instead of calling it
+  clean, and uses the same platform rule as `recommend`. `installSelf` scans the skill before copying it.
+- **`update --check`** never offers a commit from a catalog older than the one an item was installed from, and
+  compares an MCP server's whole setup.
+- **The CLI exits when it is done** (open connections could hold it for minutes behind a proxy),
+  `REPOTIFY_OFFLINE=1` refuses an install up front, `repotify scan` has the audit's size limits, and `--help` lists
+  every environment variable.
+- **Measurement.** A 400-project invariant sweep now runs against the engine the CLI serves
+  (`test/served-invariants.test.mjs`), the eval can pin the machine, and coverage counts `lib/`.
+
+Not done, and said so: the catalog is not signed, the plain-language rules are heuristics, and no model reads every
+skill for instruction safety.
+
 ### Measured
 
 - Recommendation quality on 49 scenarios, run against the engine the CLI serves and the 548-item catalog: 108/108
@@ -98,8 +143,9 @@ after the install.
 ### Built, not live
 
 The learning loop (LinUCB with off-policy evaluation, `lib/learn/`) and the fleet server (`lib/telemetry/server/`) are
-built and tested in simulation. They are not wired into `recommend` and nothing is deployed, so rankings do not learn
-from use yet. An evaluation harness (`test/harness/`) compares routing strategies on pilot scale; its series 3 results
+built and tested in simulation. The learner is not wired into `recommend` and nothing is deployed, so rankings do not
+learn from use yet (a policy file saved by `repotify sync` would move a score by at most 0.1; none exists without a
+fleet server). An evaluation harness (`test/harness/`) compares routing strategies on pilot scale; its series 3 results
 are on the website's leaderboard as mean [min–max] at n = 3 per cell.
 
 ### For maintainers

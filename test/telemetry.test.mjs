@@ -4,7 +4,6 @@ import { mkdtempSync, readFileSync, existsSync, writeFileSync, rmSync } from "no
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createTelemetry, validateEvent, EVENT_TYPES, NOTICE, NOTICE_DETAILS, MAX_QUEUE } from "../src/telemetry.mjs";
-import { TELEMETRY_ENDPOINT } from "../src/config.mjs";
 
 // Test temp dirs: track every mkdtempSync dir and remove them all in after(),
 // or a day of test runs fills /tmp (512M tmpfs) and later runs fail with ENOSPC.
@@ -23,8 +22,12 @@ const home = () => mkTemp("rp-tel-");
 const envFor = (dir, extra = {}) => ({ REPOTIFY_HOME: dir, ...extra });
 const queueLines = (dir) => (existsSync(join(dir, "queue.jsonl")) ? readFileSync(join(dir, "queue.jsonl"), "utf8").trim().split("\n").filter(Boolean) : []);
 
-test("the built-in endpoint stays disabled until the analytics backend is configured", () => {
-  assert.equal(TELEMETRY_ENDPOINT, null);
+test("the event queue has no way to send: no endpoint constant, no fetch, no flush", async () => {
+  const config = await import("../src/config.mjs");
+  assert.equal("TELEMETRY_ENDPOINT" in config, false);
+  const t = createTelemetry({ env: envFor(home()), now: NOW });
+  assert.equal("flush" in t, false);
+  assert.doesNotMatch(readFileSync(new URL("../src/telemetry.mjs", import.meta.url), "utf8"), /fetch|https?:\/\//);
 });
 
 test("event types and schema reject anything that could identify code or people", () => {
@@ -40,16 +43,13 @@ test("event types and schema reject anything that could identify code or people"
   assert.deepEqual(validateEvent({ ...ok, type: "vote", items: undefined, item: "pdf", vote: "up" }), []);
 });
 
-test("events are queued locally and nothing is sent while the endpoint is null", async () => {
+test("events are queued locally", async () => {
   const dir = home();
-  let called = 0;
-  const t = createTelemetry({ env: envFor(dir), fetchImpl: async () => { called++; }, now: NOW, version: "0.1.0" });
+  const t = createTelemetry({ env: envFor(dir), now: NOW, version: "0.1.0" });
   assert.equal(t.enabled, true);
   assert.equal(t.track({ type: "run", agent: "claude-code" }), true);
   assert.equal(t.track({ type: "shown", agent: "claude-code", items: ["pdf"] }), true);
-  const r = await t.flush();
-  assert.deepEqual(r, { sent: 0, queued: 2 });
-  assert.equal(called, 0);
+  assert.equal(t.queued(), 2);
   const first = JSON.parse(queueLines(dir)[0]);
   assert.match(first.installId, /^[0-9a-f-]{36}$/);
   assert.equal(first.ts, NOW.toISOString());
@@ -102,21 +102,22 @@ test("the one-time notice is the frozen FAZ 0 text; details explain what is and 
   assert.match(NOTICE_DETAILS, /repotify sync/);
 });
 
-test("a self-hosted endpoint receives batches and the queue is cleared on success", async () => {
+test("SEC-PIPE-002: REPOTIFY_TELEMETRY_URL never makes a command send raw events", async () => {
+  // The variable names the fleet server for `repotify sync`. It used to switch on a second, unannounced path: six
+  // commands posted the raw queue (install id and timestamps) without asking.
+  const { main } = await import("../src/cli.mjs");
   const dir = home();
-  const bodies = [];
-  const fetchImpl = async (url, init) => {
-    assert.equal(url, "https://stats.example.org/v1/events");
-    bodies.push(JSON.parse(init.body));
-    return new Response(null, { status: 202 });
-  };
-  const t = createTelemetry({ env: envFor(dir, { REPOTIFY_TELEMETRY_URL: "https://stats.example.org" }), fetchImpl, now: NOW });
-  t.track({ type: "run", agent: "claude-code" });
-  t.track({ type: "installed", agent: "claude-code", items: ["pdf"] });
-  assert.deepEqual(await t.flush(), { sent: 2, queued: 0 });
-  assert.equal(bodies[0].events.length, 2);
-  assert.deepEqual(queueLines(dir), []);
-  const failing = createTelemetry({ env: envFor(dir, { REPOTIFY_TELEMETRY_URL: "https://stats.example.org" }), fetchImpl: async () => { throw new Error("offline"); }, now: NOW });
-  failing.track({ type: "run", agent: "claude-code" });
-  assert.deepEqual(await failing.flush(), { sent: 0, queued: 1 });
+  const cwd = mkTemp("rp-tel-cwd-");
+  const calls = [];
+  const io = (args) => [args, {
+    cwd, env: { REPOTIFY_HOME: dir, REPOTIFY_TELEMETRY_URL: "https://stats.example.org", REPOTIFY_OFFLINE: "1" },
+    stdout: { write: () => true }, stderr: { write: () => true }, stdin: { isTTY: false },
+    fetchImpl: async (url, init) => { calls.push([String(url), init?.method ?? "GET"]); return new Response("{}", { status: 200 }); },
+  }];
+  for (const args of [["start"], ["install", "pdf", "--yes"], ["enable", "repotify-guard", "--yes"], ["remove", "repotify-guard"], ["vote", "pdf", "up"], ["telemetry", "status"]]) {
+    await main(...io(args));
+  }
+  assert.ok(queueLines(dir).length > 0, "events were recorded locally");
+  assert.deepEqual(calls.filter(([url]) => url.includes("stats.example.org")), []);
+  assert.deepEqual(calls.filter(([, method]) => method !== "GET"), []);
 });

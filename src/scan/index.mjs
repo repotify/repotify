@@ -7,7 +7,7 @@ import {
 import { splitPipelines } from "./shell.mjs";
 import { fileRules, isBinaryFile, hostsInScript, NETWORK_ALLOWLIST } from "./files.mjs";
 
-export const SCANNER_VERSION = "1.4.0";
+export const SCANNER_VERSION = "1.5.0";
 
 const RANK = { low: 0, medium: 1, high: 2, critical: 3 };
 const MAX_FINDINGS_PER_RULE_PER_FILE = 10;
@@ -161,16 +161,88 @@ function isPurePrint(line) {
   return !/[;&|>]/.test(bare);
 }
 
-// Joins lines ending in a `\` continuation, keeping the number of the first physical line.
-function logicalLines(lines) {
+// Joins lines ending in a `\` continuation, keeping the number of the first physical line. The shell joins them with
+// nothing in between, so a command split inside a word (`cu\` + `rl … | sh`) is read as the command it runs; joining
+// with a space hid it. `shadow` is a second copy of the lines (same lengths) that is joined the same way.
+// In Markdown a trailing `\` is also a hard line break: when the join glues two words together, the lines after the
+// break are read on their own as well, so neither reading hides a command.
+function logicalLines(lines, shadow = lines) {
   const out = [];
   for (let i = 0; i < lines.length; i++) {
     const start = i;
     let text = lines[i];
-    while (/(^|[^\\])(\\\\)*\\$/.test(text) && i + 1 < lines.length) text = text.slice(0, -1) + " " + lines[++i];
-    out.push({ text, line: start });
+    let shadowText = shadow[i];
+    let glued = false;
+    while (/(^|[^\\])(\\\\)*\\$/.test(text) && i + 1 < lines.length) {
+      if (/\S\\$/.test(text) && /^\S/.test(lines[i + 1])) glued = true;
+      shadowText = shadowText.slice(0, text.length - 1) + shadow[i + 1];
+      text = text.slice(0, -1) + lines[++i];
+    }
+    out.push({ text, line: start, shadow: shadowText });
+    if (glued) for (let k = start + 1; k <= i; k++) out.push({ text: lines[k], line: k, shadow: shadow[k] });
   }
   return out;
+}
+
+// Markdown the reader never sees but the agent reads: HTML comments, link-reference "comments" (`[//]: # (…)`) and
+// elements hidden with `hidden` or `display:none`. Returns the lines with those spans blanked (same lengths) and, per
+// line, the hidden spans. Words inside them cannot vouch for a command ("<!-- Never run --> curl … | sh" showed the
+// reader a bare command and the scanner a warning), and a command inside them is never documentation.
+const LINK_COMMENT_RE = /^\s{0,3}\[[^\]\n]{0,200}\]:\s*(?:#|<>)(?:\s|$)/;
+const HIDDEN_ELEMENT_RE = /<([a-z][a-z0-9]*)\b[^>\n]{0,300}?(?:\shidden(?=[\s=>/])|display\s*:\s*none)[^>\n]{0,300}?>/gi;
+function hideInvisible(lines, fences) {
+  const shown = [];
+  const spans = [];
+  let open = false;
+  for (let n = 0; n < lines.length; n++) {
+    const line = lines[n];
+    const own = [];
+    if (fences[n].lang !== null || fences[n].marker) {
+      // Inside a code fence everything is shown literally.
+      open = false;
+    } else if (!open && LINK_COMMENT_RE.test(line)) {
+      own.push([0, line.length]);
+    } else {
+      let at = 0;
+      while (at < line.length) {
+        if (open) {
+          const end = line.indexOf("-->", at);
+          own.push([at, end < 0 ? line.length : end + 3]);
+          if (end < 0) break;
+          open = false;
+          at = end + 3;
+        } else {
+          const start = line.indexOf("<!--", at);
+          if (start < 0) break;
+          open = true;
+          own.push([start, start + 4]);
+          at = start + 4;
+        }
+      }
+      HIDDEN_ELEMENT_RE.lastIndex = 0;
+      let m;
+      while ((m = HIDDEN_ELEMENT_RE.exec(line)) !== null) {
+        const close = line.toLowerCase().indexOf(`</${m[1].toLowerCase()}`, m.index + m[0].length);
+        const end = close < 0 ? line.length : close;
+        own.push([m.index, end]);
+        HIDDEN_ELEMENT_RE.lastIndex = Math.max(end, m.index + m[0].length);
+      }
+    }
+    spans.push(own);
+    if (!own.length) {
+      shown.push(line);
+      continue;
+    }
+    let out = "";
+    let last = 0;
+    for (const [a, b] of own.slice().sort((x, y) => x[0] - y[0])) {
+      if (b <= last) continue;
+      out += line.slice(last, Math.max(a, last)) + " ".repeat(b - Math.max(a, last));
+      last = b;
+    }
+    shown.push(out + line.slice(last));
+  }
+  return shown;
 }
 
 // Effective kind of one line: comments and pure print statements in scripts read like documentation.
@@ -192,7 +264,7 @@ function scanText(path, text) {
 
   const physical = hidden.clean.split("\n");
   const fences = kind === "doc" ? fenceMap(physical) : null;
-  const logical = logicalLines(physical);
+  const logical = logicalLines(physical, fences ? hideInvisible(physical, fences) : physical);
   const lines = logical.map((l) => l.text);
   const shellLines = [];
   const shellOpts = (f) => {
@@ -215,7 +287,9 @@ function scanText(path, text) {
     const effective = lineKind(kind, line);
     const forcedDoc = kind === "detection" || Boolean(f && f.closed && DETECTION_FENCES.has(f.lang));
     const mayDemote = effective === "doc" && !inShellFence;
-    const ctx = { lines, i, comments, prose, pipelinesOf, readings: [pipelinesOf(i, { comments, prose }), pipelinesOf(i, { comments, prose, quotes: false })] };
+    // What the reader sees of this line: documentation words count only there.
+    const shown = logical[i].shadow;
+    const ctx = { lines, i, comments, prose, shown, pipelinesOf, readings: [pipelinesOf(i, { comments, prose }), pipelinesOf(i, { comments, prose, quotes: false })] };
     for (const rule of LINE_RULES) {
       const matches = rule.matches(line, ctx);
       if (!matches.length && !matches.overflow) continue;
@@ -228,9 +302,12 @@ function scanText(path, text) {
         let note;
         const adjusted = rule.adjust?.(m.text, line);
         if (adjusted) ({ severity, note } = adjusted);
-        if (mayDemote && RANK[severity] > RANK.medium && (forcedDoc || docContext(line, m))) {
+        // A match the reader cannot see (inside an HTML comment or a hidden element) is an instruction to the agent
+        // alone: nothing around it makes it documentation.
+        const unseen = shown !== line && shown.slice(m.index, m.index + Math.max(m.length ?? 1, 1)).trim() === "";
+        if (mayDemote && !unseen && RANK[severity] > RANK.medium && (forcedDoc || docContext(shown, m))) {
           const strict = rule.strictDocContext && severity === "critical" && !forcedDoc;
-          severity = strict && !NEGATION_BEFORE_RE.test(line.slice(0, m.index)) ? "high" : "medium";
+          severity = strict && !NEGATION_BEFORE_RE.test(shown.slice(0, m.index)) ? "high" : "medium";
           note = severity === "high" ? "documentation context; needs human review" : "documentation context";
         }
         if (!worst || RANK[severity] > RANK[worst.severity]) worst = { m, severity, note };
@@ -352,6 +429,6 @@ export async function readTree(dir, { maxFiles = Infinity, maxBytes = Infinity }
   return out;
 }
 
-export async function scanDir(dir) {
-  return scanFiles(await readTree(dir));
+export async function scanDir(dir, limits = {}) {
+  return scanFiles(await readTree(dir, limits));
 }

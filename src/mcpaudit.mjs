@@ -7,7 +7,7 @@ import { AGENTS } from "./agents.mjs";
 import { readJsonSafe, readTextSafe } from "./util.mjs";
 import { scanFiles } from "./scan/index.mjs";
 import { shownName } from "./display.mjs";
-import { commandLines } from "./mcpconfig.mjs";
+import { commandLines, envLines, riskyEnvNames } from "./mcpconfig.mjs";
 
 const MAX_SERVERS = 100;
 const SEVERITY = { low: 1, medium: 2, high: 3, critical: 4 };
@@ -142,7 +142,8 @@ export function auditMcp({ root, catalog = { items: [] } }) {
       }
       reasons.push(`Remote server: what the agent sends it goes to ${host}.`);
     } else {
-      const scan = scanFiles([{ path: "setup.sh", content: `${commandLines(s.command, s.args).join("\n")}\n` }]);
+      // The environment is read with the command: a value can be a command, and a name can redirect the install.
+      const scan = scanFiles([{ path: "setup.sh", content: `${[...commandLines(s.command, s.args), ...envLines(s.env)].join("\n")}\n` }]);
       const worst = [...scan.findings].sort((a, b) => (SEVERITY[b.severity] ?? 0) - (SEVERITY[a.severity] ?? 0))[0];
       if (scan.level === "rejected" || scan.level === "quarantined") {
         raise("remove");
@@ -162,6 +163,11 @@ export function auditMcp({ root, catalog = { items: [] } }) {
       } else if (s.command) {
         reasons.push("Runs a program already on this computer.");
       }
+    }
+    const risky = riskyEnvNames(s.env);
+    if (risky.length) {
+      raise("review");
+      reasons.push(`Sets ${risky.slice(0, 5).map(shown).join(", ")}: that changes what the server installs or loads, or where its traffic goes. Keep it only if you set it yourself.`);
     }
     const secrets = writtenSecrets(s);
     if (secrets.names.length || secrets.inArgs) {

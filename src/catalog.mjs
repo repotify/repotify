@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { safeRelPath, sha256 } from "./util.mjs";
+import { riskyEnvNames } from "./mcpconfig.mjs";
 
 export const ITEM_TYPES = ["skill", "plugin", "mcp", "tool", "config"];
 export const TIERS = ["core", "stack", "mission"];
@@ -44,6 +45,11 @@ export function validateItem(item, taxonomy) {
     const s = item.setup;
     if (!s || !isStrArray(s.steps) || s.steps.length === 0) e("setup.steps required");
     else if (item.type === "mcp" && (!s.mcp || typeof s.mcp.command !== "string" || !isStrArray(s.mcp.args ?? []))) e("setup.mcp {command, args} required");
+    else if (item.type === "mcp" && s.mcp.env != null) {
+      const env = s.mcp.env;
+      if (typeof env !== "object" || Array.isArray(env) || Object.values(env).some((v) => typeof v !== "string")) e("setup.mcp.env must map names to strings");
+      else if (riskyEnvNames(env).length) e(`setup.mcp.env sets ${riskyEnvNames(env)[0]}, which changes what is installed or loaded`);
+    }
   }
 
   const caps = taxonomy.capabilities ?? {};
@@ -122,6 +128,25 @@ export function compareVersions(a, b) {
   return 0;
 }
 
+// Catalog versions are dates (`2026.10.03.5`): the day a catalog was made, or null.
+export function versionDate(version) {
+  const [y, m, d] = String(version).split(".").map(Number);
+  const t = Date.UTC(y, (m || 1) - 1, d || 1);
+  return Number.isInteger(y) && y >= 1970 && Number.isFinite(t) ? t : null;
+}
+const STALE_DAYS = 60;
+
+// Where the cached catalog was downloaded from. A cache is only as trustworthy as its source, and rollback
+// protection makes it sticky: one run with REPOTIFY_CATALOG_URL pointing elsewhere could leave a catalog with a huge
+// version that outranks the real one forever. So a cache is used only for the URL that wrote it.
+function cacheSource(cacheDir) {
+  try {
+    return JSON.parse(readFileSync(join(cacheDir, "etag.json"), "utf8")).url ?? null;
+  } catch {
+    return null;
+  }
+}
+
 class CatalogError extends Error {
   constructor(kind, message) {
     super(message);
@@ -168,12 +193,12 @@ function readDir(dir) {
 }
 
 // Best effort: a read-only home only means no cache.
-function writeCache(cacheDir, metaText, texts, etag) {
+function writeCache(cacheDir, metaText, texts, etag, url) {
   try {
     mkdirSync(cacheDir, { recursive: true });
     for (const f of CATALOG_FILES) writeFileSync(join(cacheDir, f), texts[f]);
     writeFileSync(join(cacheDir, "meta.json"), metaText);
-    writeFileSync(join(cacheDir, "etag.json"), JSON.stringify({ etag: etag ?? null }));
+    writeFileSync(join(cacheDir, "etag.json"), JSON.stringify({ etag: etag ?? null, url: url ?? null }));
   } catch {
     // Ignored on purpose.
   }
@@ -216,10 +241,21 @@ async function fetchRemote(url, cacheDir, fetchImpl, useEtag) {
   return { catalog, metaText, texts, etag: res.headers.get("etag") };
 }
 
-export async function loadCatalog({ url, cacheDir, bundledDir = BUNDLED_DIR, fetchImpl = fetch, offline = false } = {}) {
+export async function loadCatalog({ url, cacheDir, bundledDir = BUNDLED_DIR, fetchImpl = fetch, offline = false, now = new Date() } = {}) {
   const bundled = readDir(bundledDir);
   if (!bundled) throw new Error("bundled catalog is missing or corrupted; reinstall repotify");
-  const cached = cacheDir ? readDir(cacheDir) : null;
+  let cached = cacheDir ? readDir(cacheDir) : null;
+  if (cached && url && cacheSource(cacheDir) !== url) cached = null;
+  const loaded = await loadNewest({ url, cacheDir, bundled, cached, fetchImpl, offline });
+  // Nothing newer could be fetched and what is left is old: say so, instead of serving it as if it were current.
+  const age = Math.floor((now.getTime() - (versionDate(loaded.catalog.meta.version) ?? now.getTime())) / 86400000);
+  if (!loaded.notice && loaded.source !== "remote" && !offline && url && age > STALE_DAYS) {
+    loaded.notice = `The ${loaded.source} catalog (${loaded.catalog.meta.version}) is ${age} days old and no newer one could be read; update Repotify or check the connection.`;
+  }
+  return loaded;
+}
+
+async function loadNewest({ url, cacheDir, bundled, cached, fetchImpl, offline }) {
   const fallback = (why) => {
     const best = cached && compareVersions(cached.meta.version, bundled.meta.version) >= 0 ? { catalog: cached, source: "cache" } : { catalog: bundled, source: "bundled" };
     return { ...best, notice: `${why}; using the ${best.source} catalog (${best.catalog.meta.version}).` };
@@ -236,9 +272,14 @@ export async function loadCatalog({ url, cacheDir, bundledDir = BUNDLED_DIR, fet
   }
   if (remote.notModified) return cached ? newest : fallback("Cache missing");
   const newestLocal = [bundled, cached].filter(Boolean).reduce((a, b) => (compareVersions(a.meta.version, b.meta.version) >= 0 ? a : b));
-  if (compareVersions(remote.catalog.meta.version, newestLocal.meta.version) < 0) {
+  const order = compareVersions(remote.catalog.meta.version, newestLocal.meta.version);
+  if (order < 0) {
     return fallback(`Remote catalog ${remote.catalog.meta.version} is older than the local copy`);
   }
-  if (cacheDir) writeCache(cacheDir, remote.metaText, remote.texts, remote.etag);
+  // One version is one content: the same version with other files is not an update.
+  if (order === 0 && CATALOG_FILES.some((f) => remote.catalog.meta.files?.[f] !== newestLocal.meta.files?.[f])) {
+    return fallback(`Remote catalog ${remote.catalog.meta.version} differs from the local copy of the same version`);
+  }
+  if (cacheDir) writeCache(cacheDir, remote.metaText, remote.texts, remote.etag, url);
   return { catalog: remote.catalog, source: "remote" };
 }
