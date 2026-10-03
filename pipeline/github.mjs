@@ -1,13 +1,15 @@
 // A small GitHub REST client for the crawler: search with paging, repository metadata, and the rate limits GitHub
 // sets (5,000 core requests an hour with a token, 30 searches and 10 code searches a minute). It waits instead of
 // failing when a limit is reached, so a long crawl keeps going.
+import { withDeadline } from "./lib/http.mjs";
+
 const API = "https://api.github.com";
 const defaultSleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // Minimum spacing between requests of each kind, below GitHub's per-minute limits.
 const SPACING_MS = { search: 2100, code: 6500, core: 0 };
 
-export function githubClient({ token = null, fetchImpl = fetch, sleep = defaultSleep, now = () => Date.now(), log = () => {} } = {}) {
+export function githubClient({ token = null, fetchImpl = fetch, sleep = defaultSleep, now = () => Date.now(), log = () => {}, timeoutMs = 60000 } = {}) {
   const last = { search: 0, code: 0, core: 0 };
   async function request(path, { kind = "core", attempts = 6, body = null } = {}) {
     const url = path.startsWith("http") ? path : `${API}${path}`;
@@ -16,6 +18,7 @@ export function githubClient({ token = null, fetchImpl = fetch, sleep = defaultS
       if (wait > 0) await sleep(wait);
       last[kind] = now();
       let res;
+      let doc = null;
       try {
         res = await fetchImpl(url, {
           method: body ? "POST" : "GET",
@@ -24,14 +27,22 @@ export function githubClient({ token = null, fetchImpl = fetch, sleep = defaultS
             ...(token ? { Authorization: `Bearer ${token}` } : {}), ...(body ? { "Content-Type": "application/json" } : {}),
           },
           ...(body ? { body: JSON.stringify(body) } : {}),
-          signal: AbortSignal.timeout(60000),
+          signal: AbortSignal.timeout(timeoutMs),
         });
+        // Reading the body is part of the request and fails like one. A response left unread for seconds (the crawl
+        // was busy storing a large repository) gets cut off. Read plain, the body is then half a document. Compressed,
+        // as GitHub sends it, the read neither ends nor fails, the abort signal above no longer reaches it, and with
+        // the socket gone nothing keeps the process alive: Node exits quietly with "unsettled top-level await".
+        // Measured against the tree API (Node 24): on an idle loop 48 requests of 48 settle; with the loop blocked for
+        // 2 to 18 s at a time, 13 of 75 never did.
+        // Hence a deadline that holds the process, and another attempt.
+        if (res.ok) doc = await withDeadline(res.json(), timeoutMs, `the response body of ${url.replace(API, "")}`);
       } catch (error) {
         if (attempt >= attempts) throw error;
         await sleep(2000 * attempt);
         continue;
       }
-      if (res.ok) return res.json();
+      if (res.ok) return doc;
       if (res.status === 404 || res.status === 451 || res.status === 422) return null;
       const remaining = Number(res.headers.get("x-ratelimit-remaining"));
       const reset = Number(res.headers.get("x-ratelimit-reset"));

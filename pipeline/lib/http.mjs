@@ -20,3 +20,13 @@ export async function fetchWithRetry(url, init = {}, { retries = 3, timeoutMs = 
   }
   throw lastError;
 }
+
+// `promise`, or a rejection once `ms` have passed. The timer is an ordinary one: unlike AbortSignal.timeout it keeps the
+// process alive, so an operation that will never settle (see github.mjs) ends in an error instead of a silent exit.
+export function withDeadline(promise, ms, what = "the operation") {
+  let timer;
+  const deadline = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(`${what} did not finish in ${ms} ms`)), ms);
+  });
+  return Promise.race([promise, deadline]).finally(() => clearTimeout(timer));
+}

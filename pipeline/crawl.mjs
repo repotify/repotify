@@ -35,7 +35,11 @@ export async function runGit(args, { cwd, input, timeout = 180000, maxBuffer = 5
   }
   return new Promise((resolvePromise, reject) => {
     const child = execFileCb("git", args, { cwd, timeout, maxBuffer, env, encoding: "buffer" }, (error, stdout) => (error ? reject(error) : resolvePromise(stdout)));
-    child.stdin.end(input);
+    // git can be gone before its input is written (it failed, or was stopped at the timeout or the output limit): the
+    // write then fails with EPIPE. What went wrong is in git's exit status, which the callback above reports; a write
+    // error nobody listens to would end the whole crawl instead.
+    child.stdin?.on("error", () => {});
+    child.stdin?.end(input);
   });
 }
 
@@ -103,6 +107,18 @@ export function skillFolders(entries) {
   })).sort((a, b) => (a.path < b.path ? -1 : 1));
 }
 
+// Storing a large repository is synchronous disk work, thousands of files in a row. Held in one stretch it keeps the
+// other workers' sockets waiting for seconds, and a GitHub response left unread that long is cut off mid-body (see
+// github.mjs). `breathe()` gives the event loop a turn whenever `everyMs` of work have passed.
+export function breather(everyMs = 50, now = () => Date.now()) {
+  let last = now();
+  return async () => {
+    if (now() - last < everyMs) return;
+    await new Promise((r) => setImmediate(r));
+    last = now();
+  };
+}
+
 // A path as a sparse-checkout pattern: anchored, with the characters gitignore treats specially escaped.
 const sparsePattern = (dir) => `/${dir.replace(/[\\*?[\]!#]/g, "\\$&")}/`;
 
@@ -123,7 +139,8 @@ export async function listCommit(gh, repo, commit) {
 // One repository at one commit: every skill folder in it put in the store. Only files the store lacks are downloaded,
 // in one batch: a blobless fetch of that commit and a sparse checkout of the folders that need them. `listing` is the
 // commit's files (listCommit). The license is read from the repository when the metadata did not name one.
-export async function fetchRepo(repo, { store, workDir, commit, listing, git = runGit, urlFor = (r) => `https://github.com/${r}.git`, licenseKnown = false } = {}) {
+export async function fetchRepo(repo, { store, workDir, commit, listing, git = runGit, urlFor = (r) => `https://github.com/${r}.git`, licenseKnown = false, yieldEveryMs = 50 } = {}) {
+  const breathe = breather(yieldEveryMs);
   const folders = skillFolders(listing);
   const usable = folders.filter((f) => f.files.length <= LIMITS.maxFiles && f.bytes <= LIMITS.maxBytes);
   const missing = new Set();
@@ -144,20 +161,36 @@ export async function fetchRepo(repo, { store, workDir, commit, listing, git = r
       for (const [oid, content] of blobs) {
         if (gitBlobId(content) !== oid) throw new Error(`${repo}: blob ${oid} does not match its content`);
         store.putBlob(content);
+        await breathe();
       }
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
   }
-  return { commit, files: listing.length, ...recordSkills(listing, store, { licenseKnown }) };
+  const steps = recordSteps(listing, store, { licenseKnown });
+  let step = steps.next();
+  while (!step.done) {
+    await breathe();
+    step = steps.next();
+  }
+  return { commit, files: listing.length, ...step.value };
 }
 
 // The skill folders of a listing as the store records them, once their files are in the store: a tree per folder, or
 // why it was left out. The license comes from the root license file when the metadata did not name one.
-export function recordSkills(listing, store, { licenseKnown = false } = {}) {
+export function recordSkills(listing, store, options = {}) {
+  const steps = recordSteps(listing, store, options);
+  for (;;) {
+    const step = steps.next();
+    if (step.done) return step.value;
+  }
+}
+
+// The same work one folder at a time, so the crawl can give the event loop a turn in between (see `breather`).
+function* recordSteps(listing, store, { licenseKnown = false } = {}) {
   const folders = skillFolders(listing);
   const licenseFiles = licenseKnown || !folders.length ? [] : listing.filter((e) => e.type === "blob" && /^(licen[cs]e|copying)(\.(md|txt|rst))?$/i.test(e.path));
-  const skills = folders.map((f) => {
+  const record = (f) => {
     const base = { path: f.path, files: f.files.length, bytes: f.bytes, hidden: f.hidden };
     if (f.files.length > LIMITS.maxFiles || f.bytes > LIMITS.maxBytes) return { ...base, declined: "too large" };
     const tree = [];
@@ -170,7 +203,12 @@ export function recordSkills(listing, store, { licenseKnown = false } = {}) {
     }
     const skillMd = tree.find((t) => t.path === "SKILL.md")?.sha256 ?? null;
     return { ...base, tree: store.putTree(tree), skillMd };
-  });
+  };
+  const skills = [];
+  for (const f of folders) {
+    skills.push(record(f));
+    yield;
+  }
   // The license file at the root (first by name, as GitHub picks it).
   const licenseFile = licenseFiles.sort((a, b) => (a.path < b.path ? -1 : 1))[0];
   const licenseSha = licenseFile ? store.shaForGit(licenseFile.oid) : null;
