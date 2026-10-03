@@ -16,7 +16,7 @@ import { formatTable, pickLoadout } from "./recommend.mjs";
 import { loadCatalog } from "./catalog.mjs";
 import { catalogUrl, homeDir, NPX_LAUNCHER } from "./config.mjs";
 import { detectAgents, parseAgentList, runningAgents, skillTargets } from "./agents.mjs";
-import { installItem, removeItem, installSelf } from "./install.mjs";
+import { installItem, removeItem, installSelf, backfillJobs } from "./install.mjs";
 import { runHook, parseInstallCommands } from "./guard.mjs";
 import { createTelemetry, NOTICE, NOTICE_DETAILS } from "./telemetry.mjs";
 import { recommendV1, demandFor, DEFAULT_BUDGET_CHARS as V1_BUDGET_CHARS } from "../lib/pipeline/recommend/index.mjs";
@@ -551,6 +551,8 @@ async function cmdEnable(args, io) {
         continue;
       }
       out(io, summaryLine({ id, ok: true, level: item.security?.level, ...(await installItem(item, { ...opts, confirm: true })) }));
+      // The router reads each installed skill's job from the lock; older locks get it now.
+      if (id === "repotify-router") backfillJobs(io.cwd, catalog);
       await track(io, [{ type: "installed", items: [id], catalogVersion: catalog.meta.version }]);
     } catch (e) {
       err(io, `✗ ${id}: ${e.message}`);

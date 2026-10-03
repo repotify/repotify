@@ -131,3 +131,11 @@ test("security records carry the gate version so stale catalogs are detectable",
   assert.equal((await setupSecurity({ steps: ["x"], npm: "a@1.0.0" }, { fetchImpl })).gateVersion, GATE_VERSION);
   assert.equal(securityRecord({ level: "verified", findings: [] }).gateVersion, GATE_VERSION);
 });
+
+test("prepare is not an install script: npm does not run it for a package fetched from the registry", async () => {
+  const doc = (scripts) => async (url) => new Response(JSON.stringify(url.includes("osv.dev") ? {} : { scripts }), { status: 200 });
+  assert.deepEqual(await packageFindings({ npm: "a@1.0.0" }, { fetchImpl: doc({ prepare: "husky install", build: "tsc", test: "node --test" }) }), []);
+  const hooked = await packageFindings({ npm: "a@1.0.0" }, { fetchImpl: doc({ prepare: "tsc", postinstall: "node setup.js" }) });
+  assert.equal(hooked.length, 1);
+  assert.match(hooked[0].excerpt, /^postinstall: node setup\.js$/);
+});

@@ -60,7 +60,8 @@ export function driftOf({ catalog, graph, fingerprint, state, installed = [], ma
   const earlier = { ...fingerprint, empty: false, stacks: before.stacks ?? [], inferredNeeds: before.needs ?? [], platforms: before.platforms ?? [], capabilityHints: before.hints ?? [] };
   const then = new Set(picks({ catalog, graph, fingerprint: earlier, installed, machine, agents }));
   const fresh = picks({ catalog, graph, fingerprint, installed, machine, agents }).filter((id) => !then.has(id));
-  const what = [...added.stacks, ...added.needs, ...added.platforms];
+  // A need and a platform can share a name ("mobile"): said once.
+  const what = [...new Set([...added.stacks, ...added.needs, ...added.platforms])];
   const lines = fresh.length
     ? [`Repotify: this project changed since its setup was chosen (new: ${what.length ? listed(what) : "dependencies"}). It would now also pick: ${listed(fresh)}. Run \`repotify recommend\` and offer the user what is new.`]
     : [];

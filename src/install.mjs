@@ -127,6 +127,8 @@ export async function installSkill(item, opts) {
       installedAt: now.toISOString(),
       catalogVersion,
       level: scan.level === "verified" ? item.security?.level ?? "verified" : scan.level,
+      // The job the catalog gave it: the skill router reads it to know what the skill is for.
+      ...(item.cluster ? { job: item.cluster } : {}),
     };
     lock.items[item.id] = entry;
     if (catalogVersion) lock.catalogVersion = catalogVersion;
@@ -207,6 +209,23 @@ export function removeHook(id, { cwd }) {
     if (!Object.keys(cfg.hooks).length) delete cfg.hooks;
   }
   writeFileSync(settings.path, JSON.stringify(cfg, null, 2) + "\n");
+}
+
+// Locks written before the router existed do not say what each skill is for. Its job is added from the catalog where
+// it is missing; nothing else in the lock changes.
+export function backfillJobs(cwd, catalog) {
+  const lock = readLock(cwd);
+  const byId = new Map(catalog.items.map((i) => [i.id, i]));
+  let added = 0;
+  for (const [id, entry] of Object.entries(lock.items)) {
+    const job = byId.get(id)?.cluster;
+    if (entry?.type === "skill" && !entry.job && job) {
+      entry.job = job;
+      added++;
+    }
+  }
+  if (added) writeLock(cwd, lock);
+  return added;
 }
 
 export const installGuard = ({ cwd }) => installHook("repotify-guard", { cwd });

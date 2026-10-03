@@ -4,7 +4,10 @@ import { commandLines } from "../src/mcpconfig.mjs";
 // Bump whenever gate rules change; the test suite refuses a bundled catalog gated by an older version.
 export const GATE_VERSION = "2";
 
-const INSTALL_HOOKS = ["preinstall", "install", "postinstall", "prepare"];
+// The scripts npm runs when a published package is installed from the registry. `prepare` is not one of them: it
+// runs when the package is packed or installed from git, on its author's machine or a git dependency's, never when
+// `npx pkg@version` fetches the tarball (most packages have one for their own build).
+const INSTALL_HOOKS = ["preinstall", "install", "postinstall"];
 
 export function parseNpmSpec(spec) {
   const at = spec.lastIndexOf("@");

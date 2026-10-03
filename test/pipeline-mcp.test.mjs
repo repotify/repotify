@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
-import { localServer, fixedArguments, mcpSetup, fetchRegistry, downloads, gateServer, ingestMcp, serverQuestions, politeClient, pypiDownloadsBulk } from "../pipeline/mcp.mjs";
+import { localServer, fixedArguments, mcpSetup, fetchRegistry, downloads, gateServer, ingestMcp, serverQuestions, politeClient, pypiDownloadsBulk, startsServer, repoStats, searchRepos } from "../pipeline/mcp.mjs";
 import { createStore } from "../pipeline/store.mjs";
 import { flag, logStamped } from "../pipeline/lib/cli.mjs";
 
@@ -51,6 +51,79 @@ test("the setup is pinned to the version the gate checked, with placeholders for
   const py = mcpSetup({ registry: "pypi", package: "thing-mcp", packageVersion: "0.4.1", env: [] });
   assert.deepEqual(py.mcp, { command: "uvx", args: ["thing-mcp@0.4.1"] });
   assert.equal(py.pypi, "thing-mcp==0.4.1");
+});
+
+test("what the publisher wrote as a runtime argument but meant for the package goes after the package", () => {
+  const firebase = localServer(server({ registryType: "npm", identifier: "firebase-tools", version: "14.27.0", runtimeHint: "npx", runtimeArguments: [{ value: "mcp", type: "positional" }, { type: "named", name: "--yes", value: "true" }] }, { name: "io.github.firebase/firebase-mcp" }));
+  assert.deepEqual([firebase.runtimeArgs, firebase.packageArgs], [["--yes", "true"], ["mcp"]]);
+  assert.deepEqual(mcpSetup(firebase).mcp.args, ["--yes", "true", "-y", "firebase-tools@14.27.0", "mcp"]);
+  // A record made before that rule keeps its positional runtime argument: it still lands after the package.
+  assert.deepEqual(mcpSetup({ registry: "npm", package: "firebase-tools", packageVersion: "14.27.0", env: [], runtimeArgs: ["mcp"] }).mcp.args, ["-y", "firebase-tools@14.27.0", "mcp"]);
+  assert.deepEqual(mcpSetup({ registry: "pypi", package: "thing", packageVersion: "1.0", env: [], runtimeArgs: ["--python", "3.12"], packageArgs: ["serve"] }).mcp.args, ["--python", "3.12", "thing@1.0", "serve"]);
+});
+
+test("a package starts a server when it is one, or when its publisher says how", () => {
+  const s = (extra) => ({ name: "io.github.acme/thing", package: "thing", description: "Does things.", ...extra });
+  assert.equal(startsServer(s({ package: "@playwright/mcp" })), true);
+  assert.equal(startsServer(s({ package: "nx-mcp" })), true);
+  assert.equal(startsServer(s({ name: "io.github.firebase/firebase-mcp", package: "firebase-tools", runtimeArgs: ["mcp"] })), true);
+  assert.equal(startsServer(s({ package: "@bytebase/dbhub", description: "Token-efficient database MCP server for PostgreSQL." })), true);
+  assert.equal(startsServer(s({ package: "vibeview", packageArgs: ["--stdio"] })), true);
+  assert.equal(startsServer(s({ package: "seleniumbase", description: "Stealthy browser automation, testing, and web-scraping via CDP Mode." })), false);
+  assert.equal(startsServer(s({ package: "semiotic", description: "Verified React chart generation through MCP." })), false);
+  assert.equal(startsServer(s({ package: "xcodebuildmcp" })), true, "written together at the end of a name");
+  assert.equal(startsServer(s({ package: "mcpify" })), true);
+  assert.equal(startsServer(s({ package: "armcpu-tool" })), false, "mcp inside a longer word is not the word");
+});
+
+test("the gate also records whether an npm package has a command to run", async () => {
+  const store = tempStore();
+  const withBin = async (url) => json(200, url.includes("osv.dev") ? {} : { scripts: {}, bin: { server: "index.js" } });
+  const noBin = async (url) => json(200, url.includes("osv.dev") ? {} : { scripts: {} });
+  let npmCalls = 0;
+  const counting = async (url, init) => {
+    if (url.startsWith("https://registry.npmjs.org/")) npmCalls++;
+    return withBin(url, init);
+  };
+  assert.equal((await gateServer(store, { registry: "npm", package: "@acme/one", packageVersion: "1.0.0", env: [] }, { fetchImpl: counting })).runnable, true);
+  assert.equal(npmCalls, 1, "the version document is read once for install scripts and the command");
+  assert.equal((await gateServer(store, { registry: "npm", package: "two", packageVersion: "1.0.0", env: [] }, { fetchImpl: noBin })).runnable, false);
+  assert.equal((await gateServer(store, { registry: "pypi", package: "three", packageVersion: "1.0.0", env: [] }, { fetchImpl: withBin })).runnable, null, "PyPI does not list commands");
+});
+
+test("repository stars and age come from GitHub in batches and are kept for the week", async () => {
+  const store = tempStore();
+  const asked = [];
+  const gh = { graphql: async (query) => {
+    asked.push(query);
+    return { data: { r0: { nameWithOwner: "acme/one", stargazerCount: 1200, forkCount: 3, createdAt: "2025-01-01T00:00:00Z", pushedAt: "2026-09-30T00:00:00Z", isArchived: false, isFork: false }, r1: null } };
+  } };
+  const servers = [{ repo: "acme/one" }, { repo: "ghost/gone" }, { repo: null }, { repo: "acme/one" }];
+  const now = new Date("2026-10-02T00:00:00Z");
+  const stats = await repoStats(store, servers, { gh, now });
+  assert.equal(asked.length, 1);
+  assert.deepEqual(stats.get("acme/one"), { stars: 1200, createdAt: "2025-01-01T00:00:00Z", pushedAt: "2026-09-30T00:00:00Z", archived: false });
+  assert.deepEqual(stats.get("ghost/gone"), { missing: true });
+  await repoStats(store, servers, { gh, now });
+  assert.equal(asked.length, 1, "known repositories are not asked about again this week");
+  // Without an account: GitHub's search, six repositories a request, only for the servers worth asking about.
+  const urls = [];
+  const fetchImpl = async (url) => {
+    urls.push(url);
+    if (urls.length > 2) return json(403, { message: "rate limit" });
+    return json(200, { items: [{ full_name: "Org/R0", stargazers_count: 350, created_at: "2024-05-05T00:00:00Z", pushed_at: "2026-09-01T00:00:00Z", archived: true }, { full_name: "someone/else", stargazers_count: 9 }] });
+  };
+  const many = Array.from({ length: 15 }, (_, i) => ({ repo: `org/r${i}`, downloads: i < 14 ? 20000 : 5 }));
+  const waits = [];
+  const anon = await repoStats(tempStore(), many, { gh: null, fetchImpl, sleep: async (ms) => waits.push(ms), worth: (srv) => srv.downloads >= 10000, now });
+  assert.equal(urls.length, 3, "14 repositories worth asking about: three requests, the third refused");
+  assert.match(urls[0], /q=repo:org\/r0\+repo:org\/r1\+.*repo:org\/r5&/);
+  assert.deepEqual(anon.get("org/r0"), { stars: 350, createdAt: "2024-05-05T00:00:00Z", pushedAt: "2026-09-01T00:00:00Z", archived: true });
+  assert.deepEqual(anon.get("org/r7"), { missing: true });
+  assert.equal(anon.has("org/r12"), false, "what was not answered stays unknown");
+  assert.equal(anon.has("org/r14"), false, "too few downloads for its stars to matter");
+  assert.ok(waits.includes(6500));
+  assert.deepEqual([...(await searchRepos([], { fetchImpl }))], []);
 });
 
 test("the registry is read page by page, latest versions only", async () => {

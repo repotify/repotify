@@ -6,8 +6,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { sanitizeLauncher, NPX_LAUNCHER } from "../src/config.mjs";
-import { installHook, removeHook, hookPreview, HOOKS, ROUTER_HOOK_PATH, TRACK_ARGS } from "../src/install.mjs";
-import { stem, words, variants, kindsOf, skillHead, installedSkills, route, advice, runHook, MAX_SUGGESTIONS } from "../src/router.mjs";
+import { installHook, removeHook, hookPreview, backfillJobs, HOOKS, ROUTER_HOOK_PATH, TRACK_ARGS } from "../src/install.mjs";
+import { stem, words, variants, kindsOf, skillHead, installedSkills, lockedJobs, route, advice, runHook, MAX_SUGGESTIONS } from "../src/router.mjs";
+import { routerEval } from "./eval/router.mjs";
 import { driftOf, projectProfile, readProjectState, writeProjectState, staleLine } from "../src/track.mjs";
 import { fingerprint } from "../src/fingerprint.mjs";
 import { agentMismatch } from "../lib/pipeline/recommend/narrow.mjs";
@@ -88,6 +89,68 @@ test("word forms come together: English endings, doubled letters, and Turkish en
   assert.notEqual(stem("database"), stem("data"));
   assert.ok(variants("testleri").has("test") && variants("commitler").has("commit"));
   assert.deepEqual(words("Please fix the failing tests in checkout-flow, thanks!"), ["failing", "tests", "checkout", "flow"]);
+});
+
+test("word forms: a plural and its singular always meet", () => {
+  for (const [a, b] of [["invariants", "invariant"], ["dependencies", "dependency"], ["queries", "query"], ["fixes", "fix"], ["databases", "database"], ["classes", "class"], ["serializer", "serialize"], ["committing", "commit"]]) assert.equal(stem(a), stem(b), `${a} / ${b}`);
+  assert.equal(stem("status"), "status");
+  assert.equal(stem("analysis"), "analysis");
+});
+
+test("symptoms are heard without the word bug: error codes, things that stopped working, Turkish negatives", () => {
+  for (const p of ["Got a 404 on /api/orders even though the route exists", "Our API returns 500 for emoji names", "After upgrading React the modal no longer closes", "This worked last week and now it doesn't", "I'm getting a TypeError in the dashboard", "The build is red since yesterday", "pencere kapanmıyor", "sayfa yüklenmiyor", "Ödeme sayfası beyaz ekran veriyor"]) {
+    assert.ok(kindsOf(p).has("debugging"), p);
+  }
+  assert.ok(!kindsOf("Translate this error message to Spanish").has("debugging"), "an error message is text, not a bug");
+  assert.ok(!kindsOf("Show me line 40 to 60 of server.ts").has("debugging"), "40 and 60 are not error codes");
+  assert.ok(!kindsOf("Open package.json").has("dependencies"), "a file name is not dependency work");
+  assert.ok(!kindsOf("The build is red").has("building"), "the build is not building a feature");
+  assert.ok(kindsOf("Let's build a notification system").has("building"));
+  assert.ok(kindsOf("Port this script to asyncio").has("python") && kindsOf("Set up tRPC with shared types").has("typescript"));
+  assert.ok(!kindsOf("Use spaces instead of tabs").has("frontend"));
+});
+
+test("a skill Repotify installed is known by the job the catalog gave it, read from the lock", () => {
+  const cwd = tempDir();
+  writeFileSync(join(cwd, "repotify.lock.json"), JSON.stringify({ version: 1, items: {
+    brainstorming: { type: "skill", targets: [".claude/skills/brainstorming"], job: "design-brainstorming" },
+    "odd-job": { type: "skill", targets: [".claude/skills/odd"], job: "not a job; rm -rf" },
+    "no-job": { type: "skill", targets: [".claude/skills/plain"] },
+    "playwright-mcp": { type: "mcp", targets: [".mcp.json#mcpServers.playwright-mcp"] },
+  } }));
+  assert.deepEqual([...lockedJobs(cwd)], [["brainstorming", "design-brainstorming"]]);
+  assert.deepEqual([...lockedJobs(tempDir())], []);
+  const broken = tempDir();
+  writeFileSync(join(broken, "repotify.lock.json"), "{ not json");
+  assert.deepEqual([...lockedJobs(broken)], []);
+  // With the job, a terse description is enough: "Use when you have a spec" says nothing about ideas.
+  const terse = [{ id: "kickoff", name: "kickoff", description: "Use before any work starts." }];
+  assert.deepEqual(route("I have an idea for a referral program, help me think it through", terse), []);
+  assert.deepEqual(route("I have an idea for a referral program, help me think it through", [{ ...terse[0], job: "design-brainstorming" }]).map((m) => m.id), ["kickoff"]);
+  // Older locks get the job from the catalog when the router is switched on.
+  const old = tempDir();
+  writeFileSync(join(old, "repotify.lock.json"), JSON.stringify({ version: 1, catalogVersion: "2026.09.30.1", items: { "writing-plans": { type: "skill", targets: [".claude/skills/writing-plans"] }, mine: { type: "skill", targets: [".claude/skills/mine"] }, "repotify-guard": { type: "config", targets: [] } } }));
+  assert.equal(backfillJobs(old, catalog), 1);
+  assert.deepEqual([...lockedJobs(old)], [["writing-plans", "implementation-planning"]]);
+  assert.equal(backfillJobs(old, catalog), 0, "nothing to add the second time");
+});
+
+// The two sets another model wrote were measured once and are never tuned on: these floors only catch a regression.
+test("the router's measured quality does not slip: the sets another model wrote", () => {
+  for (const [file, hit, quiet] of [["router-independent.json", 0.9, 0.9], ["router-independent-2.json", 0.92, 0.75]]) {
+    const r = routerEval({ prompts: JSON.parse(readFileSync(join(root, "test", "eval", file), "utf8")).requests });
+    assert.ok(r.hit >= hit, `${file}: hit ${r.hit}`);
+    assert.ok(r.quiet >= quiet, `${file}: quiet ${r.quiet}`);
+  }
+});
+
+test("the router's measured quality does not slip: the three sets it was built on", () => {
+  for (const [file, floor] of [["router-prompts.json", 0.95], ["router-prompts-2.json", 0.93], ["router-prompts-3.json", 0.93]]) {
+    const r = routerEval({ prompts: JSON.parse(readFileSync(join(root, "test", "eval", file), "utf8")) });
+    assert.ok(r.hit >= floor, `${file}: hit ${r.hit}`);
+    assert.equal(r.quiet, 1, `${file}: named a skill for a request none should handle`);
+    assert.ok(r.namedPerRequest <= 2, `${file}: ${r.namedPerRequest} skills named per request`);
+  }
 });
 
 test("a request's kind of work is heard from its words, its symptoms and its language", () => {
@@ -207,6 +270,8 @@ test("the tracker names at most six things, calls a change without a new stack w
   assert.match(d.lines[0], /\(new: dependencies\)\. It would now also pick: (pick-\d, ){5}pick-\d and 2 more\./);
   assert.match(staleLine({ skills: [{ id: "a", verdict: "remove" }, { id: "b", verdict: "remove" }] }), /^Repotify: 2 installed skills no longer earn their place \(a, b\)/);
   assert.equal(staleLine(null), null);
+  const mobile = driftOf({ catalog: small, graph, fingerprint: { stacks: ["go"], inferredNeeds: ["mobile"], platforms: ["mobile"], capabilityHints: caps }, state: before });
+  assert.match(mobile.lines[0], /\(new: mobile\)/, "a need and a platform of the same name are said once");
   const legacy = driftOf({ catalog: small, graph, fingerprint: fp, state: { profile: { stacks: ["go"] } } });
   assert.equal(legacy.fresh.length, 8, "an older memory without every field still compares");
 });

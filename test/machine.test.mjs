@@ -16,7 +16,8 @@ const tempDir = () => {
   return d;
 };
 
-test("the machine probe finds executables on PATH without running them", () => {
+// POSIX semantics (":" between folders, the execute bit): files made on Windows have neither.
+test("the machine probe finds executables on PATH without running them", { skip: process.platform === "win32" }, () => {
   const bin = tempDir();
   const other = tempDir();
   writeFileSync(join(bin, "uvx"), "#!/bin/sh\n", { mode: 0o755 });

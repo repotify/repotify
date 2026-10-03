@@ -5,22 +5,27 @@ The [README](../README.md) is the short version. This page has the details.
 ## How it works
 
 1. **Knows your project without spending tokens.** A local script reads manifests and file names (never your code) and writes a ~400-token summary.
-2. **Asks only what it cannot infer.** At most three multiple-choice questions, and only when the project does not already answer them.
+2. **Asks only what would change the picks.** Every possible answer is tried against the engine first; a question is listed only if an answer to it would change the default set, the likeliest decisive options first. At most three questions, each asked once, often none.
 3. **Picks from a vetted catalog, by evidence.** Every item passed a rule-based security gate (plus an OSV advisory check for pinned packages). Every skill is also scored by an LLM jury of two or three models from different vendors; tools and MCP servers are editorial picks. Dependencies narrow broad needs, apps without a web target get no web-only skills, and the set holds one item per job; what the project already has keeps its job.
 4. **Lets your agent judge.** The agent reads a short candidate table (under 900 tokens), keeps the mandatory core, and writes one sentence per item: why it matters for *your* project.
 5. **Installs safely.** Skill files come from a locked commit, are checked against catalog SHA-256 hashes, re-scanned on your machine, then written to your agent's folder and recorded in `repotify.lock.json`. Hooks and MCP servers change how your agent runs, so only you switch them on (`repotify enable`).
+6. **Keeps up.** Two hooks you can switch on: the tracker says when the project gained a stack or need that calls for a new pick, and the router points the agent at the installed skill that fits each request (see [After the install](#after-the-install)).
+
+`repotify ui` shows all of this as a picture: the catalog as a tree on a local page, where each answer settles a branch and the picks stay lit.
 
 The whole flow costs your agent about 3,000 tokens (measured on the fixture projects: `node test/eval/flow-tokens.mjs`).
 
 ## The v2 recommendation pipeline
 
-Behind `recommend` (in `lib/pipeline/`) is a deterministic pipeline: no model calls on your machine.
+Behind `recommend` (in `lib/pipeline/`) is a deterministic pipeline: no model calls on your machine. The catalog it reads is built in two ways: 93 hand-vetted items go through a jury of models, and everything else comes from a crawl kept in a content store.
 
-1. **Vet** (catalog build). A shell-aware security scan of every file, then an LLM jury (two or three models) for quality.
-2. **Classify** (catalog build, `pipeline/classify-catalog.mjs`). A Jev-compatible decision model reads each `SKILL.md` and answers five typed questions with probabilities: off-topic gate, main job, language or framework, product-bound, lifecycle (once / every task / occasional). Rules in `pipeline/jev-classify.mjs` act only above measured bars (main job p ≥ 0.75, or ≥ 0.4 when the jury listed the same job; off-topic below 0.5 leaves the catalog; unsure lab items are held for review). Hand-curated items are never relabelled. Benchmark against 49 hand labels in `test/classify/` (`node test/classify/compare.mjs`, needs `JEV_API_KEY`): main job 94% vs the jury's 52%, language 100% vs 86%, off-topic gate 98% vs 88%, lifecycle 85%. Answers are stored in `pipeline/classification.json` and re-applied on every rebuild. Any Jev-compatible model works: set `JEV_ENDPOINT`, `JEV_MODEL` and `JEV_API_KEY`.
-3. **Map.** A deterministic capability graph (`data/graph-seed.json`): PROVIDES edges are derived from the catalog (`pipeline/graph-seed.mjs`), the rest (requires, depends-on, conflicts, supersedes, "try this if that fails" fallbacks) are curated. Every edge has a forcing-case test.
-4. **Narrow.** Project signals first; questions only when signals are missing, at most three. Skills written for a stack the project does not use are out, and so is anything that conflicts with what is installed; infrastructure and database skills need evidence (a Dockerfile or Terraform, a database client), not a project-type guess.
-5. **Present.** One item per job (cluster), core backbone always, hand-vetted before lab finds, optional items need a fit of 0.6, inside a context budget. Installed items (in the lock or already in an agent's skills folder) keep their job and their share of the budget. Score = fit × merit (jury quality, trust, adoption, freshness, community). The table the agent reads lists one row per job: installed items, the default set, and the best alternative for each open job.
+1. **Fetch once** (`pipeline/crawl.mjs`, `pipeline/store.mjs`). Every skill folder of a repository is fetched once and kept by its SHA-256, with the repository's metadata. Nothing is downloaded twice, and what is stored is the raw material: scanning and judging happen later and can be redone without the network. MCP servers come from the official registry (`pipeline/mcp.mjs`): the ones that install locally from npm or PyPI, with their monthly downloads and their repository's stars.
+2. **Observe** (`pipeline/observe.mjs`). The security scanner reads every file; a Jev-compatible decision model reads each `SKILL.md` and answers typed questions with probabilities: is it software work, its one main job, the language, framework or product it is for, whether it is tied to one product, what it is for (building the product, the agent's own work, running systems, content), how it pays off (once, every task, now and then) and how good it is. Each answer is stored under the content and the question set, so a new question set asks again and an unchanged one never does. Any Jev-compatible model works: set `JEV_ENDPOINT`, `JEV_MODEL` and `JEV_API_KEY`. The benchmark against 49 hand labels is in [BENCHMARKS.md](BENCHMARKS.md#the-classifier).
+3. **Research** (`pipeline/research.mjs`). Four agents read what there is about a repository beyond its stars: forum threads (Hacker News, Reddit), its star history against installs, directories (skills.sh, Smithery) and curated lists. Their answers merge into a reputation with separate flags: stars that outrun every other signal are marked, and such a repository's skills wait for a human.
+4. **Derive** (`pipeline/derive.mjs`). Rules turn the observations into catalog items: a permissive license, a clean or cautioned scan, confident answers, a job the catalog serves, a product scope a project can show, no copy of another repository's skill. A crawled item joins a default set only with evidence about itself: installs, or a well-regarded repository that names it among its best; for an MCP server, downloads and a starred repository. An MCP server must also start a server when run, and only the most used few for each job are listed. No network and no model: a changed rule rebuilds the catalog in seconds.
+5. **Map.** A deterministic capability graph (`data/graph-seed.json`) for the hand-vetted items: PROVIDES edges are derived (`pipeline/graph-seed.mjs`), the rest (requires, depends-on, conflicts, supersedes, fallbacks) are curated. Every edge has a forcing-case test. Crawled items enter through their job.
+6. **Narrow.** Project signals first; questions only when an answer would change the picks, at most three. Skills written for a stack the project does not use are out, and so is anything that conflicts with what is installed or was made for another agent; infrastructure and database skills need evidence (a Dockerfile or Terraform, a database client), not a project-type guess.
+7. **Present.** One item per job (cluster), core backbone always, hand-vetted before vetted before crawled, optional items need a fit of 0.6, inside a context budget. An MCP server or tool whose runtime this computer lacks is listed with what it needs, not picked. Installed items (in the lock or already in an agent's skills folder) keep their job and their share of the budget. Score = fit × merit (quality, trust, adoption, freshness, community). The table the agent reads lists one row per job: installed items, the default set, and the best alternative for each open job.
 
 The quality bar (`npm run eval`, 49 scenarios) runs this same engine, so a green eval means the sets users get are right.
 
@@ -107,20 +112,36 @@ This is a guard rail, not a sandbox: your agent's own permission settings still 
 
 ## The mandatory core
 
-Every project gets a small core that makes any agent more disciplined: a codebase knowledge graph (Graphify), the Superpowers discipline skills (brainstorming, writing plans, test-driven development, systematic debugging, verification before completion), a security review of every diff, and the **Repotify package guard**, which stops installs of packages that do not exist and asks before brand-new ones (a common attack on agents that invent package names). The guard is a hook, so you switch it on yourself with `repotify enable repotify-guard`.
+Every project gets a small core that makes any agent more disciplined: a codebase knowledge graph (Graphify), the Superpowers discipline skills (brainstorming, writing plans, test-driven development, systematic debugging, verification before completion), a security review of every diff, and Repotify's three hooks. Hooks change how your agent runs, so you switch them on yourself: `repotify enable repotify-guard repotify-tracker repotify-router`. They are Claude Code hooks; when another agent is the one asking, they are not offered.
+
+- **The package guard** stops installs of packages that do not exist and asks before brand-new ones (a common attack on agents that invent package names).
+- **The tracker** and **the router** are described next.
+
+## After the install
+
+**The tracker** runs when a session starts (`repotify track --hook`). It remembers the stacks, needs and platforms your project's files showed last time, on your computer and outside the project (`~/.repotify/projects/`, no code, no file names). When the project gains something that brings a new pick, it says so once, in one line your agent reads: what is new, which picks it would add, and to run `repotify recommend`. Once a week it also runs the update check and names installed skills that no longer earn their place. When nothing changed it prints nothing.
+
+**The router** runs before each request (`.claude/hooks/repotify-router.mjs`, one file with no dependencies). It reads the names and descriptions of the installed skills, and for skills Repotify installed the job the catalog gave them (recorded in `repotify.lock.json`). It then works out what kind of work the request is, in English or Turkish, from its words and its symptoms ("crashes", "404", "used to work"), and names up to three installed skills made for that kind of work, with one instruction: decide for each whether it applies. When nothing fits it prints nothing. Only skill names reach the agent's context, never a skill's own text. It takes about a tenth of a second and sends nothing anywhere. How well it does is measured in [BENCHMARKS.md](BENCHMARKS.md#the-skill-router).
+
+**The audit** (`repotify audit`) also reads the MCP servers your agents have configured (`.mcp.json`, `.cursor/mcp.json`, `.codex/config.toml`, `.gemini/settings.json`): a server whose command fails the security scan is marked for removal; one that is not pinned to a version, or whose config holds a secret, is marked for review. The audit names the variable that holds a secret, never its value, and changes nothing.
 
 ## How the catalog is built
 
 ```mermaid
 flowchart LR
-  D[Discover<br/>lists, HN, Reddit, GitHub] --> C[Collect<br/>pinned commits]
-  C --> G[Security gate<br/>scanner, OSV, name squatting]
-  G --> J[LLM jury<br/>2-3 models]
-  J --> K[Clusters and<br/>starter sets]
-  K --> P[Publish<br/>hash-verified catalog]
+  C[Crawl<br/>skill folders, once each] --> S[(Content store)]
+  R[MCP registry<br/>downloads, stars, setup gate] --> S
+  S --> O[Observe<br/>scanner, decision model]
+  S --> A[Research<br/>four agents, beyond stars]
+  O --> D[Derive<br/>rules, no network]
+  A --> D
+  H[Hand-vetted items<br/>jury of 2-3 models] --> D
+  D --> P[Publish<br/>hash-verified catalog]
 ```
 
 The maintainers rebuild the catalog through this pipeline, and your client always reads the newest one (ETag-cached, with an offline copy in the package and rollback protection). Installed third-party items stay locked until you approve a scanned update. The package ships a copy of the catalog for offline use.
+
+What the current catalog was built from (2026-10-03): 4,651 skill folders from 54 repositories, of which 431 passed the rules; 2,613 MCP servers with at least 1,000 downloads a month, of which 24 are listed; 93 hand-vetted items. What kept the rest out, most common first: not software work (1,198 skills), no single clear job (640), tied to a product a project cannot show (529), a repository popular only by its stars (471, waiting for a human), kept in a repository's own agent folder (341), the security scan (327). For MCP servers: too little use to list (2,371).
 
 ## Privacy
 

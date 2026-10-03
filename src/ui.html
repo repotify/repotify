@@ -10,8 +10,9 @@
   --pruned: #2b3345; --cand: #4c6ef5; --scored: #8b9bff; --alt: #f5a524; --pick: #2fd47a; --installed: #b48cff; --play: #f5a524;
 }
 @media (prefers-color-scheme: light) {
-  :root { --bg: #f6f7fb; --panel: #ffffff; --panel-2: #eef1f7; --text: #141824; --muted: #5d6578; --line: #d9deea; --pruned: #d5dae6; }
+  :root:not(.dark) { --bg: #f6f7fb; --panel: #ffffff; --panel-2: #eef1f7; --text: #141824; --muted: #5d6578; --line: #d9deea; --pruned: #d5dae6; }
 }
+:root.light { --bg: #f6f7fb; --panel: #ffffff; --panel-2: #eef1f7; --text: #141824; --muted: #5d6578; --line: #d9deea; --pruned: #d5dae6; }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
 body { background: var(--bg); color: var(--text); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; display: flex; flex-direction: column; }
@@ -110,6 +111,9 @@ text.root-label { font-size: 12px; font-weight: 700; text-anchor: middle; paint-
 <script nonce="__NONCE__">
 "use strict";
 const TOKEN = new URLSearchParams(location.search).get("t") || "";
+// `&theme=dark` or `&theme=light` in the link overrides the system's colour scheme.
+const THEME = new URLSearchParams(location.search).get("theme");
+if (THEME === "dark" || THEME === "light") document.documentElement.classList.add(THEME);
 const NS = "http://www.w3.org/2000/svg";
 const $ = (id) => document.getElementById(id);
 const R = { domain: 140, job: 300, item: 440 };
@@ -399,6 +403,7 @@ async function refresh(stepLabel) {
     current = state;
     answers = state.answers;
     const q = new URLSearchParams({ t: TOKEN });
+    if (THEME === "dark" || THEME === "light") q.set("theme", THEME);
     if (Object.keys(answers).length) q.set("a", JSON.stringify(answers));
     history.replaceState(null, "", "?" + q);
     steps.push({ label: stepLabel, n: state.funnel.find((f) => f.id === "possible").n });

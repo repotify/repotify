@@ -1,0 +1,819 @@
+{
+ "writtenBy": "z-ai/glm-5.3",
+ "at": "2026-10-03",
+ "requests": [
+  {
+   "prompt": "I want to add a referral program to the app but I only have a vague idea. help me figure out what it should actually do before we build anything",
+   "expect": [
+    "brainstorming"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "users keep asking for CSV export of their reports. let's think through what that feature needs to include",
+   "expect": [
+    "brainstorming"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "here's the spec for the billing integration — it touches payments, invoices and the webhook handler. plan the work before touching code",
+   "expect": [
+    "writing-plans"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "product sent a two page requirements doc for the notification center. turn it into a step by step implementation plan",
+   "expect": [
+    "writing-plans"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "implement the rate limiter we discussed, but write the failing tests first",
+   "expect": [
+    "test-driven-development"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "fix the off-by-one in pagination. red green refactor please",
+   "expect": [
+    "test-driven-development"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "checkout randomly 500s in prod with no obvious pattern. find the root cause before proposing anything",
+   "expect": [
+    "systematic-debugging"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "three tests fail on CI but pass locally. they were green yesterday. figure out why",
+   "expect": [
+    "systematic-debugging"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "before you commit, run the full suite and paste the actual output",
+   "expect": [
+    "verification-before-completion"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "you keep saying it's fixed. show me the evidence — test run, lint, build",
+   "expect": [
+    "verification-before-completion"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "review this PR for security issues before we merge it",
+   "expect": [
+    "differential-review"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "did this diff bring back the XSS we patched last month? check the history and tell me what else it could break",
+   "expect": [
+    "differential-review"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "how is auth wired up in this repo? trace where a login request actually ends up",
+   "expect": [
+    "graphify"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "what depends on the utils module? I want to understand the blast radius before touching it",
+   "expect": [
+    "graphify"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "feature's done and all tests pass. get a review going before we merge",
+   "expect": [
+    "requesting-code-review",
+    "finishing-a-development-branch"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "finished the search endpoint. review it against the requirements doc",
+   "expect": [
+    "requesting-code-review"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "everything's green on feature/payment-gateway. should we merge, squash, or rebase it in?",
+   "expect": [
+    "finishing-a-development-branch"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "branch is done and tests pass. what's the cleanest way to land it?",
+   "expect": [
+    "finishing-a-development-branch"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "the landing page looks like every bootstrap template ever. give it a real aesthetic direction",
+   "expect": [
+    "frontend-design"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "redesign the pricing page — it's functional but generic. typography included",
+   "expect": [
+    "frontend-design"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "click through the signup flow in a real browser and screenshot each step",
+   "expect": [
+    "webapp-testing"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "the submit button looks fine in the code but nothing happens when I click it. test it in the browser and check the console logs",
+   "expect": [
+    "webapp-testing",
+    "systematic-debugging"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "run a full security scan over the repo before the audit",
+   "expect": [
+    "semgrep"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "scan for security issues but only surface the high confidence, high impact stuff",
+   "expect": [
+    "semgrep"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "audit our lockfile before the client engagement. anything risky in the dependency tree?",
+   "expect": [
+    "supply-chain-risk-auditor"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "are any of our dependencies abandoned or carrying known advisories? one publisher owns half our transitive packages and that worries me",
+   "expect": [
+    "supply-chain-risk-auditor"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "the JSON serializer needs tests that cover the whole input space, not a handful of examples",
+   "expect": [
+    "property-based-testing"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "add property tests for the URL parser — roundtrip encode/decode and the normalization rules",
+   "expect": [
+    "property-based-testing"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "this query takes 40 seconds in prod. why?",
+   "expect": [
+    "sql-pro"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "I need a query that returns the top 3 orders per customer. my window function keeps deduplicating wrong",
+   "expect": [
+    "sql-pro"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "I need a discriminated union for API errors plus type guards to narrow them",
+   "expect": [
+    "typescript-pro"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "wire up tRPC so client and server share types end to end",
+   "expect": [
+    "typescript-pro"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "turn on strict mypy and annotate the whole service module",
+   "expect": [
+    "python-pro"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "refactor this script to async with proper error handling and logging",
+   "expect": [
+    "python-pro"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "set up prometheus metrics and a grafana dashboard for the api service",
+   "expect": [
+    "monitoring-expert"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "prod latency spiked last night and I'm drowning in logs. help me trace where it came from",
+   "expect": [
+    "monitoring-expert"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "I want a skill that helps with database migrations. build it from scratch",
+   "expect": [
+    "skill-creator"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "my custom skill triggers way too often. tune its description and run evals to see if it improved",
+   "expect": [
+    "skill-creator"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "review my docs against the writing handbook",
+   "expect": [
+    "writing-guidelines"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "check this blog post for tone and style consistency",
+   "expect": [
+    "writing-guidelines"
+   ],
+   "batch": "en-1"
+  },
+  {
+   "prompt": "Users keep asking for dark mode and I keep saying no because honestly I don't know what they want it for. Can we figure out what this feature should actually be before anyone opens an editor?",
+   "expect": [
+    "brainstorming"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "I want the app to send people some kind of notification when their order ships, but past that I have nothing. Help me think through what it should really be.",
+   "expect": [
+    "brainstorming"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Product finally signed off on the requirements doc for the new billing tiers — nine acceptance criteria, a data migration, and a rollout flag. Break this into concrete steps before we touch anything.",
+   "expect": [
+    "writing-plans"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Here's the spec for the CSV importer. It's a multi-step job: parsing, validation, a dry-run preview, then the actual insert. Plan the work out first.",
+   "expect": [
+    "writing-plans"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Let's add the rate limiter to the public API. Write the failing tests first this time — last sprint the tests got backfilled and we found the edge cases way too late.",
+   "expect": [
+    "test-driven-development"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "There's a bug where the invoice scheduler double-charges people on the last day of the month. Reproduce it with a test first, then make the fix.",
+   "expect": [
+    "test-driven-development",
+    "systematic-debugging"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "About one checkout in twenty fails with a 500 and the logs show nothing useful. Don't just start patching things — actually find out what's happening first.",
+   "expect": [
+    "systematic-debugging"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Ever since Tuesday's deploy the login page just spins forever. I've been guessing for an hour and I'm done guessing.",
+   "expect": [
+    "systematic-debugging"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "You told me the migration was done. Before we call it finished, run the checks and show me the actual output — I've been burned by \"should work\" before.",
+   "expect": [
+    "verification-before-completion"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Before you open the PR, run the whole suite, not just the tests you wrote. Paste what actually happened.",
+   "expect": [
+    "verification-before-completion"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Here's the diff for the auth refactor. What else could this break, and is there any chance it undoes the session-fixation fix we shipped last year?",
+   "expect": [
+    "differential-review"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "This commit touches the file upload path. Go over the changes with security in mind — who calls this, how far the blast radius reaches, and whether any of it has no test covering it.",
+   "expect": [
+    "differential-review"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "How does a request that hits /api/orders actually end up as a row in Postgres? Walk me through every file it passes through on the way.",
+   "expect": [
+    "graphify"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Inherited this repo and I can't tell where the pricing rules live — they seem scattered everywhere. Map out how the pieces relate to each other.",
+   "expect": [
+    "graphify"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The search autocomplete is implemented and green locally. Give it a real review against the ticket requirements before it goes anywhere near main.",
+   "expect": [
+    "requesting-code-review"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "I just wrapped up the pagination rework. Check it meets the acceptance criteria and doesn't quietly break the admin list views.",
+   "expect": [
+    "requesting-code-review"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Everything passes on the feature branch and it's been sitting there for a week. Decide how this should land — merge, squash, rebase, whatever's cleanest — and do it.",
+   "expect": [
+    "finishing-a-development-branch"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The work is done and all tests pass. What's the right way to get this into main without messing up the release train?",
+   "expect": [
+    "finishing-a-development-branch"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Our landing page looks like every generic Tailwind template out there. Give it an actual point of view — typography, spacing, the whole feel.",
+   "expect": [
+    "frontend-design"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The settings screen works but it's visually dead. I want it to feel intentional, not like default component library output.",
+   "expect": [
+    "frontend-design"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Click through the new onboarding flow in a real browser and tell me whether step three actually renders — the unit tests can't tell me that.",
+   "expect": [
+    "webapp-testing"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "I think the hero section overflows on mobile. Take a screenshot of the pricing page at phone width and check the console for errors while you're there.",
+   "expect": [
+    "webapp-testing"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The client's security audit is next week. Run a proper security scan over the whole codebase — show me what you're going to run before you run it.",
+   "expect": [
+    "semgrep"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Before we accept this contract, sweep the repo for security findings. Medium confidence and up is what I care about, don't drown me in noise.",
+   "expect": [
+    "semgrep"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "We inherited this project and the lockfile has 900 transitive packages. How much third-party risk are we actually carrying here?",
+   "expect": [
+    "supply-chain-risk-auditor"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Before the engagement starts, check our dependencies — any known advisories, abandoned upstream packages, or one publisher quietly owning half the tree?",
+   "expect": [
+    "supply-chain-risk-auditor"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The JSON round-trip passes for every example in the suite, which makes me suspicious. Generate weird inputs across the whole domain and check that encode-then-decode really never loses anything.",
+   "expect": [
+    "property-based-testing"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The date parser handles all the samples fine but I bet it mangles ugly edge cases. Test it with generated input instead of a hand-picked list of examples.",
+   "expect": [
+    "property-based-testing"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The activity feed query takes eight seconds once the events table passes a million rows. Find out why it's slow and make it fast.",
+   "expect": [
+    "sql-pro"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "We need to split the users table into users and profiles before the next release. Design the schema, the indexes, and the migration path.",
+   "expect": [
+    "sql-pro"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "I want the client and the server to share one source of truth for types, end to end, so a breaking change can't slip through. Set that up.",
+   "expect": [
+    "typescript-pro"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Our webhook event types are a discriminated union that's grown tentacles. I think we need mapped types and real guards instead of the anys that crept in.",
+   "expect": [
+    "typescript-pro"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The ingestion service is a pile of bare excepts and untyped functions. Rebuild it properly — strict typing, async where it matters, real error handling, and a test suite.",
+   "expect": [
+    "python-pro"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Turn on the strictest mode of the type checker on this FastAPI project and fix everything it complains about. Add proper logging config while you're in there.",
+   "expect": [
+    "python-pro"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "We're flying blind in production — no dashboards, no alerts, nothing. Set up observability so we know when the API is on fire before the customers tweet about it.",
+   "expect": [
+    "monitoring-expert"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "p95 latency doubled after the last deploy and I have no idea where the time goes. Profile it, and get tracing in place so this stops being a mystery next time.",
+   "expect": [
+    "monitoring-expert"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "I keep pasting the same instructions for how we run API reviews. Package that up as a reusable skill so the agent does it the same way every time.",
+   "expect": [
+    "skill-creator"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "The skill I wrote for our deploy checklist almost never triggers when I need it. Rewrite its description so it actually fires, and run some evals to confirm.",
+   "expect": [
+    "skill-creator"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Read the new onboarding docs and check them against our writing handbook — voice, tone, structure, the lot — before we publish.",
+   "expect": [
+    "writing-guidelines"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "Audit the README and the getting-started page for style compliance. It's the first thing new hires see and it reads like three different people wrote it, because three different people did.",
+   "expect": [
+    "writing-guidelines"
+   ],
+   "batch": "en-2"
+  },
+  {
+   "prompt": "git status",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "run ls -la in the project root",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "open package.json",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "what does 'idempotent' mean?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "thanks, that was fast!",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "yes, go ahead",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "fix the typo in this comment — 'recieve' should be 'receive'",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "rename this variable from tmp to tempFile",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "when was git first released?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "cd into the src folder",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "morning! ready when you are",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "how do I exit vim?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "delete the old screenshots folder",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "what's 15% of 240?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "ok, do it",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "go to line 42 in main.py",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "add a period at the end of this comment",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "what's the difference between HTTP 401 and 403?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "git pull",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "brb, coffee",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "which directory am I in?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "uppercase this string for me: hello world",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "tell me a joke",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "that's exactly what I wanted, thanks!",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "what does YAML stand for?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "git status çalıştır",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "package.json dosyasını açar mısın",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "'idempotent' ne demek?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "teşekkürler, çok hızlıydın!",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "evet, devam et",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "yorumdaki 'algortima' yazım hatasını 'algoritma' olarak düzelt",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "bu değişkenin adını tmp yerine tempFile yap",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "git ilk kez hangi yıl yayınlandı?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "src klasörüne geç",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "günaydın! bugün ne var ne yok?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "vim'den nasıl çıkılır?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "eski ekran görüntüleri klasörünü sil",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "240'ın yüzde 15'i kaç eder?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "tamam, öyle yap",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "main.py'nin 42. satırına git",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "bu yorumun sonuna nokta ekle",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "HTTP 401 ile 403 arasındaki fark ne?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "git pull yap",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "kahve molası, beş dakikaya dönerim",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "şu an hangi dizindeyiz?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "bu yazıyı büyük harfe çevir: merhaba dünya",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "bana bir espri yap",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "tam istediğim gibi olmuş, sağ ol!",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "YAML neyin açılımı?",
+   "expect": [],
+   "batch": "none"
+  },
+  {
+   "prompt": "aslında boş ver, gerek kalmadı",
+   "expect": [],
+   "batch": "none"
+  }
+ ]
+}

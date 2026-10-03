@@ -1,0 +1,141 @@
+[
+ {
+  "id": "brainstorming",
+  "repo": "obra/superpowers",
+  "name": "brainstorming",
+  "description": "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.",
+  "job": "design-brainstorming"
+ },
+ {
+  "id": "writing-plans",
+  "repo": "obra/superpowers",
+  "name": "writing-plans",
+  "description": "Use when you have a spec or requirements for a multi-step task, before touching code",
+  "job": "implementation-planning"
+ },
+ {
+  "id": "test-driven-development",
+  "repo": "obra/superpowers",
+  "name": "test-driven-development",
+  "description": "Use when implementing any feature or bugfix, before writing implementation code",
+  "job": "tdd-discipline"
+ },
+ {
+  "id": "systematic-debugging",
+  "repo": "obra/superpowers",
+  "name": "systematic-debugging",
+  "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
+  "job": "debugging-method"
+ },
+ {
+  "id": "verification-before-completion",
+  "repo": "obra/superpowers",
+  "name": "verification-before-completion",
+  "description": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always",
+  "job": "verification-gate"
+ },
+ {
+  "id": "differential-review",
+  "repo": "trailofbits/skills",
+  "name": "differential-review",
+  "description": "Performs security-focused differential review of code changes. Adapts analysis depth to codebase size, uses git blame for context, calculates blast radius by counting callers, checks test coverage of modified code, and generates a markdown report. Use when reviewing a PR, commit, or diff for security vulnerabilities, checking whether a change re-introduces a previously fixed bug, asking what else a change could break, or finding which modified code has no test covering it.",
+  "job": "security-review"
+ },
+ {
+  "id": "graphify",
+  "repo": "Graphify-Labs/graphify",
+  "name": "graphify",
+  "description": "Use for any question about a codebase, its architecture, file relationships, or project content — especially when graphify-out/ exists, where the question should be treated as a graphify query first. Turns any input (code, docs, papers, images, videos) into a persistent knowledge graph with god nodes, community detection, and query/path/explain tools."
+ },
+ {
+  "id": "requesting-code-review",
+  "repo": "obra/superpowers",
+  "name": "requesting-code-review",
+  "description": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements",
+  "job": "code-review"
+ },
+ {
+  "id": "finishing-a-development-branch",
+  "repo": "obra/superpowers",
+  "name": "finishing-a-development-branch",
+  "description": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work",
+  "job": "git-workflow"
+ },
+ {
+  "id": "frontend-design",
+  "repo": "anthropics/skills",
+  "name": "frontend-design",
+  "description": "Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.",
+  "job": "frontend-design"
+ },
+ {
+  "id": "webapp-testing",
+  "repo": "anthropics/skills",
+  "name": "webapp-testing",
+  "description": "Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+  "job": "webapp-testing"
+ },
+ {
+  "id": "semgrep",
+  "repo": "trailofbits/skills",
+  "name": "semgrep",
+  "description": "Runs a Semgrep security scan over a codebase: detects languages, selects rulesets, presents the plan for explicit approval, then runs every approved ruleset through scripts/run-scans.sh, which batches the semgrep processes and writes scans.json, and merges the output to SARIF. Supports two scan modes, \"run all\" for full ruleset coverage and \"important only\" for security findings at medium-to-high confidence and impact. Uses Semgrep Pro for cross-file taint analysis when it is available. Use when asked to scan code for vulnerabilities, run a security audit with Semgrep, find bugs, or perform static analysis. For the same scan without the approval gate, use the /static-analysis:semgrep-scan workflow.",
+  "job": "static-analysis"
+ },
+ {
+  "id": "supply-chain-risk-auditor",
+  "repo": "trailofbits/skills",
+  "name": "supply-chain-risk-auditor",
+  "description": "Audits a project's dependencies for supply-chain risk: version-matched advisories for direct dependencies and the full lockfile tree, abandoned or archived upstreams, npm publisher concentration, and install-time script execution. Use when asked to audit dependencies, assess supply-chain or third-party package risk, or review a dependency tree before an engagement.",
+  "job": "supply-chain-audit"
+ },
+ {
+  "id": "property-based-testing",
+  "repo": "trailofbits/skills",
+  "name": "property-based-testing",
+  "description": "Writes, reviews, and debugs property-based tests — Hypothesis, fast-check, proptest, jqwik, rapid, and Echidna or Medusa for Solidity invariants. Use whenever tests should cover a whole input domain instead of a hand-picked list of examples: encode/decode and serialize/deserialize pairs, parsers, canonicalizers and normalizers, validators, numeric and Decimal types, comparators and sort order, data structures, and smart-contract state invariants. Also use when adding cases to an existing @given, fast-check, or proptest suite, when judging whether existing property tests assert anything real, and when a generator has shrunk a counterexample and you need to tell a wrong property from a genuine bug. Not for coverage-guided binary fuzzing (libFuzzer, AFL), mutation-testing campaigns, static analysis, benchmarking, or end-to-end UI tests.",
+  "job": "property-testing"
+ },
+ {
+  "id": "sql-pro",
+  "repo": "jeffallan/claude-skills",
+  "name": "sql-pro",
+  "description": "Optimizes SQL queries, designs database schemas, and troubleshoots performance issues. Use when a user asks why their query is slow, needs help writing complex joins or aggregations, mentions database performance issues, or wants to design or migrate a schema. Invoke for complex queries, window functions, CTEs, indexing strategies, query plan analysis, covering index creation, recursive queries, EXPLAIN/ANALYZE interpretation, before/after query benchmarking, or migrating queries between database dialects (PostgreSQL, MySQL, SQL Server, Oracle).",
+  "job": "database"
+ },
+ {
+  "id": "typescript-pro",
+  "repo": "jeffallan/claude-skills",
+  "name": "typescript-pro",
+  "description": "Implements advanced TypeScript type systems, creates custom type guards, utility types, and branded types, and configures tRPC for end-to-end type safety. Use when building TypeScript applications requiring advanced generics, conditional or mapped types, discriminated unions, monorepo setup, or full-stack type safety with tRPC.",
+  "job": "typescript-expertise"
+ },
+ {
+  "id": "python-pro",
+  "repo": "jeffallan/claude-skills",
+  "name": "python-pro",
+  "description": "Use when building Python 3.11+ applications requiring type safety, async programming, or robust error handling. Generates type-annotated Python code, configures mypy in strict mode, writes pytest test suites with fixtures and mocking, and validates code with black and ruff. Invoke for type hints, async/await patterns, dataclasses, dependency injection, logging configuration, and structured error handling.",
+  "job": "python-expertise"
+ },
+ {
+  "id": "monitoring-expert",
+  "repo": "jeffallan/claude-skills",
+  "name": "monitoring-expert",
+  "description": "Configures monitoring systems, implements structured logging pipelines, creates Prometheus/Grafana dashboards, defines alerting rules, and instruments distributed tracing. Implements Prometheus/Grafana stacks, conducts load testing, performs application profiling, and plans infrastructure capacity. Use when setting up application monitoring, adding observability to services, debugging production issues with logs/metrics/traces, running load tests with k6 or Artillery, profiling CPU/memory bottlenecks, or forecasting capacity needs.",
+  "job": "devops-infra"
+ },
+ {
+  "id": "skill-creator",
+  "repo": "anthropics/skills",
+  "name": "skill-creator",
+  "description": "Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
+  "job": "skill-authoring"
+ },
+ {
+  "id": "writing-guidelines",
+  "repo": "vercel-labs/agent-skills",
+  "name": "writing-guidelines",
+  "description": "Review docs/prose for Writing Guidelines compliance. Use when asked to \"review my docs\", \"check writing style\", \"audit prose\", \"review docs voice and tone\", or \"check this page against the writing handbook\".",
+  "job": "writing-quality"
+ }
+]

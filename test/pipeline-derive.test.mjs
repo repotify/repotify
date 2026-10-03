@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createStore, obsKey } from "../pipeline/store.mjs";
 import { scanTree, skillQuestions, answerRecord, classifySkill, observeAll, skillState, PURPOSES } from "../pipeline/observe.mjs";
-import { deriveItems, deriveMcp, summaryOf, purposeFits, RULES, DEFAULT_EVIDENCE, MCP_CONTEXT_CHARS } from "../pipeline/derive.mjs";
+import { deriveItems, deriveMcp, summaryOf, purposeFits, serverPurposeFits, RULES, DEFAULT_EVIDENCE, MCP_CONTEXT_CHARS, MCP_LIMITS } from "../pipeline/derive.mjs";
 import { classifyServer, gateServer, serverQuestions } from "../pipeline/mcp.mjs";
 import { validateCatalog } from "../src/catalog.mjs";
 import { extendTaxonomyV2, ADDED_CAPABILITIES, PRODUCT_STACKS, DOMAIN_OF } from "../pipeline/taxonomy.mjs";
@@ -233,50 +233,102 @@ test("observeAll scans every skill and asks once per distinct SKILL.md", async (
   assert.ok(text.length > 0);
 });
 
-test("MCP servers: the same rules as skills, real use for a default pick, a key only for a product the project shows", async () => {
+test("MCP servers: the same rules as skills, a command that starts a server, real use seen twice for a default pick", async () => {
   const store = newStore();
   const choice = (option, p = 0.9) => ({ choice: option, probabilities: { [option]: p } });
   const tool = { coding: { noul: 0.97 }, job: choice("browser-automation"), stack: choice("any", 0.95), productBound: { noul: 0.1 }, purpose: choice("product", 0.85) };
-  const server = (pkg, extra = {}) => ({ name: `io.github.acme/${pkg}`, title: pkg, description: `Gives the agent ${pkg}.`, version: "1.0.0", registry: "npm", package: pkg, packageVersion: "1.0.0", env: [], repo: "acme/servers", downloads: 50000, ...extra });
+  const server = (pkg, extra = {}) => ({ name: `io.github.${pkg}/${pkg}`, title: pkg, description: `MCP server that gives the agent ${pkg}.`, version: "1.0.0", registry: "npm", package: pkg, packageVersion: "1.0.0", env: [], repo: `${pkg.replace(/[^a-z0-9]/g, "")}/servers`, downloads: 50000, stars: 900, ...extra });
   const cases = [
-    [server("browser-mcp"), tool],
-    [server("keyed-mcp", { env: [{ name: "ACME_KEY", required: true, secret: true }] }), tool],
+    [server("browser-mcp", { downloads: 250000, stars: 4000 }), tool],
+    [server("niche-mcp", { downloads: 50000, stars: 900 }), { ...tool, job: choice("build-tooling") }],
+    [server("keyed-mcp", { env: [{ name: "ACME_KEY", required: true, secret: true }], downloads: 400000, stars: 5000 }), { ...tool, job: choice("web-research") }],
     [server("supabase-db-mcp", { env: [{ name: "SUPABASE_KEY", required: true, secret: true }] }), { ...tool, job: choice("database"), stack: choice("supabase", 0.95), productBound: { noul: 0.95 } }],
-    [server("quiet-mcp", { downloads: 2000 }), tool],
+    [server("quiet-mcp", { downloads: 12000, stars: 150 }), { ...tool, job: choice("docs-lookup") }],
+    [server("tiny-mcp", { downloads: 2000, stars: 5000 }), { ...tool, job: choice("docs-lookup") }],
+    [server("unstarred-mcp", { downloads: 80000, stars: 12 }), { ...tool, job: choice("docs-lookup") }],
+    [server("padded-mcp", { downloads: 900000, stars: 300 }), { ...tool, job: choice("pdf-processing") }],
     [server("sourceless-mcp", { repo: null }), tool],
+    [server("archived-mcp", { archived: true }), tool],
     [server("unsure-mcp"), { ...tool, job: choice("browser-automation", 0.5) }],
     [server("crm-mcp"), { ...tool, coding: { noul: 0.2 } }],
     [server("some-saas-mcp"), { ...tool, productBound: { noul: 0.9 } }],
+    [server("skills-over-mcp"), { ...tool, job: choice("skill-routing") }],
+    [server("bigtool", { name: "io.github.bigtool/bigtool", description: "Stealthy browser automation and testing." }), tool],
+    [server("binless-mcp"), tool],
     [server("@playwright/mcp", { packageVersion: "0.0.90" }), tool],
   ];
-  const npmOk = async (url) => (url.includes("osv.dev") ? jevReply({}) : new Response(JSON.stringify({ scripts: {} }), { status: 200 }));
+  const npm = async (url) => {
+    if (url.includes("osv.dev")) return jevReply({});
+    return new Response(JSON.stringify(url.includes("binless-mcp") ? { scripts: {} } : { scripts: {}, bin: { server: "dist/index.js" } }), { status: 200 });
+  };
   const env = { JEV_API_KEY: "k", JEV_ENDPOINT: "https://jev.test/v1" };
-  for (const [s, answers] of cases) {
-    await gateServer(store, s, { fetchImpl: npmOk });
-    await classifyServer(store, s, { questions: serverQuestions(taxonomy), model: MODEL, env, fetchImpl: async () => jevReply(answers) });
+  for (const [srv, answers] of cases) {
+    await gateServer(store, srv, { fetchImpl: npm });
+    await classifyServer(store, srv, { questions: serverQuestions(taxonomy), model: MODEL, env, fetchImpl: async () => jevReply(answers) });
   }
-  store.putState("mcp", { at: "2026-10-02T00:00:00Z", minDownloads: 1000, servers: cases.map(([s]) => s) });
+  store.putState("mcp", { at: "2026-10-02T00:00:00Z", minDownloads: 1000, servers: cases.map(([srv]) => srv) });
   const curated = [{ id: "playwright-mcp", setup: { npm: "@playwright/mcp@0.0.82" } }];
-  const { items, dropped, considered } = deriveMcp(store, { taxonomy, curated, used: new Set(["browser-mcp-taken"]), model: MODEL });
+  const { items, dropped, considered } = deriveMcp(store, { taxonomy, curated, model: MODEL });
   assert.equal(considered, cases.length);
   const by = Object.fromEntries(items.map((i) => [i.id, i]));
-  assert.deepEqual(Object.keys(by).sort(), ["browser-mcp", "keyed-mcp", "quiet-mcp", "supabase-db-mcp"]);
+  assert.deepEqual(Object.keys(by).sort(), ["browser-mcp", "keyed-mcp", "niche-mcp", "padded-mcp", "quiet-mcp", "supabase-db-mcp"]);
   assert.equal(by["browser-mcp"].type, "mcp");
   assert.deepEqual(by["browser-mcp"].setup.mcp, { command: "npx", args: ["-y", "browser-mcp@1.0.0"] });
   assert.equal(by["browser-mcp"].descriptionChars, MCP_CONTEXT_CHARS);
-  assert.equal(by["browser-mcp"].signals.downloads, 50000);
+  assert.deepEqual([by["browser-mcp"].signals.downloads, by["browser-mcp"].signals.stars], [250000, 4000]);
   assert.equal(by["browser-mcp"].defaultEligible, true);
+  assert.equal(by["niche-mcp"].defaultEligible, false, `offered to any project: needs ${DEFAULT_EVIDENCE.anyStackDownloads} downloads and ${DEFAULT_EVIDENCE.anyStackStars} stars`);
   assert.equal(by["keyed-mcp"].defaultEligible, false, "an account key for a server any project could use: listed, not defaulted");
   assert.equal(by["supabase-db-mcp"].defaultEligible, true, "a key for the product the project uses");
   assert.deepEqual(by["supabase-db-mcp"].stacks, ["supabase"]);
-  assert.equal(by["quiet-mcp"].defaultEligible, false, `under ${DEFAULT_EVIDENCE.downloads} downloads a month`);
+  assert.equal(by["quiet-mcp"].defaultEligible, false, "listed, but not used enough for a default");
+  assert.equal(by["padded-mcp"].defaultEligible, false, `many downloads, few stars for a server offered to any project (${DEFAULT_EVIDENCE.anyStackStars})`);
   const reason = (pkg) => dropped.find((d) => d.package === `npm:${pkg}`)?.reason ?? "";
+  assert.match(reason("tiny-mcp"), /too little use to list \(2000 downloads a month, 5000 stars\)/);
+  assert.match(reason("unstarred-mcp"), /too little use to list \(80000 downloads a month, 12 stars\)/);
   assert.match(reason("sourceless-mcp"), /no source repository/);
+  assert.match(reason("archived-mcp"), /archived/);
   assert.match(reason("unsure-mcp"), /main job unsure/);
   assert.match(reason("crm-mcp"), /not software work/);
   assert.match(reason("some-saas-mcp"), /tied to one product/);
+  assert.match(reason("skills-over-mcp"), /a job Repotify's own hooks do/);
+  assert.match(reason("bigtool"), /does not say how to start its MCP server/);
+  assert.match(reason("binless-mcp"), /no command to run/);
   assert.ok(!items.some((i) => i.setup.npm?.startsWith("@playwright/mcp")) && !reason("@playwright/mcp"), "the hand-vetted entry keeps the package");
   assert.deepEqual(validateCatalog({ items, taxonomy }), []);
   const again = deriveMcp(store, { taxonomy, curated, used: new Set(["browser-mcp"]), model: MODEL });
-  assert.ok(again.items.some((i) => i.id === "acme-browser-mcp"), "a taken id gets the owner's name");
+  assert.ok(again.items.some((i) => i.id === "browsermcp-browser-mcp"), "a taken id gets the owner's name");
+});
+
+test("MCP servers: the most used few for a job, and a few from one publisher", async () => {
+  const store = newStore();
+  const choice = (option, p = 0.9) => ({ choice: option, probabilities: { [option]: p } });
+  const memory = { coding: { noul: 0.97 }, job: choice("agent-memory"), stack: choice("any", 0.95), productBound: { noul: 0.1 }, purpose: choice("workflow", 0.85) };
+  const server = (pkg, downloads, repo) => ({ name: `io.github.x/${pkg}`, title: pkg, description: `MCP server: ${pkg}.`, version: "1.0.0", registry: "npm", package: pkg, packageVersion: "1.0.0", env: [], repo, downloads, stars: 150 });
+  const servers = [
+    ...[1, 2, 3, 4, 5].map((n) => server(`memory-${n}-mcp`, 30000 - n, `owner${n}/memory`)),
+    ...[1, 2, 3, 4].map((n) => server(`farm-${n}-mcp`, 15000 - n, "farm/servers")),
+  ];
+  const jobs = ["agent-memory", "agent-memory", "agent-memory", "agent-memory", "agent-memory", "web-research", "docs-lookup", "pdf-processing", "database"];
+  const npm = async (url) => (url.includes("osv.dev") ? jevReply({}) : new Response(JSON.stringify({ bin: "x.js" }), { status: 200 }));
+  for (const [i, srv] of servers.entries()) {
+    await gateServer(store, srv, { fetchImpl: npm });
+    await classifyServer(store, srv, { questions: serverQuestions(taxonomy), model: MODEL, env: { JEV_API_KEY: "k", JEV_ENDPOINT: "https://jev.test/v1" }, fetchImpl: async () => jevReply({ ...memory, job: choice(jobs[i]), purpose: choice(jobs[i] === "agent-memory" ? "workflow" : "product", 0.85) }) });
+  }
+  store.putState("mcp", { servers });
+  const { items, dropped } = deriveMcp(store, { taxonomy, model: MODEL });
+  assert.deepEqual(items.filter((i) => i.cluster === "agent-memory").map((i) => i.id), ["memory-1-mcp", "memory-2-mcp", "memory-3-mcp"], `at most ${MCP_LIMITS.perJob} for one job, the most downloaded`);
+  assert.equal(dropped.filter((d) => /more used servers already do agent-memory/.test(d.reason)).length, 2);
+  assert.equal(items.filter((i) => i.repo === "farm/servers").length, MCP_LIMITS.perOwner);
+  assert.equal(dropped.filter((d) => /publisher already has servers listed/.test(d.reason)).length, 1);
+});
+
+test("an MCP server is a tool for the agent: that purpose fits every job; running systems fits only a product the project shows", () => {
+  assert.equal(serverPurposeFits("database", "workflow", "mongodb", taxonomy), true);
+  assert.equal(serverPurposeFits("database", "product", null, taxonomy), true);
+  assert.equal(serverPurposeFits("devops-infra", "operations", "kubernetes", taxonomy), true);
+  assert.equal(serverPurposeFits("devops-infra", "operations", null, taxonomy), false);
+  assert.equal(serverPurposeFits("devops-infra", "operations", "python", taxonomy), false, "a language is not a product");
+  assert.equal(serverPurposeFits("pdf-processing", "content", null, taxonomy), true);
+  assert.equal(serverPurposeFits("database", "content", null, taxonomy), false);
 });

@@ -204,7 +204,7 @@ export function priority(c) {
 const GRAPHQL_FIELDS = "nameWithOwner stargazerCount forkCount description createdAt pushedAt isArchived isFork diskUsage licenseInfo { spdxId } defaultBranchRef { name } repositoryTopics(first: 20) { nodes { topic { name } } }";
 
 // Metadata for repositories known only by name, fifty to a GraphQL request.
-async function metaByName(gh, names, { log }) {
+export async function metaByName(gh, names, { log = () => {} } = {}) {
   const out = new Map();
   for (let i = 0; i < names.length; i += 50) {
     const batch = names.slice(i, i + 50);

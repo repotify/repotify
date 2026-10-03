@@ -242,6 +242,13 @@ function insideClone(path, dir) {
 function gitCloneThenRun(line, ctx) {
   const opts = { comments: Boolean(ctx?.comments), prose: Boolean(ctx?.prose) };
   const unq = (t) => t.replace(/^["']|["']$/g, "");
+  // Every clone on the line reads the stages after it: each stage's words are worked out once, not once per clone.
+  const read = new Map();
+  const wordsOf = (st) => {
+    let w = read.get(st);
+    if (!w) read.set(st, (w = commandWords(st.text)));
+    return w;
+  };
   let found = null;
   for (const pipelines of readingsOf(ctx, line)) {
     const own = pipelines.flat();
@@ -255,7 +262,7 @@ function gitCloneThenRun(line, ctx) {
       following ??= followingStages(ctx, opts);
       let cwd = ".";
       for (const st of [...own.slice(k + 1), ...following]) {
-        const words = commandWords(st.text);
+        const words = wordsOf(st);
         if (!words.length) continue;
         if (words[0] === "cd" && words[1] && !words[1].startsWith("-")) {
           cwd = resolvePath(cwd, unq(words[1]));

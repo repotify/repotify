@@ -1,17 +1,49 @@
 # Changelog
 
-## 2.0.0 (2026-10-02)
+## 2.0.0 (2026-10-03)
 
-A new recommendation engine and a catalog whose every skill was read in full before it was classified.
+A new recommendation engine, a catalog built from a crawl instead of a hand-kept list, and a setup that keeps working
+after the install.
 
 ### What changes for you
 
+- **Questions that earn their place.** `repotify questions` tries every possible answer against the engine and lists
+  only the questions whose answer would change your picks, the likeliest decisive options first: one or two for a
+  project with files, three for an empty folder, none when nothing would change. A question is asked once, and
+  "none of these" is an answer. `recommend` also takes `--stacks` and `--platforms`.
+- **See the decision.** `repotify ui` draws the catalog as a tree on a page served from your own computer: orange is
+  still in play, green is picked, and each answer settles a branch until only the picks are left. It is read-only,
+  needs the token in its link on every request and answers to no other host name.
+- **It keeps up with the project.** Two hooks you switch on yourself (`repotify enable repotify-tracker
+  repotify-router`). The tracker remembers which stacks and needs the project showed and tells your agent once when a
+  change brings a new pick; weekly it checks for vetted updates and for skills that no longer earn their place. The
+  router hears what kind of work each request is (26 kinds, English and Turkish, symptoms included) and names the
+  installed skills made for it, or says nothing. Measured on 240 requests another model wrote: a fitting skill named
+  for 94% of the requests a skill should handle, silent on 78% of those none should.
+- **MCP servers, picked by real use.** The catalog now reads the official MCP registry (more than 36,000 servers,
+  13,547 of them installable locally). 24 are listed: each has at least 10,000 downloads a month and a repository
+  people starred, a command that starts a server, and the exact pinned version checked for install scripts and known
+  vulnerabilities. A mobile app gets a device-automation server, a Supabase, Firebase, MongoDB, ClickHouse, Nx or
+  Svelte project gets its vendor's own. A server whose runtime (uv, Docker) your computer lacks is listed with what it
+  needs, not picked.
+- **`audit` reads your MCP servers too.** A configured server whose command fails the security scan is marked for
+  removal; one that is not pinned to a version, or whose config file holds a secret, is marked for review. The audit
+  names the variable, never the value.
+- **A catalog from a crawl: 548 items** (517 skills, 27 MCP servers, 1 tool, 3 hooks) from 55 repositories. Every
+  skill folder is fetched once into a content store; scans, the decision model's answers and research are kept as
+  observations, and rules turn them into items with no network, so a changed rule rebuilds the catalog in seconds.
+  Of 4,651 crawled skills 431 passed. A crawled item joins a default set only with evidence about itself (installs,
+  or downloads and stars); the rest are alternatives.
+- **Stars are not enough.** Four research agents read what else there is about a repository: forum threads, star
+  history against real installs, directories and curated lists. Of 90 repositories, 19 looked inflated; the 471
+  skills of three of them wait for a human instead of entering the catalog.
 - **Every skill classified by a decision model.** At catalog build time Jev (TypeSafe, via OpenRouter's Decisions API;
-  any Jev-compatible model works) reads each `SKILL.md` and answers five typed questions: off-topic gate, main job,
-  language or framework, tied to one product, and lifecycle (pays off once, on every task, or now and then). Rules act
-  only on confident answers and hand-curated items are never relabelled. Against 49 hand labels: main job 94% (the
-  jury's free-form labels 52%), language 100% (86%), off-topic 98% (88%), lifecycle 85%. Nothing calls a model on
-  your machine.
+  any Jev-compatible model works) reads each `SKILL.md` and answers typed questions: off-topic gate, main job,
+  language, framework or product, tied to one product, what it is for, lifecycle (pays off once, on every task, or
+  now and then) and quality. Rules act only on confident answers and hand-curated items are never relabelled. Against
+  49 hand labels with the taxonomy of 80 jobs: main job 88% (a jury's free-form labels 52%), language 98% (86%),
+  off-topic 98% (88%), lifecycle 85%. Nothing calls a model on your machine.
+- **The right agent.** A Claude Code hook is not offered when Cursor, Codex or Gemini CLI is the one asking.
 - **One pick per job.** A capability graph maps every item to the job it does. The default set holds one item per job
   (cluster or exclusive group), the core backbone always, hand-vetted picks before lab finds, no skill written for a
   stack the project does not use, and optional items only with a fit of 0.6 or more. What the project already has
@@ -22,9 +54,12 @@ A new recommendation engine and a catalog whose every skill was read in full bef
 - **Stack experts.** Angular, Vue, Django, FastAPI, Python, Go, Rust, Java and Spring, Kotlin, Swift, Flutter, PHP and
   WordPress, Laravel, Rails, .NET, C++, NestJS, TypeScript and React Native projects get an expert for their stack, and
   only theirs, from [jeffallan/claude-skills](https://github.com/jeffallan/claude-skills) (MIT) and other sources.
-- **Catalog: 91 items** (86 skills, 3 MCP servers, 1 tool, 1 config) from 17 repositories. Off-topic collections
-  (digital forensics, malware analysis, marketing), math-contest skills, a Telegram bot setup and skills that only
-  drive one product were removed; ten unsure lab finds wait for review.
+- **Off-topic items are out.** Collections for digital forensics, malware analysis and marketing, math-contest
+  skills, a Telegram bot setup and skills that only drive one product no project can show were removed.
+- **Security, new in this release.** The launcher written into hook commands no longer accepts `$(…)`, backticks or
+  `$VAR` inside a quoted path: a poisoned `repotify.lock.json` could have run a command at session start once the
+  weekly check was enabled. Command scans read a script passed as one argument (`bash -c "…"`) as a script. The gate
+  no longer counts `prepare` as an install script (npm does not run it for a package fetched from the registry).
 - **Security.** Scanner 1.4.0: a file's level comes from its most severe findings, and so does a line's. Before, the
   first match on a line decided it, so a decoy put first hid the real command: an official installer before a second
   `curl … | bash` from anywhere, a negated example before a real instruction, an upload or a secret sent to a known API
@@ -51,11 +86,14 @@ A new recommendation engine and a catalog whose every skill was read in full bef
 
 ### Measured
 
-- Recommendation quality on 49 scenarios, run against the engine the CLI serves: 108/108 must-include, 0 violations,
-  0 duplicate jobs; the default set averages 12.1 items and 3,790 of 6,000 characters.
-- One setup costs the agent about 3,000 tokens (2,822–3,130 over seven fixture projects, `test/eval/flow-tokens.mjs`).
-- 839 tests: all pass on Node 22 and 24; on Node 18 and 20, six worker tests that need `node:sqlite` are skipped.
-  Coverage 94% of lines.
+- Recommendation quality on 49 scenarios, run against the engine the CLI serves and the 548-item catalog: 108/108
+  must-include, 0 violations, 0 duplicate jobs; the default set averages 14.2 items and 3,957 of 6,000 characters.
+- One setup costs the agent about 2,900 tokens (2,822–2,982 over seven fixture projects, `test/eval/flow-tokens.mjs`).
+- The router, the classifier and the questions: [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
+- The scanner reads a long line of `git clone` commands 2.7 times faster (each later command was read once per
+  clone); re-scanning the 4,484 stored skill folders gives the same verdict for every one.
+- 943 tests: all pass on Node 22 and 24; on Node 18 and 20, six worker tests that need `node:sqlite` are skipped.
+  Coverage 94.9% of lines, 85.4% of branches.
 
 ### Built, not live
 
@@ -66,6 +104,13 @@ are on the website's leaderboard as mean [min–max] at n = 3 per cell.
 
 ### For maintainers
 
+- The crawl pipeline: `pipeline/crawl.mjs` (fetch each skill folder once into a content store), `observe.mjs` (scan
+  and decision model, kept per content and question set), `research.mjs` (four agents), `mcp.mjs` (registry,
+  downloads, repository stars, setup gate) and `derive.mjs` (rules only). `node pipeline/derive.mjs --store DIR`
+  rebuilds the catalog from the store in seconds; `--dry-run --report FILE` shows what each rule kept out.
+- The router is measured, not assumed: `node test/eval/router.mjs`. Two request sets were written by another model
+  (`pipeline/router-evalset.mjs`); the second is never tuned on, and floors in the test suite catch a regression.
+- Pipeline scripts share one flag reader and one logger (`pipeline/lib/cli.mjs`).
 - The quality bar measures the served engine; before the review it scored the frozen v1 engine while users got v2
   (which scored 80.6% with 176 duplicate jobs at the time).
 - `npm run check` also runs the harness tests and the gate's sensitivity sweep, which now calls the production

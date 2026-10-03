@@ -1,5 +1,5 @@
 {
-  "note": "Hand labels for the classifier benchmark (2026-10-02). job: the one capability a skill is for (a list = any of these is right; \"none\" = no capability fits, e.g. game development). coding: does it help build software in a repo. lifecycle: once | every_task | occasional (null = genuinely ambiguous, not scored). productBound: only useful with one product most repos do not use. stack: the language or framework a skill is written for, \"any\" when it works anywhere (a list = any of these is right; null = not scored).",
+  "note": "Hand labels for the classifier benchmark (2026-10-02). job: the one capability a skill is for (a list = any of these is right; \"none\" = no capability fits, e.g. game development). coding: does it help build software in a repo. lifecycle: once | every_task | occasional (null = genuinely ambiguous, not scored). productBound: only useful with one product most repos do not use. stack: the language or framework a skill is written for, \"any\" when it works anywhere (a list = any of these is right; null = not scored). 2026-10-03: the taxonomy grew to 81 jobs; four labels were brought up to it where the new job is the plain answer (a game skill is game development, two forensics skills are security operations, which the catalog still leaves out, and a cloud architect may be cloud services).",
   "extraCapabilities": {
     "architecture-design": "System and API architecture: service boundaries, microservices, REST/GraphQL API design",
     "database": "Databases: SQL, schema design, query performance",
@@ -370,7 +370,7 @@
       "id": "game-developer",
       "coding": true,
       "job": [
-        "none"
+        "game-development"
       ],
       "lifecycle": "every_task",
       "productBound": false,
@@ -437,7 +437,8 @@
       "coding": true,
       "job": [
         "devops-infra",
-        "architecture-design"
+        "architecture-design",
+        "cloud-services"
       ],
       "lifecycle": "occasional",
       "productBound": false,
@@ -469,7 +470,8 @@
       "id": "analyzing-ransomware-encryption-mechanisms",
       "coding": false,
       "job": [
-        "none"
+        "none",
+        "security-operations"
       ],
       "lifecycle": null,
       "productBound": false,
@@ -479,7 +481,8 @@
       "id": "acquiring-disk-image-with-dd-and-dcfldd",
       "coding": false,
       "job": [
-        "none"
+        "none",
+        "security-operations"
       ],
       "lifecycle": null,
       "productBound": false,

@@ -86,7 +86,8 @@ test("ui serves the decision tree on 127.0.0.1 until stopped, with the answers g
     child.on("exit", (c) => resolve(c));
     child.kill("SIGTERM");
   });
-  assert.equal(code, 0, "Ctrl+C or a stop signal ends it cleanly");
+  // Windows has no signals: there the process is simply ended.
+  if (process.platform !== "win32") assert.equal(code, 0, "Ctrl+C or a stop signal ends it cleanly");
 });
 
 test("recommend prints the candidate table from the bundled catalog when offline", () => {
