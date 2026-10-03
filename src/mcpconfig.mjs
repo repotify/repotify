@@ -13,9 +13,39 @@ export function commandLines(command, args = []) {
   return [[command, ...args].join(" "), ...args.map(String).filter((a) => /\s/.test(a))];
 }
 
+// Environment variables that change what a package manager installs, what an interpreter loads before the program,
+// or where its traffic goes: `npm_config_registry` or `UV_INDEX_URL` make `npx pkg` fetch another package under the
+// same name, `NODE_OPTIONS=--require …` runs a file first. A catalog entry has no business setting any of them, and
+// one found in a configured server deserves a look. npm reads its names in any case, hence the `i`.
+const RISKY_ENV_RE = new RegExp("^(" + [
+  "npm_config_.+", "yarn_npm_registry_server", "bun_config_registry", "pnpm_.+",
+  "uv_(default_index|index|index_url|extra_index_url|find_links|config_file)", "pip_(index_url|extra_index_url|find_links|config_file|trusted_host)",
+  "node_options", "node_path", "node_extra_ca_certs", "node_tls_reject_unauthorized",
+  "pythonpath", "pythonstartup", "pythonhome", "pythoninspect", "perl5opt", "perl5lib", "rubyopt", "rubylib",
+  "ld_preload", "ld_library_path", "ld_audit", "dyld_.+", "path", "bash_env", "env", "prompt_command",
+  "git_ssh", "git_ssh_command", "git_askpass", "git_config.*", "ssl_cert_file", "ssl_cert_dir", "requests_ca_bundle", "curl_ca_bundle",
+  "https?_proxy", "all_proxy", "no_proxy", "docker_host", "java_tool_options", "_java_options",
+].join("|") + ")$", "i");
+const ENV_NAME_RE = /^[A-Za-z_][A-Za-z0-9_]*$/;
+
+// The names in `env` that are not plain variable names or that redirect installs, code loading or traffic.
+export function riskyEnvNames(env) {
+  if (!env || typeof env !== "object" || Array.isArray(env)) return [];
+  return Object.keys(env).filter((k) => !ENV_NAME_RE.test(k) || RISKY_ENV_RE.test(k));
+}
+
+// What the scanner reads of a server's environment: one `NAME=value` line each, so a value that is a command or a
+// download is read like any other line of its setup.
+export function envLines(env) {
+  if (!env || typeof env !== "object" || Array.isArray(env)) return [];
+  return Object.entries(env).filter(([, v]) => !isPlaceholder(v)).map(([k, v]) => `${k}=${String(v)}`);
+}
+
 function serverConfig(item) {
   const { command, args = [], env = {} } = item.setup.mcp;
-  const real = Object.fromEntries(Object.entries(env).filter(([, v]) => !isPlaceholder(v)));
+  // A risky name is never written, whatever the catalog says (install refuses such an item before it gets here).
+  const risky = new Set(riskyEnvNames(env));
+  const real = Object.fromEntries(Object.entries(env).filter(([k, v]) => !isPlaceholder(v) && !risky.has(k)));
   return Object.keys(real).length ? { command, args, env: real } : { command, args };
 }
 
@@ -101,9 +131,10 @@ export function applyMcp(item, agentId, { cwd, replace = false }) {
     if (text === null) return { ...base, written: false, reason: "unreadable" };
     let body = snippet.text;
     if (replace && tomlHasTable(text, item.id)) {
-      // Keep env values the user added by hand (tokens live there).
+      // Keep env values the user added by hand (tokens live there). What the user set wins over the catalog: an
+      // update must never quietly replace a value the user chose.
       const userEnv = tomlEnvOf(text, item.id);
-      if (Object.keys(userEnv).length) body = tomlTable(item.id, { ...serverConfig(item), env: { ...userEnv, ...(serverConfig(item).env ?? {}) } });
+      if (Object.keys(userEnv).length) body = tomlTable(item.id, { ...serverConfig(item), env: { ...(serverConfig(item).env ?? {}), ...userEnv } });
       removeMcp(item.id, agentId, { cwd });
       text = readTomlConfig(path) ?? "";
     }
@@ -120,7 +151,7 @@ export function applyMcp(item, agentId, { cwd, replace = false }) {
   if (servers[item.id] && !replace) return { ...base, written: false, reason: "exists" };
   const next = serverConfig(item);
   const userEnv = servers[item.id]?.env;
-  if (userEnv && typeof userEnv === "object") next.env = { ...userEnv, ...(next.env ?? {}) };
+  if (userEnv && typeof userEnv === "object") next.env = { ...(next.env ?? {}), ...userEnv };
   cfg[spec.key] = { ...servers, [item.id]: next };
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, JSON.stringify(cfg, null, 2) + "\n");

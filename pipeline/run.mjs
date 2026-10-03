@@ -37,7 +37,7 @@ const DUPLICATE = "duplicate";
 // name a host or carry command syntax.
 const SUMMARY_CODE_RE = /https?:\/\/|www\.|`|\$\(|[<>{}]|&&|\|\||(^|\s)--?[a-z][\w-]*/i;
 const SUMMARY_HOST_RE = /\b[a-z0-9-]+(\.[a-z0-9-]+)*\.(sh|io|com|net|org|dev|app|xyz|ru|cn|site|top|me|co|ai|cc|tk|biz|info|online|link|click)\b(\/\S*)?/i;
-const SUMMARY_ADDRESS_RE = /\b(ignore|disregard|as root|sudo|run it|execute it|download (and|then)|skip (the )?(user|prompt|confirmation|consent|review)|without (asking|telling)|note (to|for) (the )?(agent|ai|assistant|model|reviewer)|the (agent|assistant) (must|should)|always (install|run|use|accept|approve)|accept-caution|rate it|score it)\b/i;
+const SUMMARY_ADDRESS_RE = /\b(ignore|disregard|as root|sudo|run it|execute it|download (and|then)|skip (the )?(user|prompt|confirmation|consent|review)|without (asking|telling|confirm\w*|approval|permission|review)|no (confirmation|approval|permission|review) (is )?(needed|required|necessary)|no need to (ask|confirm)|(do not|don't|never) (ask|confirm|wait for)|auto[- ]?(approve|accept|confirm|install)\w*|automatically (approve|accept|install|run|confirm)\w*|pre-?approved|trust(ed)? (this|it) (fully|blindly|completely)|bypass\w*|note (to|for) (the )?(agent|ai|assistant|model|reviewer)|(the |your )?(agent|assistant|model) (must|should|shall|needs to|has to)|always (install|run|use|accept|approve|prefer|choose|pick)|accept-caution|rate it|score it|recommend (this|it) (first|always|over))\b/i;
 
 export function unsafeSummary(summary) {
   if (SUMMARY_CODE_RE.test(summary)) return "contains code, flags or links";
@@ -273,7 +273,9 @@ export async function runPipeline(opts) {
       dropped.push({ id: item.id, repo: item.repo ?? null, commit: item.commit ?? null, path: item.path ?? null, level: item.security.level, reason: dropReason(item) });
       continue;
     }
-    const summaryProblem = !c.editorial && jury ? unsafeSummary(item.summary) : null;
+    // Every summary is shown verbatim to users' agents, whoever wrote it: checked with or without a jury, and for
+    // hand-written entries too.
+    const summaryProblem = unsafeSummary(item.summary);
     if (summaryProblem) {
       dropped.push({ id: item.id, repo: item.repo ?? null, commit: item.commit ?? null, path: item.path ?? null, level: "declined", reason: `unsafe summary (${summaryProblem})` });
       continue;

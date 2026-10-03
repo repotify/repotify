@@ -82,7 +82,7 @@ test("the gate also records whether an npm package has a command to run", async 
   const noBin = async (url) => json(200, url.includes("osv.dev") ? {} : { scripts: {} });
   let npmCalls = 0;
   const counting = async (url, init) => {
-    if (url.startsWith("https://registry.npmjs.org/")) npmCalls++;
+    if (url.startsWith("https://registry.npmjs.org/") && url.endsWith("/1.0.0")) npmCalls++;
     return withBin(url, init);
   };
   assert.equal((await gateServer(store, { registry: "npm", package: "@acme/one", packageVersion: "1.0.0", env: [] }, { fetchImpl: counting })).runnable, true);

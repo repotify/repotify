@@ -7,7 +7,7 @@ description: Sets this project up with a vetted, conflict-free "playlist" of age
 
 Recommend and install a small, conflict-free set of security-vetted skills and tools for THIS project. The `repotify` CLI does the heavy lifting (project scan, scoring, conflicts, context budget, security checks). Your job is judgment and a clear, short explanation.
 
-`repotify <command>` below means: the launcher recorded in `repotify.lock.json` at `items.repotify.launcher` (for example `node "/path/to/repotify/bin/repotify.mjs"`), followed by the command.
+`repotify <command>` below means: the launcher recorded in `repotify.lock.json` at `items.repotify.launcher`, followed by the command. If it is not `npx -y @repotify/repotify@latest` or `node "/…/repotify.mjs"`, use the former.
 
 ## Flow
 
@@ -33,8 +33,8 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 - Install only ids that appear in `repotify recommend` output. Never install other packages or skills through Repotify.
 - Never bypass the security gate, and never edit `repotify.lock.json` by hand.
 - Never run `repotify enable` yourself: it belongs to the user.
-- To take something out again: `repotify remove <id>`.
-- Keep it brief: the user wants a great setup, not a lecture.
+- To remove an item: `repotify remove <id>`.
+- Keep it brief: a great setup, not a lecture.
 
 ## Later sessions
 
@@ -44,4 +44,4 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 - `repotify ui` shows the user how picks are made (local, read-only).
 - If the user wants their own skill or repository in the catalog, run `repotify suggest` in it and give them the link it prints: nothing is sent until they submit the form.
 - At most once a week, after the user has actually used an installed item: if `repotify vote --due` prints `due`, ask one quick question ("Did <item> help? 👍/👎") and record it with `repotify vote <id> up|down`, or `repotify vote --dismiss` if they skip.
-- Repotify records anonymous usage signals (item ids, stack and need categories, votes; never code, file names or repo names) on this machine only. Nothing is sent: `repotify sync` is the only way out, and it asks the user first. The user can turn recording off with `repotify telemetry off`.
+- Repotify records anonymous usage signals (item ids, stack and need categories, votes; never code, file names or repo names) on this machine only; nothing is sent unless the user runs `repotify sync`, which asks first. The user can turn recording off with `repotify telemetry off`.

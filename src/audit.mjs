@@ -5,7 +5,11 @@ import { join } from "node:path";
 import { AGENTS } from "./agents.mjs";
 import { parseFrontmatter } from "./frontmatter.mjs";
 import { readTree, scanFiles } from "./scan/index.mjs";
-import { buildDemand, fitScore, platformMismatch, DEFAULT_BUDGET_CHARS } from "./recommend.mjs";
+import { buildDemand, fitScore, DEFAULT_BUDGET_CHARS } from "./recommend.mjs";
+// The platform rule of the engine `repotify recommend` serves: the audit and the recommendation must agree on what
+// does not belong in a project (the older rule only knew web-only jobs, so a phone-automation server was "keep" in a
+// web-only project that recommend would never offer it to).
+import { platformMismatch } from "../lib/pipeline/recommend/narrow.mjs";
 import { ID_RE } from "./catalog.mjs";
 import { readTextSafe } from "./util.mjs";
 import { shownName } from "./display.mjs";
@@ -131,8 +135,9 @@ async function securityOf(abs) {
     const worst = ["critical", "high", "medium"].map((sev) => r.findings.find((f) => f.severity === sev)).find(Boolean);
     return { level: r.level, rule: worst?.rule ?? null };
   } catch (error) {
-    // The message may carry file names from the skill; the code is enough.
-    return { level: "caution", rule: `not scanned (${error.code ?? "too large"})` };
+    // The message may carry file names from the skill; the code is enough. A skill that could not be read is not a
+    // skill with a clean scan: it gets its own level, and the verdict asks the user to look.
+    return { level: "unscanned", rule: `not scanned (${error.code ?? "too large"})` };
   }
 }
 
@@ -167,10 +172,15 @@ function whyItFits(item, { taxonomy, ctx, stacks }) {
 // Why a skill is or is not worth keeping here: [{code, text}], most important first.
 function judge(skill, { item, lockId }, env) {
   const { taxonomy, ctx, stacks, coreReasons } = env;
-  if (skill.id === "repotify" || lockId === "repotify") return { verdict: "keep", reasons: [{ code: "self", text: "Repotify's own skill." }] };
+  // Security comes first, for Repotify's own skill too: a folder named `repotify` is the instruction file with the
+  // most authority over the agent, and the name alone must not excuse it from the scan.
   if (skill.security.level === "rejected" || skill.security.level === "quarantined") {
     return { verdict: "remove", reasons: [{ code: "security", text: `Security scan: ${skill.security.level}${skill.security.rule ? ` (${skill.security.rule})` : ""}. Remove it.` }] };
   }
+  if (skill.security.level === "unscanned") {
+    return { verdict: "consider", reasons: [{ code: "unscanned", text: `Security scan could not read it: ${skill.security.rule}. Look at it by hand before trusting it.` }] };
+  }
+  if (skill.id === "repotify" || lockId === "repotify") return { verdict: "keep", reasons: [{ code: "self", text: "Repotify's own skill." }] };
   const reasons = [];
   if (skill.oversized) reasons.push({ code: "oversized", text: `SKILL.md is over ${MAX_SKILL_MD_BYTES / 1024 / 1024} MiB; not read.` });
   if (lockId && !item) reasons.push({ code: "delisted", text: "No longer in the catalog (quarantined or removed upstream)." });
@@ -181,7 +191,9 @@ function judge(skill, { item, lockId }, env) {
     if (done) return { verdict: "consider", reasons: [done] };
     if (item.tier === "core") return { verdict: "keep", reasons: [{ code: "core", text: coreReasons.get(item.id) ?? "Core skill that helps any project." }] };
     if (platformMismatch(item, ctx)) {
-      reasons.push({ code: "platform", text: `Web-only (${item.capabilities.map((c) => label(taxonomy, c)).join(", ")}), and this project has no web target (${ctx.platforms.join(", ")}).` });
+      const only = [...new Set(item.capabilities.map((c) => ctx.capPlatforms?.[c]).filter(Boolean))];
+      const kind = only.length === 1 ? `${only[0][0].toUpperCase()}${only[0].slice(1)}-only` : "Made for another platform";
+      reasons.push({ code: "platform", text: `${kind} (${item.capabilities.map((c) => label(taxonomy, c)).join(", ")}), and this project has no ${only.length === 1 ? only[0] : "such"} target (${ctx.platforms.join(", ")}).` });
     } else if (item.tier === "stack" && !item.stacks.includes("*") && !item.stacks.some((s) => stacks.has(s))) {
       reasons.push({ code: "stack", text: `Built for ${item.stacks.join(", ")}, which this project does not use.` });
     } else if (fitScore(item, ctx).fit < 0.2) {
@@ -265,7 +277,8 @@ export async function auditSkills({ root, catalog, fingerprint: fp, needs, lock 
   const relevance = fp?.reason !== "home-or-root";
   const { taxonomy } = catalog;
   const demand = buildDemand({ taxonomy, fingerprint: fp, needs });
-  const ctx = { ...demand, stacks: fp?.stacks ?? [], loadoutIds: [] };
+  const capPlatforms = Object.fromEntries(Object.entries(taxonomy.capabilities ?? {}).filter(([, c]) => c.platform).map(([id, c]) => [id, c.platform]));
+  const ctx = { ...demand, capPlatforms, stacks: fp?.stacks ?? [], loadoutIds: [] };
   const byId = new Map(catalog.items.map((i) => [i.id, i]));
   const bySkillDir = new Map(catalog.items.filter((i) => i.path).map((i) => [i.path.split("/").pop(), i]));
   const env = { taxonomy, ctx, relevance, lock, now: Number(now), stacks: projectStacks(fp?.stacks ?? []), coreReasons: new Map((catalog.core ?? []).map((c) => [c.id, c.reason])) };

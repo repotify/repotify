@@ -4,7 +4,7 @@
 // most severe. Regexes never use unbounded `[^\n]*` between two parts, and bounded gaps are lazy so one match never
 // swallows the next; scanning stays linear on long lines. Shell structure comes from ./shell.mjs.
 import { posix } from "node:path";
-import { splitPipelines, statementSpan, fetchIndex, downloadTarget, stageRunPaths, runPath, fetchTargets, runsPipedInput, commandWords, baseName, INTERPRETERS } from "./shell.mjs";
+import { splitPipelines, statementSpan, fetchIndex, fetchToolOf, downloadTarget, stageRunPaths, runPath, fetchTargets, runsPipedInput, commandWords, baseName, INTERPRETERS } from "./shell.mjs";
 
 export const SCRIPT_EXTENSIONS = new Set([
   ".sh", ".bash", ".zsh", ".fish", ".py", ".js", ".mjs", ".cjs", ".ts", ".mts", ".cts", ".tsx", ".jsx",
@@ -109,16 +109,21 @@ export function urlHosts(text) {
       continue;
     }
     const host = u.hostname.toLowerCase().replace(/\.$/, "");
-    if (!/^[a-z0-9][a-z0-9.-]*$/.test(host)) continue;
+    // IPv6 literals (`http://[::1]/x`) are hosts too: dropping them made the URL invisible to every host check.
+    if (!/^[a-z0-9][a-z0-9.-]*$/.test(host) && !/^\[[0-9a-f:.]+\]$/.test(host)) continue;
     out.push({ host, url: m[0], hostPath: host + u.pathname, userinfo: Boolean(u.username || u.password) });
   }
   return out;
 }
 
+// An encoded slash, backslash or dot in the path can leave the allowed folder once the server decodes it
+// (`astral.sh/uv/..%2f..%2fx.sh`): such a URL is never vouched for by a path entry.
+const ENCODED_PATH_RE = /%(2f|5c|2e)|\\/i;
+
 function hostAllowed(h, list) {
   if (h.userinfo) return false;
   return list.some((entry) => {
-    if (entry.includes("/")) return h.hostPath.toLowerCase().startsWith(entry.toLowerCase());
+    if (entry.includes("/")) return !ENCODED_PATH_RE.test(h.hostPath) && h.hostPath.toLowerCase().startsWith(entry.toLowerCase());
     return h.host === entry || h.host.endsWith("." + entry);
   });
 }
@@ -202,6 +207,8 @@ const CLONE_VALUE_OPTIONS = new Set([
   "--reference-if-able", "--separate-git-dir", "--shallow-since", "--shallow-exclude", "--template", "--server-option",
   "--bundle-uri", "--filter",
 ]);
+// After these an interpreter runs the next word as code or as a module, not as a file.
+const INLINE_CODE_FLAGS = new Set(["-c", "-e", "-m", "-p", "-r", "--eval", "--print", "-Command", "-command"]);
 const CLONE_URL_RE = /^(?:(?:https?|ssh|git):\/\/\S+|[\w.-]+@[\w.-]+:\S+)$/i;
 
 // A path as `cd` and the shell resolve it from `cwd` ("." is where the commands start); absolute paths stay absolute.
@@ -277,6 +284,16 @@ function gitCloneThenRun(line, ctx) {
         else if (INTERPRETERS.has(baseName(cmd))) {
           const dashC = words.indexOf("-c");
           fileWord = words.slice(1).find((w, idx) => !w.startsWith("-") && (dashC < 0 || idx + 1 < dashC) && looksFile(w)) ?? null;
+          // An interpreter runs its first argument whatever it is called: `python setup`, `bash install`. In prose
+          // only a path-like word counts ("… then python is ready").
+          if (!fileWord && !opts.prose) {
+            for (const w of words.slice(1)) {
+              if (INLINE_CODE_FLAGS.has(w)) break;
+              if (w.startsWith("-")) continue;
+              fileWord = w;
+              break;
+            }
+          }
         }
         if (!fileWord || !insideClone(resolvePath(cwd, unq(fileWord)), clone.dir)) continue;
         const at = own[k].text.search(/\S/);
@@ -371,7 +388,7 @@ function fileUpload(line, ctx) {
     const at = fetchIndex(stage.text);
     if (at < 0) continue;
     const fetch = stage.text.slice(at);
-    const tool = fetch.split(/\s/, 1)[0].toLowerCase();
+    const tool = fetchToolOf(fetch.split(/\s/, 1)[0]) ?? "";
     const re = tool === "curl" ? UPLOAD_CURL_RE : tool === "wget" ? UPLOAD_WGET_RE : UPLOAD_PS_RE;
     if (re.test(fetch)) found = addMatch(found, { index: stage.start + at, length: fetch.trimEnd().length, text: fetch });
     if (isFull(found)) break;
@@ -442,6 +459,42 @@ const injections = reAll([
   /\b(this|the) (skill|content|file) is (verified|safe|trusted)[^.]*(do not|don't) (scan|flag|review)/i,
 ]);
 const leetInjections = reAll([IGNORE_PREVIOUS_RE]);
+
+// "Ignore the previous instructions" in the languages skills are most often written in. `\b` only knows ASCII
+// letters, so word edges are spelled with \p{L}.
+const foreignInjections = reAll([
+  /(?<!\p{L})(önceki|yukarıdaki|eski|sistem)\s+(tüm\s+|bütün\s+)?(talimatlar\p{L}*|komutlar\p{L}*|kurallar\p{L}*|yönergeler\p{L}*)\s+(yok\s?say|görmezden\s+gel|unut|dikkate\s+alma|geçersiz\s+say)/iu,
+  /(?<!\p{L})(ignora|ignore|olvida|omite|desestima)\s+(todas\s+)?(las\s+)?instrucciones\s+(anteriores|previas)(?!\p{L})/iu,
+  /(?<!\p{L})(ignore[zr]?|oublie[zr]?)\s+(toutes\s+)?(les\s+)?instructions\s+(précédentes|antérieures|ci-dessus)(?!\p{L})/iu,
+  /(?<!\p{L})(ignoriere|ignorieren\s+Sie|vergiss|vergessen\s+Sie|missachte)\s+(alle\s+)?(vorherigen|bisherigen|obigen|früheren)\s+(Anweisungen|Instruktionen|Befehle)(?!\p{L})/iu,
+  /(?<!\p{L})(ignore|esqueça|desconsidere)\s+(todas\s+)?(as\s+)?instruções\s+(anteriores|prévias)(?!\p{L})/iu,
+  /(?<!\p{L})(ignora|dimentica)\s+(tutte\s+)?(le\s+)?istruzioni\s+precedenti(?!\p{L})/iu,
+  /(?<!\p{L})(игнорируй(те)?|забудь(те)?)\s+(все\s+)?(предыдущие|прежние)\s+(инструкции|указания)(?!\p{L})/iu,
+  /(忽略|无视|忘记|忽視|無視)(之前|以上|先前|上述|前面)(的)?(所有)?(指令|指示|提示|说明|說明)/u,
+  /(以前|これまで|上記)の(指示|命令)を(無視|忘れ)/u,
+]);
+
+// Instructions that are unsafe for the agent that follows them, written as plain language with no shell syntax: the
+// rules above cannot see them. These are heuristics over wording, so they are narrow and say what they matched; a
+// skill with none of them is not thereby safe to follow (see docs/guides/security.md).
+const warningSuppression = reAll([
+  /\b(?:it|this|that|these|those|the\s+(?:warning|alert|finding|error|block)s?)(?:\s+is|\s+are|'s)\s+(?:just\s+|only\s+|always\s+)?(?:a\s+)?false\s+positives?\b[^.\n]{0,80}?\b(?:proceed|continue|ignore|go\s+ahead|install|run|retry|override)\b/i,
+  /\b(?:ignore|dismiss|disregard|bypass|suppress|override)\s+(?:any|all|the|these|those|such)?\s*(?:security|safety|guard|scanner|repotify)\s+(?:warnings?|alerts?|blocks?|findings?|prompts?)\b/i,
+  /\b(?:disable|turn\s+off|remove|uninstall)\s+(?:the\s+)?(?:repotify\s+)?(?:package\s+)?guard\b/i,
+]);
+const secretsIntoContext = reAll([
+  /\b(?:read|cat|open|load|print|include|paste|output|show|display|dump|copy)\b[^.\n]{0,60}?(?<![\w-])\.env\b(?!\.(?:example|sample|template))[^.\n]{0,80}?\b(?:into|in|to)\s+(?:the\s+|your\s+)?(?:context|conversation|chat|response|reply|output|prompt)\b/i,
+]);
+const remoteInstructions = reAll([
+  /\b(?:fetch|download|read|load|open|retrieve|get|curl|visit|browse)\b[^.\n]{0,80}?https?:\/\/[^\s)>\]"'`]+[^\n]{0,80}?\b(?:and|then)\s+(?:follow|execute|obey|apply|carry\s+out|do|run)\s+(?:the\s+|its\s+|their\s+|those\s+|these\s+|all\s+|any\s+|whatever\s+)?(?:instructions?|steps|directions|commands|prompts?|it\s+says)\b/i,
+]);
+const authorityClaims = reAll([
+  /\b(?:security|company|corporate|organi[sz]ation(?:al)?|compliance|admin(?:istrator)?|system)\s+polic(?:y|ies)\s+(?:requires?|mandates?|demands?|dictates?)\s+(?:that\s+)?(?:you|the\s+(?:agent|assistant|model|ai))\b/i,
+  /\b(?:push|force[- ]push|commit|merge|deploy|publish|delete|drop|overwrite)\b[^.\n]{0,60}?\bwithout\s+(?:asking|requesting|waiting)(?:\s+for)?(?:\s+(?:any|a|the|user))?\s+(?:confirmation|permission|approval|review)\b/i,
+]);
+const agentSends = reAll([
+  /\b(?:send|post|upload|submit|transmit|forward|report)\b[^.\n]{0,60}?\b(?:output|contents?|results?|files?|data|secrets?|keys?|tokens?|credentials?|conversation|history|source|code|logs?)\b[^.\n]{0,40}?\bto\s+https?:\/\/[^\s)>\]"'`]+/i,
+]);
 const destructive = reAll([
   // `chmod -R 777 /`, `chmod --recursive 777 /` and the symbolic equivalent `chmod -R a+rwx /`.
   /\bchmod\s+(?:-[a-zA-Z]*R[a-zA-Z]*\s+|--recursive\s+)?(?:0?777|a\+rwx)\b/,
@@ -454,6 +507,32 @@ const destructive = reAll([
   />\s*\/dev\/(sd[a-z]|nvme\d|disk\d)/,
   /\bformat\s+c:/i,
 ]);
+
+// "Never ignore security warnings" is the opposite instruction, not a weaker one: a negation the reader can see right
+// before the match drops it.
+// The same holds for a row of a table whose heading says the rows are what not to do ("| Anti-pattern | Risk | Do
+// instead |"): the heading is the visible context of every row under it.
+const AVOID_HEADING_RE = /\b(anti-?patterns?|mistakes?|pitfalls?|avoid|don'?ts?|do not|never|bad|wrong|smells?)\b/i;
+const MAX_TABLE_ROWS_BACK = 200;
+function underAvoidHeading(ctx) {
+  const lines = ctx?.lines;
+  if (!lines || !/^\s*\|/.test(lines[ctx.i])) return false;
+  let top = ctx.i;
+  while (top > 0 && ctx.i - top < MAX_TABLE_ROWS_BACK && /^\s*\|/.test(lines[top - 1])) top--;
+  return top < ctx.i && AVOID_HEADING_RE.test(lines[top]) && !/<!--|\bhidden\b|display\s*:\s*none/i.test(lines[top]);
+}
+
+function notNegated(matches, shown, ctx) {
+  if (!matches.length) return matches;
+  if (underAvoidHeading(ctx)) return NO_MATCHES;
+  const kept = matches.filter((m) => !NEGATION_BEFORE_RE.test(shown.slice(0, m.index)));
+  if (matches.overflow) kept.overflow = true;
+  return kept;
+}
+
+// PowerShell accepts any unambiguous prefix of -EncodedCommand, and -ec.
+const ENCODED_FLAG = ["ec", ...Array.from("encodedcommand", (_, n) => "encodedcommand".slice(0, n + 1))].sort((a, b) => b.length - a.length).join("|");
+const PS_ENCODED_RE = new RegExp(`\\b(?:powershell|pwsh)(?:\\.exe)?\\b[^\\n|;&]{0,200}?\\s-(?:${ENCODED_FLAG})\\s+['"]?[A-Za-z0-9+/=]{16,}`, "i");
 
 export const LINE_RULES = [
   {
@@ -511,7 +590,33 @@ export const LINE_RULES = [
       // ignore/disregard pattern, keeping the false-positive surface small. The substitution is 1:1, so a span found
       // in the normalized line lines up with the original one.
       const deleet = line.replace(/[013457@]/g, (c) => ({ 0: "o", 1: "l", 3: "e", 4: "a", 5: "s", 7: "t", "@": "a" })[c]);
-      return deleet === line ? injections(line) : mergeMatches(injections(line), leetInjections(deleet));
+      const found = deleet === line ? injections(line) : mergeMatches(injections(line), leetInjections(deleet));
+      // Only lines with letters outside ASCII, or with the word for "instructions", can match the other languages.
+      return /[^\x00-\x7f]|instrucciones|istruzioni|instructions|anweisungen|instruktionen|befehle/i.test(line) ? mergeMatches(found, foreignInjections(line)) : found;
+    },
+  },
+  {
+    // Tells the agent to wave a warning through, or to load secrets into the conversation.
+    id: "unsafe-instruction",
+    severity: () => "high",
+    matches(line, ctx) {
+      return notNegated(mergeMatches(warningSuppression(line), secretsIntoContext(line)), ctx?.shown ?? line, ctx);
+    },
+  },
+  {
+    // Softer wording that is sometimes legitimate: instructions loaded from a URL nobody vetted, an appeal to
+    // authority, an irreversible action without asking, a send of local content through the agent's own tools.
+    id: "unsafe-instruction",
+    severity: () => "medium",
+    matches(line, ctx) {
+      return notNegated(mergeMatches(remoteInstructions(line), authorityClaims(line), agentSends(line)), ctx?.shown ?? line, ctx);
+    },
+    adjust(text) {
+      const hosts = urlHosts(text);
+      if (hosts.length && hosts.every((h) => !h.userinfo && (isDocDomain(h.host) || hostAllowed(h, KNOWN_API_HOSTS)))) {
+        return { severity: "low" };
+      }
+      return null;
     },
   },
   {
@@ -523,6 +628,10 @@ export const LINE_RULES = [
       /\b(new\s+)?Function\s*\(\s*(atob|Buffer\.from)\s*\(/,
       /\bbase64\s+(-d|--decode|-D)\b[^\n]{0,300}?\|\s*(sudo\s+)?(ba|z)?sh\b/,
       /\bString\.fromCharCode\((\s*\d+\s*,){20,}/,
+      // PowerShell runs a Base64 string given to -EncodedCommand (any prefix of the name, or -ec).
+      PS_ENCODED_RE,
+      /\bFromBase64String\b[^\n]{0,300}?\|\s*(?:iex|Invoke-Expression)\b/i,
+      /\b(?:iex|Invoke-Expression)\b[^\n]{0,300}?\bFromBase64String\b/i,
     ]),
   },
   {
@@ -575,7 +684,7 @@ export function exfilWindow(lines, i, { comments = false, prose = false } = {}) 
 // Long high-entropy blob combined with an execution primitive in the same file. Every blob counts: a dull one first
 // (a run of padding) must not hide an encoded payload after it.
 const BLOB_RE = /[A-Za-z0-9+/=]{200,}|(?:[0-9a-fA-F]{2}){100,}/g;
-const EXEC_RE = /\b(eval|exec|Function\(|child_process|subprocess|os\.system|popen|spawn|execSync)\b/;
+const EXEC_RE = /\b(eval|exec|Function\(|child_process|subprocess|os\.system|popen|spawn|execSync|Invoke-Expression|FromBase64String)\b/;
 
 export function entropy(s) {
   const counts = new Map();

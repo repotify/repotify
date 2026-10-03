@@ -10,10 +10,10 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isMain, sha256 } from "../src/util.mjs";
-import { rawUrl } from "../src/install.mjs";
+import { rawUrl, RAW_BASE } from "../src/install.mjs";
 import { scanFiles, levelFromFindings, SCANNER_VERSION } from "../src/scan/index.mjs";
 import { PUBLISHABLE_LEVELS, validateCatalog } from "../src/catalog.mjs";
-import { setupSecurity, securityRecord } from "./gate.mjs";
+import { setupSecurity, securityRecord, isUnverified } from "./gate.mjs";
 import { writeCatalogFiles } from "./publish.mjs";
 import { rebuildSeedGraph } from "./graph-seed.mjs";
 import { mapLimit } from "./jev-classify.mjs";
@@ -26,12 +26,26 @@ const KEPT = new Set(["(metadata)", "(jury)", "(denylist)"]);
 async function download(item, { fetchImpl }) {
   const files = [];
   for (const f of item.files) {
-    const res = await fetchWithRetry(rawUrl(item, f), {}, { fetchImpl, retries: 3, timeoutMs: 30000 });
+    // GitHub limits anonymous downloads of raw files to a few hundred an hour; a token (GITHUB_TOKEN) lifts that. It
+    // is sent to GitHub's raw host only.
+    const url = rawUrl(item, f);
+    const token = process.env.GITHUB_TOKEN;
+    const headers = token && url.startsWith(`${RAW_BASE}/`) ? { authorization: `Bearer ${token}` } : {};
+    const res = await fetchWithRetry(url, { headers }, { fetchImpl, retries: 10, timeoutMs: 30000 });
     if (!res.ok) throw new Error(`${item.id}: HTTP ${res.status} for ${f.path}`);
     const content = Buffer.from(await res.arrayBuffer());
     // The commit is pinned, so a different file means a broken download or a broken catalog, never an update.
-    if (sha256(content) !== f.sha256) throw new Error(`${item.id}: ${f.path} does not match the catalog's SHA-256`);
-    files.push({ path: f.path, content, size: content.length });
+    let hash = f.sha256;
+    if (sha256(content) !== f.sha256) {
+      // One broken catalog is known and repairable: the first pipeline hashed files from a git checkout, which turns
+      // LF into CRLF where the repository asks for it, while GitHub serves (and `repotify install` downloads) the
+      // stored bytes. Such an entry can never be installed. When the recorded hash is exactly the CRLF form of what
+      // the pinned commit serves, the hash is corrected to the served bytes; anything else stays an error.
+      const crlf = Buffer.from(content.toString("latin1").replace(/\r?\n/g, "\r\n"), "latin1");
+      if (sha256(crlf) !== f.sha256) throw new Error(`${item.id}: ${f.path} does not match the catalog's SHA-256`);
+      hash = sha256(content);
+    }
+    files.push({ path: f.path, content, size: content.length, sha256: hash });
   }
   return files;
 }
@@ -41,17 +55,26 @@ export async function regateItem(item, { fetchImpl = fetch, now = new Date() } =
   if (item.security?.review) throw new Error(`${item.id}: a reviewer approved it under the old findings; review it again by hand`);
   const kept = (item.security?.findings ?? []).filter((f) => KEPT.has(f.file));
   let record;
+  let files = item.files;
   if (item.type === "skill" || item.type === "plugin") {
-    const scan = scanFiles(await download(item, { fetchImpl }));
+    const downloaded = await download(item, { fetchImpl });
+    const scan = scanFiles(downloaded);
     const findings = [...scan.findings, ...kept];
     record = securityRecord({ level: levelFromFindings(findings), findings }, now);
+    const served = new Map(downloaded.map((d) => [d.path, d.sha256]));
+    files = item.files.map((f) => (served.get(f.path) === f.sha256 ? f : { ...f, sha256: served.get(f.path) }));
   } else {
-    const gated = await setupSecurity(item.setup, { fetchImpl, now });
+    // Registries are asked again on a refusal; an answer that never comes stops the run instead of deciding the item.
+    const patient = (url, init) => fetchWithRetry(url, init, { fetchImpl, retries: 4, timeoutMs: 30000 });
+    const gated = await setupSecurity(item.setup, { fetchImpl: patient, now });
+    if (isUnverified(gated.findings)) {
+      throw new Error(`${item.id}: ${gated.findings.find((f) => String(f.note ?? "").startsWith("could not verify")).note}; nothing was decided, run the re-gate again`);
+    }
     const findings = [...gated.findings, ...kept];
     record = { ...gated, level: levelFromFindings(findings), findings };
   }
   const badges = (item.badges ?? []).filter((b) => b !== "caution");
-  return { ...item, badges: record.level === "caution" ? [...badges, "caution"] : badges, security: record };
+  return { ...item, ...(files ? { files } : {}), badges: record.level === "caution" ? [...badges, "caution"] : badges, security: record };
 }
 
 const reasonOf = (security) => {
@@ -65,6 +88,7 @@ export async function regateCatalog(dir, { fetchImpl = fetch, now = new Date(), 
   const regated = await mapLimit(items, concurrency, async (item) => {
     const next = await regateItem(item, { fetchImpl, now });
     if (next.security.level !== item.security.level) log(`${item.id}: ${item.security.level} -> ${next.security.level}`);
+    if (JSON.stringify(next.files) !== JSON.stringify(item.files)) log(`${item.id}: file hashes corrected to the bytes its pinned commit serves`);
     return next;
   });
   const kept = regated.filter((i) => PUBLISHABLE_LEVELS.includes(i.security.level));

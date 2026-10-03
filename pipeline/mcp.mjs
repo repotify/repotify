@@ -10,7 +10,8 @@ import { resolve } from "node:path";
 import { isMain } from "../src/util.mjs";
 import { ask, jevConfig } from "../lib/signals/jev.mjs";
 import { createStore, obsKey } from "./store.mjs";
-import { setupSecurity } from "./gate.mjs";
+import { setupSecurity, isUnverified, GATE_VERSION } from "./gate.mjs";
+import { SCANNER_VERSION } from "../src/scan/index.mjs";
 import { fetchWithRetry } from "./lib/http.mjs";
 import { githubClient } from "./github.mjs";
 import { metaByName } from "./crawl.mjs";
@@ -261,7 +262,10 @@ export function serverQuestions(taxonomy) {
 const serverState = (s) => ({ name: s.title, registry_name: s.name, package: `${s.registry}:${s.package}`, description: s.description || "(none)" });
 // Bumped when what the gate records about a server changes, so stored results are made again.
 const MCP_GATE = 3;
-const gateKey = (s) => obsKey("mcp-gate", s.registry, s.package, s.packageVersion, MCP_GATE);
+// The scanner and gate versions are part of the key: a verdict made by older rules is not this server's verdict any
+// more. Without them a server gated once stayed "verified" through every later scanner release, and the catalog
+// stamped it with the current versions.
+const gateKey = (s) => obsKey("mcp-gate", s.registry, s.package, s.packageVersion, MCP_GATE, SCANNER_VERSION, GATE_VERSION);
 
 // What the store already holds about a server, without the network: its gate result and the decision model's answers
 // (null for what was never observed).
@@ -328,7 +332,7 @@ export async function gateServer(store, s, { fetchImpl, now = new Date() } = {})
   const once = onceFetch(fetchImpl);
   const sec = { ...(await setupSecurity(mcpSetup(s), { fetchImpl: once, now })), runnable: await runnable(s, once) };
   // A registry that did not answer is not a verdict on the package: asked again next run.
-  if (!sec.findings.some((f) => String(f.note ?? "").startsWith("could not verify"))) store.putObs("mcp-gate", key, sec);
+  if (!isUnverified(sec.findings)) store.putObs("mcp-gate", key, sec);
   return sec;
 }
 

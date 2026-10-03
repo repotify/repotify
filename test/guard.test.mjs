@@ -24,7 +24,7 @@ const daysAgo = (d) => new Date(NOW - d * 86400000).toISOString();
 
 test("install commands are parsed across package managers", () => {
   assert.deepEqual(parseInstallCommands("npm i -D left-padx@1.0.0 react"), [{ ecosystem: "npm", packages: ["left-padx", "react"] }]);
-  assert.deepEqual(parseInstallCommands("pip install -r req.txt requests==2.0"), [{ ecosystem: "pypi", packages: ["requests"] }]);
+  assert.deepEqual(parseInstallCommands("pip install -r req.txt requests==2.0"), [{ ecosystem: "pypi", packages: ["requests"], files: ["req.txt"] }]);
   assert.deepEqual(parseInstallCommands("pnpm add @scope/pkg@^2 && yarn add lodash"), [{ ecosystem: "npm", packages: ["@scope/pkg"] }, { ecosystem: "npm", packages: ["lodash"] }]);
   assert.deepEqual(parseInstallCommands("uv add 'fastapi[standard]>=0.1' httpx"), [{ ecosystem: "pypi", packages: ["fastapi", "httpx"] }]);
   assert.deepEqual(parseInstallCommands("python -m pip install --upgrade numpy"), [{ ecosystem: "pypi", packages: ["numpy"] }]);
@@ -32,7 +32,9 @@ test("install commands are parsed across package managers", () => {
   assert.deepEqual(parseInstallCommands("npm exec -y evil-pkg"), [{ ecosystem: "npm", packages: ["evil-pkg"] }]);
   assert.deepEqual(parseInstallCommands("npm x evil-pkg"), [{ ecosystem: "npm", packages: ["evil-pkg"] }]);
   assert.deepEqual(parseInstallCommands("npm install"), []);
-  assert.deepEqual(parseInstallCommands("pip install -e . ./local git+https://x/y.git"), []);
+  assert.deepEqual(parseInstallCommands("pip install -e . ./local"), []);
+  // An install from a URL is not checkable by name: it is reported, so the hook can ask.
+  assert.deepEqual(parseInstallCommands("pip install -e . ./local git+https://x/y.git"), [{ ecosystem: "pypi", packages: [], remote: ["git+https://x/y.git"] }]);
   assert.deepEqual(parseInstallCommands("ls -la"), []);
 });
 
@@ -44,10 +46,13 @@ test("npx/npm exec -p/--package checks the installed package, not the command", 
   assert.deepEqual(parseInstallCommands("npx somecmd"), [{ ecosystem: "npm", packages: ["somecmd"] }]);
 });
 
+// A registry the guard cannot check is reported (no names: they must not leak to the public registry), so the hook asks.
+const custom = (ecosystem) => [{ ecosystem, packages: [], customRegistry: true }];
+
 test("registry env prefix opts out of the public-registry check", () => {
-  assert.deepEqual(parseInstallCommands("NPM_CONFIG_REGISTRY=https://evil.example npm i pkg"), []);
+  assert.deepEqual(parseInstallCommands("NPM_CONFIG_REGISTRY=https://evil.example npm i pkg"), custom("npm"));
   assert.deepEqual(parseInstallCommands("NPM_CONFIG_REGISTRY=https://registry.npmjs.org npm i pkg"), [{ ecosystem: "npm", packages: ["pkg"] }]);
-  assert.deepEqual(parseInstallCommands("PIP_INDEX_URL=https://evil.example/simple pip install pkg"), []);
+  assert.deepEqual(parseInstallCommands("PIP_INDEX_URL=https://evil.example/simple pip install pkg"), custom("pypi"));
 });
 
 function registry(map) {
@@ -127,8 +132,8 @@ test("I3: more command shapes are parsed", () => {
 
 test("I3: workspace specs and custom registries are never looked up publicly", () => {
   assert.deepEqual(parseInstallCommands("pnpm add @acme/shared@workspace:*"), []);
-  assert.deepEqual(parseInstallCommands("npm i --registry https://npm.acme.internal @acme/ui"), []);
-  assert.deepEqual(parseInstallCommands("pip install --index-url https://pypi.acme/simple internal-lib"), []);
+  assert.deepEqual(parseInstallCommands("npm i --registry https://npm.acme.internal @acme/ui"), custom("npm"));
+  assert.deepEqual(parseInstallCommands("pip install --index-url https://pypi.acme/simple internal-lib"), custom("pypi"));
 });
 
 test("I3: a scoped package missing from the public registry asks instead of blocking", async () => {
@@ -154,8 +159,8 @@ test("re-review I-5: -f and -i only mean a custom index for pip-style tools, and
   assert.deepEqual(parseInstallCommands("bun add -f x"), [{ ecosystem: "npm", packages: ["x"] }]);
   assert.deepEqual(parseInstallCommands("pip install -i https://pypi.org/simple reqeusts"), [{ ecosystem: "pypi", packages: ["reqeusts"] }]);
   assert.deepEqual(parseInstallCommands("npm i --registry=https://registry.npmjs.org/ lodahs"), [{ ecosystem: "npm", packages: ["lodahs"] }]);
-  assert.deepEqual(parseInstallCommands("pip install -i https://pypi.acme/simple internal-lib"), []);
-  assert.deepEqual(parseInstallCommands("npm i --registry=https://npm.acme.internal @acme/ui"), []);
+  assert.deepEqual(parseInstallCommands("pip install -i https://pypi.acme/simple internal-lib"), custom("pypi"));
+  assert.deepEqual(parseInstallCommands("npm i --registry=https://npm.acme.internal @acme/ui"), custom("npm"));
 });
 
 test("re-review M-i: npm aliases are looked up by the real package name", () => {

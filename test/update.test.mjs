@@ -35,14 +35,14 @@ async function installed() {
 test("checkUpdates lists vetted newer commits only", async () => {
   const cwd = await installed();
   const lock = readLock(cwd);
-  assert.deepEqual(checkUpdates({ lock, catalog: catalogOf(skill(C1, V1)) }), { items: [], removedFromCatalog: [] });
+  assert.deepEqual(checkUpdates({ lock, catalog: catalogOf(skill(C1, V1)) }), { items: [], removedFromCatalog: [], heldBack: [] });
   assert.deepEqual(checkUpdates({ lock, catalog: catalogOf(skill(C2, V2)) }).items, [{ id: "demo", fromCommit: C1, toCommit: C2, level: "verified" }]);
 });
 
 test("an installed item that left the catalog is reported, never auto-updated", async () => {
   const cwd = await installed();
   const r = checkUpdates({ lock: readLock(cwd), catalog: catalogOf() });
-  assert.deepEqual(r, { items: [], removedFromCatalog: ["demo"] });
+  assert.deepEqual(r, { items: [], removedFromCatalog: ["demo"], heldBack: [] });
 });
 
 test("applyUpdates moves to the new commit; a hash failure keeps the old files", async () => {

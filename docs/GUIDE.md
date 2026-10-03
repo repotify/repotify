@@ -29,7 +29,7 @@ Behind `recommend` (in `lib/pipeline/`) is a deterministic pipeline: no model ca
 
 The quality bar (`npm run eval`, 49 scenarios) runs this same engine, so a green eval means the sets users get are right.
 
-Measurement and learning are built but not live: Stage 0 telemetry logs episodes locally, and a LinUCB learner with off-policy evaluation (`lib/learn/`) is tested in simulation. They are not wired into `recommend` and no collection server runs, so rankings do not learn yet; exploration is off unless `REPOTIFY_EXPLORE=1`.
+Measurement and learning are built but not live: Stage 0 telemetry logs episodes locally, and a LinUCB learner with off-policy evaluation (`lib/learn/`) is tested in simulation. The learner is not wired into `recommend` and no collection server runs, so rankings do not learn yet. The one fleet input `recommend` does read is a policy file saved by a `repotify sync` (none exists unless you synced with a fleet server): it moves a score by at most 0.1; exploration is off unless `REPOTIFY_EXPLORE=1`.
 
 
 ## Locked product decisions (8-question package, 2026-10-01)
@@ -55,6 +55,8 @@ Approved product decisions and where they are enforced in code:
 | `rejected` | Critical risk | Removed from the catalog |
 
 - A rule-based scanner decides trust. It reads shell commands the way a shell does (pipes, quotes, subshells, line continuations) and parses URLs the way curl does. It looks for remote code execution, credential access, data exfiltration, prompt injection aimed at agents or reviewers, hidden Unicode, obfuscated code, auto-running hooks, install scripts, destructive commands, binaries and symlinks.
+- `verified` means the scanner found no known malicious pattern. It does not mean the instructions are safe to follow: plain-language rules catch some unsafe instructions (waving a warning through, reading `.env` into the conversation, loading instructions from a URL), and a paraphrase can miss them. What each check covers and what it does not: [guides/security.md](guides/security.md).
+- The package guard asks instead of passing in silence when it could not check an install (registry unreachable, install from a URL, an unknown registry).
 - The LLM jury can only add suspicion, never raise trust.
 - Third-party items are pinned to a commit and never update silently.
 - Tools (for example Graphify) are never executed for you; Repotify shows the steps.

@@ -17,7 +17,9 @@ export function loadScenarios(dir = join(here, "scenarios")) {
   return readdirSync(dir).filter((f) => f.endsWith(".json")).sort().map((f) => JSON.parse(readFileSync(join(dir, f), "utf8")));
 }
 
-export function runEval(scenarios, catalog, { graph = loadSeedGraph(SEED_GRAPH) } = {}) {
+// `machine` pins what the computer can run (the CLI probes the real one; an eval must not depend on the machine it
+// runs on). A scenario's own `machine` wins; with neither, no runtime is held against an item.
+export function runEval(scenarios, catalog, { graph = loadSeedGraph(SEED_GRAPH), machine = null } = {}) {
   const itemById = new Map(catalog.items.map((i) => [i.id, i]));
   let hits = 0;
   let total = 0;
@@ -28,7 +30,9 @@ export function runEval(scenarios, catalog, { graph = loadSeedGraph(SEED_GRAPH) 
   for (const s of scenarios) {
     const fp = { empty: false, stacks: [], inferredNeeds: [], agents: { configured: [], skills: [] }, ...s.fingerprint };
     const needs = resolveNeeds({ fingerprint: fp, answers: s.answers ?? {}, taxonomy: catalog.taxonomy });
-    const rec = recommendLocal({ catalog, graph, demand: demandFor({ catalog, fingerprint: fp, needs }), answers: s.answers ?? {} });
+    const pinned = s.machine ?? machine;
+    const demand = { ...demandFor({ catalog, fingerprint: fp, needs, answers: s.answers ?? {} }), ...(pinned ? { machine: pinned } : {}) };
+    const rec = recommendLocal({ catalog, graph, demand, answers: s.answers ?? {} });
     const defaultSet = rec.set;
     const chosen = new Set(defaultSet);
     const clusters = defaultSet.map((id) => itemById.get(id)?.cluster);

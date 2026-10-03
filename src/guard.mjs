@@ -24,11 +24,26 @@ export function tokenize(command) {
   for (let i = 0; i < command.length; i++) {
     const ch = command[i];
     if (quote) {
-      if (ch === quote) quote = null;
+      // Inside double quotes a backslash escapes `"`, `\\`, `$` and the backtick; inside single quotes nothing does.
+      if (ch === "\\" && quote === '"' && '"\\$`'.includes(command[i + 1] ?? "")) cur += command[++i];
+      else if (ch === quote) quote = null;
       else cur += ch;
       continue;
     }
-    if (ch === "'" || ch === '"') {
+    if (ch === "\\") {
+      // Outside quotes a backslash makes the next character literal (`\"` is a quote character, not a quote), and
+      // a backslash before a newline joins the lines. Reading `\"` as an opening quote swallowed every command
+      // after it into one word.
+      if (command[i + 1] === "\n") i++;
+      else if (i + 1 < command.length) {
+        cur += command[++i];
+        has = true;
+      }
+    } else if (ch === "#" && !has) {
+      // A comment runs to the end of the line.
+      const nl = command.indexOf("\n", i);
+      i = (nl < 0 ? command.length : nl) - 1;
+    } else if (ch === "'" || ch === '"') {
       quote = ch;
       has = true;
     } else if (ch === "\n" || ch === "(" || ch === ")" || ch === "`" || (ch === "$" && command[i + 1] === "(")) {
@@ -93,16 +108,42 @@ function pypiName(token) {
   return /^[a-z0-9]([a-z0-9._-]*[a-z0-9])?$/.test(name) ? name : null;
 }
 
-function collect(args, valueFlags, toName, { firstOnly = false } = {}) {
+// An install that takes its code from a URL or a git host instead of the registry: `pip install https://…`,
+// `npm i github:user/repo`, and the forms that put a familiar name in front of it: PEP 508 `requests @ https://…`
+// and `npm i react@https://…`. The name proves nothing there, so the guard asks instead of checking the name.
+const REMOTE_RE = /^(https?|ftp|git|ssh):\/\/|^git\+|^(github|gitlab|bitbucket|gist):|^git@/i;
+function remoteSource(token, ecosystem) {
+  if (REMOTE_RE.test(token)) return token;
+  const at = ecosystem === "npm" ? token.indexOf("@", 1) : token.indexOf("@");
+  if (at < 0) return null;
+  const target = token.slice(at + 1).trim();
+  if (REMOTE_RE.test(target)) return target;
+  // `user/repo` after the `@` is npm's GitHub shorthand.
+  return ecosystem === "npm" && /^[\w.-]+\/[\w.-]+(#.*)?$/.test(target) && !target.startsWith("npm:") ? `github:${target}` : null;
+}
+
+function collect(args, valueFlags, toName, { firstOnly = false, ecosystem = "npm", remote = [], files = [] } = {}) {
   const out = [];
   for (let i = 0; i < args.length; i++) {
     const a = args[i];
     if (a.startsWith("-")) {
+      // `pip install -r requirements.txt`: the packages are in the file.
+      if (ecosystem === "pypi" && (a === "-r" || a === "--requirement") && args[i + 1]) files.push(args[i + 1]);
+      else if (ecosystem === "pypi" && a.startsWith("--requirement=")) files.push(a.slice("--requirement=".length));
+      // `pip install -e git+https://…` installs from the URL like any other; `-e .` is local.
+      else if (ecosystem === "pypi" && (a === "-e" || a === "--editable") && remoteSource(args[i + 1] ?? "", ecosystem)) remote.push(args[i + 1]);
       if (valueFlags.has(a)) i++;
       continue;
     }
-    const n = toName(a);
-    if (n) out.push(n);
+    // A bare `@` joins the words around it (`requests @ https://…` typed without quotes).
+    const joined = args[i + 1] === "@" && args[i + 2] ? `${a}@${args[i + 2]}` : a;
+    if (joined !== a) i += 2;
+    const from = remoteSource(joined, ecosystem);
+    if (from) remote.push(from);
+    else {
+      const n = toName(joined);
+      if (n) out.push(n);
+    }
     if (firstOnly) break;
   }
   return out;
@@ -120,40 +161,65 @@ function skipLeadingFlags(args, valueFlags) {
   return args.slice(i);
 }
 
+// Words that run the command after them: `sudo -E npm i x`, `env npm i x`, `nice -n 5 npm i x`, `timeout 60 npm i x`.
+// The guard read only a bare `sudo`, so any of these in front made the install invisible.
+const WRAPPERS = new Set(["sudo", "doas", "env", "command", "exec", "nohup", "time", "builtin", "nice", "ionice", "stdbuf", "timeout", "caffeinate", "unbuffer"]);
+const WRAPPER_VALUE_FLAGS = new Set(["-u", "-g", "-C", "-h", "-p", "-U", "-D", "-R", "-T", "-n", "-c", "-i", "-o", "-e", "-k", "-s", "-S"]);
+
+// The program a word runs: the last path segment, without a Windows shim extension (`/usr/local/bin/npm`, `npm.cmd`).
+function programOf(word) {
+  return word.split(/[\\/]/).pop().toLowerCase().replace(/\.(cmd|exe|bat|ps1)$/, "");
+}
+
+const NODE_MANAGERS = ["npm", "pnpm", "yarn", "bun"];
+const isPip = (cmd) => /^pip(3(\.\d+)?)?$/.test(cmd);
+const isPython = (cmd) => /^(python(3(\.\d+)?)?|py)$/.test(cmd);
+const PYTHON_VALUE_FLAGS = new Set(["-W", "-X", "--check-hash-based-pycs"]);
+
 function parseSegment(rawWords) {
   let w = unwrap(rawWords);
   // An env prefix chooses the registry the install actually uses: `NPM_CONFIG_REGISTRY=https://evil npm i pkg`
   // must not be checked against the public registry.
   let envRegistry = "";
-  while (w.length && (/^[A-Za-z_][A-Za-z0-9_]*=/.test(w[0]) || w[0] === "sudo" || w[0] === "command" || w[0] === "exec")) {
-    const reg = /^(NPM_CONFIG_REGISTRY|PIP_INDEX_URL)=(\S+)/i.exec(w[0]);
+  let wrapped = false;
+  while (w.length) {
+    const reg = /^(NPM_CONFIG_REGISTRY|PIP_INDEX_URL|UV_INDEX_URL|UV_DEFAULT_INDEX|PIP_EXTRA_INDEX_URL)=(\S+)/i.exec(w[0]);
     if (reg) envRegistry = reg[2];
-    w = w.slice(1);
+    if (/^[A-Za-z_][A-Za-z0-9_]*=/.test(w[0])) w = w.slice(1);
+    else if (WRAPPERS.has(programOf(w[0]))) {
+      wrapped = true;
+      w = w.slice(1);
+    } else if (wrapped && w[0].startsWith("-")) w = w.slice(WRAPPER_VALUE_FLAGS.has(w[0]) ? 2 : 1);
+    // `nice 10 …`, `timeout 60s …`: a number right after a wrapper is its argument.
+    else if (wrapped && /^\d+(\.\d+)?[smhd]?$/.test(w[0])) w = w.slice(1);
+    else break;
   }
   if (!w.length) return null;
-  const cmd = w[0];
-  const ecosystem = ["npm", "pnpm", "yarn", "bun", "npx", "bunx"].includes(cmd) ? "npm" : "pypi";
-  if ((envRegistry && !PUBLIC_REGISTRY_RE.test(envRegistry)) || usesCustomRegistry(w.slice(1), ecosystem)) return null;
-  const isNode = ["npm", "pnpm", "yarn", "bun"].includes(cmd);
+  const cmd = programOf(w[0]);
+  const ecosystem = [...NODE_MANAGERS, "npx", "bunx"].includes(cmd) ? "npm" : "pypi";
+  // A registry given on the command line (or by an env prefix) is one the guard cannot check, and a look-alike of
+  // the public one is the point of the attack: the group comes back with the registry instead of vanishing.
+  const custom = (envRegistry && !PUBLIC_REGISTRY_RE.test(envRegistry)) || usesCustomRegistry(w.slice(1), ecosystem);
+  const isNode = NODE_MANAGERS.includes(cmd);
   const [sub, ...rest] = isNode ? skipLeadingFlags(w.slice(1), NPM_VALUE_FLAGS) : w.slice(1);
-  const npm = (args, opts) => ({ ecosystem: "npm", packages: collect(args, NPM_VALUE_FLAGS, npmName, opts) });
-  const pypi = (args, opts) => ({ ecosystem: "pypi", packages: collect(args, PIP_VALUE_FLAGS, pypiName, opts) });
+  const group = (eco, flags, toName) => (args, opts) => {
+    const remote = [];
+    const files = [];
+    const packages = collect(args, flags, toName, { ...opts, ecosystem: eco, remote, files });
+    return { ecosystem: eco, packages, remote, files, customRegistry: Boolean(custom) };
+  };
+  const npm = group("npm", NPM_VALUE_FLAGS, npmName);
+  const pypi = group("pypi", PIP_VALUE_FLAGS, pypiName);
   // `npx -p pkg cmd` / `npm exec --package=pkg -- cmd` install and run `pkg`, not `cmd`: the package under
   // scrutiny is the -p/--package value. Without it, fall back to the first positional as before.
   const execPackages = (args) => {
-    const pkgs = [];
+    const named = [];
     for (let i = 0; i < args.length; i++) {
       const a = args[i];
-      if (a === "-p" || a === "--package") {
-        const n = npmName(args[i + 1] ?? "");
-        if (n) pkgs.push(n);
-        i++;
-      } else if (a.startsWith("--package=")) {
-        const n = npmName(a.slice("--package=".length));
-        if (n) pkgs.push(n);
-      }
+      if (a === "-p" || a === "--package") named.push(args[++i] ?? "");
+      else if (a.startsWith("--package=")) named.push(a.slice("--package=".length));
     }
-    return pkgs.length ? { ecosystem: "npm", packages: pkgs } : npm(args, { firstOnly: true });
+    return named.length ? npm(named.filter(Boolean)) : npm(args, { firstOnly: true });
   };
   if (cmd === "npm" && ["i", "install", "add", "isntall", "in"].includes(sub)) return npm(rest);
   // `npm exec` / `npm x` download and run a package exactly like `npx` does.
@@ -163,8 +229,15 @@ function parseSegment(rawWords) {
   if (cmd === "yarn" && sub === "workspace" && rest[1] === "add") return npm(rest.slice(2));
   if (cmd === "npx" || cmd === "bunx") return execPackages([sub, ...rest].filter(Boolean));
   if ((cmd === "pnpm" || cmd === "yarn") && sub === "dlx") return execPackages(rest);
-  if ((cmd === "pip" || cmd === "pip3") && sub === "install") return pypi(rest);
-  if (/^python3?(\.\d+)?$/.test(cmd) && sub === "-m" && rest[0] === "pip" && rest[1] === "install") return pypi(rest.slice(2));
+  if (isPip(cmd) && sub === "install") return pypi(rest);
+  if (isPython(cmd)) {
+    // `python -u -m pip install …`, `py -3 -m pip install …`: options may come before `-m`.
+    const args = w.slice(1);
+    let k = 0;
+    while (k < args.length && args[k].startsWith("-") && args[k] !== "-m") k += PYTHON_VALUE_FLAGS.has(args[k]) ? 2 : 1;
+    if (args[k] === "-m" && args[k + 1] === "pip" && args[k + 2] === "install") return pypi(args.slice(k + 3));
+    return null;
+  }
   if (cmd === "uv" && sub === "add") return pypi(rest);
   if (cmd === "uv" && sub === "pip" && rest[0] === "install") return pypi(rest.slice(1));
   if (cmd === "poetry" && sub === "add") return pypi(rest);
@@ -201,7 +274,16 @@ export function parseInstallCommands(command) {
   let words = [];
   const flush = () => {
     const g = parseSegment(words);
-    if (g && g.packages.length) groups.push(g);
+    // A group with a custom registry has nothing the public registry can vouch for: its names are not checked.
+    if (g && (g.packages.length || g.remote.length || g.files.length || g.customRegistry)) {
+      groups.push({
+        ecosystem: g.ecosystem,
+        packages: g.customRegistry ? [] : g.packages,
+        ...(g.remote.length ? { remote: g.remote } : {}),
+        ...(g.files.length ? { files: g.files } : {}),
+        ...(g.customRegistry ? { customRegistry: true } : {}),
+      });
+    }
     words = [];
   };
   for (const t of tokenize(String(command ?? ""))) {
@@ -223,22 +305,67 @@ async function lookup(ecosystem, name, fetchImpl) {
   return { exists: true, created: times[0] ?? null };
 }
 
+// At most this many packages of one command are looked up, a few at a time: a command naming hundreds of packages
+// must not open hundreds of connections (each with its own 8 s timeout).
+export const MAX_CHECKED_PACKAGES = 25;
+const LOOKUPS_AT_ONCE = 6;
+
 export async function checkPackages({ ecosystem, packages, fetchImpl = fetch, now = new Date() }) {
-  return Promise.all(
-    packages.map(async (name) => {
+  const out = new Array(packages.length);
+  let next = 0;
+  const worker = async () => {
+    while (next < packages.length) {
+      const n = next++;
+      const name = packages[n];
       try {
         const info = await lookup(ecosystem, name, fetchImpl);
-        if (!info.exists) return { name, exists: false, ageDays: null, verdict: "missing" };
-        const ageDays = info.created ? Math.floor((now - new Date(info.created)) / DAY) : null;
-        return { name, exists: true, ageDays, verdict: ageDays !== null && ageDays < NEW_PACKAGE_DAYS ? "new" : "ok" };
+        if (!info.exists) out[n] = { name, exists: false, ageDays: null, verdict: "missing" };
+        else {
+          const ageDays = info.created ? Math.floor((now - new Date(info.created)) / DAY) : null;
+          out[n] = { name, exists: true, ageDays, verdict: ageDays !== null && ageDays < NEW_PACKAGE_DAYS ? "new" : "ok" };
+        }
       } catch {
-        return { name, exists: null, ageDays: null, verdict: "unknown" };
+        out[n] = { name, exists: null, ageDays: null, verdict: "unknown" };
       }
-    }),
-  );
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(LOOKUPS_AT_ONCE, packages.length) }, worker));
+  return out;
 }
 
 const REGISTRY = { npm: "npm", pypi: "PyPI" };
+const MAX_REQUIREMENTS_BYTES = 256 * 1024;
+
+// The package names in a requirements file, as far as they can be read: comments, options and URLs are skipped.
+// `remote` collects the lines that install from a URL. null when the file cannot be read.
+export function requirementNames(cwd, file, remote = []) {
+  try {
+    const path = join(cwd ?? ".", file);
+    const st = statSync(path);
+    if (!st.isFile() || st.size > MAX_REQUIREMENTS_BYTES) return null;
+    const names = [];
+    for (const raw of readFileSync(path, "utf8").split("\n")) {
+      const line = raw.replace(/(^|\s)#.*$/, "").trim();
+      if (!line || line.startsWith("-")) continue;
+      const from = remoteSource(line, "pypi");
+      if (from) remote.push(from);
+      else {
+        const n = pypiName(line);
+        if (n) names.push(n);
+      }
+    }
+    return names;
+  } catch {
+    return null;
+  }
+}
+
+const shown = (text) => String(text).replace(/[^\x20-\x7e]/g, "?").slice(0, 80);
+const ask = (reason) => ({
+  exitCode: 0,
+  stdout: JSON.stringify({ hookSpecificOutput: { hookEventName: "PreToolUse", permissionDecision: "ask", permissionDecisionReason: `Repotify guard: ${reason}` } }),
+  stderr: "",
+});
 
 export async function runHook(stdinText, { fetchImpl = fetch, now = new Date() } = {}) {
   let input;
@@ -249,11 +376,37 @@ export async function runHook(stdinText, { fetchImpl = fetch, now = new Date() }
   }
   if (input?.tool_name !== "Bash") return { exitCode: 0, stdout: "", stderr: "" };
   const privateNpm = privateNpmScopes(input.cwd);
-  const groups = parseInstallCommands(input.tool_input?.command)
+  const parsed = parseInstallCommands(input.tool_input?.command);
+  // What the guard cannot check is said, not passed over: an install from a URL, a registry it does not know, a
+  // requirements file it cannot read.
+  const unchecked = [];
+  for (const g of parsed) {
+    for (const r of g.remote ?? []) unchecked.push(`${shown(r)} is installed from a URL, not from the registry`);
+    if (g.customRegistry) unchecked.push(`the command names a registry other than the public ${REGISTRY[g.ecosystem]} one`);
+    for (const f of g.files ?? []) {
+      const remote = [];
+      const names = requirementNames(input.cwd, f, remote);
+      if (names === null) unchecked.push(`the packages in ${shown(f)} could not be read`);
+      else g.packages = [...g.packages, ...names];
+      for (const r of remote) unchecked.push(`${shown(r)} (from ${shown(f)}) is installed from a URL, not from the registry`);
+    }
+  }
+  const groups = parsed
+    .map((g) => ({ ecosystem: g.ecosystem, packages: [...new Set(g.packages)] }))
     .map((g) => (g.ecosystem !== "npm" ? g : privateNpm.all ? { ...g, packages: [] } : { ...g, packages: g.packages.filter((p) => !privateNpm.scopes.has(p.split("/")[0])) }))
     .filter((g) => g.packages.length);
-  if (!groups.length) return { exitCode: 0, stdout: "", stderr: "" };
-  const results = (await Promise.all(groups.map(async (g) => (await checkPackages({ ...g, fetchImpl, now })).map((r) => ({ ...r, ecosystem: g.ecosystem }))))).flat();
+  let budget = MAX_CHECKED_PACKAGES;
+  let skipped = 0;
+  for (const g of groups) {
+    skipped += Math.max(0, g.packages.length - budget);
+    g.packages = g.packages.slice(0, budget);
+    budget -= g.packages.length;
+  }
+  if (skipped) unchecked.push(`${skipped} more package${skipped === 1 ? " was" : "s were"} not checked (only the first ${MAX_CHECKED_PACKAGES} are)`);
+  const results = [];
+  for (const g of groups) {
+    if (g.packages.length) results.push(...(await checkPackages({ ...g, fetchImpl, now })).map((r) => ({ ...r, ecosystem: g.ecosystem })));
+  }
   // A scoped name missing from the public registry is usually a private package: ask, don't block.
   for (const r of results) if (r.verdict === "missing" && r.name.startsWith("@")) r.verdict = "private?";
   const missing = results.filter((r) => r.verdict === "missing");
@@ -266,17 +419,15 @@ export async function runHook(stdinText, { fetchImpl = fetch, now = new Date() }
     };
   }
   const fresh = results.filter((r) => r.verdict === "new" || r.verdict === "private?");
+  // The registry did not answer: the package was not checked, which is not the same as the package being fine.
+  const unknown = results.filter((r) => r.verdict === "unknown");
+  if (unknown.length) unchecked.push(`${unknown.slice(0, 5).map((r) => r.name).join(", ")} could not be checked (the ${[...new Set(unknown.map((r) => REGISTRY[r.ecosystem]))].join(" and ")} registry did not answer)`);
   if (fresh.length) {
     const names = fresh.map((r) => (r.verdict === "new" ? `${r.name} (${r.ageDays} days old)` : `${r.name} (not on the public registry; fine if it is your private package)`)).join(", ");
-    const out = {
-      hookSpecificOutput: {
-        hookEventName: "PreToolUse",
-        permissionDecision: "ask",
-        permissionDecisionReason: `Repotify guard: please confirm ${names}. New or unknown packages are a common typosquatting vehicle; make sure this is the package you meant.`,
-      },
-    };
-    return { exitCode: 0, stdout: JSON.stringify(out), stderr: "" };
+    const rest = unchecked.length ? ` Also: ${unchecked.join("; ")}.` : "";
+    return ask(`please confirm ${names}. New or unknown packages are a common typosquatting vehicle; make sure this is the package you meant.${rest}`);
   }
+  if (unchecked.length) return ask(`not checked: ${unchecked.join("; ")}. Confirm this is what you meant to install.`);
   return { exitCode: 0, stdout: "", stderr: "" };
 }
 
