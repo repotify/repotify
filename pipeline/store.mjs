@@ -9,6 +9,8 @@
 //   <dir>/trees/ab/<tree hash>.json     a skill folder at one commit: [{ path, sha256, size } | { path, link }]
 //   <dir>/repos/<owner>__<name>.json    what the lab knows about a repository: metadata, commits seen, skill folders
 //   <dir>/obs/<kind>/ab/<key>.json      observations (scans, classifier answers) keyed by content and observer version
+//   <dir>/index/<kind>/<owner>__<name>.json  what a pipeline step worked out about a repository, kept so the next
+//                                       run does not read its content again; rebuilt from the rest when missing
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -23,7 +25,7 @@ export function gitBlobId(content) {
 }
 
 // Canonical JSON (sorted keys), so the same tree always hashes the same.
-function canonical(value) {
+export function canonical(value) {
   if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
   if (value && typeof value === "object") return `{${Object.keys(value).sort().map((k) => `${JSON.stringify(k)}:${canonical(value[k])}`).join(",")}}`;
   return JSON.stringify(value);
@@ -127,6 +129,31 @@ export function createStore(dir) {
     getObs: (kind, key) => readJson(shard(`obs/${kind}`, key, ".json")),
     putObs: (kind, key, value) => write(shard(`obs/${kind}`, key, ".json"), JSON.stringify(value)),
 
+    // The keys of every observation of a kind: one directory listing per shard, no file is opened.
+    listObs(kind) {
+      const out = new Set();
+      let shards = [];
+      try {
+        shards = readdirSync(join(dir, "obs", kind));
+      } catch {
+        return out;
+      }
+      for (const sh of shards) {
+        let names = [];
+        try {
+          names = readdirSync(join(dir, "obs", kind, sh));
+        } catch {
+          continue;
+        }
+        for (const f of names) if (f.endsWith(".json")) out.add(f.slice(0, -5));
+      }
+      return out;
+    },
+
+    // Indexes, one file per repository and kind.
+    getIndex: (kind, name) => readJson(join(dir, "index", kind, `${repoKey(name)}.json`)),
+    putIndex: (kind, name, value) => write(join(dir, "index", kind, `${repoKey(name)}.json`), JSON.stringify(value)),
+
     // Free-form state files (crawl progress, discovery results).
     getState: (name) => readJson(join(dir, `${name}.json`)),
     putState: (name, value) => write(join(dir, `${name}.json`), JSON.stringify(value, null, 1)),
@@ -135,3 +162,11 @@ export function createStore(dir) {
 
 // A stable key for an observation: the hash of everything it depends on.
 export const obsKey = (...parts) => sha256(canonical(parts));
+
+// obsKey for many observations that differ in one part: obsKeyer(before, after)(part) is obsKey(...before, part,
+// ...after), with the fixed parts (a question set of several kilobytes) serialized once.
+export function obsKeyer(before, after) {
+  const head = before.map((p) => `${canonical(p)},`).join("");
+  const tail = after.map((p) => `,${canonical(p)}`).join("");
+  return (part) => sha256(`[${head}${canonical(part)}${tail}]`);
+}

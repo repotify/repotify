@@ -3,13 +3,19 @@
 // answers about each SKILL.md. Both are kept in the store under a key made of the content and the observer's version,
 // so nothing is scanned or asked twice, and a new scanner or a new question set only re-observes what it changes.
 // Decisions (what enters the catalog, under which job) are made later from these observations (pipeline/derive.mjs).
-//   JEV_API_KEY=… node pipeline/observe.mjs --store DIR [--no-jev] [--concurrency 6] [--limit N]
+// A run reads only repositories that are new or changed since the last one, and asks within a budget (see "At scale").
+//   JEV_API_KEY=… node pipeline/observe.mjs --store DIR [--no-jev] [--max-asks N] [--per-repo 100] [--concurrency 6]
+//                                           [--shard i/n]   (one of n processes scanning the same store)
 import { resolve } from "node:path";
 import { isMain } from "../src/util.mjs";
 import { parseFrontmatter } from "../src/frontmatter.mjs";
 import { scanFiles, SCANNER_VERSION } from "../src/scan/index.mjs";
 import { ask, jevConfig } from "../lib/signals/jev.mjs";
-import { createStore, obsKey } from "./store.mjs";
+import { createStore, obsKey, obsKeyer } from "./store.mjs";
+import { licenseFromText } from "./collect.mjs";
+// derive.mjs reads observations through this module, and this module asks only about what derive's rules could list:
+// the two import each other, and use each other's exports only inside functions.
+import { PERMISSIVE, summaryOf } from "./derive.mjs";
 import { capabilityOptions, stackOptions, LIFECYCLES, mapLimit, extendTaxonomy } from "./jev-classify.mjs";
 import { extendTaxonomyV2 } from "./taxonomy.mjs";
 import { readFileSync } from "node:fs";
@@ -119,28 +125,167 @@ export async function classifySkill(store, { skillMd, name }, { questions, model
   return { ...obs, cached: false };
 }
 
-// Every skill folder of every repository's current commit: scanned, and asked when `jev` is on.
-export async function observeAll(store, { taxonomy, jev = true, concurrency = 6, limit = Infinity, env = process.env, fetchImpl, log = () => {} } = {}) {
+// ---------------------------------------------------------------------------
+// At scale. A store of 12,000 repositories holds 400,000 skill folders: reading every one of them on every run takes
+// hours on a slow disk, and asking the model about every one costs more than the catalog can use. So what a run finds
+// about a repository is kept in the store's index, and the model is asked within a budget.
+
+// Bump when the facts kept per skill change.
+export const INDEX_VERSION = 1;
+const LICENSE_FILE = /^(licen[cs]e|copying)(\.(md|txt|rst))?$/i;
+const folderOf = (repo, path) => path.split("/").pop() || repo.split("/")[1];
+
+// The key of the decision model's answer about a SKILL.md, for many skills.
+export const jevKeyer = (questions, model) => obsKeyer(["jev"], [questions, model]);
+
+// What observing a repository's skill folders found: each folder's scan level and what its SKILL.md says about itself
+// (name, description, a license file of its own). Kept in the index under a key made of the folders, the scanner
+// version and INDEX_VERSION: a repository with the same folders is not read again, a new commit or a new scanner is.
+// A repository some of whose files the store does not hold is not indexed, so it is observed again once they arrive.
+export function repoFacts(store, name, rec) {
+  const folders = (rec.skills ?? []).filter((s) => s.tree);
+  const key = obsKey("observe-index", INDEX_VERSION, SCANNER_VERSION, folders.map((s) => [s.path, s.tree, s.skillMd ?? null, Boolean(s.hidden)]));
+  const cached = store.getIndex("observe", name);
+  if (cached?.key === key) return { ...cached, fresh: false };
+  let incomplete = false;
+  const skills = folders.map((s) => {
+    let scan = null;
+    try {
+      scan = scanTree(store, s.tree)?.level ?? null;
+    } catch {
+      // A folder the scanner cannot read is not listable; the other folders are still observed.
+      scan = "unreadable";
+    }
+    if (!scan) incomplete = true;
+    const fact = { path: s.path, tree: s.tree, skillMd: s.skillMd ?? null, hidden: Boolean(s.hidden), scan, name: null, description: "", descriptionChars: 0 };
+    const text = s.skillMd ? store.getBlob(s.skillMd)?.toString("utf8") : null;
+    if (text != null) {
+      const fm = parseFrontmatter(text);
+      if (fm.name != null && String(fm.name).trim()) fact.name = String(fm.name).slice(0, 120);
+      fact.description = skillState(text, "").description;
+      fact.descriptionChars = String(fm.description ?? "").length;
+    }
+    const licenseFile = (store.getTree(s.tree) ?? []).find((e) => e.sha256 && LICENSE_FILE.test(e.path));
+    if (licenseFile) fact.license = licenseFromText(store.getBlob(licenseFile.sha256)?.toString("utf8") ?? "");
+    return fact;
+  });
+  const index = { key, scannerVersion: SCANNER_VERSION, skills };
+  if (!incomplete) store.putIndex("observe", name, index);
+  return { ...index, fresh: true, incomplete };
+}
+
+// Which skills to ask the decision model about, and in what order. `repos` is [{ repo, stars, license, skills }] with
+// the facts above; `installs` maps "owner/name/folder" to installs on skills.sh.
+//   - Most installed first, then the best-known repositories: the budget goes where a recommendation is most likely.
+//   - At most `perRepo` skills of one repository (answered ones count): a collection of 8,000 folders would take the
+//     whole budget otherwise. A skill people install is asked about whatever its repository's count.
+//   - A skill that could not be listed whatever the answer is not asked: failed or missing scan, no license the catalog
+//     accepts, kept in the repository's own agent folder, no description a user can be shown.
+//   - One question per distinct SKILL.md, and a name already answered or queued waits until every new name is asked:
+//     it is most often a copy with small changes.
+export function planAsks(repos, { installs = new Map(), isAnswered = () => false, perRepo = 100 } = {}) {
+  const stats = { uniqueSkillMd: 0, answered: 0, askable: 0, sameName: 0, skipped: { scan: 0, license: 0, hidden: 0, description: 0, perRepo: 0 } };
+  const all = new Set();
+  const work = [];
+  for (const r of repos) {
+    for (const s of r.skills) {
+      if (!s.skillMd) continue;
+      all.add(s.skillMd);
+      const folder = folderOf(r.repo, s.path);
+      const item = { repo: r.repo, stars: r.stars ?? 0, path: s.path, skillMd: s.skillMd, folder, installs: installs.get(`${r.repo}/${folder.toLowerCase()}`) ?? 0, answered: Boolean(isAnswered(s.skillMd)) };
+      if (!item.answered) {
+        const license = r.license && r.license !== "NOASSERTION" ? r.license : s.license ?? null;
+        if (!["verified", "caution"].includes(s.scan)) { stats.skipped.scan++; continue; }
+        if (!PERMISSIVE.has(license)) { stats.skipped.license++; continue; }
+        if (s.hidden && !item.installs) { stats.skipped.hidden++; continue; }
+        if (!summaryOf(s.description)) { stats.skipped.description++; continue; }
+      }
+      work.push(item);
+    }
+  }
+  stats.uniqueSkillMd = all.size;
+  work.sort((a, b) => b.installs - a.installs || b.stars - a.stars || (a.repo < b.repo ? -1 : a.repo > b.repo ? 1 : 0) || (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
+  const names = new Set(work.filter((s) => s.answered).map((s) => s.folder.toLowerCase()));
+  const seen = new Set();
+  const count = new Map();
+  const todo = [];
+  const sameName = [];
+  for (const s of work) {
+    if (seen.has(s.skillMd)) continue;
+    const used = count.get(s.repo) ?? 0;
+    if (s.answered) {
+      seen.add(s.skillMd);
+      count.set(s.repo, used + 1);
+      stats.answered++;
+      continue;
+    }
+    if (!s.installs && used >= perRepo) { stats.skipped.perRepo++; continue; }
+    seen.add(s.skillMd);
+    count.set(s.repo, used + 1);
+    const name = s.folder.toLowerCase();
+    (names.has(name) ? sameName : todo).push(s);
+    names.add(name);
+  }
+  stats.askable = todo.length + sameName.length;
+  stats.sameName = sameName.length;
+  return { todo, sameName, stats };
+}
+
+// A stable share of the repositories for one of `of` processes working on the same store.
+const inShard = (name, [index, of]) => parseInt(obsKey(name).slice(0, 8), 16) % of === index;
+
+// Every repository's skill folders scanned (only the new or changed ones are read), then the decision model asked
+// within `maxAsks`, in the order of planAsks (`maxAsks: 0` plans and counts without asking; `jev: false` only scans).
+// Twelve failures in a row end the asking: the model or the credit is gone.
+export async function observeAll(store, { taxonomy, jev = true, maxAsks = Infinity, perRepo = 100, concurrency = 6, shard = null, maxFailures = 12, env = process.env, fetchImpl, log = () => {} } = {}) {
+  const stats = { repos: 0, withSkills: 0, skills: 0, scanned: 0, observed: 0, unchanged: 0, incomplete: 0 };
+  const repos = [];
+  for (const name of store.listRepos()) {
+    if (shard && !inShard(name, shard)) continue;
+    const rec = store.getRepo(name);
+    if (!rec || rec.error) continue;
+    stats.repos++;
+    const facts = repoFacts(store, name, rec);
+    if (facts.fresh) stats.observed++;
+    else stats.unchanged++;
+    if (facts.incomplete) stats.incomplete++;
+    if (facts.skills.length) stats.withSkills++;
+    stats.skills += facts.skills.length;
+    stats.scanned += facts.skills.filter((s) => s.scan && s.scan !== "unreadable").length;
+    if (facts.fresh && stats.observed % 200 === 0) log(`${stats.observed} repositories observed, ${stats.skills} skill folders so far`);
+    if (jev) repos.push({ repo: name, stars: rec.meta?.stars ?? 0, license: rec.license ?? null, skills: facts.skills });
+  }
+  if (!jev) return stats;
+
   const questions = skillQuestions(taxonomy);
   const model = jevConfig(env).model;
-  const work = [];
-  for (const name of store.listRepos()) {
-    const rec = store.getRepo(name);
-    for (const s of rec?.skills ?? []) if (s.tree) work.push({ repo: name, ...s });
-  }
-  const stats = { skills: work.length, scanned: 0, asked: 0, cached: 0, failed: 0 };
-  const seen = new Set();
-  let done = 0;
-  await mapLimit(work.slice(0, limit), concurrency, async (s) => {
-    if (scanTree(store, s.tree)) stats.scanned++;
-    if (!jev || !s.skillMd || seen.has(s.skillMd)) return;
-    seen.add(s.skillMd);
-    const r = await classifySkill(store, { skillMd: s.skillMd, name: s.path.split("/").pop() || s.repo.split("/")[1] }, { questions, model, env, fetchImpl });
-    if (!r) stats.failed++;
-    else if (r.cached) stats.cached++;
-    else stats.asked++;
-    if (++done % 100 === 0) log(`${done} asked or cached, ${stats.failed} failed`);
+  const keyOf = jevKeyer(questions, model);
+  const answeredKeys = store.listObs("jev");
+  const installs = new Map((store.getState("skills-sh")?.skills ?? []).map((s) => [`${String(s.source).toLowerCase()}/${String(s.skill).toLowerCase()}`, s.installs]));
+  const plan = planAsks(repos, { installs, isAnswered: (md) => answeredKeys.has(keyOf(md)), perRepo });
+  Object.assign(stats, plan.stats, { asked: 0, failed: 0 });
+  let streak = 0;
+  await mapLimit([...plan.todo, ...plan.sameName].slice(0, maxAsks), concurrency, async (s) => {
+    if (stats.stopped) return;
+    let r = null;
+    try {
+      r = await classifySkill(store, { skillMd: s.skillMd, name: s.folder }, { questions, model, env, fetchImpl });
+    } catch {
+      r = null;
+    }
+    if (r) {
+      stats.asked++;
+      streak = 0;
+    } else {
+      stats.failed++;
+      if (++streak >= maxFailures && !stats.stopped) {
+        stats.stopped = true;
+        log(`${maxFailures} questions in a row went unanswered: no more questions in this run`);
+      }
+    }
+    if ((stats.asked + stats.failed) % 250 === 0) log(`${stats.asked} answered, ${stats.failed} failed`);
   });
+  stats.waiting = stats.askable - stats.asked;
   return stats;
 }
 
@@ -149,9 +294,10 @@ if (isMain(import.meta.url)) {
   const store = createStore(resolve(flag(args, "--store", "store")));
   const taxonomy = extendTaxonomyV2(extendTaxonomy(JSON.parse(readFileSync(new URL("../catalog/taxonomy.json", import.meta.url), "utf8"))));
   const t0 = Date.now();
+  const shard = flag(args, "--shard", null)?.split("/").map(Number) ?? null;
   const stats = await observeAll(store, {
-    taxonomy, jev: !args.includes("--no-jev"), concurrency: Number(flag(args, "--concurrency", "6")), limit: Number(flag(args, "--limit", "Infinity")),
-    log: logStamped,
+    taxonomy, jev: !args.includes("--no-jev"), maxAsks: Number(flag(args, "--max-asks", "Infinity")), perRepo: Number(flag(args, "--per-repo", "100")),
+    concurrency: Number(flag(args, "--concurrency", "6")), shard, log: logStamped,
   });
   console.log(JSON.stringify({ ...stats, seconds: Math.round((Date.now() - t0) / 1000) }));
 }

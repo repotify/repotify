@@ -228,7 +228,8 @@ test("observeAll scans every skill and asks once per distinct SKILL.md", async (
   const stats = await observeAll(store, { taxonomy, env: { JEV_API_KEY: "k", JEV_MODEL: MODEL }, fetchImpl: async () => (calls++, jevReply(goodAnswers)) });
   assert.equal(stats.skills, 2);
   assert.equal(stats.scanned, 2);
-  assert.equal(stats.cached, 1, "the answer from storeWith is reused");
+  assert.equal(stats.answered, 1, "the answer from storeWith is reused");
+  assert.equal(stats.uniqueSkillMd, 1);
   assert.equal(calls, 0);
   assert.ok(text.length > 0);
 });
