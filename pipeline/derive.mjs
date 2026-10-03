@@ -18,7 +18,7 @@ import { licenseFromText } from "./collect.mjs";
 import { extendTaxonomy, needsFor } from "./jev-classify.mjs";
 import { extendTaxonomyV2 } from "./taxonomy.mjs";
 import { unsafeSummary } from "./run.mjs";
-import { GATE_VERSION } from "./gate.mjs";
+import { GATE_VERSION, setupSecurity } from "./gate.mjs";
 import { reputationKey } from "./research.mjs";
 import { writeCatalogFiles } from "./publish.mjs";
 import { serverObservations, mcpSetup } from "./mcp.mjs";
@@ -245,6 +245,25 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
   return { items, dropped, considered: all.length };
 }
 
+// Repotify's own hooks (`builtin` entries in the seed) belong to every catalog: one the catalog does not hold yet
+// joins it here, in the shape the full pipeline gives an editorial item, with its setup gated.
+export async function builtinItems(seed, curated, { now = new Date() } = {}) {
+  const have = new Set(curated.map((i) => i.id));
+  const out = [];
+  for (const src of (seed?.items ?? []).filter((s) => s.builtin && !have.has(s.id))) {
+    out.push({
+      conflicts: [], badges: [], jury: null, descriptionChars: 0,
+      community: { shown: 0, selected: 0, kept7d: 0, removed: 0, rating: 0, votes: 0 },
+      signals: { stars: null, starVelocity30d: null, lastCommitDays: null, coUsage: 0, mentions30d: 0 },
+      ...src,
+      cluster: src.cluster ?? src.capabilities[0],
+      origin: "curated",
+      security: await setupSecurity(src.setup, { now }),
+    });
+  }
+  return out;
+}
+
 // The agents that run MCP servers, and what a server is taken to cost in context: the registry does not list a
 // server's tools, so this is an estimate between the hand-vetted servers' measured 700 and 3,200 characters.
 const MCP_AGENTS = ["claude-code", "cursor", "codex", "gemini-cli"];
@@ -316,7 +335,11 @@ if (isMain(import.meta.url)) {
   const store = createStore(resolve(flag(args, "--store", "store")));
   const read = (f) => JSON.parse(readFileSync(join(out, f), "utf8"));
   const taxonomy = extendTaxonomyV2(extendTaxonomy(read("taxonomy.json")));
-  const curated = read("items.json").filter((i) => i.origin !== "lab" || i.derive === undefined);
+  const seed = JSON.parse(readFileSync(join(root, "pipeline", "seed-sources.json"), "utf8"));
+  const vetted = read("items.json").filter((i) => i.origin !== "lab" || i.derive === undefined);
+  const curated = [...vetted, ...(await builtinItems(seed, vetted))];
+  // The core list follows the seed, for the items the catalog holds.
+  const core = seed.core.filter((c) => curated.some((i) => i.id === c.id));
   const leaderboard = store.getState("skills-sh")?.skills ?? [];
   const skills = deriveItems(store, { taxonomy, curated, leaderboard });
   const servers = deriveMcp(store, { taxonomy, curated, used: new Set([...curated, ...skills.items].map((i) => i.id)) });
@@ -329,13 +352,13 @@ if (isMain(import.meta.url)) {
     reasons[key] = (reasons[key] ?? 0) + 1;
   }
   const all = [...curated, ...items];
-  const errors = validateCatalog({ items: all, taxonomy, loadouts: read("loadouts.json"), core: read("core.json") });
+  const errors = validateCatalog({ items: all, taxonomy, loadouts: read("loadouts.json"), core });
   const summary = { considered, derived: items.length, servers: servers.items.length, curated: curated.length, total: all.length, dropped: dropped.length, reasons, errors: errors.slice(0, 5) };
   if (flag(args, "--report", null)) writeFileSync(flag(args, "--report"), JSON.stringify({ summary, items: items.map((i) => ({ id: i.id, type: i.type, repo: i.repo, path: i.path, job: i.capabilities[0], stacks: i.stacks, quality: i.quality, installs: i.signals.installs, downloads: i.signals.downloads, defaultEligible: i.defaultEligible })), dropped }, null, 1));
   console.log(JSON.stringify(summary, null, 1));
   if (errors.length) process.exitCode = 1;
   else if (!args.includes("--dry-run")) {
-    const meta = writeCatalogFiles(out, { items: all, taxonomy });
+    const meta = writeCatalogFiles(out, { items: all, taxonomy, core });
     console.log(`catalog ${meta.version}: ${all.length} items`);
   }
 }

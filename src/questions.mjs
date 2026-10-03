@@ -19,27 +19,33 @@ const KIND_OF_NEED = Object.freeze({ "smart-contracts": "smart-contracts", mobil
 
 // One run of the deterministic engine for a set of answers.
 function outcome(ctx, answers) {
-  const { catalog, graph, fingerprint, machine, installed, blocked, budgetChars } = ctx;
+  const { catalog, graph, fingerprint, machine, installed, blocked, budgetChars, agents } = ctx;
   const needs = resolveNeeds({ fingerprint, answers, taxonomy: catalog.taxonomy });
-  const demand = { ...demandFor({ catalog, fingerprint, needs, answers }), ...(machine ? { machine } : {}) };
+  const demand = { ...demandFor({ catalog, fingerprint, needs, answers, agents }), ...(machine ? { machine } : {}) };
   const rec = recommendLocal({ catalog, graph, demand, installed, blocked, budgetChars, answers });
   return { set: new Set(rec.set), candidates: rec.narrowed.candidates.length };
 }
 
 const change = (a, b) => [...a.set].filter((x) => !b.set.has(x)).length + [...b.set].filter((x) => !a.set.has(x)).length;
 
+// Project types that settle where the project runs.
+const TYPE_PLATFORMS = Object.freeze({ "web-app": "web", "content-site": "web", mobile: "mobile" });
+
 // Candidate questions: the static bank (project type, priorities, needs), plus the products and platforms the files
-// did not show. Options are limited to what the catalog can act on.
+// did not show. Options are limited to what the catalog can act on. A question is asked once: an answer, even an
+// empty list ("none of these"), closes it.
 export function candidateQuestions(catalog, fingerprint, answers = {}) {
   const t = catalog.taxonomy;
-  const bank = questionBank(t, fingerprint).filter((q) => !(q.id === "projectType" && answers.projectType));
+  const answered = (id) => (id === "projectType" ? Boolean(answers.projectType) : Array.isArray(answers[id]));
+  const projectType = (t.projectTypes?.[answers.projectType] ? answers.projectType : null) ?? inferProjectType(fingerprint);
+  const bank = questionBank(t, fingerprint).filter((q) => !answered(q.id));
   const known = new Set([...(fingerprint?.stacks ?? []), ...(answers.stacks ?? [])]);
   const served = new Set(catalog.items.flatMap((i) => i.stacks ?? []));
   const products = Object.entries(t.stacks ?? {}).filter(([id, s]) => s.kind === "product" && served.has(id) && !known.has(id));
   const told = new Set([...(fingerprint?.inferredNeeds ?? []), ...(answers.needs ?? [])]);
   const out = bank.map((q) => (q.id === "needs" ? { ...q, options: Object.keys(t.needs).filter((n) => !told.has(n)).map((id) => ({ id, label: t.needs[id].label })) } : q));
-  if (products.length) out.push({ id: "stacks", text: "Which of these does the project use?", multi: true, options: products.map(([id, s]) => ({ id, label: s.label })) });
-  if (!(fingerprint?.platforms ?? []).length && !(answers.platforms ?? []).length) {
+  if (products.length && !answered("stacks")) out.push({ id: "stacks", text: "Which of these does the project use?", multi: true, options: products.map(([id, s]) => ({ id, label: s.label })) });
+  if (!(fingerprint?.platforms ?? []).length && !answered("platforms") && !TYPE_PLATFORMS[projectType]) {
     out.push({ id: "platforms", text: "Where does it run?", multi: true, options: Object.entries(PLATFORMS).map(([id, label]) => ({ id, label })) });
   }
   return out;
@@ -70,10 +76,11 @@ const round = (x) => Math.round(x * 100) / 100;
 
 // The questions to ask, most useful first. Each keeps the options that change the picks, the likeliest decisive ones
 // first (at most `maxOptions`); `expected` is how many picks asking it changes, weighed by how likely each option is.
+// `possible` is what an answer offered here would add to the picks: it shrinks as questions are answered.
 // An option that means what an earlier question already offers (a security priority and a security need) is not
 // offered twice. The project type, when unknown, is asked first: it sets what the other answers weigh.
-export function adaptiveQuestions({ catalog, graph, fingerprint, answers = {}, machine = null, installed = [], blocked = [], budgetChars, max = 3, maxOptions = 4, minExpected = 0.5 }) {
-  const ctx = { catalog, graph, fingerprint, machine, installed, blocked, budgetChars };
+export function adaptiveQuestions({ catalog, graph, fingerprint, answers = {}, machine = null, installed = [], blocked = [], agents = [], budgetChars, max = 3, maxOptions = 4, minExpected = 0.5 }) {
+  const ctx = { catalog, graph, fingerprint, machine, installed, blocked, budgetChars, agents };
   const base = outcome(ctx, answers);
   const projectType = (catalog.taxonomy.projectTypes?.[answers.projectType] ? answers.projectType : null) ?? inferProjectType(fingerprint);
   const typical = new Set(catalog.taxonomy.projectTypes?.[projectType]?.needs ?? []);
@@ -82,7 +89,7 @@ export function adaptiveQuestions({ catalog, graph, fingerprint, answers = {}, m
     const options = q.options
       .map((o) => {
         const r = outcome(ctx, withAnswer(answers, q, o.id));
-        return { id: o.id, label: o.label, changes: change(r, base), meaning: meaningOf(q, o.id), weight: priorOf(q, o.id, { typical, projectType }) };
+        return { id: o.id, label: o.label, changes: change(r, base), meaning: meaningOf(q, o.id), weight: priorOf(q, o.id, { typical, projectType }), after: r.set };
       })
       .filter((o) => o.changes > 0)
       .sort((a, b) => b.weight * b.changes - a.weight * a.changes || b.changes - a.changes || (a.id < b.id ? -1 : 1));
@@ -96,10 +103,20 @@ export function adaptiveQuestions({ catalog, graph, fingerprint, answers = {}, m
     const expected = worth(options);
     if (!options.length || (expected < minExpected && t.q.id !== "projectType")) continue;
     for (const o of options) offered.add(o.meaning);
-    ranked.push({ id: t.q.id, text: t.q.text, multi: t.q.multi, expected: round(expected), options: options.map(({ id, label, changes }) => ({ id, label, changes })) });
+    ranked.push({ id: t.q.id, text: t.q.text, multi: t.q.multi, expected: round(expected), options });
   }
   ranked.sort((a, b) => (b.id === "projectType") - (a.id === "projectType") || b.expected - a.expected);
-  return { questions: ranked.slice(0, max), picks: base.set.size, candidates: base.candidates, projectType: projectType ?? null };
+  const asked = ranked.slice(0, max);
+  // What one of these answers would add to the picks: still in play until the question is answered.
+  const possible = new Set();
+  for (const q of asked) for (const o of q.options) for (const id of o.after) if (!base.set.has(id)) possible.add(id);
+  return {
+    questions: asked.map((q) => ({ ...q, options: q.options.map(({ id, label, changes }) => ({ id, label, changes })) })),
+    picks: base.set.size,
+    candidates: base.candidates,
+    possible: [...possible].sort(),
+    projectType: projectType ?? null,
+  };
 }
 
 // The JSON an agent reads: one question a line, which costs a third fewer tokens than indented JSON.

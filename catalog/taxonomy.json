@@ -264,9 +264,17 @@
       "label": "SEO: search visibility, metadata, structured data",
       "platform": "web"
     },
+    "setup-tracking": {
+      "domain": "process",
+      "label": "Keeping the agent's setup current as the project changes"
+    },
     "skill-authoring": {
       "domain": "ai",
       "label": "Writing agent skills"
+    },
+    "skill-routing": {
+      "domain": "process",
+      "label": "Pointing the agent at the installed skill that fits each request"
     },
     "smart-contract-security": {
       "domain": "security",
@@ -726,6 +734,10 @@
     "astro": {
       "label": "Astro"
     },
+    "auth0": {
+      "kind": "product",
+      "label": "Auth0"
+    },
     "aws": {
       "kind": "product",
       "label": "AWS"
@@ -734,9 +746,21 @@
       "kind": "product",
       "label": "Azure"
     },
+    "clerk": {
+      "kind": "product",
+      "label": "Clerk"
+    },
+    "clickhouse": {
+      "kind": "product",
+      "label": "ClickHouse"
+    },
     "cloudflare": {
       "kind": "product",
       "label": "Cloudflare Workers"
+    },
+    "convex": {
+      "kind": "product",
+      "label": "Convex"
     },
     "cpp": {
       "label": "C/C++"
@@ -809,6 +833,10 @@
     "nestjs": {
       "label": "NestJS"
     },
+    "netlify": {
+      "kind": "product",
+      "label": "Netlify"
+    },
     "nextjs": {
       "label": "Next.js"
     },
@@ -818,8 +846,16 @@
     "nuxt": {
       "label": "Nuxt"
     },
+    "nx": {
+      "kind": "product",
+      "label": "Nx"
+    },
     "php": {
       "label": "PHP"
+    },
+    "pocketbase": {
+      "kind": "product",
+      "label": "PocketBase"
     },
     "postgres": {
       "kind": "product",
@@ -834,6 +870,10 @@
     },
     "rails": {
       "label": "Rails"
+    },
+    "railway": {
+      "kind": "product",
+      "label": "Railway"
     },
     "react": {
       "label": "React"
@@ -854,6 +894,14 @@
     },
     "rust": {
       "label": "Rust"
+    },
+    "sentry": {
+      "kind": "product",
+      "label": "Sentry"
+    },
+    "shopify": {
+      "kind": "product",
+      "label": "Shopify"
     },
     "solidity": {
       "label": "Solidity"

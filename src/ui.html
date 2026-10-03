@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repotify picks</title>
+<style nonce="__NONCE__">
+:root {
+  --bg: #0b0f17; --panel: #121826; --panel-2: #182033; --text: #e6e9ef; --muted: #8a93a6; --line: #263043;
+  --pruned: #2b3345; --cand: #4c6ef5; --scored: #8b9bff; --alt: #f5a524; --pick: #2fd47a; --installed: #b48cff; --play: #f5a524;
+}
+@media (prefers-color-scheme: light) {
+  :root { --bg: #f6f7fb; --panel: #ffffff; --panel-2: #eef1f7; --text: #141824; --muted: #5d6578; --line: #d9deea; --pruned: #d5dae6; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--text); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; display: flex; flex-direction: column; }
+header { display: flex; align-items: baseline; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+header h1 { font-size: 17px; margin: 0; letter-spacing: .2px; }
+header .sub { color: var(--muted); }
+main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 380px; min-height: 0; }
+#stage { position: relative; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+#tree { width: 100%; height: 100%; max-height: calc(100vh - 60px); }
+aside { border-left: 1px solid var(--line); overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin: 0 0 8px; font-weight: 600; }
+.bar { display: grid; grid-template-columns: 130px 1fr 44px; align-items: center; gap: 8px; margin: 5px 0; }
+.bar .track { height: 10px; background: var(--panel-2); border-radius: 6px; overflow: hidden; }
+.bar .fill { height: 100%; border-radius: 6px; background: var(--cand); transition: width .7s ease; }
+.bar.default .fill { background: var(--pick); }
+.bar.possible .fill { background: var(--play); }
+.bar .n { text-align: right; font-variant-numeric: tabular-nums; }
+.steps { color: var(--muted); font-size: 12px; margin-top: 8px; }
+.steps b { color: var(--text); font-weight: 600; }
+.q { margin-bottom: 12px; }
+.q h3 { font-size: 14px; margin: 0 0 6px; font-weight: 600; }
+.q h3 small { color: var(--muted); font-weight: 400; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px; }
+button { font: inherit; color: var(--text); background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+button:hover { border-color: var(--cand); }
+button:disabled { opacity: .5; cursor: progress; }
+button small { color: var(--muted); }
+button.on { border-color: var(--pick); background: color-mix(in srgb, var(--pick) 22%, var(--panel-2)); }
+button.done { font-weight: 600; border-color: var(--cand); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.chip { font-size: 12px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; }
+.chip button { border: 0; background: none; padding: 0 0 0 4px; color: var(--muted); }
+.muted { color: var(--muted); }
+ol#picked { margin: 0; padding-left: 20px; }
+ol#picked li { margin: 6px 0; }
+ol#picked .job { color: var(--muted); font-size: 12px; }
+code { display: block; white-space: pre-wrap; word-break: break-word; background: var(--panel-2); border-radius: 6px; padding: 8px; margin-top: 8px; font-size: 12px; }
+#tip { position: fixed; pointer-events: none; max-width: 320px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; box-shadow: 0 6px 24px rgba(0,0,0,.35); font-size: 13px; z-index: 5; }
+#tip .t { font-weight: 600; }
+#tip .s { color: var(--muted); margin-top: 4px; }
+#legend { position: absolute; left: 14px; bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 12px; }
+#legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+#legend .pruned { background: var(--pruned); } #legend .candidate { background: var(--cand); } #legend .possible { background: var(--play); } #legend .default { background: var(--pick); } #legend .installed { background: var(--installed); }
+#error { color: #ff6b6b; }
+.link { fill: none; stroke: var(--line); stroke-width: .6; transition: stroke .6s, opacity .6s; }
+.link.pruned { opacity: .25; }
+.link.candidate, .link.scored { stroke: var(--cand); opacity: .55; }
+.link.table { stroke: var(--cand); opacity: .7; }
+.link.possible { stroke: var(--play); opacity: .85; }
+.link.default { stroke: var(--pick); stroke-width: 1.4; opacity: 1; }
+.link.installed { stroke: var(--installed); opacity: .9; }
+.link.trunk.on { stroke: var(--cand); opacity: .7; }
+.link.trunk.hot { stroke: var(--alt); opacity: .9; }
+.link.trunk.picked { stroke: var(--pick); stroke-width: 1.8; opacity: 1; }
+.item { fill: var(--pruned); r: 2.2px; transition: fill .6s, r .6s, opacity .6s; cursor: pointer; }
+.item.pruned { opacity: .55; }
+.item.candidate { fill: var(--cand); r: 2.6px; }
+.item.scored { fill: var(--scored); r: 3px; }
+.item.table { fill: var(--cand); r: 3.4px; }
+.item.possible { fill: var(--play); r: 4.4px; }
+.item.installed { fill: var(--installed); r: 4.6px; }
+.item.default { fill: var(--pick); r: 6px; filter: url(#glow); }
+.job, .domain { fill: var(--pruned); stroke: var(--bg); stroke-width: 1.5; transition: fill .6s, r .6s; }
+.job { r: 3.5px; } .domain { r: 7px; }
+.job.on, .domain.on { fill: var(--cand); }
+.job.hot, .domain.hot { fill: var(--alt); }
+.job.picked, .domain.picked { fill: var(--pick); r: 5px; }
+.domain.picked { r: 9px; }
+.root { fill: var(--pick); filter: url(#glow); }
+text { fill: var(--text); font-size: 11px; }
+text.domain-label { font-size: 12.5px; font-weight: 600; paint-order: stroke; stroke: var(--bg); stroke-width: 4px; }
+text.domain-label.off { fill: var(--muted); }
+text.pick-label { fill: var(--pick); font-size: 11px; paint-order: stroke; stroke: var(--bg); stroke-width: 3px; }
+text.root-label { font-size: 12px; font-weight: 700; text-anchor: middle; paint-order: stroke; stroke: var(--bg); stroke-width: 4px; }
+@media (max-width: 900px) { main { grid-template-columns: 1fr; } aside { border-left: 0; border-top: 1px solid var(--line); } #tree { max-height: 70vh; } }
+</style>
+</head>
+<body>
+<header><h1>Repotify</h1><span id="project" class="sub"></span><span class="sub">· orange is still in play; each answer settles it: green is picked</span></header>
+<main>
+  <section id="stage">
+    <svg id="tree" viewBox="-640 -640 1280 1280" role="img" aria-label="The catalog as a tree: domains, jobs and items">
+      <defs><filter id="glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    </svg>
+    <div id="legend"><span><i class="pruned"></i>out</span><span><i class="candidate"></i>fits, not picked</span><span><i class="possible"></i>an answer could pick it</span><span><i class="default"></i>picked</span><span><i class="installed"></i>installed</span></div>
+    <div id="tip" hidden></div>
+  </section>
+  <aside>
+    <div class="card"><h2>How the catalog narrows</h2><div id="funnel"></div><div id="steps" class="steps"></div></div>
+    <div class="card"><h2>Questions that would change the picks</h2><div id="questions"></div><div id="answered" class="chips"></div><button id="reset" hidden>Start over</button><div id="error"></div></div>
+    <div class="card"><h2>Picked</h2><ol id="picked"></ol><code id="command"></code></div>
+    <div class="card"><h2>What the files and this computer say</h2><div id="facts"></div></div>
+  </aside>
+</main>
+<script nonce="__NONCE__">
+"use strict";
+const TOKEN = new URLSearchParams(location.search).get("t") || "";
+const NS = "http://www.w3.org/2000/svg";
+const $ = (id) => document.getElementById(id);
+const R = { domain: 140, job: 300, item: 440 };
+const RANK = { pruned: 0, candidate: 1, scored: 1, table: 2, possible: 3, installed: 3, default: 4 };
+const STAGE_TEXT = { pruned: "Out", candidate: "Fits, but weakly", scored: "Fits; another item does its job better", table: "Best for its job, not picked by default", possible: "Still in play: an answer to an open question would pick it", installed: "Already installed", default: "Picked" };
+const WHY_TEXT = {
+  "demand:no-overlap": "nothing in this project asks for its job",
+  "stack:mismatch": "written for a stack this project does not use",
+  "platform:mismatch": "for a platform this project does not target",
+  "already-installed": "already installed",
+  "user:blocked": "you blocked it",
+  CLUSTER_TAKEN: "another pick already does this job",
+  BELOW_FIT_FLOOR: "too weak a fit to pick by default",
+  EVIDENCE_THIN: "listed only: no proof of real use yet",
+  MISSING_RUNTIME: "needs a runtime this computer does not have",
+  "below the fit floor": "too weak a fit for this project",
+};
+let tree = null;
+let answers = (() => {
+  try {
+    const a = JSON.parse(new URLSearchParams(location.search).get("a") || "{}");
+    return a && typeof a === "object" && !Array.isArray(a) ? a : {};
+  } catch {
+    return {};
+  }
+})();
+let steps = [];
+const shapes = { item: new Map(), job: new Map(), domain: new Map(), itemLink: new Map(), jobLink: new Map(), domainLink: new Map(), domainLabel: new Map() };
+
+const svgEl = (tag, attrs, parent) => {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, String(v));
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const el = (tag, cls, text) => {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = String(text);
+  return e;
+};
+async function api(path, params) {
+  const res = await fetch(path + "?" + new URLSearchParams({ t: TOKEN, ...(params || {}) }), { cache: "no-store" });
+  if (!res.ok) throw new Error(path + ": HTTP " + res.status);
+  return res.json();
+}
+const polar = (a, r) => [Math.cos(a) * r, Math.sin(a) * r];
+function radial(a1, r1, a2, r2) {
+  const [x1, y1] = polar(a1, r1), [x2, y2] = polar(a2, r2), m = (r1 + r2) / 2;
+  const [c1x, c1y] = polar(a1, m), [c2x, c2y] = polar(a2, m);
+  return "M" + x1.toFixed(1) + "," + y1.toFixed(1) + "C" + c1x.toFixed(1) + "," + c1y.toFixed(1) + " " + c2x.toFixed(1) + "," + c2y.toFixed(1) + " " + x2.toFixed(1) + "," + y2.toFixed(1);
+}
+
+function draw(t) {
+  let slot = 0;
+  for (const d of t.domains) {
+    for (const j of d.jobs) {
+      for (const it of j.items) it.slot = slot++;
+      slot += 1.5;
+    }
+    slot += 4;
+  }
+  const angle = (s) => (s / slot) * Math.PI * 2 - Math.PI / 2;
+  const svg = $("tree");
+  const links = svgEl("g", {}, svg), nodes = svgEl("g", {}, svg), labels = svgEl("g", { id: "labels" }, svg);
+  for (const d of t.domains) {
+    for (const j of d.jobs) {
+      for (const it of j.items) it.a = angle(it.slot);
+      j.a = j.items.reduce((n, it) => n + it.a, 0) / j.items.length;
+    }
+    d.a = d.jobs.reduce((n, j) => n + j.a, 0) / d.jobs.length;
+    shapes.domainLink.set(d.id, svgEl("path", { d: radial(d.a, 16, d.a, R.domain), class: "link trunk" }, links));
+    for (const j of d.jobs) {
+      shapes.jobLink.set(j.id, svgEl("path", { d: radial(d.a, R.domain, j.a, R.job), class: "link trunk" }, links));
+      for (const it of j.items) {
+        shapes.itemLink.set(it.id, svgEl("path", { d: radial(j.a, R.job, it.a, R.item), class: "link" }, links));
+        const [x, y] = polar(it.a, R.item);
+        const c = svgEl("circle", { cx: x.toFixed(1), cy: y.toFixed(1), class: "item" }, nodes);
+        c.addEventListener("mouseenter", (e) => showTip(e, it, j, d));
+        c.addEventListener("mousemove", moveTip);
+        c.addEventListener("mouseleave", hideTip);
+        shapes.item.set(it.id, c);
+      }
+      const [x, y] = polar(j.a, R.job);
+      const jc = svgEl("circle", { cx: x.toFixed(1), cy: y.toFixed(1), class: "job" }, nodes);
+      svgEl("title", {}, jc).textContent = j.label;
+      shapes.job.set(j.id, jc);
+    }
+    const [x, y] = polar(d.a, R.domain);
+    const dc = svgEl("circle", { cx: x.toFixed(1), cy: y.toFixed(1), class: "domain" }, nodes);
+    svgEl("title", {}, dc).textContent = d.label;
+    shapes.domain.set(d.id, dc);
+    const [lx, ly] = polar(d.a, R.domain + 16);
+    const label = svgEl("text", { x: lx.toFixed(1), y: ly.toFixed(1), class: "domain-label", "text-anchor": Math.cos(d.a) >= 0 ? "start" : "end", "dominant-baseline": "middle" }, labels);
+    label.textContent = d.label.length > 34 ? d.label.slice(0, 33) + "…" : d.label;
+    shapes.domainLabel.set(d.id, label);
+  }
+  // Labels on the same side that would overlap are pushed apart, top to bottom.
+  for (const right of [true, false]) {
+    const side = [...shapes.domainLabel.values()].filter((l) => (l.getAttribute("text-anchor") === "start") === right).sort((a, b) => a.getAttribute("y") - b.getAttribute("y"));
+    let last = -Infinity;
+    for (const l of side) {
+      const y = Math.max(Number(l.getAttribute("y")), last + 17);
+      l.setAttribute("y", y.toFixed(1));
+      last = y;
+    }
+  }
+  svgEl("circle", { r: 14, class: "root" }, nodes);
+  svgEl("text", { y: -24, class: "root-label" }, labels).textContent = t.project;
+}
+
+let current = null;
+function showTip(e, it, j, d) {
+  const tip = $("tip");
+  tip.replaceChildren();
+  tip.append(el("div", "t", it.name + (it.type !== "skill" ? " · " + it.type.toUpperCase() : "")));
+  tip.append(el("div", "s", d.label + " › " + j.label));
+  const st = current?.stage?.[it.id] || "pruned";
+  const why = current?.why?.[it.id];
+  tip.append(el("div", "", STAGE_TEXT[st] + (why && st !== "default" ? ": " + (WHY_TEXT[why] || why) : "")));
+  if (it.summary) tip.append(el("div", "s", it.summary));
+  tip.hidden = false;
+  moveTip(e);
+}
+function moveTip(e) {
+  const tip = $("tip");
+  const x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8);
+  const y = Math.min(e.clientY + 14, window.innerHeight - tip.offsetHeight - 8);
+  tip.style.left = x + "px";
+  tip.style.top = y + "px";
+}
+function hideTip() { $("tip").hidden = true; }
+
+const level = (best) => (best >= 4 ? "picked" : best >= 3 ? "hot" : best >= 1 ? "on" : "off");
+function paint(state, { allLit = false } = {}) {
+  const stageOf = (id) => (allLit ? "possible" : state.stage[id] || "pruned");
+  for (const d of tree.domains) {
+    let dBest = 0;
+    for (const j of d.jobs) {
+      let best = 0;
+      for (const it of j.items) {
+        const st = stageOf(it.id);
+        best = Math.max(best, RANK[st]);
+        shapes.item.get(it.id).setAttribute("class", "item " + st);
+        shapes.itemLink.get(it.id).setAttribute("class", "link " + st);
+      }
+      dBest = Math.max(dBest, best);
+      shapes.job.get(j.id).setAttribute("class", "job " + level(best));
+      shapes.jobLink.get(j.id).setAttribute("class", "link trunk " + level(best));
+    }
+    shapes.domain.get(d.id).setAttribute("class", "domain " + level(dBest));
+    shapes.domainLink.get(d.id).setAttribute("class", "link trunk " + level(dBest));
+    shapes.domainLabel.get(d.id).setAttribute("class", "domain-label " + level(dBest));
+  }
+  const labels = $("labels");
+  for (const old of labels.querySelectorAll(".pick-label")) old.remove();
+  if (allLit) return;
+  for (const d of tree.domains) for (const j of d.jobs) for (const it of j.items) {
+    if (state.stage[it.id] !== "default") continue;
+    const right = Math.cos(it.a) >= 0;
+    const [x, y] = polar(it.a, R.item + 10);
+    const deg = (it.a * 180) / Math.PI + (right ? 0 : 180);
+    const t = svgEl("text", { x: x.toFixed(1), y: y.toFixed(1), class: "pick-label", "text-anchor": right ? "start" : "end", "dominant-baseline": "middle", transform: "rotate(" + deg.toFixed(1) + " " + x.toFixed(1) + " " + y.toFixed(1) + ")" }, labels);
+    const short = it.name.replace(/\s*\([^)]*\)\s*$/, "");
+    t.textContent = short.length > 26 ? short.slice(0, 25) + "…" : short;
+  }
+}
+
+function renderFunnel(state) {
+  const box = $("funnel");
+  box.replaceChildren();
+  const total = state.funnel[0].n || 1;
+  for (const f of state.funnel) {
+    const row = el("div", "bar " + f.id);
+    row.append(el("span", "", f.label));
+    const track = el("div", "track"), fill = el("div", "fill");
+    track.append(fill);
+    row.append(track, el("span", "n", f.n));
+    box.append(row);
+    requestAnimationFrame(() => { fill.style.width = Math.max(2, Math.sqrt(f.n / total) * 100) + "%"; });
+  }
+  const s = $("steps");
+  s.replaceChildren();
+  steps.forEach((st, i) => {
+    if (i) s.append(" → ");
+    const b = el("b", "", st.n);
+    s.append(st.label + ": ", b);
+  });
+  if (steps.length) s.append(" still in play");
+}
+
+function answerLabel(q, id) {
+  const o = (q?.options || []).find((x) => x.id === id);
+  return o ? o.label : id;
+}
+let lastQuestions = [];
+const labelsSeen = {};
+function renderQuestions(state) {
+  const box = $("questions");
+  box.replaceChildren();
+  lastQuestions = state.questions;
+  for (const q of state.questions) for (const o of q.options) labelsSeen[q.id + ":" + o.id] = o.label;
+  Object.assign(labelsSeen, state.answerLabels || {});
+  if (!state.questions.length) box.append(el("p", "muted", "No answer would change the picks any more."));
+  for (const q of state.questions) {
+    const wrap = el("div", "q");
+    const h = el("h3", "", q.text + " ");
+    h.append(el("small", "", q.multi ? "(pick any)" : "(pick one)"));
+    wrap.append(h);
+    const opts = el("div", "opts");
+    const chosen = new Set();
+    const done = el("button", "done", "None of these");
+    for (const o of q.options) {
+      const b = el("button", "", o.label + " ");
+      b.append(el("small", "", "±" + o.changes));
+      b.title = "changes " + o.changes + " of the picks";
+      b.addEventListener("click", () => {
+        if (!q.multi) return answer(q, [o.id]);
+        if (chosen.has(o.id)) chosen.delete(o.id);
+        else chosen.add(o.id);
+        b.classList.toggle("on", chosen.has(o.id));
+        done.textContent = chosen.size ? "Done" : "None of these";
+      });
+      opts.append(b);
+    }
+    if (q.multi) {
+      done.addEventListener("click", () => answer(q, [...chosen]));
+      opts.append(done);
+    }
+    wrap.append(opts);
+    box.append(wrap);
+  }
+  const chips = $("answered");
+  chips.replaceChildren();
+  const add = (key, id, text) => {
+    const chip = el("span", "chip", text || labelsSeen[key + ":" + id] || id);
+    const x = el("button", "", "×");
+    x.title = "Take this answer back";
+    x.addEventListener("click", () => unanswer(key, id));
+    chip.append(x);
+    chips.append(chip);
+  };
+  if (answers.projectType) add("projectType", answers.projectType);
+  for (const key of ["needs", "priorities", "stacks", "platforms"]) {
+    if (Array.isArray(answers[key]) && !answers[key].length) add(key, null, "no " + TOPIC[key]);
+    for (const id of answers[key] || []) add(key, id);
+  }
+  $("reset").hidden = !Object.keys(answers).length;
+}
+
+function renderPicked(state) {
+  const list = $("picked");
+  list.replaceChildren();
+  for (const p of state.picked) {
+    const li = el("li");
+    li.append(el("strong", "", p.name), el("span", "job", " · " + p.job + (p.type !== "skill" ? " · " + p.type.toUpperCase() : "")));
+    if (p.summary) li.append(el("div", "muted", p.summary));
+    list.append(li);
+  }
+  $("command").textContent = state.command + "\nrepotify install " + state.set.join(" ");
+}
+
+function renderFacts(t) {
+  const box = $("facts");
+  box.replaceChildren();
+  const line = (label, values) => {
+    const p = el("div");
+    p.append(el("span", "muted", label + ": "));
+    const chips = el("span", "chips");
+    if (!values.length) chips.append(el("span", "muted", "none found"));
+    for (const v of values) chips.append(el("span", "chip", v));
+    p.append(chips);
+    box.append(p);
+  };
+  line("Stacks", t.fingerprint.stacks);
+  line("Needs", t.fingerprint.needs);
+  line("Platforms", t.fingerprint.platforms);
+  if (t.machine) line("This computer (" + t.machine.os + ")", Object.entries(t.machine.tools).filter(([, v]) => v).map(([k]) => k));
+}
+
+function setBusy(on) { for (const b of document.querySelectorAll("#questions button, #answered button, #reset")) b.disabled = on; }
+async function refresh(stepLabel) {
+  setBusy(true);
+  $("error").textContent = "";
+  try {
+    const state = await api("/api/state", { a: JSON.stringify(answers) });
+    current = state;
+    answers = state.answers;
+    const q = new URLSearchParams({ t: TOKEN });
+    if (Object.keys(answers).length) q.set("a", JSON.stringify(answers));
+    history.replaceState(null, "", "?" + q);
+    steps.push({ label: stepLabel, n: state.funnel.find((f) => f.id === "possible").n });
+    paint(state);
+    renderFunnel(state);
+    renderQuestions(state);
+    renderPicked(state);
+  } catch (error) {
+    $("error").textContent = String(error.message || error);
+  } finally {
+    setBusy(false);
+  }
+}
+const TOPIC = { needs: "other needs", priorities: "priorities", stacks: "products", platforms: "platforms" };
+// An answer closes its question: the options picked, or none of them.
+function answer(q, ids) {
+  if (q.id === "projectType") answers = { ...answers, projectType: ids[0] };
+  else answers = { ...answers, [q.id]: [...new Set([...(answers[q.id] || []), ...ids])] };
+  refresh(ids.length ? ids.map((id) => answerLabel(q, id)).join(", ") : "no " + TOPIC[q.id]);
+}
+// Taking an answer back opens its question again.
+function unanswer(key, id) {
+  const next = { ...answers };
+  if (key === "projectType" || id === null) delete next[key];
+  else {
+    next[key] = (next[key] || []).filter((x) => x !== id);
+    if (!next[key].length) delete next[key];
+  }
+  answers = next;
+  refresh("without " + (id === null ? "that answer" : labelsSeen[key + ":" + id] || id));
+}
+$("reset").addEventListener("click", () => {
+  answers = {};
+  steps = steps.slice(0, 1);
+  refresh("your files");
+});
+
+(async () => {
+  try {
+    tree = await api("/api/tree");
+    $("project").textContent = tree.project + " · " + tree.items + " items in the catalog";
+    draw(tree);
+    renderFacts(tree);
+    paint(null, { allLit: true });
+    steps = [{ label: "catalog", n: tree.items }];
+    await new Promise((r) => setTimeout(r, 900));
+    await refresh(Object.keys(answers).length ? "your files and answers" : "your files");
+  } catch (error) {
+    $("error").textContent = String(error.message || error);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { createInterface } from "node:readline/promises";
-import { join, resolve } from "node:path";
+import { basename, join, resolve } from "node:path";
 import { auditSkills, formatAudit } from "./audit.mjs";
 import { buildSuggestion, formatSuggestion } from "./suggest.mjs";
 import { fileURLToPath } from "node:url";
@@ -9,10 +9,12 @@ import { scanDir } from "./scan/index.mjs";
 import { fingerprint, formatFingerprint } from "./fingerprint.mjs";
 import { resolveNeeds } from "./needs.mjs";
 import { adaptiveQuestions, formatAdaptive, questionsJson } from "./questions.mjs";
+import { startUi } from "./ui.mjs";
+import { driftOf, readProjectState, writeProjectState, staleLine } from "./track.mjs";
 import { formatTable, pickLoadout } from "./recommend.mjs";
 import { loadCatalog } from "./catalog.mjs";
 import { catalogUrl, homeDir, NPX_LAUNCHER } from "./config.mjs";
-import { detectAgents, parseAgentList, skillTargets } from "./agents.mjs";
+import { detectAgents, parseAgentList, runningAgents, skillTargets } from "./agents.mjs";
 import { installItem, removeItem, installSelf } from "./install.mjs";
 import { runHook, parseInstallCommands } from "./guard.mjs";
 import { createTelemetry, NOTICE, NOTICE_DETAILS } from "./telemetry.mjs";
@@ -108,6 +110,18 @@ export async function getCatalog(io, flags = {}) {
   });
 }
 
+// The agents asking: `--agent a,b`, or what the environment says. Empty when unknown; nothing is held back then.
+function askingAgents(args, io) {
+  if (typeof args.flags.agent === "string") {
+    try {
+      return parseAgentList(args.flags.agent).filter((a) => a !== "generic");
+    } catch {
+      return [];
+    }
+  }
+  return runningAgents(io.env ?? {});
+}
+
 function answersFrom(flags) {
   let answers = {};
   if (typeof flags.answers === "string") {
@@ -140,10 +154,38 @@ async function cmdQuestions(args, io) {
   const installed = [...new Set([...Object.keys(readLock(io.cwd).items), ...(fp.agents?.skills ?? [])])];
   const r = adaptiveQuestions({
     catalog, graph: loadSeedGraph(GRAPH_SEED_PATH), fingerprint: fp, answers: answersFrom(args.flags),
-    machine: probeMachine({ env: io.env ?? process.env }), installed, blocked: csv(args.flags.blocked),
+    machine: probeMachine({ env: io.env ?? process.env }), installed, blocked: csv(args.flags.blocked), agents: askingAgents(args, io),
   });
   if (args.flags.json) out(io, questionsJson(r.questions));
   else out(io, (notice ? notice + "\n" : "") + formatAdaptive(r));
+  return 0;
+}
+
+// The decision drawn as a tree in the browser, served on 127.0.0.1 until Ctrl+C. Read-only: the page shows what the
+// engine prunes and picks for each answer; installing stays with the agent and the user.
+async function cmdUi(args, io) {
+  const { catalog, notice } = await getCatalog(io, args.flags);
+  const fp = await fingerprint(io.cwd);
+  const installed = [...new Set([...Object.keys(readLock(io.cwd).items), ...(fp.agents?.skills ?? [])])];
+  const port = Number(args.flags.port);
+  const ui = await startUi({
+    catalog, graph: loadSeedGraph(GRAPH_SEED_PATH), fingerprint: fp, project: basename(resolve(io.cwd)),
+    machine: probeMachine({ env: io.env ?? process.env }), installed, agents: askingAgents(args, io), port: Number.isInteger(port) && port > 0 && port < 65536 ? port : 0,
+  });
+  const answers = answersFrom(args.flags);
+  const link = Object.keys(answers).length ? `${ui.url}&a=${encodeURIComponent(JSON.stringify(answers))}` : ui.url;
+  if (notice) out(io, notice);
+  out(io, `Repotify UI: ${link}\nOpen it in your browser. It only reads; Ctrl+C stops it.`);
+  await new Promise((stopped) => {
+    const stop = () => {
+      process.off("SIGINT", stop);
+      process.off("SIGTERM", stop);
+      stopped();
+    };
+    process.once("SIGINT", stop);
+    process.once("SIGTERM", stop);
+  });
+  await ui.close();
   return 0;
 }
 
@@ -271,7 +313,7 @@ async function cmdRecommend(args, io) {
   // fingerprint stacks and answered keys the v2 narrower/scorer read.
   // What this computer can run: an MCP server whose runtime is missing is listed with what it needs, not defaulted.
   const machine = probeMachine({ env: io.env ?? process.env });
-  const demand = { ...demandFor({ catalog, fingerprint: fp, needs: resolved, answers }), machine };
+  const demand = { ...demandFor({ catalog, fingerprint: fp, needs: resolved, answers, agents: askingAgents(args, io) }), machine };
   const graph = loadSeedGraph(GRAPH_SEED_PATH);
   const blocked = csv(args.flags.blocked);
   const fleetPolicy = loadFleetPolicy({ env: io.env ?? {} });
@@ -678,12 +720,25 @@ async function cmdUpdate(args, io) {
   }
   const now = new Date();
   if (args.flags.weekly && !weeklyCheckDue(readConfig(env), now)) return 0;
-  const { catalog, notice } = await getCatalog(io, args.flags);
+  const { lines, catalog, notice } = await updateLines(io, args.flags, now);
+  if (!lines.length) {
+    if (args.flags.quiet) return 0;
+    lines.push(`Everything is up to date (catalog ${catalog.meta.version}).`);
+  }
+  if (notice && !args.flags.quiet) lines.unshift(notice);
+  out(io, lines.join("\n"));
+  return 0;
+}
+
+// The update check both `update --check` and the tracker run: vetted updates for installed items, items that left
+// the catalog, and Repotify's own skill refreshed. Marks the check as done for the week.
+async function updateLines(io, flags, now) {
+  const { catalog, notice } = await getCatalog(io, flags);
   const lock = readLock(io.cwd);
   const r = checkUpdates({ lock, catalog });
   const selfTargets = lock.items.repotify?.targets ?? [];
   const self = selfTargets.length ? selfUpdateSkill({ cwd: io.cwd, agents: agentsFromTargets(selfTargets), version: VERSION }) : { updated: false };
-  writeConfig(env, { lastUpdateCheckAt: now.toISOString() });
+  writeConfig(io.env ?? {}, { lastUpdateCheckAt: now.toISOString() });
   const lines = [];
   if (r.items.length) {
     lines.push(`${r.items.length} update${r.items.length === 1 ? "" : "s"} available (already security-scanned):`);
@@ -692,12 +747,38 @@ async function cmdUpdate(args, io) {
   }
   for (const id of r.removedFromCatalog) lines.push(`⚠ ${id} is no longer in the catalog (quarantined or removed upstream); consider \`repotify remove ${id}\`.`);
   if (self.updated) lines.push(`Refreshed the repotify skill (${self.from ?? "?"} → ${self.to}).`);
-  if (!lines.length) {
-    if (args.flags.quiet) return 0;
-    lines.push(`Everything is up to date (catalog ${catalog.meta.version}).`);
+  return { lines, catalog, notice };
+}
+
+// What changed since the last look: new stacks or needs that bring new picks (local, said once), and once a week the
+// update check and the skills that no longer earn their place. Silent when there is nothing to do. As a hook
+// (`--hook`, at session start) it never fails the session: any error ends it quietly.
+async function cmdTrack(args, io) {
+  const env = io.env ?? {};
+  const now = new Date();
+  const lines = [];
+  try {
+    const fp = await fingerprint(io.cwd);
+    const lock = readLock(io.cwd);
+    const installed = [...new Set([...Object.keys(lock.items), ...(fp.agents?.skills ?? [])])];
+    const { catalog } = await getCatalog(io, { ...args.flags, offline: true });
+    const drift = driftOf({ catalog, graph: loadSeedGraph(GRAPH_SEED_PATH), fingerprint: fp, state: readProjectState(env, io.cwd), installed, machine: probeMachine({ env: io.env ?? process.env }), agents: askingAgents(args, io), now });
+    writeProjectState(env, io.cwd, drift.state);
+    lines.push(...drift.lines);
+    if (weeklyCheckDue(readConfig(env), now)) {
+      const checked = await updateLines(io, args.flags, now);
+      lines.push(...checked.lines);
+      const needs = resolveNeeds({ fingerprint: fp, answers: {}, taxonomy: checked.catalog.taxonomy });
+      const stale = staleLine(await auditSkills({ root: io.cwd, catalog: checked.catalog, fingerprint: fp, needs, lock }));
+      if (stale) lines.push(stale);
+    }
+  } catch (error) {
+    if (!args.flags.hook) throw error;
+    return 0;
   }
-  if (notice && !args.flags.quiet) lines.unshift(notice);
-  out(io, lines.join("\n"));
+  if (args.flags.json) out(io, JSON.stringify({ lines }, null, 2));
+  else if (lines.length) out(io, lines.join("\n"));
+  else if (!args.flags.hook) out(io, "Nothing new since the last look.");
   return 0;
 }
 
@@ -732,6 +813,7 @@ export const COMMANDS = {
   start: { run: cmdStart, help: "start [--agent a,b]                  Default: install the repotify skill for your agent and summarize the project" },
   fingerprint: { run: cmdFingerprint, help: "fingerprint [--json]                 Summarize this project (local; code is not read)" },
   questions: { run: cmdQuestions, help: "questions [--json] [--type t ...]    Only the questions whose answer changes the picks" },
+  ui: { run: cmdUi, help: "ui [--port N] [--type t ...]         See the decision as a tree in your browser (local, read-only)" },
   recommend: { run: cmdRecommend, help: "recommend [--type t] [--needs a,b]   Conflict-free candidate table (--json, --budget N, --blocked a,b, --arbitrate)" },
   suggest: { run: cmdSuggest, help: "suggest [dir|github-url] [--why text]  Suggest your repo for the catalog (pre-filled form; nothing is sent)" },
   audit: { run: cmdAudit, help: "audit [--user] [--json]              Which installed skills earn their place, which to remove, and why" },
@@ -739,6 +821,7 @@ export const COMMANDS = {
   enable: { run: cmdEnable, help: "enable <id...> [--yes]               Hooks and MCP servers: the user switches them on, after a preview" },
   remove: { run: cmdRemove, help: "remove <id>                          Remove an item Repotify installed" },
   scan: { run: cmdScan, help: "scan <dir> [--json]                  Security-scan a skill folder" },
+  track: { run: cmdTrack, help: "track [--hook] [--json]              What changed in the project since the last look, and what it would now pick" },
   update: { run: cmdUpdate, help: "update [--check|--apply a,b|--enable-auto-check] Vetted updates for installed items" },
   vote: { run: cmdVote, help: "vote <id> up|down | --due | --dismiss  Rate an installed item (at most weekly)" },
   telemetry: { run: cmdTelemetry, help: "telemetry [status|on|off]           Anonymous usage signals (endpoint currently off)" },

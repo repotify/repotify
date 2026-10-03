@@ -30,5 +30,13 @@
   {
     "id": "repotify-guard",
     "reason": "Agents hallucinate package names; attackers register them. The guard blocks that at install time."
+  },
+  {
+    "id": "repotify-tracker",
+    "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick."
+  },
+  {
+    "id": "repotify-router",
+    "reason": "An agent with many skills forgets the one that fits. The router names it at the moment it matters."
   }
 ]

@@ -73,14 +73,16 @@ The agent is detected automatically; override with `--agent claude-code,cursor,c
 |---|---|
 | `repotify` | Installs the repotify skill for your agent and prints the project fingerprint |
 | `repotify fingerprint` | Project summary (`--json` for machines) |
-| `repotify questions` | Only the questions the fingerprint cannot answer |
-| `repotify recommend` | Conflict-free candidate table (`--type`, `--needs`, `--priorities`, `--budget`, `--json`) |
+| `repotify questions` | Only the questions whose answer would change the picks, most decisive first; each is asked once (takes the answers given so far: `--type`, `--needs`, …) |
+| `repotify recommend` | Conflict-free candidate table (`--type`, `--needs`, `--priorities`, `--stacks`, `--platforms`, `--budget`, `--json`) |
+| `repotify ui` | Shows the decision as a tree in your browser: what the files rule in, what each answer settles, what gets picked. Local and read-only (`--port`) |
 | `repotify install <ids…> --yes` | Installs catalog skills; caution items also need `--accept-caution` |
 | `repotify enable <ids…>` | Switches on a hook or MCP server after showing the change; for you, not your agent |
 | `repotify audit` | Judges the skills already installed: keep, consider removing or remove, with the reason |
 | `repotify suggest` | Offers your own skill or repository to the catalog: a pre-filled form, nothing is sent |
 | `repotify remove <id>` | Removes something Repotify installed |
 | `repotify update --check` | Lists catalog updates for what you installed; `--apply` installs scanned updates |
+| `repotify track` | Says what the project gained since the last look and which new picks fit it now; the tracker hook runs it when a session starts |
 | `repotify scan <dir>` | Runs the security scanner on any skill folder |
 | `repotify vote <id> up\|down` | Rates an item you installed (at most weekly) |
 | `repotify telemetry status\|on\|off` | Anonymous usage signals, default-ON with a first-run notice; queued locally until you `sync`; kill switches: `telemetry off`, `REPOTIFY_TELEMETRY=0`, `DO_NOT_TRACK=1` |
@@ -93,10 +95,10 @@ The agent is detected automatically; override with `--agent claude-code,cursor,c
 |---|---|
 | `repotify` | Your agent's `skills/repotify/` folder and `repotify.lock.json`; nothing else |
 | `install` | Skill folders in your agent's skills directory, and the lock file |
-| `enable` | Only what it shows you first: a hook in `.claude/settings.json` or an entry in your agent's MCP config |
-| `recommend`, `audit`, `suggest`, `scan`, `fingerprint` | Nothing in your project |
+| `enable` | Only what it shows you first: a hook in `.claude/settings.json` (the router and the guard also add one file under `.claude/hooks/`) or an entry in your agent's MCP config |
+| `recommend`, `questions`, `ui`, `track`, `audit`, `suggest`, `scan`, `fingerprint` | Nothing in your project |
 
-Outside the project Repotify keeps one folder, `~/.repotify` (or `REPOTIFY_HOME`): the catalog cache, your settings and, while telemetry is on, the local usage log.
+Outside the project Repotify keeps one folder, `~/.repotify` (or `REPOTIFY_HOME`): the catalog cache, your settings, what the tracker last saw of each project (its stacks and needs, never code) and, while telemetry is on, the local usage log.
 
 It reads manifests and file names, never your code. It downloads the catalog, and skill files at pinned commits;
 tools are never executed for you. Repotify's flow never has your agent switch hooks or MCP servers on: `enable` asks

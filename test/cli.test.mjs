@@ -1,6 +1,6 @@
 import { test, after } from "node:test";
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -61,6 +61,32 @@ test("questions lists only what is unknown and would change the picks", () => {
   }
   const answered = JSON.parse(offline(projects + "empty", "questions", "--json", "--type", "web-app").stdout);
   assert.ok(!answered.some((q) => q.id === "projectType"), "an answer given as a flag is not asked again");
+});
+
+test("ui serves the decision tree on 127.0.0.1 until stopped, with the answers given as flags", async () => {
+  const child = spawn(process.execPath, [bin, "ui", "--type", "web-app"], { cwd: projects + "empty", env: { ...process.env, REPOTIFY_OFFLINE: "1", REPOTIFY_TELEMETRY: "0", REPOTIFY_HOME: tmpHome } });
+  let out = "";
+  const url = await new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`no link in time: ${out}`)), 30000);
+    child.stdout.on("data", (d) => {
+      out += d;
+      const m = /http:\/\/127\.0\.0\.1:\d+\/\?t=[0-9a-f]{32}&a=\S+/.exec(out);
+      if (m) {
+        clearTimeout(timer);
+        resolve(m[0]);
+      }
+    });
+    child.on("exit", (code) => reject(new Error(`exited ${code}: ${out}`)));
+  });
+  assert.match(decodeURIComponent(url), /a=\{"projectType":"web-app"\}/);
+  const res = await fetch(url);
+  assert.equal(res.status, 200);
+  assert.match(await res.text(), /<title>Repotify picks<\/title>/);
+  const code = await new Promise((resolve) => {
+    child.on("exit", (c) => resolve(c));
+    child.kill("SIGTERM");
+  });
+  assert.equal(code, 0, "Ctrl+C or a stop signal ends it cleanly");
 });
 
 test("recommend prints the candidate table from the bundled catalog when offline", () => {

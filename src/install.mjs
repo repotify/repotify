@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { AGENTS, skillTargets } from "./agents.mjs";
 import { readLock, writeLock } from "./lock.mjs";
+import { sanitizeLauncher } from "./config.mjs";
 import { scanFiles } from "./scan/index.mjs";
 import { safeRelPath, sha256, compareSemver, readJsonSafe } from "./util.mjs";
 import { applyMcp, mcpSnippet, removeMcp, agentForMcpFile } from "./mcpconfig.mjs";
@@ -147,12 +148,23 @@ export async function installSkill(item, opts) {
 }
 
 // ---------------------------------------------------------------------------
-// Package guard (a `config` item): standalone hook file + Claude Code settings entry.
+// Hooks (`config` items): a Claude Code settings entry, and for the standalone ones a file copied next to it.
+// The package guard and the skill router are single files that import only Node built-ins, so they keep working
+// without npx or the network. The tracker needs the whole engine and runs through the launcher.
 
 const GUARD_SOURCE = fileURLToPath(new URL("./guard.mjs", import.meta.url));
+const ROUTER_SOURCE = fileURLToPath(new URL("./router.mjs", import.meta.url));
 export const GUARD_HOOK_PATH = ".claude/hooks/repotify-guard.mjs";
-const GUARD_COMMAND = 'node "$CLAUDE_PROJECT_DIR/.claude/hooks/repotify-guard.mjs"';
-const isGuardEntry = (entry) => (entry?.hooks ?? []).some((h) => String(h.command ?? "").includes("repotify-guard.mjs"));
+export const ROUTER_HOOK_PATH = ".claude/hooks/repotify-router.mjs";
+export const TRACK_ARGS = "track --hook";
+const fileCommand = (path) => `node "$CLAUDE_PROJECT_DIR/${path}"`;
+
+export const HOOKS = Object.freeze({
+  "repotify-guard": { event: "PreToolUse", matcher: "Bash", timeout: 30, file: GUARD_HOOK_PATH, source: GUARD_SOURCE, marker: "repotify-guard.mjs", command: () => fileCommand(GUARD_HOOK_PATH) },
+  "repotify-router": { event: "UserPromptSubmit", timeout: 10, file: ROUTER_HOOK_PATH, source: ROUTER_SOURCE, marker: "repotify-router.mjs", command: () => fileCommand(ROUTER_HOOK_PATH) },
+  "repotify-tracker": { event: "SessionStart", timeout: 60, marker: TRACK_ARGS, command: (launcher) => `${sanitizeLauncher(launcher)} ${TRACK_ARGS}` },
+});
+const isHookEntry = (hook) => (entry) => (entry?.hooks ?? []).some((h) => String(h.command ?? "").includes(hook.marker));
 
 export function readSettings(cwd) {
   const path = join(cwd, ".claude", "settings.json");
@@ -161,32 +173,44 @@ export function readSettings(cwd) {
   return r.ok && r.value && typeof r.value === "object" && !Array.isArray(r.value) ? { ok: true, path, value: r.value } : { ok: false, path };
 }
 
-export function installGuard({ cwd }) {
+// What enabling a hook changes, in one line the user reads before saying yes.
+export function hookPreview(id, { launcher } = {}) {
+  const hook = HOOKS[id];
+  return `Adds ${hook.file ? `${hook.file} and ` : ""}a ${hook.event} hook in .claude/settings.json${hook.file ? "" : ` that runs \`${hook.command(launcher)}\``}`;
+}
+
+export function installHook(id, { cwd, launcher } = {}) {
+  const hook = HOOKS[id];
   const settings = readSettings(cwd);
   if (!settings.ok) return { written: false, reason: "unparseable", file: ".claude/settings.json" };
   mkdirSync(join(cwd, ".claude", "hooks"), { recursive: true });
-  copyFileSync(GUARD_SOURCE, join(cwd, GUARD_HOOK_PATH));
+  if (hook.file) copyFileSync(hook.source, join(cwd, hook.file));
   const cfg = settings.value;
   cfg.hooks = cfg.hooks && typeof cfg.hooks === "object" ? cfg.hooks : {};
-  const pre = Array.isArray(cfg.hooks.PreToolUse) ? cfg.hooks.PreToolUse : [];
-  if (!pre.some(isGuardEntry)) pre.push({ matcher: "Bash", hooks: [{ type: "command", command: GUARD_COMMAND, timeout: 30 }] });
-  cfg.hooks.PreToolUse = pre;
+  const list = Array.isArray(cfg.hooks[hook.event]) ? cfg.hooks[hook.event] : [];
+  if (!list.some(isHookEntry(hook))) list.push({ ...(hook.matcher ? { matcher: hook.matcher } : {}), hooks: [{ type: "command", command: hook.command(launcher), timeout: hook.timeout }] });
+  cfg.hooks[hook.event] = list;
   writeFileSync(settings.path, JSON.stringify(cfg, null, 2) + "\n");
-  return { written: true, targets: [GUARD_HOOK_PATH, ".claude/settings.json#hooks.PreToolUse"] };
+  return { written: true, targets: [...(hook.file ? [hook.file] : []), `.claude/settings.json#hooks.${hook.event}`] };
 }
 
-export function removeGuard({ cwd }) {
-  rmSync(join(cwd, GUARD_HOOK_PATH), { force: true });
+export function removeHook(id, { cwd }) {
+  const hook = HOOKS[id];
+  if (!hook) return;
+  if (hook.file) rmSync(join(cwd, hook.file), { force: true });
   const settings = readSettings(cwd);
   if (!settings.ok || !existsSync(settings.path)) return;
   const cfg = settings.value;
-  if (Array.isArray(cfg.hooks?.PreToolUse)) {
-    cfg.hooks.PreToolUse = cfg.hooks.PreToolUse.filter((e) => !isGuardEntry(e));
-    if (!cfg.hooks.PreToolUse.length) delete cfg.hooks.PreToolUse;
+  if (Array.isArray(cfg.hooks?.[hook.event])) {
+    cfg.hooks[hook.event] = cfg.hooks[hook.event].filter((e) => !isHookEntry(hook)(e));
+    if (!cfg.hooks[hook.event].length) delete cfg.hooks[hook.event];
     if (!Object.keys(cfg.hooks).length) delete cfg.hooks;
   }
   writeFileSync(settings.path, JSON.stringify(cfg, null, 2) + "\n");
 }
+
+export const installGuard = ({ cwd }) => installHook("repotify-guard", { cwd });
+export const removeGuard = ({ cwd }) => removeHook("repotify-guard", { cwd });
 
 // ---------------------------------------------------------------------------
 // One entry point for every item type. Tools are only described, never executed.
@@ -240,9 +264,10 @@ export async function installItem(item, opts) {
     }
     return { type: "mcp", written: targets.length > 0, steps, results };
   }
-  if (item.type === "config" && item.id === "repotify-guard") {
-    if (!confirm) return { type: "config", written: false, preview: `Adds ${GUARD_HOOK_PATH} and a PreToolUse hook in .claude/settings.json` };
-    const r = installGuard({ cwd });
+  if (item.type === "config" && HOOKS[item.id]) {
+    const launcher = readLock(cwd).items.repotify?.launcher;
+    if (!confirm) return { type: "config", written: false, preview: hookPreview(item.id, { launcher }) };
+    const r = installHook(item.id, { cwd, launcher });
     if (r.written) recordLock(cwd, item.id, { type: "config", repo: null, targets: r.targets, agents: ["claude-code"], installedAt: now.toISOString(), catalogVersion, level: "verified" }, catalogVersion);
     return { type: "config", ...r };
   }
@@ -265,7 +290,7 @@ export function removeItem(id, { cwd }) {
       if (agent) removeMcp(id, agent, { cwd });
     }
   } else if (entry.type === "config") {
-    removeGuard({ cwd });
+    removeHook(id, { cwd });
   } else {
     for (const t of entry.targets ?? []) {
       // P4: remove the instrumentation manifest with the skill (best-effort).

@@ -23,7 +23,7 @@ export const DOMAINS = Object.freeze({
 export const DOMAIN_OF = Object.freeze({
   "implementation-planning": "process", "tdd-discipline": "process", "debugging-method": "process", "verification-gate": "process",
   "code-review": "process", "workflow-meta": "process", "design-brainstorming": "process", refactoring: "process", "git-workflow": "process",
-  "agent-memory": "process", "skill-authoring": "ai", "agent-orchestration": "ai",
+  "agent-memory": "process", "setup-tracking": "process", "skill-routing": "process", "skill-authoring": "ai", "agent-orchestration": "ai",
   "frontend-design": "frontend", "component-architecture": "frontend", "react-performance": "frontend", "web-design-review": "frontend",
   accessibility: "frontend", "seo-optimization": "frontend", "i18n-localization": "frontend", "data-visualization": "frontend",
   "architecture-design": "backend", database: "backend", "auth-implementation": "backend", "payments-integration": "backend",
@@ -69,6 +69,9 @@ export const ADDED_CAPABILITIES = Object.freeze({
   "media-generation": { label: "Generating video, images or audio" },
   "game-development": { label: "Game development: engines, rendering, gameplay" },
   "scientific-computing": { label: "Scientific computing: bioinformatics, chemistry, physics, research data" },
+  // What Repotify's own hooks do (2026-10-03).
+  "setup-tracking": { label: "Keeping the agent's setup current as the project changes" },
+  "skill-routing": { label: "Pointing the agent at the installed skill that fits each request" },
 });
 
 // Stacks a skill can be written for that are products a project uses, detected from its manifests and files
@@ -91,6 +94,17 @@ export const PRODUCT_STACKS = Object.freeze({
   redis: { label: "Redis", kind: "product" },
   unity: { label: "Unity", kind: "product" },
   godot: { label: "Godot", kind: "product" },
+  // Products that most often tied a crawled skill or MCP server to one service (2026-10-03).
+  sentry: { label: "Sentry", kind: "product" },
+  auth0: { label: "Auth0", kind: "product" },
+  clerk: { label: "Clerk", kind: "product" },
+  shopify: { label: "Shopify", kind: "product" },
+  railway: { label: "Railway", kind: "product" },
+  netlify: { label: "Netlify", kind: "product" },
+  convex: { label: "Convex", kind: "product" },
+  clickhouse: { label: "ClickHouse", kind: "product" },
+  pocketbase: { label: "PocketBase", kind: "product" },
+  nx: { label: "Nx", kind: "product" },
 });
 
 export const ADDED_NEEDS = Object.freeze({

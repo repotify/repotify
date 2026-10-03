@@ -4,7 +4,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { checkMcpSetup, installItem, installSelf, readSettings, SELF_SKILL_DIR } from "./install.mjs";
 import { readLock, writeLock } from "./lock.mjs";
-import { NPX_LAUNCHER } from "./config.mjs";
+import { NPX_LAUNCHER, sanitizeLauncher } from "./config.mjs";
 import { agentForMcpFile, applyMcp, mcpConfigWritable } from "./mcpconfig.mjs";
 
 // Replaces an installed MCP server in place. Consent and config checks happen before anything is written.
@@ -31,14 +31,7 @@ const DAY = 86400000;
 const PUBLISHABLE = ["verified", "caution"];
 export const AUTO_CHECK_ARGS = "update --check --quiet --weekly";
 
-// The launcher is interpolated into a shell hook command, so it must be plain words: a poisoned
-// repotify.lock.json could otherwise turn the user's "yes" into remote execution at session start.
-// Quoted segments are allowed (`node "/path/to/bin/repotify.mjs"`); anything the shell would
-// interpret (`;`, `|`, `$`, backticks, `$(…)`, `&&`) falls back to the published launcher.
-const SAFE_LAUNCHER_RE = /^(?:"[^"]*"|[A-Za-z0-9_@./\\~:+-]+)(\s+(?:"[^"]*"|[A-Za-z0-9_@./\\~:+-]+))*$/;
-export function sanitizeLauncher(launcher) {
-  return typeof launcher === "string" && SAFE_LAUNCHER_RE.test(launcher) ? launcher : NPX_LAUNCHER;
-}
+export { sanitizeLauncher };
 
 export function checkUpdates({ lock, catalog }) {
   const byId = new Map(catalog.items.map((i) => [i.id, i]));

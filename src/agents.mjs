@@ -49,9 +49,15 @@ export const AGENTS = {
 
 const ORDER = ["claude-code", "cursor", "codex", "gemini-cli"];
 
-export function detectAgents({ env = process.env, cwd = process.cwd() } = {}) {
+// The agents running this command, as their environment says. Empty when none is known: a folder's marker files
+// (AGENTS.md is read by several agents) say which agents a project is set up for, not who is asking.
+export function runningAgents(env = process.env) {
   const aiAgent = String(env.AI_AGENT ?? "").toLowerCase();
-  const fromEnv = ORDER.filter((id) => AGENTS[id].env.some((k) => env[k]) || (aiAgent && aiAgent.startsWith(AGENTS[id].aiAgentPrefix)));
+  return ORDER.filter((id) => AGENTS[id].env.some((k) => env[k]) || (aiAgent && aiAgent.startsWith(AGENTS[id].aiAgentPrefix)));
+}
+
+export function detectAgents({ env = process.env, cwd = process.cwd() } = {}) {
+  const fromEnv = runningAgents(env);
   if (fromEnv.length) return fromEnv;
   const fromFiles = ORDER.filter((id) => AGENTS[id].markers.some((m) => existsSync(join(cwd, m))));
   return fromFiles.length ? fromFiles : ["generic"];

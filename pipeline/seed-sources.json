@@ -29,6 +29,16 @@
       "capabilities": ["package-guard"], "needs": ["dependencies", "security"], "stacks": ["*"], "agents": ["claude-code"],
       "descriptionChars": 0,
       "setup": { "steps": ["repotify install repotify-guard --yes"], "verify": "repotify guard --self-test" } },
+    { "id": "repotify-tracker", "type": "config", "name": "Repotify Tracker", "builtin": true, "license": "MIT", "tier": "core",
+      "summary": "Notices at session start when the project gained a stack or need, and says which new picks fit it now.",
+      "capabilities": ["setup-tracking"], "needs": [], "stacks": ["*"], "agents": ["claude-code"],
+      "descriptionChars": 0, "lifecycle": "occasional",
+      "setup": { "steps": ["repotify enable repotify-tracker"], "verify": "repotify track" } },
+    { "id": "repotify-router", "type": "config", "name": "Repotify Skill Router", "builtin": true, "license": "MIT", "tier": "core",
+      "summary": "Before each request, points the agent at the installed skills that fit it; silent when none does.",
+      "capabilities": ["skill-routing"], "needs": [], "stacks": ["*"], "agents": ["claude-code"],
+      "descriptionChars": 0, "lifecycle": "every_task",
+      "setup": { "steps": ["repotify enable repotify-router"] } },
     { "id": "requesting-code-review", "type": "skill", "name": "Requesting Code Review (Superpowers)", "repo": "obra/superpowers", "path": "skills/requesting-code-review", "license": "MIT", "tier": "mission",
       "summary": "Sends finished work to an independent reviewer with the right context and acts on the findings.",
       "capabilities": ["code-review"], "needs": ["github-workflow", "testing"], "stacks": ["*"], "agents": ["claude-code", "cursor", "codex", "gemini-cli", "generic"] },
@@ -184,7 +194,9 @@
     { "id": "systematic-debugging", "reason": "Root-cause debugging stops the patch-on-patch spiral that burns tokens." },
     { "id": "verification-before-completion", "reason": "Evidence before 'done' removes the most common agent failure: claiming success without checking." },
     { "id": "differential-review", "reason": "A security pass on every diff catches what functional tests never look for." },
-    { "id": "repotify-guard", "reason": "Agents hallucinate package names; attackers register them. The guard blocks that at install time." }
+    { "id": "repotify-guard", "reason": "Agents hallucinate package names; attackers register them. The guard blocks that at install time." },
+    { "id": "repotify-tracker", "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick." },
+    { "id": "repotify-router", "reason": "An agent with many skills forgets the one that fits. The router names it at the moment it matters." }
   ],
   "loadouts": [
     { "id": "nextjs-saas", "label": "Next.js SaaS", "projectType": "web-app", "needs": ["frontend-ui", "e2e-testing", "auth", "payments", "performance"],
