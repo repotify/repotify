@@ -14,6 +14,7 @@ import { resolve } from "node:path";
 import { isMain } from "../src/util.mjs";
 import { createStore, obsKey } from "./store.mjs";
 import { hackerNews, reddit, starHistory, skillsShLeaderboard, smithery, curatedIndex } from "./research-sources.mjs";
+import { flag, logStamped } from "./lib/cli.mjs";
 
 export const RESEARCH_PROMPT_VERSION = "1";
 export const NIM_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
@@ -391,19 +392,17 @@ export function readEnvFile(path) {
 
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
-  const opt = (name, def) => (args.includes(name) ? args[args.indexOf(name) + 1] : def);
-  const store = createStore(resolve(opt("--store", "store")));
-  const env = { ...process.env, ...(opt("--env-file", null) ? readEnvFile(opt("--env-file")) : {}) };
+  const store = createStore(resolve(flag(args, "--store", "store")));
+  const env = { ...process.env, ...(flag(args, "--env-file", null) ? readEnvFile(flag(args, "--env-file")) : {}) };
   const keys = Object.fromEntries(AGENTS.map((a) => [a.keyName, env[a.keyName] || env[`NVIDIA_API_KEY_${a.keyName.slice(-1)}`] || null]));
-  const log = (m) => console.error(`${new Date().toISOString()} ${m}`);
-  log(`agents with a key: ${AGENTS.filter((a) => keys[a.keyName]).map((a) => a.id).join(", ") || "none"}`);
+  logStamped(`agents with a key: ${AGENTS.filter((a) => keys[a.keyName]).map((a) => a.id).join(", ") || "none"}`);
   const shared = { leaderboard: await skillsShLeaderboard(), curated: await curatedIndex() };
-  log(`skills.sh: ${shared.leaderboard.length} skills; curated lists: ${shared.curated.size} repositories linked`);
+  logStamped(`skills.sh: ${shared.leaderboard.length} skills; curated lists: ${shared.curated.size} repositories linked`);
   store.putState("skills-sh", { at: new Date().toISOString(), skills: shared.leaderboard });
-  const only = opt("--only", null)?.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean) ?? null;
-  const targets = buildTargets(store, { leaderboard: shared.leaderboard, only, limit: Number(opt("--targets", "150")) });
+  const only = flag(args, "--only", null)?.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean) ?? null;
+  const targets = buildTargets(store, { leaderboard: shared.leaderboard, only, limit: Number(flag(args, "--targets", "150")) });
   shared.nameOwner = nameOwners(buildTargets(store, { leaderboard: shared.leaderboard }));
-  log(`${targets.length} target repositories`);
-  const stats = await researchAll({ store, keys, targets, shared, model: opt("--model", DEFAULT_MODEL), perAgent: Number(opt("--per-agent", "3")), log });
+  logStamped(`${targets.length} target repositories`);
+  const stats = await researchAll({ store, keys, targets, shared, model: flag(args, "--model", DEFAULT_MODEL), perAgent: Number(flag(args, "--per-agent", "3")), log: logStamped });
   console.log(JSON.stringify(stats));
 }

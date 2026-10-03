@@ -19,6 +19,7 @@ import { publishCatalog } from "./publish.mjs";
 import { decide as decideClassification, extendTaxonomy } from "./jev-classify.mjs";
 import { discover } from "./discover.mjs";
 import { providersFromEnv } from "./providers/index.mjs";
+import { flag, logStamped } from "./lib/cli.mjs";
 
 const DAY = 86400000;
 const ALL_AGENTS = ["claude-code", "cursor", "codex", "gemini-cli", "generic"];
@@ -314,14 +315,13 @@ export async function runPipeline(opts) {
 
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
-  const opt = (name, def) => (args.includes(name) ? args[args.indexOf(name) + 1] : def);
   const here = fileURLToPath(new URL(".", import.meta.url));
-  const outDir = resolve(opt("--out", join(here, "..", "catalog")));
-  const workDir = resolve(opt("--work", join(here, "work", "repos")));
-  const cachePath = resolve(opt("--cache", join(here, "cache", "jury.json")));
-  const reviewedPath = resolve(opt("--reviewed", join(here, "reviewed.json")));
-  const sources = opt("--sources", "seed,awesome,hn,reddit,github-topics,github-code,submissions").split(",");
-  const limit = Number(opt("--limit", "40"));
+  const outDir = resolve(flag(args, "--out", join(here, "..", "catalog")));
+  const workDir = resolve(flag(args, "--work", join(here, "work", "repos")));
+  const cachePath = resolve(flag(args, "--cache", join(here, "cache", "jury.json")));
+  const reviewedPath = resolve(flag(args, "--reviewed", join(here, "reviewed.json")));
+  const sources = flag(args, "--sources", "seed,awesome,hn,reddit,github-topics,github-code,submissions").split(",");
+  const limit = Number(flag(args, "--limit", "40"));
   const seed = JSON.parse(readFileSync(join(here, "seed-sources.json"), "utf8"));
   const taxonomy = JSON.parse(readFileSync(join(outDir, "taxonomy.json"), "utf8"));
   const juryCache = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, "utf8")) : {};
@@ -330,10 +330,9 @@ if (isMain(import.meta.url)) {
   const classification = existsSync(classificationPath) ? JSON.parse(readFileSync(classificationPath, "utf8")).items : {};
   const denylistPath = join(here, "denylist.json");
   const denylist = existsSync(denylistPath) ? JSON.parse(readFileSync(denylistPath, "utf8")) : [];
-  const log = (m) => console.error(m);
   const t0 = Date.now();
   const found = await discover({ sources: sources.filter((s) => s !== "seed"), githubToken: process.env.GITHUB_TOKEN, submissionsRepo: process.env.REPOTIFY_SUBMISSIONS_REPO });
-  for (const e of found.errors) log(`discover ${e.source}: ${e.message}`);
+  for (const e of found.errors) logStamped(`discover ${e.source}: ${e.message}`);
   const discovered = found.candidates.sort((a, b) => b.mentions30d + (b.meta?.stars ?? 0) / 1000 - (a.mentions30d + (a.meta?.stars ?? 0) / 1000)).slice(0, limit);
   const providers = Object.fromEntries(providersFromEnv(process.env).map((p) => [p.name, p]));
   let community = null;
@@ -344,7 +343,7 @@ if (isMain(import.meta.url)) {
   }
   const result = await runPipeline({
     seed, taxonomy, outDir, workDir, discovered, providers, juryCache, reviewed, community, denylist, classification,
-    concurrency: Number(opt("--concurrency", "3")), noJury: args.includes("--no-jury"), log,
+    concurrency: Number(flag(args, "--concurrency", "3")), noJury: args.includes("--no-jury"), log: logStamped,
   });
   mkdirSync(dirname(cachePath), { recursive: true });
   writeFileSync(cachePath, JSON.stringify(result.juryCache));

@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-// Builds the catalog from the content store: every stored skill that passes the rules below joins the hand-vetted
-// items already in the catalog. No network and no model: the rules read observations the store already holds (the
-// security scan, the decision model's answers, the research team's reputation records, installs on skills.sh), so a
-// changed rule rebuilds the catalog in seconds without downloading or asking anything again.
+// Builds the catalog from the content store: every stored skill and MCP server that passes the rules below joins the
+// hand-vetted items already in the catalog. No network and no model: the rules read observations the store already
+// holds (the security scan, the decision model's answers, the research team's reputation records, installs on
+// skills.sh, downloads), so a changed rule rebuilds the catalog in seconds without downloading or asking anything again.
 //   node pipeline/derive.mjs --store DIR [--out catalog] [--dry-run] [--report FILE]
 import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isMain } from "../src/util.mjs";
 import { parseFrontmatter } from "../src/frontmatter.mjs";
-import { ID_RE, MAX_SUMMARY, validateCatalog } from "../src/catalog.mjs";
+import { ID_RE, MAX_SUMMARY, PUBLISHABLE_LEVELS, validateCatalog } from "../src/catalog.mjs";
 import { SCANNER_VERSION } from "../src/scan/index.mjs";
 import { jevConfig } from "../lib/signals/jev.mjs";
 import { createStore, obsKey } from "./store.mjs";
@@ -21,6 +21,8 @@ import { unsafeSummary } from "./run.mjs";
 import { GATE_VERSION } from "./gate.mjs";
 import { reputationKey } from "./research.mjs";
 import { writeCatalogFiles } from "./publish.mjs";
+import { serverObservations, mcpSetup } from "./mcp.mjs";
+import { flag } from "./lib/cli.mjs";
 
 // Bump when a rule changes; every derived item records it.
 export const DERIVE_VERSION = "1";
@@ -42,8 +44,9 @@ export const RULES = Object.freeze({
 // A derived item may join a default set only with evidence about the skill itself, beyond its own text: people install
 // it, or the research team found its repository well regarded and named this skill among its best. A popular
 // repository does not vouch for each of its skills (an agent framework's payment-protocol skill reached e-commerce
-// sites that way). Without the evidence the item is still listed, as an alternate the agent can choose.
-export const DEFAULT_EVIDENCE = Object.freeze({ quality: 0.85, job: 0.85, installs: 1000, reputation: 0.65 });
+// sites that way). Without the evidence the item is still listed, as an alternate the agent can choose. For an MCP
+// server the evidence is use: downloads a month from npm or PyPI.
+export const DEFAULT_EVIDENCE = Object.freeze({ quality: 0.85, job: 0.85, installs: 1000, reputation: 0.65, downloads: 10000 });
 
 export const PERMISSIVE = new Set(["MIT", "MIT-0", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "Unlicense", "0BSD", "CC0-1.0", "CC-BY-4.0", "MPL-2.0", "BSL-1.0", "Zlib", "BlueOak-1.0.0"]);
 export const ALL_AGENTS = ["claude-code", "cursor", "codex", "gemini-cli", "generic"];
@@ -111,6 +114,19 @@ function candidates(store, { taxonomy, model }) {
   return out;
 }
 
+// The rules skills and MCP servers both answer to: software work, one clear job the catalog serves, for what that
+// job is for, and a product scope a project can show. The stack it is scoped to, or why it does not fit.
+function judgeAnswers(a, taxonomy) {
+  if (a.coding < RULES.coding) return { why: [`not software work (coding ${a.coding})`] };
+  const stack = a.stack && a.stack !== "any" && (a.stackP ?? 0) >= RULES.stack && taxonomy.stacks[a.stack] ? a.stack : null;
+  // Only a product the fingerprint can find scopes a product-bound item: "Python" does not make an n8n skill general.
+  if (a.productBound >= RULES.productBound && taxonomy.stacks[stack]?.kind !== "product") return { why: [`tied to one product (${a.productBound}) a project cannot show`] };
+  if (a.job === "none" || (a.jobP ?? 0) < RULES.job || !taxonomy.capabilities[a.job]) return { why: [`main job unsure: ${a.job} (${a.jobP})`], review: true };
+  if (OUT_OF_SCOPE.has(a.job)) return { why: [`${a.job}: not building software`] };
+  if ((a.purposeP ?? 0) < 0.5 || !purposeFits(a.job, a.purpose, taxonomy)) return { why: [`purpose ${a.purpose} (${a.purposeP}) does not fit ${a.job}`], review: true };
+  return { stack };
+}
+
 // The rules, one candidate at a time: the item it becomes, or why it does not.
 function judge(c, { taxonomy, installsOf, originalOf, outOfScopeRepo }) {
   const a = c.answers;
@@ -121,13 +137,9 @@ function judge(c, { taxonomy, installsOf, originalOf, outOfScopeRepo }) {
   if (why.length) return { why };
   const original = originalOf(c);
   if (original !== c.repo) return { why: [`copy of a skill in ${original}`] };
-  if (a.coding < RULES.coding) return { why: [`not software work (coding ${a.coding})`] };
-  const stack = a.stack && a.stack !== "any" && (a.stackP ?? 0) >= RULES.stack && taxonomy.stacks[a.stack] ? a.stack : null;
-  // Only a product the fingerprint can find scopes a product-bound skill: "Python" does not make an n8n skill general.
-  if (a.productBound >= RULES.productBound && taxonomy.stacks[stack]?.kind !== "product") return { why: [`tied to one product (${a.productBound}) a project cannot show`] };
-  if (a.job === "none" || (a.jobP ?? 0) < RULES.job || !taxonomy.capabilities[a.job]) return { why: [`main job unsure: ${a.job} (${a.jobP})`], review: true };
-  if (OUT_OF_SCOPE.has(a.job)) return { why: [`${a.job}: not building software`] };
-  if ((a.purposeP ?? 0) < 0.5 || !purposeFits(a.job, a.purpose, taxonomy)) return { why: [`purpose ${a.purpose} (${a.purposeP}) does not fit ${a.job}`], review: true };
+  const fit = judgeAnswers(a, taxonomy);
+  if (fit.why) return fit;
+  const { stack } = fit;
   if (outOfScopeRepo(c.repo) && (a.purpose !== "product" || (a.purposeP ?? 0) < 0.9)) return { why: ["most of its repository is security operations or off-topic"] };
   if (a.quality == null || a.quality < RULES.quality || (a.qualityConfidence ?? 0) < RULES.qualityConfidence) return { why: [`quality ${a.quality} (confidence ${a.qualityConfidence})`] };
   const rep = c.reputation;
@@ -233,17 +245,84 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
   return { items, dropped, considered: all.length };
 }
 
+// The agents that run MCP servers, and what a server is taken to cost in context: the registry does not list a
+// server's tools, so this is an estimate between the hand-vetted servers' measured 700 and 3,200 characters.
+const MCP_AGENTS = ["claude-code", "cursor", "codex", "gemini-cli"];
+export const MCP_CONTEXT_CHARS = 2000;
+const packageOf = (spec) => String(spec ?? "").replace(/==.*$/, "").replace(/(.)@[^@/]*$/, "$1").toLowerCase();
+
+// MCP servers: the registry's popular local servers (pipeline/mcp.mjs) under the same rules as skills. A server needs
+// its source on GitHub and a clean or cautioned gate. A default pick needs real use (DEFAULT_EVIDENCE.downloads a
+// month), a sure job and a clean gate; a server that needs an account's secret key joins a default set only when it is
+// for a product the project shows. The hand-vetted catalog keeps its own entry for a package.
+export function deriveMcp(store, { taxonomy, curated = [], used = new Set(), now = new Date(), model = jevConfig().model } = {}) {
+  const state = store.getState("mcp");
+  const vetted = new Set(curated.flatMap((i) => [i.setup?.npm, i.setup?.pypi]).filter(Boolean).map(packageOf));
+  const items = [];
+  const dropped = [];
+  for (const s of state?.servers ?? []) {
+    if (vetted.has(s.package)) continue;
+    const where = { registry: s.name, package: `${s.registry}:${s.package}` };
+    const { security: sec, answers: a } = serverObservations(store, s, { taxonomy, model });
+    const why = [];
+    if (!s.repo) why.push("no source repository on GitHub");
+    if (!sec || !PUBLISHABLE_LEVELS.includes(sec.level)) why.push(`security ${sec?.level ?? "not gated"}`);
+    if (!a) why.push("not classified yet");
+    const fit = why.length ? { why } : judgeAnswers(a, taxonomy);
+    const summary = fit.why ? null : summaryOf(s.description);
+    if (fit.why || !summary) {
+      dropped.push({ ...where, level: fit.review ? "review" : "declined", reason: (fit.why ?? ["no description a user can be shown"]).join("; ") });
+      continue;
+    }
+    const product = taxonomy.stacks[fit.stack]?.kind === "product";
+    const needsKey = s.env.some((e) => e.required && e.secret);
+    const defaultEligible = s.downloads >= DEFAULT_EVIDENCE.downloads && (a.jobP ?? 0) >= DEFAULT_EVIDENCE.job && sec.level === "verified" && (!needsKey || product);
+    if (SENSITIVE_JOBS.has(a.job) && !product) {
+      dropped.push({ ...where, level: "review", reason: `${a.job} needs the project's provider` });
+      continue;
+    }
+    const base = slug(s.package.replace(/^@/, "").replace("/", "-"));
+    const id = [base, slug(`${s.repo.split("/")[0]}-${base}`)].find((x) => ID_RE.test(x) && !used.has(x) && !GENERIC_NAMES.has(x));
+    if (!id) {
+      dropped.push({ ...where, level: "declined", reason: "no free id" });
+      continue;
+    }
+    used.add(id);
+    const stacks = fit.stack ? [fit.stack] : ["*"];
+    items.push({
+      id, type: "mcp", name: s.title.slice(0, 80), repo: s.repo, registry: s.name, summary,
+      capabilities: [a.job], cluster: a.job, needs: needsFor(a.job, taxonomy), stacks,
+      agents: MCP_AGENTS,
+      tier: /-expertise$/.test(a.job) && fit.stack ? "stack" : "mission",
+      conflicts: [], descriptionChars: MCP_CONTEXT_CHARS,
+      origin: "lab",
+      jury: null,
+      signals: { stars: null, starVelocity30d: null, coUsage: 0, lastCommitDays: null, mentions30d: 0, downloads: s.downloads },
+      defaultEligible,
+      community: { shown: 0, selected: 0, kept7d: 0, removed: 0, rating: 0, votes: 0 },
+      security: { level: sec.level, findings: sec.findings, scannedAt: sec.scannedAt ?? now.toISOString(), scannerVersion: SCANNER_VERSION, gateVersion: GATE_VERSION },
+      badges: sec.level === "caution" ? ["caution"] : [],
+      setup: mcpSetup(s),
+      derive: DERIVE_VERSION,
+    });
+  }
+  return { items, dropped, considered: state?.servers?.length ?? 0 };
+}
+
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
-  const opt = (name, def) => (args.includes(name) ? args[args.indexOf(name) + 1] : def);
   const root = fileURLToPath(new URL("..", import.meta.url));
-  const out = resolve(opt("--out", join(root, "catalog")));
-  const store = createStore(resolve(opt("--store", "store")));
+  const out = resolve(flag(args, "--out", join(root, "catalog")));
+  const store = createStore(resolve(flag(args, "--store", "store")));
   const read = (f) => JSON.parse(readFileSync(join(out, f), "utf8"));
   const taxonomy = extendTaxonomyV2(extendTaxonomy(read("taxonomy.json")));
   const curated = read("items.json").filter((i) => i.origin !== "lab" || i.derive === undefined);
   const leaderboard = store.getState("skills-sh")?.skills ?? [];
-  const { items, dropped, considered } = deriveItems(store, { taxonomy, curated, leaderboard });
+  const skills = deriveItems(store, { taxonomy, curated, leaderboard });
+  const servers = deriveMcp(store, { taxonomy, curated, used: new Set([...curated, ...skills.items].map((i) => i.id)) });
+  const items = [...skills.items, ...servers.items];
+  const dropped = [...skills.dropped, ...servers.dropped];
+  const considered = skills.considered + servers.considered;
   const reasons = {};
   for (const d of dropped) {
     const key = d.reason.replace(/\(.*?\)|[\d.]+/g, "").replace(/: .*/, "").trim();
@@ -251,8 +330,8 @@ if (isMain(import.meta.url)) {
   }
   const all = [...curated, ...items];
   const errors = validateCatalog({ items: all, taxonomy, loadouts: read("loadouts.json"), core: read("core.json") });
-  const summary = { considered, derived: items.length, curated: curated.length, total: all.length, dropped: dropped.length, reasons, errors: errors.slice(0, 5) };
-  if (opt("--report", null)) writeFileSync(opt("--report"), JSON.stringify({ summary, items: items.map((i) => ({ id: i.id, repo: i.repo, path: i.path, job: i.capabilities[0], stacks: i.stacks, quality: i.quality, installs: i.signals.installs })), dropped }, null, 1));
+  const summary = { considered, derived: items.length, servers: servers.items.length, curated: curated.length, total: all.length, dropped: dropped.length, reasons, errors: errors.slice(0, 5) };
+  if (flag(args, "--report", null)) writeFileSync(flag(args, "--report"), JSON.stringify({ summary, items: items.map((i) => ({ id: i.id, type: i.type, repo: i.repo, path: i.path, job: i.capabilities[0], stacks: i.stacks, quality: i.quality, installs: i.signals.installs, downloads: i.signals.downloads, defaultEligible: i.defaultEligible })), dropped }, null, 1));
   console.log(JSON.stringify(summary, null, 1));
   if (errors.length) process.exitCode = 1;
   else if (!args.includes("--dry-run")) {

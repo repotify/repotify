@@ -13,6 +13,7 @@ import { createStore, obsKey } from "./store.mjs";
 import { capabilityOptions, stackOptions, LIFECYCLES, mapLimit, extendTaxonomy } from "./jev-classify.mjs";
 import { extendTaxonomyV2 } from "./taxonomy.mjs";
 import { readFileSync } from "node:fs";
+import { flag, logStamped } from "./lib/cli.mjs";
 
 // Findings are kept short: the rule, where, how severe and a few words; the full scan can be rerun from the store.
 const slimFinding = (f) => ({ rule: f.rule, severity: f.severity, file: f.file, line: f.line, ...(f.note ? { note: f.note } : {}), excerpt: String(f.excerpt ?? "").slice(0, 120) });
@@ -145,13 +146,12 @@ export async function observeAll(store, { taxonomy, jev = true, concurrency = 6,
 
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
-  const opt = (name, def) => (args.includes(name) ? args[args.indexOf(name) + 1] : def);
-  const store = createStore(resolve(opt("--store", "store")));
+  const store = createStore(resolve(flag(args, "--store", "store")));
   const taxonomy = extendTaxonomyV2(extendTaxonomy(JSON.parse(readFileSync(new URL("../catalog/taxonomy.json", import.meta.url), "utf8"))));
   const t0 = Date.now();
   const stats = await observeAll(store, {
-    taxonomy, jev: !args.includes("--no-jev"), concurrency: Number(opt("--concurrency", "6")), limit: Number(opt("--limit", "Infinity")),
-    log: (m) => console.error(`${new Date().toISOString()} ${m}`),
+    taxonomy, jev: !args.includes("--no-jev"), concurrency: Number(flag(args, "--concurrency", "6")), limit: Number(flag(args, "--limit", "Infinity")),
+    log: logStamped,
   });
   console.log(JSON.stringify({ ...stats, seconds: Math.round((Date.now() - t0) / 1000) }));
 }

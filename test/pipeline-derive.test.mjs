@@ -5,7 +5,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createStore, obsKey } from "../pipeline/store.mjs";
 import { scanTree, skillQuestions, answerRecord, classifySkill, observeAll, skillState, PURPOSES } from "../pipeline/observe.mjs";
-import { deriveItems, summaryOf, purposeFits, RULES, DEFAULT_EVIDENCE } from "../pipeline/derive.mjs";
+import { deriveItems, deriveMcp, summaryOf, purposeFits, RULES, DEFAULT_EVIDENCE, MCP_CONTEXT_CHARS } from "../pipeline/derive.mjs";
+import { classifyServer, gateServer, serverQuestions } from "../pipeline/mcp.mjs";
+import { validateCatalog } from "../src/catalog.mjs";
 import { extendTaxonomyV2, ADDED_CAPABILITIES, PRODUCT_STACKS, DOMAIN_OF } from "../pipeline/taxonomy.mjs";
 import { extendTaxonomy } from "../pipeline/jev-classify.mjs";
 import { reputationKey } from "../pipeline/research.mjs";
@@ -229,4 +231,52 @@ test("observeAll scans every skill and asks once per distinct SKILL.md", async (
   assert.equal(stats.cached, 1, "the answer from storeWith is reused");
   assert.equal(calls, 0);
   assert.ok(text.length > 0);
+});
+
+test("MCP servers: the same rules as skills, real use for a default pick, a key only for a product the project shows", async () => {
+  const store = newStore();
+  const choice = (option, p = 0.9) => ({ choice: option, probabilities: { [option]: p } });
+  const tool = { coding: { noul: 0.97 }, job: choice("browser-automation"), stack: choice("any", 0.95), productBound: { noul: 0.1 }, purpose: choice("product", 0.85) };
+  const server = (pkg, extra = {}) => ({ name: `io.github.acme/${pkg}`, title: pkg, description: `Gives the agent ${pkg}.`, version: "1.0.0", registry: "npm", package: pkg, packageVersion: "1.0.0", env: [], repo: "acme/servers", downloads: 50000, ...extra });
+  const cases = [
+    [server("browser-mcp"), tool],
+    [server("keyed-mcp", { env: [{ name: "ACME_KEY", required: true, secret: true }] }), tool],
+    [server("supabase-db-mcp", { env: [{ name: "SUPABASE_KEY", required: true, secret: true }] }), { ...tool, job: choice("database"), stack: choice("supabase", 0.95), productBound: { noul: 0.95 } }],
+    [server("quiet-mcp", { downloads: 2000 }), tool],
+    [server("sourceless-mcp", { repo: null }), tool],
+    [server("unsure-mcp"), { ...tool, job: choice("browser-automation", 0.5) }],
+    [server("crm-mcp"), { ...tool, coding: { noul: 0.2 } }],
+    [server("some-saas-mcp"), { ...tool, productBound: { noul: 0.9 } }],
+    [server("@playwright/mcp", { packageVersion: "0.0.90" }), tool],
+  ];
+  const npmOk = async (url) => (url.includes("osv.dev") ? jevReply({}) : new Response(JSON.stringify({ scripts: {} }), { status: 200 }));
+  const env = { JEV_API_KEY: "k", JEV_ENDPOINT: "https://jev.test/v1" };
+  for (const [s, answers] of cases) {
+    await gateServer(store, s, { fetchImpl: npmOk });
+    await classifyServer(store, s, { questions: serverQuestions(taxonomy), model: MODEL, env, fetchImpl: async () => jevReply(answers) });
+  }
+  store.putState("mcp", { at: "2026-10-02T00:00:00Z", minDownloads: 1000, servers: cases.map(([s]) => s) });
+  const curated = [{ id: "playwright-mcp", setup: { npm: "@playwright/mcp@0.0.82" } }];
+  const { items, dropped, considered } = deriveMcp(store, { taxonomy, curated, used: new Set(["browser-mcp-taken"]), model: MODEL });
+  assert.equal(considered, cases.length);
+  const by = Object.fromEntries(items.map((i) => [i.id, i]));
+  assert.deepEqual(Object.keys(by).sort(), ["browser-mcp", "keyed-mcp", "quiet-mcp", "supabase-db-mcp"]);
+  assert.equal(by["browser-mcp"].type, "mcp");
+  assert.deepEqual(by["browser-mcp"].setup.mcp, { command: "npx", args: ["-y", "browser-mcp@1.0.0"] });
+  assert.equal(by["browser-mcp"].descriptionChars, MCP_CONTEXT_CHARS);
+  assert.equal(by["browser-mcp"].signals.downloads, 50000);
+  assert.equal(by["browser-mcp"].defaultEligible, true);
+  assert.equal(by["keyed-mcp"].defaultEligible, false, "an account key for a server any project could use: listed, not defaulted");
+  assert.equal(by["supabase-db-mcp"].defaultEligible, true, "a key for the product the project uses");
+  assert.deepEqual(by["supabase-db-mcp"].stacks, ["supabase"]);
+  assert.equal(by["quiet-mcp"].defaultEligible, false, `under ${DEFAULT_EVIDENCE.downloads} downloads a month`);
+  const reason = (pkg) => dropped.find((d) => d.package === `npm:${pkg}`)?.reason ?? "";
+  assert.match(reason("sourceless-mcp"), /no source repository/);
+  assert.match(reason("unsure-mcp"), /main job unsure/);
+  assert.match(reason("crm-mcp"), /not software work/);
+  assert.match(reason("some-saas-mcp"), /tied to one product/);
+  assert.ok(!items.some((i) => i.setup.npm?.startsWith("@playwright/mcp")) && !reason("@playwright/mcp"), "the hand-vetted entry keeps the package");
+  assert.deepEqual(validateCatalog({ items, taxonomy }), []);
+  const again = deriveMcp(store, { taxonomy, curated, used: new Set(["browser-mcp"]), model: MODEL });
+  assert.ok(again.items.some((i) => i.id === "acme-browser-mcp"), "a taken id gets the owner's name");
 });

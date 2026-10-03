@@ -5,7 +5,8 @@ const BACKEND = ["fastapi", "django", "flask", "express", "fastify", "nestjs", "
 const CLI_FRAMEWORKS = ["cobra", "urfave-cli", "clap", "click", "typer", "fire", "commander", "yargs", "oclif"];
 const COMMON_NEEDS = ["llm-calls", "payments", "auth", "pdf", "office-docs", "scraping", "e2e-testing", "deploy", "security", "github-workflow", "docs-writing", "large-codebase"];
 
-const PRIORITY_NEEDS = { security: ["security"], quality: ["testing"] };
+// The need a stated priority stands for.
+export const PRIORITY_NEEDS = Object.freeze({ security: ["security"], quality: ["testing"] });
 
 export function inferProjectType(fp) {
   if (!fp || fp.empty) return null;

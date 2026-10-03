@@ -12,10 +12,10 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 ## Flow
 
 1. **Fingerprint.** Run `repotify fingerprint`. Use its summary; do not open source files for this step. If it lists installed skills, also run `repotify audit`: it says which ones earn their place and which to remove, with reasons and token cost (a once-skill like a codebase map is flagged after two weeks: it has done its job but still costs tokens every session). Show that to the user with your picks; delete nothing without their OK.
-2. **Intent, only if needed.** Run `repotify questions --json`. Answer each question yourself from the fingerprint and from what the user already said. Ask the user only what you cannot infer, at most 3 questions.
-   - Claude Code: use the AskUserQuestion tool (project type: single choice; priorities and needs: multiSelect; at most 4 options per question, so offer the 4 most plausible).
+2. **Intent, only if needed.** Run `repotify questions --json`. It lists only questions whose answer would change the picks (often none), most decisive first. Answer what you can from the fingerprint and the user's words; ask only what you cannot infer, at most 3 questions.
+   - Claude Code: use the AskUserQuestion tool (project type: single choice; the others: multiSelect; at most 4 options per question).
    - Other agents: a short numbered list.
-3. **Candidates.** Run `repotify recommend --type <projectType> --needs <a,b> --priorities <p>`, omitting flags you have no answer for. The table is already conflict-free (one row per job), security-gated and within the context budget. ★ marks the default set; rows marked installed are already in the project and keep their job.
+3. **Candidates.** Run `repotify recommend --type <projectType> --needs <a,b> --priorities <p> --stacks <s> --platforms <p>`, omitting flags you have no answer for. The table is conflict-free (one row per job), security-gated and within the context budget. ★ marks the default set; rows marked installed are already in the project and keep their job.
 4. **Judge.** Think about the whole project, not only its stack: what would make this agent feel like a pro version for this repo? Keep every core item. Keep ★ items unless you have a concrete reason not to. You may add a non-★ row when the project clearly needs it. Never invent items: use only ids from the table.
    For every chosen item, write one sentence: what it is and why it matters for THIS project, citing a concrete fact (a dependency, a file, the user's goal).
 5. **Present.**

@@ -5,7 +5,9 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { estimateTokens } from "../src/util.mjs";
 import { fingerprint, formatFingerprint } from "../src/fingerprint.mjs";
-import { questionBank, formatQuestions, resolveNeeds } from "../src/needs.mjs";
+import { resolveNeeds } from "../src/needs.mjs";
+import { adaptiveQuestions, questionsJson } from "../src/questions.mjs";
+import { loadSeedGraph } from "../lib/pipeline/graph/loader.mjs";
 import { recommend, formatTable } from "../src/recommend.mjs";
 import { scanFiles } from "../src/scan/index.mjs";
 import { COMMANDS } from "../src/cli.mjs";
@@ -32,8 +34,10 @@ test("the whole discovery-to-install flow fits in 5,000 tokens", async () => {
   for (const p of ["nextjs-saas", "monorepo-mixed", "news-site", "fastapi-llm"]) {
     fpTokens = Math.max(fpTokens, estimateTokens(formatFingerprint(await fingerprint(join(projects, p)))));
   }
+  // The agent reads `questions --json`; an empty project gets the most questions.
   const emptyFp = await fingerprint(join(projects, "empty"));
-  const qTokens = estimateTokens(formatQuestions(questionBank(catalog.taxonomy, emptyFp)));
+  const graph = loadSeedGraph(join(root, "data", "graph-seed.json"));
+  const qTokens = estimateTokens(questionsJson(adaptiveQuestions({ catalog, graph, fingerprint: emptyFp }).questions));
   const fp = await fingerprint(join(projects, "nextjs-saas"));
   const rec = recommend({ catalog, fingerprint: fp, needs: resolveNeeds({ fingerprint: fp, answers: {}, taxonomy: catalog.taxonomy }) });
   const thirty = { ...rec, rows: Array.from({ length: 30 }, (_, i) => ({ ...rec.rows[i % rec.rows.length], id: `${rec.rows[i % rec.rows.length].id}-${i}` })) };

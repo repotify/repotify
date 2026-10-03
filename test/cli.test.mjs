@@ -46,16 +46,22 @@ test("fingerprint prints a short summary and JSON on request", () => {
   assert.ok(JSON.parse(j.stdout).stacks.includes("nextjs"));
 });
 
-test("questions lists only what is unknown", () => {
-  const r = runIn(projects + "empty", "questions");
-  assert.equal(r.status, 0);
-  assert.match(r.stdout, /^1\. What are you building\?/);
-  const j = JSON.parse(runIn(projects + "nextjs-saas", "questions", "--json").stdout);
-  assert.ok(!j.some((q) => q.id === "projectType"));
-});
-
 const tmpHome = mkTemp("rp-cli-home-");
 const offline = (cwd, ...args) => spawnSync(process.execPath, [bin, ...args], { encoding: "utf8", cwd, env: { ...process.env, REPOTIFY_OFFLINE: "1", REPOTIFY_TELEMETRY: "0", REPOTIFY_HOME: tmpHome, REPOTIFY_NO_EXPLORE: "1" } });
+
+test("questions lists only what is unknown and would change the picks", () => {
+  const r = offline(projects + "empty", "questions");
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /^1\. What are you building\? \(pick one\)/);
+  const j = JSON.parse(offline(projects + "nextjs-saas", "questions", "--json").stdout);
+  assert.ok(Array.isArray(j) && !j.some((q) => q.id === "projectType"));
+  for (const q of j) {
+    assert.ok(typeof q.text === "string" && typeof q.multi === "boolean" && q.expected > 0, JSON.stringify(q));
+    assert.ok(q.options.length && q.options.every((o) => o.id && o.label && o.changes > 0), JSON.stringify(q));
+  }
+  const answered = JSON.parse(offline(projects + "empty", "questions", "--json", "--type", "web-app").stdout);
+  assert.ok(!answered.some((q) => q.id === "projectType"), "an answer given as a flag is not asked again");
+});
 
 test("recommend prints the candidate table from the bundled catalog when offline", () => {
   const r = offline(projects + "nextjs-saas", "recommend");

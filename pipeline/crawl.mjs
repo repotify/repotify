@@ -16,6 +16,7 @@ import { githubClient, repoMeta } from "./github.mjs";
 import { reposFromText } from "./discover.mjs";
 import { licenseFromText } from "./collect.mjs";
 import { fetchWithRetry } from "./lib/http.mjs";
+import { flag, logStamped } from "./lib/cli.mjs";
 
 const execFile = promisify(execFileCb);
 
@@ -341,14 +342,12 @@ export async function crawl({ gh, store, workDir, candidates, concurrency = 6, m
 
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
-  const opt = (name, def) => (args.includes(name) ? args[args.indexOf(name) + 1] : def);
-  const storeDir = resolve(opt("--store", "store"));
+  const storeDir = resolve(flag(args, "--store", "store"));
   const store = createStore(storeDir);
-  const log = (m) => console.error(`${new Date().toISOString()} ${m}`);
-  const gh = githubClient({ token: process.env.GITHUB_TOKEN || null, log });
+  const gh = githubClient({ token: process.env.GITHUB_TOKEN || null, log: logStamped });
   let candidates;
-  if (opt("--only", null)) {
-    const names = opt("--only").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+  if (flag(args, "--only", null)) {
+    const names = flag(args, "--only").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
     candidates = [];
     for (const n of names) {
       const r = await gh.repo(n);
@@ -357,15 +356,15 @@ if (isMain(import.meta.url)) {
   } else {
     const saved = store.getState("discovery");
     if (!saved || args.includes("--discover")) {
-      log("discovering…");
-      candidates = await discover(gh, { log });
+      logStamped("discovering…");
+      candidates = await discover(gh, { log: logStamped });
       store.putState("discovery", { at: new Date().toISOString(), candidates });
     } else candidates = saved.candidates;
   }
-  log(`${candidates.length} candidate repositories`);
+  logStamped(`${candidates.length} candidate repositories`);
   const stats = await crawl({
-    gh, store, workDir: resolve(opt("--work", join(storeDir, "work"))), candidates,
-    maxRepos: Number(opt("--max-repos", "500")), concurrency: Number(opt("--concurrency", "6")), minStars: Number(opt("--min-stars", "10")), log,
+    gh, store, workDir: resolve(flag(args, "--work", join(storeDir, "work"))), candidates,
+    maxRepos: Number(flag(args, "--max-repos", "500")), concurrency: Number(flag(args, "--concurrency", "6")), minStars: Number(flag(args, "--min-stars", "10")), log: logStamped,
   });
   console.log(JSON.stringify(stats));
 }

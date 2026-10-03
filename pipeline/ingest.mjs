@@ -9,6 +9,7 @@ import { execFileSync } from "node:child_process";
 import { isMain } from "../src/util.mjs";
 import { createStore, gitBlobId } from "./store.mjs";
 import { recordSkills, skillFolders, LIMITS, CRAWLER_VERSION } from "./crawl.mjs";
+import { flag } from "./lib/cli.mjs";
 
 // Every file of a working tree as `git ls-tree` would list it; contents are read only for the files `want` keeps.
 function listWorkingTree(root) {
@@ -48,9 +49,8 @@ export function ingestWorkingTree(root, { store }) {
 
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
-  const opt = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : null);
-  const store = createStore(resolve(opt("--store") ?? "store"));
-  const metas = opt("--meta") ? JSON.parse(readFileSync(opt("--meta"), "utf8")) : {};
+  const store = createStore(resolve(flag(args, "--store") ?? "store"));
+  const metas = flag(args, "--meta") ? JSON.parse(readFileSync(flag(args, "--meta"), "utf8")) : {};
   const dirs = args.filter((a, i) => !a.startsWith("--") && !["--store", "--meta"].includes(args[i - 1]));
   let n = 0;
   for (const dir of dirs) {

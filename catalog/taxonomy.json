@@ -7,184 +7,378 @@
     "generic"
   ],
   "capabilities": {
+    "accessibility": {
+      "domain": "frontend",
+      "label": "Accessibility (a11y) audits and fixes",
+      "platform": "web"
+    },
+    "agent-evaluation": {
+      "domain": "testing",
+      "label": "Evaluating an LLM app or agent the project builds (evals, benchmarks)"
+    },
+    "agent-memory": {
+      "domain": "process",
+      "label": "Agent memory and context across sessions"
+    },
     "agent-orchestration": {
+      "domain": "ai",
       "label": "Coordinating several AI agents or sessions"
     },
     "angular-expertise": {
+      "domain": "languages",
       "label": "Angular expertise"
     },
     "architecture-design": {
+      "domain": "backend",
       "label": "System and API architecture"
     },
+    "auth-implementation": {
+      "domain": "backend",
+      "label": "Adding sign-in and user accounts to an app (OAuth, sessions, tokens)"
+    },
     "browser-automation": {
+      "domain": "testing",
       "label": "Browser automation"
     },
+    "build-tooling": {
+      "domain": "devops",
+      "label": "Build tools, bundlers and monorepos"
+    },
     "ci-security-audit": {
+      "domain": "security",
       "label": "CI/CD and agentic workflow audit"
     },
+    "cloud-services": {
+      "domain": "devops",
+      "label": "Building on cloud platforms and managed backends (AWS, Azure, GCP, Supabase, Firebase)"
+    },
     "code-review": {
+      "domain": "process",
       "label": "Code review workflow"
     },
     "codebase-map": {
+      "domain": "docs",
       "label": "Codebase knowledge graph"
     },
+    "compliance-privacy": {
+      "domain": "security",
+      "label": "Privacy, licensing and compliance (GDPR and others)"
+    },
     "component-architecture": {
+      "domain": "frontend",
       "label": "React component architecture"
     },
     "cpp-expertise": {
+      "domain": "languages",
       "label": "C and C++ expertise"
     },
     "data-ml": {
+      "domain": "ai",
       "label": "Data and ML engineering: pipelines, training, RAG"
     },
+    "data-visualization": {
+      "domain": "frontend",
+      "label": "Charts, dashboards and data visualization"
+    },
     "database": {
+      "domain": "backend",
       "label": "Databases: SQL, schema and query performance"
     },
     "debugging-method": {
+      "domain": "process",
       "label": "Systematic debugging"
     },
     "deploy-vercel": {
+      "domain": "devops",
       "label": "Deploying to Vercel",
       "platform": "web"
     },
     "design-brainstorming": {
+      "domain": "process",
       "label": "Design brainstorming before coding"
     },
     "devops-infra": {
+      "domain": "devops",
       "label": "DevOps and infrastructure: CI/CD, containers, cloud, monitoring"
     },
     "django-expertise": {
+      "domain": "languages",
       "label": "Django expertise"
     },
     "docs-lookup": {
+      "domain": "ai",
       "label": "Up-to-date library docs lookup"
     },
     "docx-documents": {
+      "domain": "docs",
       "label": "Word documents"
     },
     "dotnet-expertise": {
+      "domain": "languages",
       "label": "C# and .NET expertise"
     },
     "fastapi-expertise": {
+      "domain": "languages",
       "label": "FastAPI expertise"
     },
     "flutter-expertise": {
+      "domain": "languages",
       "label": "Flutter expertise"
     },
     "frontend-design": {
+      "domain": "frontend",
       "label": "Distinctive frontend design"
     },
+    "game-development": {
+      "domain": "media",
+      "label": "Game development: engines, rendering, gameplay"
+    },
+    "git-workflow": {
+      "domain": "process",
+      "label": "Git workflow: commits, branches, pull request hygiene"
+    },
     "github-integration": {
+      "domain": "devops",
       "label": "GitHub issues, PRs and repos"
     },
     "go-expertise": {
+      "domain": "languages",
       "label": "Go expertise"
     },
+    "i18n-localization": {
+      "domain": "frontend",
+      "label": "Internationalization and localization"
+    },
     "implementation-planning": {
+      "domain": "process",
       "label": "Implementation planning"
     },
     "java-expertise": {
+      "domain": "languages",
       "label": "Java and Spring expertise"
     },
     "kotlin-expertise": {
+      "domain": "languages",
       "label": "Kotlin expertise"
     },
     "laravel-expertise": {
+      "domain": "languages",
       "label": "Laravel expertise"
     },
     "llm-gateway": {
+      "domain": "ai",
       "label": "LLM gateway with free-model fallback"
     },
     "mcp-development": {
+      "domain": "ai",
       "label": "Building MCP servers"
     },
+    "media-generation": {
+      "domain": "media",
+      "label": "Generating video, images or audio"
+    },
+    "mobile-testing": {
+      "domain": "mobile",
+      "label": "Testing a mobile app: UI tests, emulators and device automation (not security testing)",
+      "platform": "mobile"
+    },
     "nestjs-expertise": {
+      "domain": "languages",
       "label": "NestJS expertise"
     },
     "package-guard": {
+      "domain": "security",
       "label": "Hallucinated-package guard"
     },
+    "payments-integration": {
+      "domain": "backend",
+      "label": "Adding payments to an app: checkout, subscriptions, billing APIs"
+    },
     "pdf-processing": {
+      "domain": "docs",
       "label": "PDF reading and generation"
     },
+    "performance-optimization": {
+      "domain": "backend",
+      "label": "Performance profiling and optimization"
+    },
     "php-expertise": {
+      "domain": "languages",
       "label": "PHP expertise"
     },
     "presentations": {
+      "domain": "docs",
       "label": "Slide decks"
     },
+    "prompt-engineering": {
+      "domain": "ai",
+      "label": "Prompt design and prompt libraries"
+    },
     "property-testing": {
+      "domain": "testing",
       "label": "Property-based testing"
     },
     "python-expertise": {
+      "domain": "languages",
       "label": "Python expertise"
     },
     "python-tooling": {
+      "domain": "languages",
       "label": "Modern Python tooling"
     },
     "rails-expertise": {
+      "domain": "languages",
       "label": "Ruby on Rails expertise"
     },
     "react-native": {
+      "domain": "mobile",
       "label": "React Native and Expo"
     },
     "react-performance": {
+      "domain": "frontend",
       "label": "React and Next.js performance",
       "platform": "web"
     },
+    "refactoring": {
+      "domain": "process",
+      "label": "Refactoring and code cleanup"
+    },
     "rust-expertise": {
+      "domain": "languages",
       "label": "Rust expertise"
     },
+    "scientific-computing": {
+      "domain": "science",
+      "label": "Scientific computing: bioinformatics, chemistry, physics, research data"
+    },
+    "security-operations": {
+      "domain": "security",
+      "label": "Security operations: hardening, incident response, threat intel"
+    },
     "security-review": {
+      "domain": "security",
       "label": "Security review of changes"
     },
+    "seo-optimization": {
+      "domain": "frontend",
+      "label": "SEO: search visibility, metadata, structured data",
+      "platform": "web"
+    },
     "skill-authoring": {
+      "domain": "ai",
       "label": "Writing agent skills"
     },
     "smart-contract-security": {
+      "domain": "security",
       "label": "Smart contract security"
     },
     "spreadsheets": {
+      "domain": "docs",
       "label": "Spreadsheets"
     },
     "static-analysis": {
+      "domain": "security",
       "label": "Static analysis (Semgrep, CodeQL)"
     },
     "supply-chain-audit": {
+      "domain": "security",
       "label": "Dependency supply-chain audit"
     },
     "swift-expertise": {
+      "domain": "languages",
       "label": "Swift and iOS expertise"
     },
     "tdd-discipline": {
+      "domain": "process",
       "label": "Test-driven development discipline"
     },
     "typescript-expertise": {
+      "domain": "languages",
       "label": "TypeScript expertise"
     },
     "verification-gate": {
+      "domain": "process",
       "label": "Verify before claiming done"
     },
     "vue-expertise": {
+      "domain": "languages",
       "label": "Vue and Nuxt expertise"
     },
     "web-design-review": {
+      "domain": "frontend",
       "label": "UI and accessibility review",
       "platform": "web"
     },
+    "web-research": {
+      "domain": "ai",
+      "label": "Web search and research for agents"
+    },
     "webapp-testing": {
+      "domain": "testing",
       "label": "Web app end-to-end testing",
       "platform": "web"
     },
     "workflow-meta": {
+      "domain": "process",
       "exclusiveGroup": "process-meta",
       "label": "Always-on workflow meta skill"
     },
     "writing-quality": {
+      "domain": "docs",
       "label": "Clear technical writing"
     }
   },
+  "domains": {
+    "ai": {
+      "label": "AI, LLM and agent tooling"
+    },
+    "backend": {
+      "label": "Backend, data and APIs"
+    },
+    "devops": {
+      "label": "DevOps, cloud and delivery"
+    },
+    "docs": {
+      "label": "Documents, writing and knowledge"
+    },
+    "frontend": {
+      "label": "Frontend and design"
+    },
+    "languages": {
+      "label": "Language and framework expertise"
+    },
+    "media": {
+      "label": "Media and games"
+    },
+    "mobile": {
+      "label": "Mobile apps"
+    },
+    "process": {
+      "label": "How the agent works: planning, tests first, debugging, review"
+    },
+    "science": {
+      "label": "Science and research computing"
+    },
+    "security": {
+      "label": "Security"
+    },
+    "testing": {
+      "label": "Testing and automation"
+    }
+  },
   "needs": {
+    "accessibility": {
+      "capabilities": [
+        "accessibility"
+      ],
+      "label": "Accessibility matters"
+    },
+    "agent-memory": {
+      "capabilities": [
+        "agent-memory"
+      ],
+      "label": "Wants the agent to remember context across sessions"
+    },
     "agent-skills": {
       "capabilities": [
         "skill-authoring"
@@ -193,7 +387,8 @@
     },
     "auth": {
       "capabilities": [
-        "security-review"
+        "security-review",
+        "auth-implementation"
       ],
       "label": "User accounts and auth"
     },
@@ -203,11 +398,18 @@
       ],
       "label": "CI/CD pipelines"
     },
+    "compliance": {
+      "capabilities": [
+        "compliance-privacy"
+      ],
+      "label": "Privacy, licensing or compliance rules"
+    },
     "data-processing": {
       "capabilities": [
         "spreadsheets",
         "python-tooling",
-        "data-ml"
+        "data-ml",
+        "data-visualization"
       ],
       "label": "Data wrangling and reports"
     },
@@ -225,7 +427,8 @@
     },
     "deploy": {
       "capabilities": [
-        "deploy-vercel"
+        "deploy-vercel",
+        "cloud-services"
       ],
       "label": "Deploys to the cloud"
     },
@@ -238,7 +441,8 @@
     "e2e-testing": {
       "capabilities": [
         "webapp-testing",
-        "browser-automation"
+        "browser-automation",
+        "mobile-testing"
       ],
       "label": "End-to-end browser tests"
     },
@@ -249,12 +453,25 @@
       ],
       "label": "Polished user interface"
     },
+    "game-dev": {
+      "capabilities": [
+        "game-development"
+      ],
+      "label": "Is a game"
+    },
     "github-workflow": {
       "capabilities": [
         "github-integration",
-        "code-review"
+        "code-review",
+        "git-workflow"
       ],
       "label": "Works through GitHub PRs and issues"
+    },
+    "i18n": {
+      "capabilities": [
+        "i18n-localization"
+      ],
+      "label": "Translated into several languages"
     },
     "infra": {
       "capabilities": [
@@ -272,7 +489,9 @@
     "llm-calls": {
       "capabilities": [
         "llm-gateway",
-        "docs-lookup"
+        "docs-lookup",
+        "prompt-engineering",
+        "agent-evaluation"
       ],
       "label": "Calls LLM APIs"
     },
@@ -283,11 +502,24 @@
       ],
       "label": "Builds an MCP server"
     },
+    "media": {
+      "capabilities": [
+        "media-generation"
+      ],
+      "label": "Generates video, images or audio"
+    },
     "mobile": {
       "capabilities": [
-        "react-native"
+        "react-native",
+        "mobile-testing"
       ],
       "label": "Mobile app"
+    },
+    "monorepo": {
+      "capabilities": [
+        "build-tooling"
+      ],
+      "label": "Monorepo with several packages"
     },
     "office-docs": {
       "capabilities": [
@@ -305,7 +537,8 @@
     },
     "payments": {
       "capabilities": [
-        "security-review"
+        "security-review",
+        "payments-integration"
       ],
       "label": "Takes payments"
     },
@@ -317,7 +550,8 @@
     },
     "performance": {
       "capabilities": [
-        "react-performance"
+        "react-performance",
+        "performance-optimization"
       ],
       "label": "Speed and performance"
     },
@@ -326,6 +560,18 @@
         "python-tooling"
       ],
       "label": "Clean modern Python"
+    },
+    "research": {
+      "capabilities": [
+        "web-research"
+      ],
+      "label": "Researches the web"
+    },
+    "scientific": {
+      "capabilities": [
+        "scientific-computing"
+      ],
+      "label": "Scientific or research computing"
     },
     "scraping": {
       "capabilities": [
@@ -341,10 +587,17 @@
       ],
       "label": "Security matters"
     },
+    "security-ops": {
+      "capabilities": [
+        "security-operations"
+      ],
+      "label": "Runs security operations (hardening, incident response)"
+    },
     "seo": {
       "capabilities": [
         "web-design-review",
-        "react-performance"
+        "react-performance",
+        "seo-optimization"
       ],
       "label": "Search visibility and fast pages"
     },
@@ -427,7 +680,8 @@
     "game": {
       "label": "Game",
       "needs": [
-        "testing"
+        "testing",
+        "game-dev"
       ]
     },
     "library": {
@@ -442,7 +696,8 @@
       "label": "Mobile app",
       "needs": [
         "mobile",
-        "testing"
+        "testing",
+        "e2e-testing"
       ]
     },
     "smart-contracts": {
@@ -470,6 +725,18 @@
     },
     "astro": {
       "label": "Astro"
+    },
+    "aws": {
+      "kind": "product",
+      "label": "AWS"
+    },
+    "azure": {
+      "kind": "product",
+      "label": "Azure"
+    },
+    "cloudflare": {
+      "kind": "product",
+      "label": "Cloudflare Workers"
     },
     "cpp": {
       "label": "C/C++"
@@ -501,14 +768,26 @@
     "fastify": {
       "label": "Fastify"
     },
+    "firebase": {
+      "kind": "product",
+      "label": "Firebase"
+    },
     "flask": {
       "label": "Flask"
     },
     "flutter": {
       "label": "Flutter"
     },
+    "gcp": {
+      "kind": "product",
+      "label": "Google Cloud"
+    },
     "go": {
       "label": "Go"
+    },
+    "godot": {
+      "kind": "product",
+      "label": "Godot"
     },
     "java": {
       "label": "Java"
@@ -516,8 +795,16 @@
     "kotlin": {
       "label": "Kotlin"
     },
+    "kubernetes": {
+      "kind": "product",
+      "label": "Kubernetes"
+    },
     "laravel": {
       "label": "Laravel"
+    },
+    "mongodb": {
+      "kind": "product",
+      "label": "MongoDB"
     },
     "nestjs": {
       "label": "NestJS"
@@ -534,6 +821,14 @@
     "php": {
       "label": "PHP"
     },
+    "postgres": {
+      "kind": "product",
+      "label": "PostgreSQL"
+    },
+    "prisma": {
+      "kind": "product",
+      "label": "Prisma"
+    },
     "python": {
       "label": "Python"
     },
@@ -546,6 +841,14 @@
     "react-native": {
       "label": "React Native"
     },
+    "redis": {
+      "kind": "product",
+      "label": "Redis"
+    },
+    "remotion": {
+      "kind": "product",
+      "label": "Remotion"
+    },
     "ruby": {
       "label": "Ruby"
     },
@@ -555,17 +858,37 @@
     "solidity": {
       "label": "Solidity"
     },
+    "stripe": {
+      "kind": "product",
+      "label": "Stripe"
+    },
+    "supabase": {
+      "kind": "product",
+      "label": "Supabase"
+    },
     "svelte": {
       "label": "Svelte"
     },
     "swift": {
       "label": "Swift"
     },
+    "tailwind": {
+      "kind": "product",
+      "label": "Tailwind CSS"
+    },
     "tauri": {
       "label": "Tauri"
     },
+    "terraform": {
+      "kind": "product",
+      "label": "Terraform"
+    },
     "typescript": {
       "label": "TypeScript"
+    },
+    "unity": {
+      "kind": "product",
+      "label": "Unity"
     },
     "vercel": {
       "label": "Vercel"

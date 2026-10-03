@@ -18,6 +18,7 @@ import { writeCatalogFiles } from "./publish.mjs";
 import { rebuildSeedGraph } from "./graph-seed.mjs";
 import { mapLimit } from "./jev-classify.mjs";
 import { fetchWithRetry } from "./lib/http.mjs";
+import { flag, logStamped } from "./lib/cli.mjs";
 
 // Findings that come from the pipeline, not from the files: a re-scan cannot reproduce them, so they stay.
 const KEPT = new Set(["(metadata)", "(jury)", "(denylist)"]);
@@ -102,14 +103,13 @@ export async function regateCatalog(dir, { fetchImpl = fetch, now = new Date(), 
 
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
-  const opt = (name, def) => (args.includes(name) ? args[args.indexOf(name) + 1] : def);
   const root = fileURLToPath(new URL("..", import.meta.url));
   const dir = resolve(args.find((a, i) => !a.startsWith("--") && args[i - 1] !== "--concurrency") ?? join(root, "catalog"));
   const result = await regateCatalog(dir, {
     dryRun: args.includes("--dry-run"),
-    concurrency: Number(opt("--concurrency", "8")),
+    concurrency: Number(flag(args, "--concurrency", "8")),
     graphPath: join(root, "data", "graph-seed.json"),
-    log: (m) => console.error(m),
+    log: logStamped,
   });
   console.log(JSON.stringify(result, null, 2));
 }

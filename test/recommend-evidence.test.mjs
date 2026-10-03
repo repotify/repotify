@@ -34,6 +34,10 @@ test("adoption: installs and reputation count; inflated stars do not; a collecti
   const shared = adoptionOf({ signals: { stars: 3000, repoSkills: 300 } });
   assert.ok(shared < alone, "300 skills share the stars of their repository");
   assert.ok(adoptionOf({ signals: { stars: 1e9, installs: 1e9 }, reputation: { score: 1 } }) <= 0.5 + 1e-9, "same scale as before");
+  const server = (downloads) => adoptionOf({ type: "mcp", signals: { stars: null, downloads } });
+  assert.ok(server(1e6) > server(1e4) && server(1e4) > server(1e3) && server(1e3) > 0, "an MCP server's use is its downloads");
+  assert.ok(Math.abs(server(1e6) - 0.5 * (0.4 * 0 + 0.4 * 1) / 0.8) < 1e-9, "a million downloads a month is full use");
+  assert.ok(server(1e5) < adoptionOf({ signals: { stars: 0, installs: 1e5 } }), "downloads count for less than installs");
 });
 
 test("platforms: a mobile-only job is noise for a web app and a web-only job for a phone app; unknown platforms keep both", () => {

@@ -7,11 +7,11 @@ import { buildSuggestion, formatSuggestion } from "./suggest.mjs";
 import { fileURLToPath } from "node:url";
 import { scanDir } from "./scan/index.mjs";
 import { fingerprint, formatFingerprint } from "./fingerprint.mjs";
-import { questionBank, formatQuestions, resolveNeeds } from "./needs.mjs";
+import { resolveNeeds } from "./needs.mjs";
+import { adaptiveQuestions, formatAdaptive, questionsJson } from "./questions.mjs";
 import { formatTable, pickLoadout } from "./recommend.mjs";
-import { loadCatalog, BUNDLED_DIR } from "./catalog.mjs";
+import { loadCatalog } from "./catalog.mjs";
 import { catalogUrl, homeDir, NPX_LAUNCHER } from "./config.mjs";
-import { readJsonSafe } from "./util.mjs";
 import { detectAgents, parseAgentList, skillTargets } from "./agents.mjs";
 import { installItem, removeItem, installSelf } from "./install.mjs";
 import { runHook, parseInstallCommands } from "./guard.mjs";
@@ -26,6 +26,7 @@ import { AGENT_IDS } from "../lib/telemetry/schema.mjs";
 import { voteDue, keptEvents } from "./feedback.mjs";
 import { checkUpdates, applyUpdates, selfUpdateSkill, enableAutoCheck, weeklyCheckDue, sanitizeLauncher, AUTO_CHECK_ARGS } from "./update.mjs";
 import { AGENTS } from "./agents.mjs";
+import { probeMachine, missingRuntime, formatMachine } from "./machine.mjs";
 import { readConfig, writeConfig } from "./config.mjs";
 import { readLock } from "./lock.mjs";
 
@@ -65,7 +66,7 @@ export function detectLauncher(binPath = BIN_PATH) {
   return `node "${binPath}"`;
 }
 
-const VALUE_FLAGS = ["agent", "needs", "type", "priorities", "budget", "answers", "apply", "kind", "why", "license", "blocked"];
+const VALUE_FLAGS = ["agent", "needs", "type", "priorities", "stacks", "platforms", "budget", "answers", "apply", "kind", "why", "license", "blocked", "port"];
 const out = (io, text) => io.stdout.write(text.endsWith("\n") ? text : text + "\n");
 const err = (io, text) => io.stderr.write(text.endsWith("\n") ? text : text + "\n");
 const csv = (v) => (typeof v === "string" ? v.split(",").map((s) => s.trim()).filter(Boolean) : []);
@@ -97,10 +98,6 @@ async function track(io, events) {
   await t.flush();
 }
 
-function bundledTaxonomy() {
-  return readJsonSafe(resolve(BUNDLED_DIR, "taxonomy.json")).value;
-}
-
 export async function getCatalog(io, flags = {}) {
   const env = io.env ?? {};
   return loadCatalog({
@@ -123,18 +120,30 @@ function answersFrom(flags) {
   if (flags.type) answers.projectType = flags.type;
   if (flags.needs) answers.needs = [...(answers.needs ?? []), ...csv(flags.needs)];
   if (flags.priorities) answers.priorities = [...(answers.priorities ?? []), ...csv(flags.priorities)];
+  if (flags.stacks) answers.stacks = [...(answers.stacks ?? []), ...csv(flags.stacks)];
+  if (flags.platforms) answers.platforms = [...(answers.platforms ?? []), ...csv(flags.platforms)];
   return answers;
 }
 
 async function cmdFingerprint(args, io) {
   const fp = await fingerprint(io.cwd);
-  out(io, args.flags.json ? JSON.stringify(fp, null, 2) : formatFingerprint(fp));
+  const machine = probeMachine({ env: io.env ?? process.env });
+  out(io, args.flags.json ? JSON.stringify({ ...fp, machine }, null, 2) : `${formatFingerprint(fp)}\n- Computer: ${formatMachine(machine)}`);
   return 0;
 }
 
+// Only the questions whose answer would change the picks: every option is tried against the engine first. Takes the
+// same answer flags as recommend, so after one answer it lists what is still worth asking.
 async function cmdQuestions(args, io) {
-  const qs = questionBank(bundledTaxonomy(), await fingerprint(io.cwd));
-  out(io, args.flags.json ? JSON.stringify(qs, null, 2) : formatQuestions(qs));
+  const { catalog, notice } = await getCatalog(io, args.flags);
+  const fp = await fingerprint(io.cwd);
+  const installed = [...new Set([...Object.keys(readLock(io.cwd).items), ...(fp.agents?.skills ?? [])])];
+  const r = adaptiveQuestions({
+    catalog, graph: loadSeedGraph(GRAPH_SEED_PATH), fingerprint: fp, answers: answersFrom(args.flags),
+    machine: probeMachine({ env: io.env ?? process.env }), installed, blocked: csv(args.flags.blocked),
+  });
+  if (args.flags.json) out(io, questionsJson(r.questions));
+  else out(io, (notice ? notice + "\n" : "") + formatAdaptive(r));
   return 0;
 }
 
@@ -144,9 +153,10 @@ const GRAPH_SEED_PATH = fileURLToPath(new URL("../data/graph-seed.json", import.
 // The engine's candidate table (one row per job: installed items, the default
 // set, the best alternate for each open job) in the row shape formatTable and
 // --json use.
-function tableRows(rec, itemById) {
+function tableRows(rec, itemById, machine = null) {
   return (rec.table ?? []).map((r) => {
     const item = itemById.get(r.id) ?? {};
+    const missing = missingRuntime(item, machine);
     return {
       id: r.id,
       type: item.type ?? "skill",
@@ -155,7 +165,7 @@ function tableRows(rec, itemById) {
       score: Math.round(r.score * 100) / 100,
       badges: [item.security?.level === "caution" ? "caution" : "verified"],
       summary: item.summary ?? "",
-      reasons: r.reasons ?? [],
+      reasons: [...missing.map((t) => `needs:${t}`), ...(r.reasons ?? [])],
       default: r.default,
       installed: r.installed,
       userEnables: item.type === "mcp" || item.type === "config",
@@ -259,7 +269,9 @@ async function cmdRecommend(args, io) {
   // d1: the CLI now drives the v2 pipeline. Demand translation reuses the old
   // engine's buildDemand (same taxonomy/need-weight semantics) plus the
   // fingerprint stacks and answered keys the v2 narrower/scorer read.
-  const demand = demandFor({ catalog, fingerprint: fp, needs: resolved });
+  // What this computer can run: an MCP server whose runtime is missing is listed with what it needs, not defaulted.
+  const machine = probeMachine({ env: io.env ?? process.env });
+  const demand = { ...demandFor({ catalog, fingerprint: fp, needs: resolved, answers }), machine };
   const graph = loadSeedGraph(GRAPH_SEED_PATH);
   const blocked = csv(args.flags.blocked);
   const fleetPolicy = loadFleetPolicy({ env: io.env ?? {} });
@@ -284,7 +296,7 @@ async function cmdRecommend(args, io) {
   // pipeline has no loadout concept.
   const loadout = fp?.empty ? pickLoadout(catalog.loadouts, resolved) : null;
   trackRecommendationV1(io, { rec, catalogVersion: catalog.meta.version, budgetChars: budget });
-  const rows = tableRows(rec, itemById);
+  const rows = tableRows(rec, itemById, machine);
   const tableInput = {
     rows,
     budget: rec.budget ?? { used: 0, limit: budget ?? V1_BUDGET_CHARS },
@@ -719,7 +731,7 @@ async function cmdScan(args, io) {
 export const COMMANDS = {
   start: { run: cmdStart, help: "start [--agent a,b]                  Default: install the repotify skill for your agent and summarize the project" },
   fingerprint: { run: cmdFingerprint, help: "fingerprint [--json]                 Summarize this project (local; code is not read)" },
-  questions: { run: cmdQuestions, help: "questions [--json]                   Questions to ask only when the answer is unknown" },
+  questions: { run: cmdQuestions, help: "questions [--json] [--type t ...]    Only the questions whose answer changes the picks" },
   recommend: { run: cmdRecommend, help: "recommend [--type t] [--needs a,b]   Conflict-free candidate table (--json, --budget N, --blocked a,b, --arbitrate)" },
   suggest: { run: cmdSuggest, help: "suggest [dir|github-url] [--why text]  Suggest your repo for the catalog (pre-filled form; nothing is sent)" },
   audit: { run: cmdAudit, help: "audit [--user] [--json]              Which installed skills earn their place, which to remove, and why" },
