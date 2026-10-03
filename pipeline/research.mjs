@@ -113,7 +113,7 @@ export const AGENTS = [
     main: "inflationRisk",
     label: "Popularity analyst",
     keyName: "Nvdia2",
-    mission: "Decide whether this repository's popularity is organic and whether it is maintained. Use the numbers: stars, forks, the shape of the star history, installs and their weekly trend, how much people discuss it, copies of its skills in other repositories, age and last push. Signs of inflation: one month of stars that dwarfs every other month with no matching discussion or installs; many stars but almost no forks, installs or discussion; a copy of someone else's skills ranked above the original; installs that jump from nothing to millions. The star history comes from a sample of GitHub events that often counts recent repositories several times lower than GitHub does, official ones included: never compare its total with the star count, read only its shape. A repository with real installs, forks and independent discussion is organic even when its star count looks large.",
+    mission: "Decide whether this repository's popularity is organic and whether it is maintained. Use the numbers: stars, forks, the shape of the star history, installs and their weekly trend, how much people discuss it, copies of its skills in other repositories, age and last push. Signs of inflation: one month of stars that dwarfs every other month with no matching discussion or installs; many stars but almost no forks, installs or discussion; a copy of someone else's skills ranked above the original; installs that jump from nothing to millions. The star history comes from a sample of GitHub events that often counts recent repositories several times lower than GitHub does, official ones included: never compare its total with the star count, read only its shape. On skills.sh, adding a repository usually installs all of its skills at once, so similar install counts across one repository's skills are normal. Skills the directory marks official come from the vendor itself (a framework's or cloud's own team): their installs and stars follow the product's popularity. A repository with real installs, forks and independent discussion is organic even when its star count looks large.",
     schema: '{"inflationRisk": 0..1, "organic": "yes|unclear|no", "maintenance": 0..1, "confidence": 0..1, "reasons": ["short"], "redFlags": ["short"], "verdict": "<=240 chars"}',
     normalize: (o) => ({ inflationRisk: clamp(o.inflationRisk, 0, 1, 0.5), organic: ["yes", "unclear", "no"].includes(o.organic) ? o.organic : "unclear", maintenance: clamp(o.maintenance, 0, 1, 0.5), confidence: clamp(o.confidence, 0, 1, 0), reasons: plainList(o.reasons), redFlags: plainList(o.redFlags, 5), verdict: plain(o.verdict, 300) }),
   },
@@ -191,6 +191,7 @@ export function featuresOf(target, ev, now = Date.now()) {
     copiesOfOthers: target.copiesOfOthers ?? 0,
     copiedBy: target.copiedBy ?? 0,
     mcpUses: ev.mcp.reduce((n, s) => n + (s.uses ?? 0), 0),
+    officialSkills: ev.installs.filter((s) => s.official).length,
   };
 }
 
