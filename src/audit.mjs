@@ -9,6 +9,7 @@ import { buildDemand, fitScore, platformMismatch, DEFAULT_BUDGET_CHARS } from ".
 import { ID_RE } from "./catalog.mjs";
 import { readTextSafe } from "./util.mjs";
 import { shownName } from "./display.mjs";
+import { formatMcpAudit } from "./mcpaudit.mjs";
 
 export const SKILL_DIRS = [...new Set(Object.values(AGENTS).map((a) => a.skillsDir))];
 const MAX_SCAN_FILES = 400;
@@ -304,7 +305,8 @@ export async function auditSkills({ root, catalog, fingerprint: fp, needs, lock 
 const MARK = { keep: "keep    ", consider: "consider", remove: "REMOVE  " };
 
 export function formatAudit(report) {
-  if (!report.skills.length) return "Repotify audit: no installed skills found (.claude/skills, .cursor/skills, .agents/skills, .gemini/skills).";
+  const servers = formatMcpAudit(report.mcp ?? []);
+  if (!report.skills.length) return `Repotify audit: no installed skills found (.claude/skills, .cursor/skills, .agents/skills, .gemini/skills).${servers ? `\n${servers}${mcpAdvice(report.mcp)}` : ""}`;
   const lines = report.relevance ? [] : ["Not a project folder (home folder or filesystem root): checked security and overlaps only. Run `repotify audit` inside a project to judge relevance."];
   for (const [dir, t] of Object.entries(report.byDir)) {
     const over = t.alwaysOnChars > report.budget ? `, above the ${report.budget}-char budget` : "";
@@ -324,5 +326,12 @@ export function formatAudit(report) {
   } else {
     lines.push("", "Every installed skill earns its place.");
   }
+  if (servers) lines.push("", servers + mcpAdvice(report.mcp));
   return lines.join("\n");
+}
+
+// What to do about the MCP servers, in one closing line.
+function mcpAdvice(servers) {
+  const act = servers.filter((s) => s.verdict !== "keep").length;
+  return act ? `\n${act} MCP server${act === 1 ? " needs" : "s need"} the user's attention. Repotify changed nothing; MCP configs are the user's to edit.` : "\nEvery configured MCP server looks fine.";
 }

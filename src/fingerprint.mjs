@@ -3,6 +3,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join, parse, resolve } from "node:path";
 import { DEP_MAP, DEP_PREFIXES, FILE_MAP, LANG_BY_EXT, LANG_STACK, FRONTEND_STACKS } from "./stackmap.mjs";
+import { configuredServers } from "./mcpaudit.mjs";
 
 const SKIP_DIRS = new Set([
   "node_modules", ".git", "dist", "build", "out", ".next", ".nuxt", ".svelte-kit", ".venv", "venv", "env",
@@ -252,7 +253,7 @@ export async function fingerprint(dir, { maxFiles = 20000, homeDir = homedir() }
     capabilityHints: sorted(sets.caps),
     platforms: sorted(sets.platforms),
     size: { files: files.length },
-    agents: { configured: sorted(sets.agents), skills: sorted(sets.skills) },
+    agents: { configured: sorted(sets.agents), skills: sorted(sets.skills), mcpServers: configuredServers(root).length },
   };
 }
 
@@ -270,7 +271,7 @@ export function formatFingerprint(fp) {
     `- Tests: ${list(fp.tests)} | Data: ${list(fp.data)} | LLM SDKs: ${list(fp.llm)}`,
     `- Infra: ${list(fp.infra)}`,
     `- Inferred needs: ${list(fp.inferredNeeds, 14)}${fp.capabilityHints?.length ? ` (evidence: ${list(fp.capabilityHints, 6)})` : ""}`,
-    `- Size: ${fp.size.files}${fp.truncated ? "+" : ""} files | Agent config: ${list(fp.agents.configured)}${fp.agents.skills.length ? ` (skills: ${list(fp.agents.skills, 8)})` : ""}`,
+    `- Size: ${fp.size.files}${fp.truncated ? "+" : ""} files | Agent config: ${list(fp.agents.configured)}${fp.agents.skills.length ? ` (skills: ${list(fp.agents.skills, 8)})` : ""}${fp.agents.mcpServers ? ` | MCP servers: ${fp.agents.mcpServers}` : ""}`,
   ];
   const text = lines.join("\n");
   return text.length <= 1400 ? text : text.slice(0, 1399) + "…";

@@ -11,7 +11,7 @@ Recommend and install a small, conflict-free set of security-vetted skills and t
 
 ## Flow
 
-1. **Fingerprint.** Run `repotify fingerprint`. Use its summary; do not open source files for this step. If it lists installed skills, also run `repotify audit`: which ones earn their place, which to remove and why (with token cost). Show that to the user with your picks; delete nothing without their OK.
+1. **Fingerprint.** Run `repotify fingerprint`. Use its summary; do not open source files for this step. If it lists installed skills or MCP servers, also run `repotify audit`: what earns its place, what to remove or fix, and why. Show that to the user with your picks; delete nothing without their OK.
 2. **Intent, only if needed.** Run `repotify questions --json`. It lists only questions whose answer would change the picks (often none), most decisive first. Answer what you can from the fingerprint and the user's words; ask only what you cannot infer, at most 3 questions.
    - Claude Code: use the AskUserQuestion tool (project type: single choice; the others: multiSelect; at most 4 options per question).
    - Other agents: a short numbered list.

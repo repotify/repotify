@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
-import { localServer, fixedArguments, mcpSetup, fetchRegistry, downloads, gateServer, ingestMcp, serverQuestions, politeClient } from "../pipeline/mcp.mjs";
+import { localServer, fixedArguments, mcpSetup, fetchRegistry, downloads, gateServer, ingestMcp, serverQuestions, politeClient, pypiDownloadsBulk } from "../pipeline/mcp.mjs";
 import { createStore } from "../pipeline/store.mjs";
 import { flag, logStamped } from "../pipeline/lib/cli.mjs";
 
@@ -71,6 +71,7 @@ test("downloads: npm in bulk and one by one, PyPI through pypistats; unknown pac
   const calls = [];
   const fetchImpl = async (url) => {
     calls.push(url);
+    if (url.includes("clickhouse")) return json(503, null);
     if (url.includes("/last-month/alpha,beta")) return json(200, { alpha: { downloads: 5000 }, beta: null });
     if (url.endsWith("/@scope/gamma")) return json(200, { downloads: 1200 });
     if (url.endsWith("/@scope/missing")) return json(404, { error: "not found" });
@@ -85,10 +86,28 @@ test("downloads: npm in bulk and one by one, PyPI through pypistats; unknown pac
   calls.length = 0;
   const again = await downloads(servers, { store, fetchImpl, now, sleep });
   assert.equal(again.get("npm:alpha"), 5000);
-  assert.ok(calls.every((u) => u.includes("flaky")), `only the failed lookup is repeated: ${calls}`);
+  assert.ok(calls.every((u) => u.includes("flaky") || u.includes("clickhouse")), `only the failed lookup is repeated: ${calls}`);
   calls.length = 0;
   await downloads(servers, { store, fetchImpl, now: new Date("2026-10-20T00:00:00Z"), sleep });
   assert.ok(calls.length >= 4, "a new week asks again");
+});
+
+test("PyPI downloads come in bulk for normalised names; unknown projects count 0; no answer is no result", async () => {
+  const asked = [];
+  const fetchImpl = async (url, init) => {
+    asked.push(init.body);
+    return json(200, { data: [{ project: "mcp-server-fetch", d: "474070" }, { project: "someone-else", d: "9" }] });
+  };
+  const got = await pypiDownloadsBulk(["MCP_Server.Fetch", "ghost-mcp", "bad'name; DROP"], { fetchImpl });
+  assert.deepEqual([...got], [["mcp-server-fetch", 474070], ["ghost-mcp", 0]]);
+  assert.match(asked[0], /project IN \('mcp-server-fetch','ghost-mcp'\)/, "only plain names reach the query");
+  assert.equal(await pypiDownloadsBulk(["a"], { fetchImpl: async () => json(500, null), sleep: async () => {} }), null);
+  assert.equal(await pypiDownloadsBulk(["a"], { fetchImpl: async () => json(200, { error: "x" }) }), null);
+  assert.equal(await pypiDownloadsBulk(["a"], { fetchImpl: async () => { throw new Error("down"); }, sleep: async () => {} }), null);
+  // The download count uses it when it answers, and records every project it asked about.
+  const store = tempStore();
+  const counts = await downloads([{ registry: "pypi", package: "mcp_server.fetch" }, { registry: "pypi", package: "ghost-mcp" }], { store, fetchImpl, sleep: async () => {}, now: new Date("2026-10-02T00:00:00Z") });
+  assert.deepEqual(Object.fromEntries(counts), { "pypi:mcp_server.fetch": 474070, "pypi:ghost-mcp": 0 });
 });
 
 test("a host that asks to slow down is waited for, longer each time, and left for the next run if it keeps refusing", async () => {
@@ -99,12 +118,16 @@ test("a host that asks to slow down is waited for, longer each time, and left fo
   const ask = politeClient({ fetchImpl, sleep, firstWaitMs: 1000, maxRefusals: 3 });
   const r = await ask("https://api.npmjs.org/downloads/point/last-month/x", 300);
   assert.equal(r.doc.downloads, 9);
-  assert.deepEqual(waits, [1000, 2000, 300], "two refusals, then the pause after a request");
+  assert.deepEqual(waits, [1000, 2000, 1200], "two refusals, then a pause twice doubled after the request");
   waits.length = 0;
   assert.equal(await ask("https://busy.example/a", 300), null);
   assert.deepEqual(waits, [1000, 2000, 4000]);
   assert.equal(await ask("https://busy.example/b", 300), null, "a host that keeps refusing is not asked again this run");
   assert.equal((await ask("https://api.npmjs.org/downloads/point/last-month/y", 300)).status, 200, "other hosts are still asked");
+  waits.length = 0;
+  for (let i = 0; i < 60; i++) await ask("https://api.npmjs.org/downloads/point/last-month/z", 300);
+  assert.equal(waits[0], 1200);
+  assert.ok(waits.at(-1) < waits[0] && waits.at(-1) >= 300, `the pause eases back while the host answers: ${waits.at(-1)}`);
 });
 
 test("the gate result is kept per package version, but not when a registry did not answer", async () => {
@@ -152,7 +175,7 @@ test("ingest: registry to store, popular servers only, each gated and classified
   const fetchImpl = async (url, init = {}) => {
     if (url.startsWith("https://registry.modelcontextprotocol.io/")) return json(200, registry);
     if (url.includes("/downloads/point/last-month/acme-browser-mcp,tiny-mcp")) return json(200, { "acme-browser-mcp": { downloads: 52000 }, "tiny-mcp": { downloads: 12 } });
-    if (url.includes("pypistats.org/api/packages/acme-docs-mcp/")) return json(200, { data: { last_month: 3100 } });
+    if (url.includes("clickhouse")) return json(200, { data: [{ project: "acme-docs-mcp", d: "3100" }] });
     if (url.startsWith("https://registry.npmjs.org/") || url.startsWith("https://pypi.org/")) return (asked.gate++, json(200, { scripts: {} }));
     if (url === "https://api.osv.dev/v1/query") return json(200, {});
     if (url === "https://jev.test/v1") {

@@ -7,6 +7,12 @@ import { readJsonSafe, readTextSafe } from "./util.mjs";
 // environment (docker -e VAR and most MCP clients pass it through), not from a committed config file.
 const isPlaceholder = (v) => /^<.*>$/.test(String(v).trim());
 
+// What the scanner reads of a server's command: the command line, then every argument that holds a command line
+// of its own (`bash -c "curl … | sh"`), so a script passed as one argument is read as a script.
+export function commandLines(command, args = []) {
+  return [[command, ...args].join(" "), ...args.map(String).filter((a) => /\s/.test(a))];
+}
+
 function serverConfig(item) {
   const { command, args = [], env = {} } = item.setup.mcp;
   const real = Object.fromEntries(Object.entries(env).filter(([, v]) => !isPlaceholder(v)));

@@ -7,7 +7,7 @@ import { readLock, writeLock } from "./lock.mjs";
 import { sanitizeLauncher } from "./config.mjs";
 import { scanFiles } from "./scan/index.mjs";
 import { safeRelPath, sha256, compareSemver, readJsonSafe } from "./util.mjs";
-import { applyMcp, mcpSnippet, removeMcp, agentForMcpFile } from "./mcpconfig.mjs";
+import { applyMcp, mcpSnippet, removeMcp, agentForMcpFile, commandLines } from "./mcpconfig.mjs";
 import { wrapInstalledSkill, unwrapInstalledSkill } from "../lib/telemetry/instrument.mjs";
 
 export const RAW_BASE = "https://raw.githubusercontent.com";
@@ -234,7 +234,7 @@ function removeEmptyStaging(dir) {
 // Local scan of an MCP server's setup steps and command line, before anything is written (install and update).
 export function checkMcpSetup(item) {
   const m = item.setup?.mcp ?? {};
-  const setupScan = scanFiles([{ path: "setup.sh", content: [...(item.setup?.steps ?? []), [m.command, ...(m.args ?? [])].join(" ")].join("\n") + "\n" }]);
+  const setupScan = scanFiles([{ path: "setup.sh", content: [...(item.setup?.steps ?? []), ...commandLines(m.command, m.args ?? [])].join("\n") + "\n" }]);
   if (setupScan.level === "rejected" || setupScan.level === "quarantined") {
     throw new InstallError("BLOCKED", `${item.id}: its MCP command failed the local security scan (${setupScan.findings[0]?.rule})`);
   }

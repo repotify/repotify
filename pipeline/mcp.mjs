@@ -95,27 +95,65 @@ export function localServer(s) {
 }
 
 // One host at a time, politely: a pause after every request, and after a refusal (429; api.npmjs.org says
-// "retry-after: 0" and refuses again) a wait that doubles. A host that keeps refusing is left for the next run.
-export function politeClient({ fetchImpl, sleep, log = () => {}, firstWaitMs = 30000, maxRefusals = 6 } = {}) {
-  const refused = new Map();
+// "retry-after: 0" and refuses again) a wait that doubles. The pause itself adapts: it doubles after a refusal and
+// eases back after twenty answers in a row, so the pace settles at what the host accepts. A host that keeps refusing
+// is left for the next run.
+export function politeClient({ fetchImpl, sleep, log = () => {}, firstWaitMs = 30000, maxRefusals = 6, maxGapMs = 8000 } = {}) {
+  const hosts = new Map();
   return async function ask(url, gapMs) {
     const host = new URL(url).host;
+    const h = hosts.get(host) ?? hosts.set(host, { refused: 0, gap: gapMs, streak: 0 }).get(host);
     for (let wait = firstWaitMs; ; wait *= 2) {
-      if ((refused.get(host) ?? 0) >= maxRefusals) return null;
+      if (h.refused >= maxRefusals) return null;
       const r = await getJson(url, { fetchImpl, sleep, retries: 0 });
       if (r.status !== 429) {
-        refused.set(host, 0);
-        await sleep(gapMs);
+        h.refused = 0;
+        if (++h.streak >= 20) {
+          h.streak = 0;
+          h.gap = Math.max(gapMs, Math.round(h.gap * 0.8));
+        }
+        await sleep(h.gap);
         return r;
       }
-      refused.set(host, (refused.get(host) ?? 0) + 1);
-      log(`${host} asks to slow down; waiting ${Math.round(wait / 1000)}s`);
+      h.refused++;
+      h.streak = 0;
+      h.gap = Math.min(maxGapMs, h.gap * 2);
+      log(`${host} asks to slow down; waiting ${Math.round(wait / 1000)}s, then one request every ${h.gap} ms`);
       await sleep(wait);
     }
   };
 }
 
-// Monthly downloads: npm in bulk (unscoped names, 128 a request) or one by one (scoped); PyPI through pypistats.
+const CLICKHOUSE = "https://sql-clickhouse.clickhouse.com/?user=demo";
+const pep503 = (name) => String(name).toLowerCase().replace(/[-_.]+/g, "-");
+
+// PyPI downloads of the last 30 days for many projects in one question, from ClickHouse's public PyPI dataset (the
+// data behind clickpy.clickhouse.com): Map of normalised name -> downloads, 0 for a project it does not know. null
+// when the service does not answer, and the caller asks pypistats one project at a time.
+export async function pypiDownloadsBulk(names, { fetchImpl = fetch, sleep, timeoutMs = 60000, batchSize = 400 } = {}) {
+  // Names go into the query text: only what a normalised project name can contain.
+  const safe = [...new Set(names.map(pep503))].filter((n) => /^[a-z0-9-]+$/.test(n));
+  const out = new Map();
+  for (let i = 0; i < safe.length; i += batchSize) {
+    const batch = safe.slice(i, i + batchSize);
+    const sql = `SELECT project, sum(count) AS d FROM pypi.pypi_downloads_per_day WHERE date > today() - 30 AND project IN (${batch.map((n) => `'${n}'`).join(",")}) GROUP BY project FORMAT JSON`;
+    let doc;
+    try {
+      const res = await fetchWithRetry(CLICKHOUSE, { method: "POST", body: sql, headers: { "User-Agent": "repotify-pipeline", "Content-Type": "text/plain" } }, { fetchImpl, retries: 2, timeoutMs, ...(sleep ? { sleep } : {}) });
+      if (!res.ok) return null;
+      doc = await res.json();
+    } catch {
+      return null;
+    }
+    if (!Array.isArray(doc?.data)) return null;
+    for (const n of batch) out.set(n, 0);
+    for (const row of doc.data) if (out.has(String(row.project)) && Number.isFinite(Number(row.d))) out.set(String(row.project), Number(row.d));
+  }
+  return out;
+}
+
+// Monthly downloads: npm in bulk (unscoped names, 128 a request) or one by one (scoped); PyPI in bulk from the
+// public ClickHouse dataset, or through pypistats one by one when that does not answer.
 // A package the registry does not know counts 0; a lookup that failed is left out and asked again next time. Counts
 // are kept for the week in the store, so an interrupted run picks up where it stopped.
 export async function downloads(servers, { store = null, fetchImpl, now = new Date(), sleep = (ms) => new Promise((r) => setTimeout(r, ms)), gapMs = { npm: 300, pypi: 1000 }, firstWaitMs, log = () => {} } = {}) {
@@ -140,23 +178,37 @@ export async function downloads(servers, { store = null, fetchImpl, now = new Da
   const ask = politeClient({ fetchImpl, sleep, log, ...(firstWaitMs ? { firstWaitMs } : {}) });
   const todo = servers.filter((s) => !out.has(`${s.registry}:${s.package}`));
   const npm = todo.filter((s) => s.registry === "npm");
-  const unscoped = npm.filter((s) => !s.package.startsWith("@")).map((s) => s.package);
-  for (let i = 0; i < unscoped.length; i += 128) {
-    const batch = unscoped.slice(i, i + 128);
-    const r = await ask(`https://api.npmjs.org/downloads/point/last-month/${batch.join(",")}`, gapMs.npm);
-    if (r?.status === 404 && batch.length === 1) record(`npm:${batch[0]}`, 0);
-    if (!r?.doc) continue;
-    for (const name of batch) {
-      const d = batch.length === 1 ? r.doc.downloads : r.doc[name]?.downloads;
-      record(`npm:${name}`, Number.isFinite(d) ? d : 0);
+  // One lane for each host, side by side: each is asked one request at a time.
+  const npmLane = async () => {
+    const unscoped = npm.filter((s) => !s.package.startsWith("@")).map((s) => s.package);
+    for (let i = 0; i < unscoped.length; i += 128) {
+      const batch = unscoped.slice(i, i + 128);
+      const r = await ask(`https://api.npmjs.org/downloads/point/last-month/${batch.join(",")}`, gapMs.npm);
+      if (r?.status === 404 && batch.length === 1) record(`npm:${batch[0]}`, 0);
+      if (!r?.doc) continue;
+      for (const name of batch) {
+        const d = batch.length === 1 ? r.doc.downloads : r.doc[name]?.downloads;
+        record(`npm:${name}`, Number.isFinite(d) ? d : 0);
+      }
     }
-  }
-  for (const s of npm.filter((x) => x.package.startsWith("@"))) {
-    counted(`npm:${s.package}`, await ask(`https://api.npmjs.org/downloads/point/last-month/${s.package}`, gapMs.npm), (d) => d?.downloads);
-  }
-  for (const s of todo.filter((x) => x.registry === "pypi")) {
-    counted(`pypi:${s.package}`, await ask(`https://pypistats.org/api/packages/${encodeURIComponent(s.package)}/recent`, gapMs.pypi), (d) => d?.data?.last_month);
-  }
+    for (const s of npm.filter((x) => x.package.startsWith("@"))) {
+      counted(`npm:${s.package}`, await ask(`https://api.npmjs.org/downloads/point/last-month/${s.package}`, gapMs.npm), (d) => d?.downloads);
+    }
+  };
+  const pypiLane = async () => {
+    const pending = todo.filter((x) => x.registry === "pypi");
+    if (!pending.length) return;
+    const bulk = await pypiDownloadsBulk(pending.map((s) => s.package), { fetchImpl, sleep });
+    if (bulk) {
+      for (const s of pending) if (bulk.has(pep503(s.package))) record(`pypi:${s.package}`, bulk.get(pep503(s.package)));
+      return;
+    }
+    log("the bulk PyPI source did not answer; asking pypistats one project at a time");
+    for (const s of pending) {
+      counted(`pypi:${s.package}`, await ask(`https://pypistats.org/api/packages/${encodeURIComponent(s.package)}/recent`, gapMs.pypi), (d) => d?.data?.last_month);
+    }
+  };
+  await Promise.all([npmLane(), pypiLane()]);
   save();
   return out;
 }

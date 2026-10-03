@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import { createInterface } from "node:readline/promises";
 import { basename, join, resolve } from "node:path";
 import { auditSkills, formatAudit } from "./audit.mjs";
+import { auditMcp } from "./mcpaudit.mjs";
 import { buildSuggestion, formatSuggestion } from "./suggest.mjs";
 import { fileURLToPath } from "node:url";
 import { scanDir } from "./scan/index.mjs";
@@ -372,7 +373,7 @@ async function cmdAudit(args, io) {
   const needs = resolveNeeds({ fingerprint: fp, answers: answersFrom(args.flags), taxonomy: catalog.taxonomy });
   const home = io.env?.HOME || homedir();
   const extraRoots = args.flags.user && resolve(home) !== resolve(io.cwd) ? [{ root: home, scope: "user" }] : [];
-  const report = await auditSkills({ root: io.cwd, catalog, fingerprint: fp, needs, lock: readLock(io.cwd), extraRoots });
+  const report = { ...(await auditSkills({ root: io.cwd, catalog, fingerprint: fp, needs, lock: readLock(io.cwd), extraRoots })), mcp: auditMcp({ root: io.cwd, catalog }) };
   if (args.flags.json) {
     out(io, JSON.stringify({ ...report, catalogVersion: catalog.meta.version, notice: notice ?? null }, null, 2));
   } else {

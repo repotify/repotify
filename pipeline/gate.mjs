@@ -1,4 +1,5 @@
 import { scanFiles, levelFromFindings, SCANNER_VERSION } from "../src/scan/index.mjs";
+import { commandLines } from "../src/mcpconfig.mjs";
 
 // Bump whenever gate rules change; the test suite refuses a bundled catalog gated by an older version.
 export const GATE_VERSION = "2";
@@ -83,7 +84,7 @@ export async function packageFindings({ npm, pypi } = {}, { fetchImpl = fetch } 
 export function setupText(setup) {
   const lines = [...(setup?.steps ?? [])];
   if (setup?.verify) lines.push(setup.verify);
-  if (setup?.mcp) lines.push([setup.mcp.command, ...(setup.mcp.args ?? [])].join(" "));
+  if (setup?.mcp) lines.push(...commandLines(setup.mcp.command, setup.mcp.args ?? []));
   return lines.join("\n") + "\n";
 }
 
