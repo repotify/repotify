@@ -72,6 +72,13 @@ const LICENSE_RULES = [
   [/Redistribution and use in source and binary forms/i, "BSD-2-Clause"],
 ];
 
+// SPDX id of a license text; "NOASSERTION" when it is not one the rules recognize.
+export function licenseFromText(text) {
+  const head = String(text).slice(0, 20000);
+  for (const [re, spdx] of LICENSE_RULES) if (re.test(head)) return spdx;
+  return "NOASSERTION";
+}
+
 // SPDX id from the repository's license file; "NOASSERTION" when a file exists but is not recognized.
 export function detectLicense(repoDir) {
   let names = [];
@@ -81,9 +88,7 @@ export function detectLicense(repoDir) {
     return null;
   }
   if (!names.length) return null;
-  const text = readFileSync(join(repoDir, names.sort()[0]), "utf8").slice(0, 20000);
-  for (const [re, spdx] of LICENSE_RULES) if (re.test(text)) return spdx;
-  return "NOASSERTION";
+  return licenseFromText(readFileSync(join(repoDir, names.sort()[0]), "utf8"));
 }
 
 export async function collectRepo(repo, { workDir, git = runGit, urlFor, paths = null, meta = null, fresh = true } = {}) {
