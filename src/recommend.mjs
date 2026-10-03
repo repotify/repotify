@@ -270,8 +270,10 @@ export function recommend({ catalog, fingerprint: fp, needs, installed = [], bud
     }
   };
   for (const s of kept) if (s.item.tier === "core" && !installedSet.has(s.item.id)) tryAdd(s);
+  // An item the catalog marks as not eligible for a default set (derived from the crawl without enough evidence) is
+  // listed but never defaulted: a catalog contract both engines honour.
   const optional = kept
-    .filter((s) => s.item.tier !== "core" && !installedSet.has(s.item.id) && s.fit >= MIN_DEFAULT_FIT)
+    .filter((s) => s.item.tier !== "core" && !installedSet.has(s.item.id) && s.fit >= MIN_DEFAULT_FIT && s.item.defaultEligible !== false)
     .sort((a, b) => b.score / Math.max(50, b.item.descriptionChars) - a.score / Math.max(50, a.item.descriptionChars));
   for (const s of optional) {
     const keys = serves(s.item);
