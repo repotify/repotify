@@ -6,6 +6,7 @@
 // offline, from the store.
 //   GITHUB_TOKEN=… node pipeline/crawl.mjs --store DIR [--max-repos 500] [--concurrency 6] [--min-stars 10]
 //                                          [--discover] [--only owner/name,…]
+//   GITHUB_TOKEN=… node pipeline/crawl.mjs --store DIR --restore   (refill the content of a store moved without it)
 import { execFile as execFileCb } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -332,6 +333,8 @@ export async function crawl({ gh, store, workDir, candidates, concurrency = 6, m
     if (!prev) return true;
     // A failure is tried again the next day.
     if (prev.error) return now() - new Date(prev.checkedAt) >= 86400000;
+    // The record points at content the store does not hold and could not get back (see restore).
+    if (prev.contentMissing) return true;
     if (prev.crawlerVersion !== CRAWLER_VERSION) return true;
     // The same last push is the same content: nothing to fetch.
     return !(prev.meta?.pushedAt && prev.meta.pushedAt === c.meta.pushedAt);
@@ -352,7 +355,7 @@ export async function crawl({ gh, store, workDir, candidates, concurrency = 6, m
         const commit = await remoteHead(url, { git });
         if (!commit) throw new Error("no default branch");
         // The same commit as last time: the record stands, only its metadata is refreshed.
-        if (prev?.head === commit && !prev.error && prev.crawlerVersion === CRAWLER_VERSION) {
+        if (prev?.head === commit && !prev.error && !prev.contentMissing && prev.crawlerVersion === CRAWLER_VERSION) {
           store.putRepo(c.repo, { ...prev, ...base });
           stats.done++;
           continue;
@@ -378,11 +381,74 @@ export async function crawl({ gh, store, workDir, candidates, concurrency = 6, m
   return stats;
 }
 
+// ---------------------------------------------------------------------------
+// Restore: a store that has its repository records but not the files they point at (the records and observations
+// were moved to another machine, the two million small files were not) gets its content back from GitHub. Each
+// repository is fetched at the commit its record names, so the folders come out byte for byte as recorded and every
+// observation keyed by their content still applies. Records are not rewritten; one whose commit can no longer be
+// fetched is marked `contentMissing`, and the next crawl reads that repository again.
+
+// Whether the store holds every file the record's skill folders point at.
+export function hasContent(store, rec) {
+  for (const s of rec.skills ?? []) {
+    if (!s.tree) continue;
+    const tree = store.getTree(s.tree);
+    if (!tree || tree.some((e) => e.link === undefined && !store.hasBlob(e.sha256))) return false;
+  }
+  return true;
+}
+
+export async function restore({ gh, store, workDir, concurrency = 6, git = runGit, urlFor = (r) => `https://github.com/${r}.git`, log = () => {} }) {
+  mkdirSync(workDir, { recursive: true });
+  const names = store.listRepos();
+  const queue = [];
+  for (const name of names) {
+    const rec = store.getRepo(name);
+    if (!rec || rec.error || !rec.head) continue;
+    if (!hasContent(store, rec)) queue.push({ name, stars: rec.meta?.stars ?? 0 });
+    else if (rec.contentMissing) {
+      // The same folders came with another repository since: nothing is missing any more.
+      const { contentMissing, ...rest } = rec;
+      store.putRepo(name, rest);
+    }
+  }
+  // The best-known repositories first: an interrupted restore has brought what matters most.
+  queue.sort((a, b) => b.stars - a.stars || (a.name < b.name ? -1 : 1));
+  const stats = { repos: names.length, needed: queue.length, restored: 0, failed: 0 };
+  let next = 0;
+  async function worker() {
+    while (next < queue.length) {
+      const { name } = queue[next++];
+      const rec = store.getRepo(name);
+      try {
+        const listing = await listCommit(gh, name, rec.head);
+        if (!listing) throw new Error("file listing unavailable or truncated");
+        // The record already names the license: its file is not needed.
+        await fetchRepo(name, { store, workDir, commit: rec.head, listing, git, urlFor, licenseKnown: true });
+        if (!hasContent(store, rec)) throw new Error("the commit no longer holds the folders the record names");
+        stats.restored++;
+        if (stats.restored % 100 === 0) log(`${stats.restored + stats.failed}/${queue.length} restored, ${stats.failed} failed`);
+      } catch (error) {
+        stats.failed++;
+        store.putRepo(name, { ...rec, contentMissing: true });
+        log(`${name}: ${String(error.message ?? error).split("\n")[0].slice(0, 300)}`);
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.max(1, concurrency) }, worker));
+  return stats;
+}
+
 if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
   const storeDir = resolve(flag(args, "--store", "store"));
   const store = createStore(storeDir);
   const gh = githubClient({ token: process.env.GITHUB_TOKEN || null, log: logStamped });
+  if (args.includes("--restore")) {
+    const stats = await restore({ gh, store, workDir: resolve(flag(args, "--work", join(storeDir, "work"))), concurrency: Number(flag(args, "--concurrency", "6")), log: logStamped });
+    console.log(JSON.stringify(stats));
+    process.exit(0);
+  }
   let candidates;
   if (flag(args, "--only", null)) {
     const names = flag(args, "--only").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);

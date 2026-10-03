@@ -6,7 +6,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createStore, gitBlobId, obsKey } from "../pipeline/store.mjs";
 import { githubClient, repoMeta } from "../pipeline/github.mjs";
-import { fetchRepo, crawl, discover, parseLsTree, parseCatFile, skillFolders, priority, runGit, remoteHead, listCommit, CRAWLER_VERSION } from "../pipeline/crawl.mjs";
+import { fetchRepo, crawl, restore, hasContent, discover, parseLsTree, parseCatFile, skillFolders, priority, runGit, remoteHead, listCommit, CRAWLER_VERSION } from "../pipeline/crawl.mjs";
 
 const tempDirs = [];
 const mkTemp = (prefix) => {
@@ -235,4 +235,53 @@ test("discovery merges topic, keyword, code-search and list sources into one can
   assert.deepEqual(byRepo["solo/skill"].sources.sort(), ["awesome", "code:SKILL.md"]);
   assert.equal(byRepo["solo/skill"].meta.stars, 42);
   assert.equal(byRepo["solo/skill"].meta.defaultBranch, "main");
+});
+
+test("restore refills a store that kept its records but lost its content, at the commits the records name", async () => {
+  const src = makeRepo({ files: { "LICENSE": MIT, "skills/a/SKILL.md": "---\nname: a\ndescription: A.\n---\nDo a.\n", "skills/a/ref.md": "ref\n", "skills/b/SKILL.md": "---\nname: b\ndescription: B.\n---\n" } });
+  const full = createStore(mkTemp("rp-store-"));
+  const meta = (repo, stars) => ({ repo, meta: { repo, stars, pushedAt: "2026-10-01T00:00:00Z", license: null, topics: [], fork: false, defaultBranch: null }, sources: ["topic:claude-code"] });
+  const gh = localGh(() => src.dir);
+  await crawl({ gh, store: full, workDir: mkTemp("rp-work-"), candidates: [meta("acme/tools", 50)], urlFor: () => src.url });
+  const rec = full.getRepo("acme/tools");
+  assert.equal(rec.skills.length, 2);
+  assert.equal(rec.license, "MIT");
+  // The source moves on after the crawl: the restore must still bring the recorded commit, not the new one.
+  writeFileSync(join(src.dir, "skills/a/SKILL.md"), "---\nname: a\ndescription: A, changed.\n---\n");
+  src.git("commit", "-q", "-am", "later");
+  // A new store with the records only.
+  const moved = createStore(mkTemp("rp-store-"));
+  moved.putRepo("acme/tools", rec);
+  moved.putRepo("acme/gone", { ...rec, repo: "acme/gone" });
+  moved.putRepo("acme/failed", { repo: "acme/failed", error: "no default branch", checkedAt: rec.checkedAt });
+  moved.putRepo("acme/noskills", { ...rec, repo: "acme/noskills", skills: [] });
+  assert.equal(moved.treeFiles(rec.skills[0].tree), null);
+  const urlFor = (r) => (r === "acme/gone" ? "file:///nonexistent/repo" : src.url);
+  const logged = [];
+  const stats = await restore({ gh, store: moved, workDir: mkTemp("rp-work-"), urlFor, concurrency: 2, log: (m) => logged.push(m) });
+  assert.deepEqual(stats, { repos: 4, needed: 2, restored: 1, failed: 1 });
+  assert.deepEqual(moved.treeFiles(rec.skills[0].tree).map((f) => f.path), ["SKILL.md", "ref.md"]);
+  assert.equal(moved.getBlob(rec.skills[0].skillMd).toString(), "---\nname: a\ndescription: A.\n---\nDo a.\n");
+  assert.deepEqual(moved.getRepo("acme/tools"), rec, "a restored record is left as it was");
+  // What could not be restored is marked, and the next crawl reads it again whatever its last push.
+  assert.equal(moved.getRepo("acme/gone").contentMissing, true);
+  assert.match(logged.join("\n"), /acme\/gone/);
+  // The same folders came with the other repository (content is kept once): a second run finds nothing to fetch, asks
+  // GitHub nothing and takes the mark off.
+  const asked = [];
+  const again = await restore({ gh: { tree: (r, c) => (asked.push(r), gh.tree(r, c)) }, store: moved, workDir: mkTemp("rp-work-"), urlFor, log: () => {} });
+  assert.deepEqual([again.needed, again.restored, asked], [0, 0, []]);
+  assert.equal(moved.getRepo("acme/gone").contentMissing, undefined);
+  // A record still marked is read again by the next crawl, even with the same last push and the same head commit.
+  src.git("reset", "-q", "--hard", rec.head);
+  const third = createStore(mkTemp("rp-store-"));
+  third.putRepo("acme/gone", { ...rec, repo: "acme/gone", contentMissing: true });
+  assert.equal(hasContent(third, rec), false);
+  const order = [];
+  const candidates = [{ ...meta("acme/gone", 40), meta: { ...meta("acme/gone", 40).meta, pushedAt: rec.meta.pushedAt } }];
+  await crawl({ gh, store: third, workDir: mkTemp("rp-work-"), candidates, urlFor: (r) => (order.push(r), src.url) });
+  assert.deepEqual(order, ["acme/gone"]);
+  assert.equal(hasContent(third, third.getRepo("acme/gone")), true);
+  assert.equal(third.getRepo("acme/gone").contentMissing, undefined);
+  assert.equal(third.getRepo("acme/gone").head, rec.head);
 });
