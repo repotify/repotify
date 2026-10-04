@@ -54,7 +54,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -282,7 +282,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -382,7 +382,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -390,7 +390,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 4,
+      "lastCommitDays": 5,
       "mentions30d": 0,
       "repoSkills": 18,
       "starVelocity30d": null,
@@ -457,7 +457,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -576,7 +576,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -652,7 +652,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -874,7 +874,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -965,7 +965,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1111,7 +1111,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1197,7 +1197,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1285,7 +1285,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1388,7 +1388,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1497,7 +1497,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1667,7 +1667,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1746,7 +1746,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1840,7 +1840,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1988,7 +1988,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2094,7 +2094,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2264,7 +2264,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2338,7 +2338,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2356,6 +2356,102 @@
       "*"
     ],
     "summary": "Apple's approach to interface design and fluid, physical motion, translated for the web. Use when building or reviewing gesture-driven UI,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "frontend-design"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "frontend-design",
+    "commit": "dd5caaec3d5d50ad7fc0324da238119c6b7c3707",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 828,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "be47c957ad097be96916a088a803281c933513fd98a71aedca7cef25a967d7a5"
+      },
+      {
+        "path": "references/image-assets.md",
+        "sha256": "0ad789823718da7410f42a5c4ed3ff14ad4e0af7014f18181e7d5da0349908b8"
+      },
+      {
+        "path": "references/motion.md",
+        "sha256": "2b611d67fa3afdf3aa61c259bcb4a604ac099af285eb0057fa9959ca14ab8cc5"
+      },
+      {
+        "path": "references/native-controls.md",
+        "sha256": "9d6fd934738e86aba29411511b8e5b20b0ff928d717e9b67245586c7ba2aa302"
+      },
+      {
+        "path": "references/performance.md",
+        "sha256": "c6591482adb86e059742a595dafab0f2833da89c0f3e7e16d7ae1c17d16a784b"
+      },
+      {
+        "path": "references/simulator-loop.md",
+        "sha256": "65962c40204c946924137c8c4c7cc41f519cccc333ac9413ea926a21750f8f9c"
+      }
+    ],
+    "id": "appllama-app-design-skill",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "appllama-app-design-skill",
+    "needs": [
+      "frontend-ui"
+    ],
+    "origin": "lab",
+    "path": "skills/appllama-app-design-skill",
+    "quality": null,
+    "repo": "appllama/appllama-skills",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.489,
+      "starTrust": 0.46
+    },
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 28,
+      "mentions30d": 0,
+      "repoSkills": 2,
+      "starVelocity30d": null,
+      "stars": 2289
+    },
+    "stacks": [
+      "react-native"
+    ],
+    "summary": "Build native-feeling, benchmark-quality mobile app screens (Expo / React Native). Use when designing or implementing any mobile UI —…",
     "tier": "mission",
     "type": "skill"
   },
@@ -2513,7 +2609,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2596,7 +2692,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2699,7 +2795,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2779,7 +2875,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2852,7 +2948,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2870,6 +2966,170 @@
       "*"
     ],
     "summary": "Clarify a feature, change, or refactor through questions, then write a build prompt for another agent. Use for /ask-then-build or requests…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "react-native"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "react-native",
+    "commit": "61e6e7dfdf3a8ee862254c200d751fcb1fb863dc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 570,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "31730be40e4ecbe613615843b5b8d201fd1b112c0d35620675c45992d17876e3"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "431e10e0ec313bf920f9ff35dbc6340972bd148d3b8c2136c943a3d9a621e007"
+      }
+    ],
+    "id": "assess-react-native-migration",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "once",
+    "name": "assess-react-native-migration",
+    "needs": [
+      "mobile"
+    ],
+    "origin": "lab",
+    "path": "skills/assess-react-native-migration",
+    "quality": null,
+    "repo": "callstackincubator/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 18,
+      "mentions30d": 0,
+      "repoSkills": 13,
+      "starVelocity30d": null,
+      "stars": 1663
+    },
+    "stacks": [
+      "react-native"
+    ],
+    "summary": "Assesses whether and how an existing mobile product should migrate to React Native. Use when auditing one or more product repositories for…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "data-ml"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "data-ml",
+    "commit": "9a1f4dd5f7659f75707435da3ce854b6e48321d1",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 235,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "d9b08a7127b674387e062fcff0caa8fbf04eb1ba77edb27a2d75d0e5ae5e4a27"
+      },
+      {
+        "path": "references/mechanism-patterns.md",
+        "sha256": "7c65f7c2676157acae989af43218c0454a8cf40bac49098d386f1f6d37c05cab"
+      },
+      {
+        "path": "references/paper-to-implementation.md",
+        "sha256": "12e8732f0abad53acbb9b2cc2dc6111fb8c15769b4787725aa616288efceb357"
+      },
+      {
+        "path": "references/shape-ledger.md",
+        "sha256": "8f928a81acdce7a1726b949a78235c7c70033b3db374668dc65b10ac37e367be"
+      },
+      {
+        "path": "references/stability-and-validation.md",
+        "sha256": "f8f7329723d08bb3e84989b62de0e11f016631c187e545746d2bd3d3242812fe"
+      },
+      {
+        "path": "references/transformer-integration.md",
+        "sha256": "4d1e87d7505a5c8784e9f825fd27879936a6f8a605d72aa5af4200f38c774889"
+      }
+    ],
+    "id": "attention-variants-from-papers",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "attention-variants-from-papers",
+    "needs": [
+      "data-processing"
+    ],
+    "origin": "lab",
+    "path": "tasks-extra/diff-transformer_impl/environment/skills/attention-variants-from-papers",
+    "quality": null,
+    "repo": "benchflow-ai/skillsbench",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 72,
+      "mentions30d": 0,
+      "repoSkills": 276,
+      "starVelocity30d": null,
+      "stars": 1828
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Implement paper-defined attention variants by extracting mechanism invariants, mapping tensor shapes, preserving module interfaces,…",
     "tier": "mission",
     "type": "skill"
   },
@@ -2936,7 +3196,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3032,7 +3292,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3189,7 +3449,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3296,7 +3556,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3304,7 +3564,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": 616497,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 86,
       "starVelocity30d": null,
@@ -3415,7 +3675,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3423,7 +3683,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": 134628,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 86,
       "starVelocity30d": null,
@@ -3510,7 +3770,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3661,7 +3921,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3776,7 +4036,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3937,7 +4197,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4010,7 +4270,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4254,7 +4514,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4262,7 +4522,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 4,
+      "lastCommitDays": 5,
       "mentions30d": 0,
       "repoSkills": 18,
       "starVelocity30d": null,
@@ -4331,7 +4591,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4404,7 +4664,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4487,7 +4747,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4570,7 +4830,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4589,6 +4849,190 @@
     ],
     "summary": "Build, extend, or audit production-linked browser map editors for Three.js and isometric games. Use when Codex needs to create a private…",
     "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "swift-expertise"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "swift-expertise",
+    "commit": "1757615b99ab789a72ff2d02e9f6112af2a15c04",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 143,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "2ebabe78f46270117080bb1e83ee24cf12e4887b4f8c06ecab9dd7adc4bd7259"
+      },
+      {
+        "path": "references/app-architecture.md",
+        "sha256": "0334b50bbd7783d0c9fbe88eceec990fd7bdcaf7d69989dc149c69497d323a8c"
+      },
+      {
+        "path": "references/app-extensions.md",
+        "sha256": "adeafb23ec54af11fae4dc9dde666ce790fdb9839397f75254564eeb45f3f8e6"
+      },
+      {
+        "path": "references/appkit-integration.md",
+        "sha256": "cbd2cf372e6c6ad8a1870b09609be9f8e6e0a88c829cce4bfb7dbeb378c1d973"
+      },
+      {
+        "path": "references/cli-observability.md",
+        "sha256": "b2d0280a04adafb0166fad6240e66fe3e686e9fc1257752fbdf1ea57c93efa96"
+      },
+      {
+        "path": "references/cli-workflow.md",
+        "sha256": "0dcb17af6a911098b9eb19f2d6b497e7c478b387ffa1272977990da535ced77d"
+      },
+      {
+        "path": "references/concurrency-patterns.md",
+        "sha256": "5cc950b15be7fa2d654908daf2a69bffe5937f19ced934a5fe2bad401d48b443"
+      },
+      {
+        "path": "references/data-persistence.md",
+        "sha256": "e3d27b89c3ad6b88e27d5afdfbd17f9011e695f2c58f36d42eebfe7442e9f79c"
+      },
+      {
+        "path": "references/design-system.md",
+        "sha256": "31f52021f743214f3ba360208de245acc30a396e6f56945ea4f2633fecb4353b"
+      },
+      {
+        "path": "references/document-apps.md",
+        "sha256": "38ecadeb45224ac14d6d755565e694e25f30c1177f018008896ee234e105d5fd"
+      },
+      {
+        "path": "references/macos-polish.md",
+        "sha256": "1c22f175e16e3e4ddfbad1f7b942380058d01f930288237e75405e62a941e445"
+      },
+      {
+        "path": "references/menu-bar-apps.md",
+        "sha256": "c32a8acbb24f6af36c9edf5334bdefbb4a50c3963cab8c43f5d7cbc07f49bbce"
+      },
+      {
+        "path": "references/networking.md",
+        "sha256": "1541b25aa6d440c85b7b0ee171bf4b3bc9a9e2d232f86865aa4a015eb2bbac41"
+      },
+      {
+        "path": "references/project-scaffolding.md",
+        "sha256": "e43bb2b387da4f9c9f0ae5b316a2729e2ef57b58d27992d63563a871bc577634"
+      },
+      {
+        "path": "references/security-code-signing.md",
+        "sha256": "266447da62f8fd82bf9e02fd11d15c4008babada1d603c843b674832040f87b7"
+      },
+      {
+        "path": "references/shoebox-apps.md",
+        "sha256": "c5139045519862f3116376209e147ee8e92678cba9b1b3bbc1a95116fbdb8146"
+      },
+      {
+        "path": "references/swiftui-patterns.md",
+        "sha256": "6850547ada32cdd691a4d9cc62292558bcc79a348e5d7081365651a9059cb539"
+      },
+      {
+        "path": "references/system-apis.md",
+        "sha256": "8cfa309d688366f5cbf0dad9d016865859342e5e9eabc3f3dbe8a0fd91974d4a"
+      },
+      {
+        "path": "references/testing-debugging.md",
+        "sha256": "9d75f82799056218c1ffc23a3c5c7956dfaf44e39ffe15adeb03cf185cf254b0"
+      },
+      {
+        "path": "references/testing-tdd.md",
+        "sha256": "ee19d5ee5d42698c5a0bafa726334722d44f6df5469dbbbc56bb958656a6e8bf"
+      },
+      {
+        "path": "workflows/add-feature.md",
+        "sha256": "33eb36598c995ee91d7684195499a9cf6991b19f51d4108046abfb977419058e"
+      },
+      {
+        "path": "workflows/build-new-app.md",
+        "sha256": "73566c8e4d8f23868873bf77ee03b3e7b7d371638b8340722a3c5940f6e766b3"
+      },
+      {
+        "path": "workflows/debug-app.md",
+        "sha256": "f48a9d2377e0807233daddf26553d09dc7f956b3ab0e1e0600e2fbdfd1de4a85"
+      },
+      {
+        "path": "workflows/optimize-performance.md",
+        "sha256": "050df7c3eac2ba214ff52098f3e4df3754d023e467ecf7f083f834b8fafb394f"
+      },
+      {
+        "path": "workflows/ship-app.md",
+        "sha256": "6a50e1907e2e0719a7a50a5eeb7ebf866bdff3f68a05c0289d1829680133732c"
+      },
+      {
+        "path": "workflows/write-tests.md",
+        "sha256": "7db4454101be37174454e2853388e742caff7a26e7ea47e98cd64532f9bfe0d3"
+      }
+    ],
+    "id": "build-macos-apps",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "build-macos-apps",
+    "needs": [],
+    "origin": "lab",
+    "path": "skills/expertise/macos-apps",
+    "quality": null,
+    "repo": "glittercowboy/taches-cc-resources",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.513,
+      "starTrust": null
+    },
+    "security": {
+      "findings": [
+        {
+          "excerpt": "sudo xcode-select -s /Applications/Xcode.app/Contents/Developer",
+          "file": "references/cli-workflow.md",
+          "line": 12,
+          "rule": "dangerous-command",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "3",
+      "level": "caution",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 186,
+      "mentions30d": 0,
+      "repoSkills": 12,
+      "starVelocity30d": null,
+      "stars": 1981
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Build professional native macOS apps in Swift with SwiftUI and AppKit. Full lifecycle - build, debug, test, optimize, ship. CLI-only, no…",
+    "tier": "stack",
     "type": "skill"
   },
   {
@@ -4669,7 +5113,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4776,7 +5220,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4851,7 +5295,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4965,7 +5409,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5139,7 +5583,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5218,7 +5662,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5297,7 +5741,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5375,7 +5819,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5450,7 +5894,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5529,7 +5973,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5604,7 +6048,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5706,7 +6150,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5797,7 +6241,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5970,7 +6414,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6168,7 +6612,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6339,7 +6783,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6497,7 +6941,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6656,7 +7100,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6731,7 +7175,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6933,7 +7377,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7081,7 +7525,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7223,7 +7667,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7321,7 +7765,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7418,7 +7862,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7493,7 +7937,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7590,7 +8034,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7754,7 +8198,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7831,7 +8275,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7919,7 +8363,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8154,7 +8598,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8230,7 +8674,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8453,7 +8897,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8521,7 +8965,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8539,6 +8983,86 @@
       "*"
     ],
     "summary": "Build scalable data pipelines, modern data warehouses, and real-time streaming architectures. Implements Apache Spark, dbt, Airflow, and…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "database"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "database",
+    "commit": "98d1c17d480f606060102a781f9a8601690685f7",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 373,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "337fd67e55b048c8ed17a3b954e419dc3dbf7c8dcfda92aaba532e02e1b8e35f"
+      },
+      {
+        "path": "references/sources.md",
+        "sha256": "6ca4985d206297b9320119540366958736c0819b4aeb4233e629d51054a39113"
+      }
+    ],
+    "id": "data-modeling",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "data-modeling",
+    "needs": [
+      "database"
+    ],
+    "origin": "lab",
+    "path": "plugins/data-analytics/skills/data-modeling",
+    "quality": null,
+    "repo": "cbrock84/headcount",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.449,
+      "starTrust": null
+    },
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 16,
+      "mentions30d": 0,
+      "repoSkills": 180,
+      "starVelocity30d": null,
+      "stars": 1881
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Designs the warehouse and semantic layer — source-to-mart structure, dimensional modeling, grain, slowly changing dimensions, and the…",
     "tier": "mission",
     "type": "skill"
   },
@@ -8652,7 +9176,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8831,7 +9355,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8913,7 +9437,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8989,7 +9513,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9007,6 +9531,110 @@
       "typescript"
     ],
     "summary": "Create and manage a DDD bounded context with standard directory structure. Use when starting a new subdomain, splitting a monolith into…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "database"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "database",
+    "commit": "c172996495bed0fcd26896a9416b2093fd7073f0",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 687,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "cdcd71bc1ce854f04921c5ff1a63b06872f96b09ef2f0576c91a33ffc8297012"
+      },
+      {
+        "path": "references/batch-stream.md",
+        "sha256": "eec19df1648b655296cde793c582947192784e56cc2c3d1b00da68df6a5e8e81"
+      },
+      {
+        "path": "references/data-models.md",
+        "sha256": "191e9f8b569dde181cb1c5850d42c437d983e174bad24eafcdc489a71282881c"
+      },
+      {
+        "path": "references/fault-tolerance.md",
+        "sha256": "5916232f805d9aabe257bfde637fc425d061162b0888b773a8f325d06eaa1604"
+      },
+      {
+        "path": "references/partitioning.md",
+        "sha256": "bf29b93ad3b6edaa2b5784d8f9c752bfc83a5ca6c764360b383947f265b515d2"
+      },
+      {
+        "path": "references/replication.md",
+        "sha256": "b727d226c3885064707ac5bc17d9c33f584f10009d5a217b2418f018480171c7"
+      },
+      {
+        "path": "references/storage-engines.md",
+        "sha256": "2adb7de5d78328122091eebe78e3e0a1a862425694d060a85160e62844b45a9d"
+      },
+      {
+        "path": "references/transactions.md",
+        "sha256": "9d1b4aa956d5b41c911c75e6320dba5a2ae3266b229fdbb001b89811c03775f8"
+      }
+    ],
+    "id": "ddia-systems",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "ddia-systems",
+    "needs": [
+      "database"
+    ],
+    "origin": "lab",
+    "path": "ddia-systems",
+    "quality": null,
+    "repo": "wondelai/skills",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.482,
+      "starTrust": 0.599
+    },
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 23,
+      "mentions30d": 0,
+      "repoSkills": 196,
+      "starVelocity30d": null,
+      "stars": 2320
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Design data systems by understanding storage engines, replication, partitioning, transactions, and consistency models. Use when the user…",
     "tier": "mission",
     "type": "skill"
   },
@@ -9064,7 +9692,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9207,7 +9835,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9378,7 +10006,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9451,7 +10079,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9544,7 +10172,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9632,7 +10260,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9715,7 +10343,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9788,7 +10416,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9864,7 +10492,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9882,6 +10510,76 @@
       "*"
     ],
     "summary": "Audit a design against Dieter Rams' ten \"Good design is...\" principles, then hand off a /make-plan prompt for one of three outcomes — new…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "database"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "database",
+    "commit": "b236d3583fb51f5ef009d2c95d4fc361df748280",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 172,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "c94284724fb0d611cf7717b2cfa8863a135db62a5c144e17dbbf691ead760b87"
+      }
+    ],
+    "id": "design-postgis-tables",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "design-postgis-tables",
+    "needs": [
+      "database"
+    ],
+    "origin": "lab",
+    "path": "skills/design-postgis-tables",
+    "quality": null,
+    "repo": "timescale/pg-aiguide",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "repoSkills": 10,
+      "starVelocity30d": null,
+      "stars": 1854
+    },
+    "stacks": [
+      "postgres"
+    ],
+    "summary": "Comprehensive PostGIS spatial table design reference covering geometry types, coordinate systems, spatial indexing, and performance…",
     "tier": "mission",
     "type": "skill"
   },
@@ -9955,7 +10653,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10047,7 +10745,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10122,7 +10820,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10203,7 +10901,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10531,7 +11229,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10603,7 +11301,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10678,7 +11376,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10840,7 +11538,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11328,7 +12026,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11420,7 +12118,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11495,7 +12193,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11582,7 +12280,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11738,7 +12436,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11826,7 +12524,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11901,7 +12599,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11976,7 +12674,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12058,7 +12756,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12076,6 +12774,76 @@
       "*"
     ],
     "summary": "Build the evaluation harness that gates every fine-tuning run — golden sets, per-failure-mode graders, judge calibration, and base-model…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "data-ml"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "data-ml",
+    "commit": "22418da2bfb159f28a1b0dcf64e969e14ae56c99",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 293,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "e22a7bff31a73a9a82722c771326acf13121622a8caca6221fcbea111c9bf88d"
+      }
+    ],
+    "id": "evaluate-rag",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "evaluate-rag",
+    "needs": [
+      "data-processing"
+    ],
+    "origin": "lab",
+    "path": "skills/evaluate-rag",
+    "quality": null,
+    "repo": "hamelsmu/evals-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 49,
+      "mentions30d": 0,
+      "repoSkills": 7,
+      "starVelocity30d": null,
+      "stars": 1673
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides evaluation of RAG pipeline retrieval and generation quality. Use when evaluating a retrieval-augmented generation system, measuring…",
     "tier": "mission",
     "type": "skill"
   },
@@ -12141,7 +12909,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12220,7 +12988,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12293,7 +13061,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12448,7 +13216,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12536,7 +13304,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12644,7 +13412,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12719,7 +13487,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12798,7 +13566,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12871,7 +13639,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12943,7 +13711,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13232,7 +14000,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13399,7 +14167,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13478,7 +14246,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13561,7 +14329,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13644,7 +14412,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13811,7 +14579,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13955,7 +14723,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13963,7 +14731,7 @@
       "coUsage": 0,
       "copies": 5,
       "installs": null,
-      "lastCommitDays": 3,
+      "lastCommitDays": 4,
       "mentions30d": 0,
       "repoSkills": 7,
       "starVelocity30d": null,
@@ -14030,7 +14798,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14038,7 +14806,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 3,
+      "lastCommitDays": 4,
       "mentions30d": 0,
       "repoSkills": 7,
       "starVelocity30d": null,
@@ -14105,7 +14873,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14113,7 +14881,7 @@
       "coUsage": 0,
       "copies": 5,
       "installs": null,
-      "lastCommitDays": 3,
+      "lastCommitDays": 4,
       "mentions30d": 0,
       "repoSkills": 7,
       "starVelocity30d": null,
@@ -14182,7 +14950,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14303,7 +15071,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14471,7 +15239,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14661,7 +15429,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14734,7 +15502,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15141,7 +15909,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15215,7 +15983,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15322,7 +16090,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15399,7 +16167,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15494,7 +16262,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15512,6 +16280,76 @@
       "*"
     ],
     "summary": "Use when building game systems, implementing Unity/Unreal Engine features, or optimizing game performance. Invoke to implement ECS…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "agent-evaluation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "agent-evaluation",
+    "commit": "22418da2bfb159f28a1b0dcf64e969e14ae56c99",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 375,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "37b8e12ceb020f0fdf7c9c8bf7f3d3fce3dd506f1dfecdc64c25f80c10130da2"
+      }
+    ],
+    "id": "generate-synthetic-data",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "generate-synthetic-data",
+    "needs": [
+      "llm-calls"
+    ],
+    "origin": "lab",
+    "path": "skills/generate-synthetic-data",
+    "quality": null,
+    "repo": "hamelsmu/evals-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 49,
+      "mentions30d": 0,
+      "repoSkills": 7,
+      "starVelocity30d": null,
+      "stars": 1673
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Create diverse synthetic test inputs for LLM pipeline evaluation using dimension-based tuple generation. Use when bootstrapping an eval…",
     "tier": "mission",
     "type": "skill"
   },
@@ -15567,7 +16405,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15663,7 +16501,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15738,7 +16576,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15756,6 +16594,92 @@
       "*"
     ],
     "summary": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, splitting…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "devops-infra"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "devops-infra",
+    "commit": "61e6e7dfdf3a8ee862254c200d751fcb1fb863dc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 232,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "0d656b3361161b11a04ee741b06bf2e44c2b4dd96ea2d038aa7df0a048fc8850"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "7f814f9b9f8ab862e23241c8b87be2784924ea47b4cd90caa673fae7b62c6ad8"
+      },
+      {
+        "path": "references/gha-android-composite-action.md",
+        "sha256": "f554f4013f8d025dcb7995ccdd96f5aeaa6d69b13be389a858abee6f20722244"
+      },
+      {
+        "path": "references/gha-ios-composite-action.md",
+        "sha256": "cac115ccce5e4f2969b23e24947ea30a9e95fbd57fa38f833169402638af9c8d"
+      },
+      {
+        "path": "references/gha-workflow-and-downloads.md",
+        "sha256": "c28dc6d38f9db0b4d135943ae66bc63f669e39e305ce8e1efb421df9ad200d68"
+      }
+    ],
+    "id": "github-actions",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "github-actions",
+    "needs": [
+      "infra"
+    ],
+    "origin": "lab",
+    "path": "skills/github-actions",
+    "quality": null,
+    "repo": "callstackincubator/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 18,
+      "mentions30d": 0,
+      "repoSkills": 13,
+      "starVelocity30d": null,
+      "stars": 1663
+    },
+    "stacks": [
+      "react-native"
+    ],
+    "summary": "GitHub Actions workflow patterns for React Native iOS simulator and Android emulator cloud builds with downloadable artifacts. Use when…",
     "tier": "mission",
     "type": "skill"
   },
@@ -15817,7 +16741,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15891,7 +16815,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15909,6 +16833,76 @@
       "*"
     ],
     "summary": "Create production-ready GitHub Actions workflows for automated testing, building, and deploying applications. Use when setting up CI/CD…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "github-integration"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "github-integration",
+    "commit": "95dab59a62b2031adcb7abf25ae0a60b8a13fdb2",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 256,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "c03cf651868b6141a3b76d23486d0c63f9c52cd6e80bd9f21b07ffd5852b8354"
+      }
+    ],
+    "id": "github-fix-issue",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "github-fix-issue",
+    "needs": [
+      "github-workflow"
+    ],
+    "origin": "lab",
+    "path": "skills/github-fix-issue",
+    "quality": null,
+    "repo": "feiskyer/claude-code-settings",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 7,
+      "mentions30d": 0,
+      "repoSkills": 12,
+      "starVelocity30d": null,
+      "stars": 1659
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Fix GitHub issues end-to-end — analysis, branch creation, implementation, testing, and PR submission. Use whenever the user mentions…",
     "tier": "mission",
     "type": "skill"
   },
@@ -16037,7 +17031,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16123,7 +17117,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16215,7 +17209,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16297,7 +17291,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16470,7 +17464,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16631,7 +17625,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16704,7 +17698,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16779,7 +17773,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16952,7 +17946,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17027,7 +18021,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17102,7 +18096,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17669,7 +18663,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17742,7 +18736,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17816,7 +18810,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17893,7 +18887,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17968,7 +18962,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18071,7 +19065,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18165,7 +19159,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18239,7 +19233,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18315,7 +19309,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18442,7 +19436,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18535,7 +19529,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18763,7 +19757,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18839,7 +19833,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18963,7 +19957,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18981,6 +19975,84 @@
       "*"
     ],
     "summary": "Survey a codebase's animation and motion code as a senior motion advisor, then produce a prioritized audit and self-contained…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "refactoring"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "refactoring",
+    "commit": "c172996495bed0fcd26896a9416b2093fd7073f0",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 1023,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "bb4ec46eadb0e1aafbe911920763d11079ecb897dacddb90e81a5896d7020bf5"
+      },
+      {
+        "path": "references/artifact-templates.md",
+        "sha256": "284cdffe865279857e6e6c3138da10ca168fe33ba4d4180b357e2ad4421df99f"
+      }
+    ],
+    "id": "improve-code-quality",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "once",
+    "name": "improve-code-quality",
+    "needs": [],
+    "origin": "lab",
+    "path": "improve-code-quality",
+    "quality": null,
+    "repo": "wondelai/skills",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.482,
+      "starTrust": 0.599
+    },
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 23,
+      "mentions30d": 0,
+      "repoSkills": 196,
+      "starVelocity30d": null,
+      "stars": 2320
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guided journey from a working-but-untested vibe-coded prototype to a production-ready product with tests, clean structure, a…",
     "tier": "mission",
     "type": "skill"
   },
@@ -19046,7 +20118,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19130,7 +20202,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19138,7 +20210,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 3,
+      "lastCommitDays": 4,
       "mentions30d": 0,
       "repoSkills": 7,
       "starVelocity30d": null,
@@ -19148,6 +20220,86 @@
       "*"
     ],
     "summary": "Audit an existing product surface against its own design evidence, identify verified UI problems, and write self-contained implementation…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "devops-infra"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "devops-infra",
+    "commit": "98d1c17d480f606060102a781f9a8601690685f7",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 479,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "b3dbff51dbe7ca6f980536fb4aa0fc4644c7b0a801c295e3da7a46f2d1cc63ad"
+      },
+      {
+        "path": "references/sources.md",
+        "sha256": "248c089be700aa49fdf541258e294bfa77e0046a4ca01d68401e12d690a74755"
+      }
+    ],
+    "id": "incident-management",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "incident-management",
+    "needs": [
+      "infra"
+    ],
+    "origin": "lab",
+    "path": "plugins/operations/skills/incident-management",
+    "quality": null,
+    "repo": "cbrock84/headcount",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.449,
+      "starTrust": null
+    },
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 16,
+      "mentions30d": 0,
+      "repoSkills": 180,
+      "starVelocity30d": null,
+      "stars": 1881
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Runs an operational incident from detection to closed action — declaring it and naming a commander, separating the people restoring…",
     "tier": "mission",
     "type": "skill"
   },
@@ -19203,7 +20355,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19312,7 +20464,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19331,6 +20483,126 @@
     ],
     "summary": "iOS application development guide covering UIKit, SnapKit, and SwiftUI. Includes touch targets, safe areas, navigation patterns, Dynamic…",
     "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "frontend-design"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "frontend-design",
+    "commit": "c172996495bed0fcd26896a9416b2093fd7073f0",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 639,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "30bccd96dc11fd875642f0ef3c0971e3c7ceaf3d38643c524bec07a8927b8b17"
+      },
+      {
+        "path": "references/accessibility.md",
+        "sha256": "ac3bb0b0b377703e784fa61dd972502e2427c5a373dfea7695ae094a303e2927"
+      },
+      {
+        "path": "references/app-icons.md",
+        "sha256": "a1463413ed074c7bea460f64c1bf0433d175b16c902050021b84f636ab3ab15e"
+      },
+      {
+        "path": "references/colors-depth.md",
+        "sha256": "9e0d4828358fe5b4345fb51135f5914c89737930d8f281a3d74df6fedb86458f"
+      },
+      {
+        "path": "references/components.md",
+        "sha256": "69390c0822f36f92f0a3c2b9312e7ce67ea0b9fc24aa5c4055345453605498ba"
+      },
+      {
+        "path": "references/gestures.md",
+        "sha256": "b3322f443f2d955dba53d0038c0743e27783ff82e4598ba4a6f9040d7d4843c3"
+      },
+      {
+        "path": "references/keyboard-input.md",
+        "sha256": "41ab7c540b96e418732be051fbfd7ea5c96c25fe863b6d73ffeb21b236151954"
+      },
+      {
+        "path": "references/navigation.md",
+        "sha256": "89669de74f5129fb15b21845e91869162095b34887a5d924e869685e4b4bf252"
+      },
+      {
+        "path": "references/privacy-permissions.md",
+        "sha256": "c1ea8198dc17ee07f22066f07a977fcd9c936ef982682a04657b9eb339711f76"
+      },
+      {
+        "path": "references/system-integration.md",
+        "sha256": "fa6d18cbfd9a2b32937324b08ff9805dafc2a7a03e3c8dd9bfb6833a7ef62749"
+      },
+      {
+        "path": "references/typography.md",
+        "sha256": "d157e98db53b9b23340c423cd01be60e6d2198b0a00093bca8d26751a48d3525"
+      },
+      {
+        "path": "references/widgets-extensions.md",
+        "sha256": "18604052135f4d3a479ace089dadbdf92ba2a0a8442be5ce882661e49acd8489"
+      }
+    ],
+    "id": "ios-hig-design",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "ios-hig-design",
+    "needs": [
+      "frontend-ui"
+    ],
+    "origin": "lab",
+    "path": "ios-hig-design",
+    "quality": null,
+    "repo": "wondelai/skills",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.482,
+      "starTrust": 0.599
+    },
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 23,
+      "mentions30d": 0,
+      "repoSkills": 196,
+      "starVelocity30d": null,
+      "stars": 2320
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Design native iOS interfaces following Apple Human Interface Guidelines. Use when the user mentions \"iPhone app\", \"iPad layout\",…",
+    "tier": "mission",
     "type": "skill"
   },
   {
@@ -19387,7 +20659,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19467,7 +20739,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19624,7 +20896,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19769,7 +21041,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19846,7 +21118,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19931,7 +21203,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20008,7 +21280,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20083,7 +21355,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20155,7 +21427,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20230,7 +21502,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20303,7 +21575,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20376,7 +21648,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20453,7 +21725,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20880,7 +22152,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20952,7 +22224,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21065,7 +22337,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21168,7 +22440,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21267,7 +22539,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21346,7 +22618,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21947,7 +23219,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22030,7 +23302,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22048,6 +23320,96 @@
       "*"
     ],
     "summary": "This skill should be used for persistent semantic memory in agent systems: cross-session knowledge retention, entity tracking, temporal…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "data-ml"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "data-ml",
+    "commit": "9a1f4dd5f7659f75707435da3ce854b6e48321d1",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 261,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "863f869e7a94c63b4e3ae3734cc6e4bff1a8769e5aebcc87f3bd42fcecaffe9a"
+      },
+      {
+        "path": "references/core-concepts.md",
+        "sha256": "a3822a0f9a53257e027435dbedff1ac57ced7b1d8a404d40922235fe8891213b"
+      },
+      {
+        "path": "references/gpt-integration.md",
+        "sha256": "23ee856493a89530b01eeeb8374633e9f9c08b9d584036edd41e709e19da755d"
+      },
+      {
+        "path": "references/module-implementation.md",
+        "sha256": "470cf273b0bd23ce7a1339b2311487bc6c3549516712ee5afcb6f42ced2c5da1"
+      },
+      {
+        "path": "references/pitfalls.md",
+        "sha256": "d8fb52697d003f4885412191abe6fe4a0121f77ec49cdf313981c88a90d40ee1"
+      },
+      {
+        "path": "references/sinkhorn-knopp.md",
+        "sha256": "1509406878a9f0198bb45cece02ec86e5d3298d79de7a4a2cc4d6dc62d6e2b3c"
+      }
+    ],
+    "id": "mhc-algorithm",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "mhc-algorithm",
+    "needs": [
+      "data-processing"
+    ],
+    "origin": "lab",
+    "path": "tasks-extra/mhc-layer-impl/environment/skills/mhc-algorithm",
+    "quality": null,
+    "repo": "benchflow-ai/skillsbench",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 72,
+      "mentions30d": 0,
+      "repoSkills": 276,
+      "starVelocity30d": null,
+      "stars": 1828
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Implement mHC (Manifold-Constrained Hyper-Connections) for stabilizing deep network training. Use when implementing residual connection…",
     "tier": "mission",
     "type": "skill"
   },
@@ -22198,7 +23560,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22275,7 +23637,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22376,7 +23738,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22394,6 +23756,76 @@
       "kotlin"
     ],
     "summary": "Provides a structured workflow for migrating an Android XML View to Jetpack Compose. This skill details the step-by-step process, from…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "scientific-computing"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "scientific-computing",
+    "commit": "9a1f4dd5f7659f75707435da3ce854b6e48321d1",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 294,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a7952b16cfda72bd0576f0f1ff1c222a0c05d5343195d00013e81ed56b8eddc4"
+      }
+    ],
+    "id": "milp-solver-workflow",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "milp-solver-workflow",
+    "needs": [
+      "scientific"
+    ],
+    "origin": "lab",
+    "path": "tasks/energy-unit-commitment/environment/skills/milp-solver-workflow",
+    "quality": null,
+    "repo": "benchflow-ai/skillsbench",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 72,
+      "mentions30d": 0,
+      "repoSkills": 276,
+      "starVelocity30d": null,
+      "stars": 1828
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "Use for formulating, solving, debugging, and validating mixed-integer linear optimization models with open-source solvers, including…",
     "tier": "mission",
     "type": "skill"
   },
@@ -22543,7 +23975,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22686,7 +24118,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22979,7 +24411,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23053,7 +24485,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23140,7 +24572,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23248,6 +24680,80 @@
     ],
     "badges": [],
     "capabilities": [
+      "devops-infra"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "devops-infra",
+    "commit": "feb68abe397acc14f32b34984975c48fedba2b33",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 124,
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "7f9e4237e8b714a1aa2064c904501d7402edb4a43a81686c9a91684cecef4689"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "4305c0d0ab062f73b328ec4875df6ad2cf7f002151e5577bd406e0d1f68cdac0"
+      }
+    ],
+    "id": "multi-service-orchestration",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "multi-service-orchestration",
+    "needs": [
+      "infra"
+    ],
+    "origin": "lab",
+    "path": "library/methodologies/everything-claude-code/skills/multi-service-orchestration",
+    "quality": null,
+    "repo": "a5c-ai/babysitter",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 2117,
+      "starVelocity30d": null,
+      "stars": 1826
+    },
+    "stacks": [
+      "node"
+    ],
+    "summary": "PM2 process management, backend/frontend cascade execution, parallel worktree builds, and cross-service integration testing.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "refactoring"
     ],
     "cluster": "refactoring",
@@ -23293,7 +24799,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23568,7 +25074,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23717,7 +25223,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23860,7 +25366,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23939,7 +25445,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24015,7 +25521,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24094,7 +25600,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24229,7 +25735,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24332,7 +25838,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24407,7 +25913,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24501,7 +26007,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24727,7 +26233,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24977,7 +26483,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25328,7 +26834,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25496,7 +27002,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25765,7 +27271,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25860,7 +27366,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26007,7 +27513,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26180,7 +27686,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26254,7 +27760,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26402,7 +27908,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26477,7 +27983,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26495,6 +28001,88 @@
       "pocketbase"
     ],
     "summary": "Schema migrations and versioning for PocketBase. Use when creating migrations, managing schema versions, syncing collections between…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "database"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "database",
+    "commit": "b236d3583fb51f5ef009d2c95d4fc361df748280",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 1044,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "b37d01fa733edef05c76e299ee0e73fd19c2bd23fa20dc8156cf902fe17f5fd9"
+      },
+      {
+        "path": "references/backfill-strategies.md",
+        "sha256": "67f337a606288a6d90408493c712bb17207dba44ce8c808c0e621ef850cd7376"
+      },
+      {
+        "path": "references/complete-example.md",
+        "sha256": "27126eb01914c2d15843eee4f41c1954d243598e5411a4b854b1c337801a5b32"
+      },
+      {
+        "path": "references/validation-queries.md",
+        "sha256": "19c7d3eed6c369ff8fe141bca4c36313df2005fdb391b182790c30125bca1c3b"
+      }
+    ],
+    "id": "postgres-database-migration",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "postgres-database-migration",
+    "needs": [
+      "database"
+    ],
+    "origin": "lab",
+    "path": "skills/postgres-database-migration",
+    "quality": null,
+    "repo": "timescale/pg-aiguide",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 3,
+      "mentions30d": 0,
+      "repoSkills": 10,
+      "starVelocity30d": null,
+      "stars": 1854
+    },
+    "stacks": [
+      "postgres"
+    ],
+    "summary": "Use this skill for planning, testing, and safely executing PostgreSQL schema migrations — especially when working with production data or…",
     "tier": "mission",
     "type": "skill"
   },
@@ -26552,7 +28140,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26630,7 +28218,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27009,7 +28597,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27104,7 +28692,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27190,7 +28778,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27268,7 +28856,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27379,7 +28967,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27458,7 +29046,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27649,7 +29237,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27740,7 +29328,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27883,7 +29471,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28004,6 +29592,81 @@
     ],
     "badges": [],
     "capabilities": [
+      "static-analysis"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "static-analysis",
+    "commit": "feb68abe397acc14f32b34984975c48fedba2b33",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 178,
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "79c10ec6e57ee00e3a5bb576cc8ccb9e5435ce3f5b707f30c31340314139a976"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "419f3855242e2bdb400672467287c15fa3fbf8d597f11ef5614bfb05fac3a174"
+      }
+    ],
+    "id": "quality-hooks",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "quality-hooks",
+    "needs": [
+      "security",
+      "smart-contracts"
+    ],
+    "origin": "lab",
+    "path": "library/methodologies/pilot-shell/skills/quality-hooks",
+    "quality": null,
+    "repo": "a5c-ai/babysitter",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 2117,
+      "starVelocity30d": null,
+      "stars": 1826
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Language-specific auto-lint/format/typecheck pipeline. Supports Python (ruff+pyright), TypeScript (prettier+eslint+tsc), Go…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "cloud-services"
     ],
     "cluster": "cloud-services",
@@ -28088,7 +29751,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28195,7 +29858,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29115,6 +30778,188 @@
     ],
     "badges": [],
     "capabilities": [
+      "react-native"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "react-native",
+    "commit": "61e6e7dfdf3a8ee862254c200d751fcb1fb863dc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 381,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "46b4524c57ce315b7be7a4d6c4a342ba31b020576ff50f76b949d61818bc39c5"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "d45c82decc3c825ef12c1acf29dce2a3d8ee42956729244e1dd56f2818cefb82"
+      },
+      {
+        "path": "references/a11y-checklist.md",
+        "sha256": "2d369e6bfcd874070a64b1f4f56ced28c317ae0208b2484b53661a06078adf28"
+      },
+      {
+        "path": "references/a11y-implementation.md",
+        "sha256": "3a1470051dae6ff58e630e6390cab1a26596a0d4bf97083acb2fa47a3ca2b2aa"
+      },
+      {
+        "path": "references/a11y-overview.md",
+        "sha256": "4c0d31380853f62607b1af7cc9a891dfcc6a0b450cfc749b05aed441661bd518"
+      },
+      {
+        "path": "references/design-10foot.md",
+        "sha256": "023fc41c5e7cefee826aa27ee97f67bc3024f92f6962221991e720e87540f7fb"
+      },
+      {
+        "path": "references/design-color.md",
+        "sha256": "572ba7dc0f08f5649a67d4dd7698489b596f6bbd302fb8c24039ac823a31ed19"
+      },
+      {
+        "path": "references/design-layout.md",
+        "sha256": "f02a8b69ac3429d121cc0023e8fbe33de70fbda8e73818905bf4ae6e541b3c2b"
+      },
+      {
+        "path": "references/design-typography.md",
+        "sha256": "58e6c09fafa0618bb10124ac21c9456a98a570013c334a4adcb49aacffb47e72"
+      },
+      {
+        "path": "references/focus-management.md",
+        "sha256": "50f166801182255cf87ca7be010d44d5581bc16eaf5b42b3638a4520475077fd"
+      },
+      {
+        "path": "references/focus-performance.md",
+        "sha256": "772771becd4f08e64a5a35cb0e89da34facf18759ed7c4cb1a213193d26fec77"
+      },
+      {
+        "path": "references/nav-directional.md",
+        "sha256": "178bf13a947fff65868827be52c0188184988c62035b242cf7b445f7e1691ad7"
+      },
+      {
+        "path": "references/nav-keyboard.md",
+        "sha256": "4097e22e6ef726748e8acadc5bbc10d372191c1702e04d87ba6e5006ce637a76"
+      },
+      {
+        "path": "references/nav-patterns.md",
+        "sha256": "c5ecae16dee6198f4d17054563ae3d03e6746ab0b3c8e6c7015478f5a4d8e7cf"
+      },
+      {
+        "path": "references/perf-animations.md",
+        "sha256": "3ef7b2c2d5cd9893bfe2423620732752068f117d433dcde4f929f2b3c8970ece"
+      },
+      {
+        "path": "references/perf-lists.md",
+        "sha256": "5de3b9b3548886a4e3f10605505fab6cd4f202184bc989777654a6a1f82ef948"
+      },
+      {
+        "path": "references/perf-memory.md",
+        "sha256": "773618c24f1d207cbd926fd9a2820ca2a153ef8added131f426766a759ad414f"
+      },
+      {
+        "path": "references/perf-network.md",
+        "sha256": "7847ffdda2cca6b0013428bc75f96bd685fe33cd3a11f7cbc7aa7aaa3ee525c7"
+      },
+      {
+        "path": "references/perf-overview.md",
+        "sha256": "be34e10f877225eaba3a79a5f07cde5cdd1faca3c03e97331c411a61bf3ba6c2"
+      },
+      {
+        "path": "references/release-cicd.md",
+        "sha256": "10d5535ff05b9034f5949e080c3c8e368096beec7067e495baadefa440e92aaf"
+      },
+      {
+        "path": "references/setup-architecture.md",
+        "sha256": "342ebf49ad24d51d95277f1ebe9052b1e81f30705164e99255ac73c63de57aeb"
+      },
+      {
+        "path": "references/setup-cross-platform.md",
+        "sha256": "84705f57d6619e19b1619f7398dd1cc1a0f4aff3e29ed234e871946d9725cfdd"
+      },
+      {
+        "path": "references/setup-getting-started.md",
+        "sha256": "64c2429e44a74d32c06ce47265f820e4198a9c62b39c95c05cd79e03f3660a52"
+      },
+      {
+        "path": "references/test-e2e.md",
+        "sha256": "decd3aedd49a362ceac85fb93c5316b83e6bfb3641aca3f65cd1020a05c8a69a"
+      },
+      {
+        "path": "references/test-javascript.md",
+        "sha256": "ac00176119f9ab1299130f47f8f6fd78930447736236166f7d266c4b7afa6f37"
+      },
+      {
+        "path": "references/test-strategy.md",
+        "sha256": "fb6d9e15f0c977e43f7be328dc597c4dad306912d61ff301dd46c4b5688b7cde"
+      },
+      {
+        "path": "references/video-debugging.md",
+        "sha256": "dd8db9d9517bfd13352f4470cd39481da667a0a4a5fd196b102736eeb5cf3669"
+      },
+      {
+        "path": "references/video-players.md",
+        "sha256": "5c92689428ec31e3a1f63753b51e5e7ec43295528a84267430117785afb6e6fe"
+      },
+      {
+        "path": "references/video-streaming.md",
+        "sha256": "4d046a6b0c767a5b7627b0168067c9814c7eb5e75c5cafd3561b645aa41807c9"
+      }
+    ],
+    "id": "react-native-tv-best-practices",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "react-native-tv-best-practices",
+    "needs": [
+      "mobile"
+    ],
+    "origin": "lab",
+    "path": "skills/react-native-tv-best-practices",
+    "quality": null,
+    "repo": "callstackincubator/agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 18,
+      "mentions30d": 0,
+      "repoSkills": 13,
+      "starVelocity30d": null,
+      "stars": 1663
+    },
+    "stacks": [
+      "react-native"
+    ],
+    "summary": "Reviews React Native TV apps for focus/D-pad navigation, 10-foot UI layout, TV playback/DRM integration, low-memory TV performance, and TV…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "component-architecture"
     ],
     "cluster": "component-architecture",
@@ -29169,7 +31014,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29283,7 +31128,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29366,7 +31211,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29440,7 +31285,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29458,6 +31303,76 @@
       "*"
     ],
     "summary": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "tdd-discipline"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "tdd-discipline",
+    "commit": "d2e5c346f73325c326820efd3188dcf2b6eb704f",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 395,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a20e71fb14287f9a9502b1c080f08ba54c6a869f9d5e6244caae3d24faeaaa73"
+      }
+    ],
+    "id": "red-green-refactor",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "every_task",
+    "name": "red-green-refactor",
+    "needs": [
+      "testing"
+    ],
+    "origin": "lab",
+    "path": "packages/core/src/methodology/packs/testing/red-green-refactor",
+    "quality": null,
+    "repo": "rohitg00/skillkit",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 124,
+      "mentions30d": 0,
+      "repoSkills": 14,
+      "starVelocity30d": null,
+      "stars": 1542
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Guides the red-green-refactor TDD workflow: write a failing test first, implement the minimum code to make it pass, then refactor while…",
     "tier": "mission",
     "type": "skill"
   },
@@ -29515,7 +31430,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29612,7 +31527,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29695,7 +31610,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29778,7 +31693,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29868,7 +31783,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29951,7 +31866,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -30034,7 +31949,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -30337,7 +32252,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -30420,7 +32335,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -30808,7 +32723,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -30882,7 +32797,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -30961,7 +32876,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31059,7 +32974,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31370,7 +33285,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31445,7 +33360,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31621,7 +33536,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31826,7 +33741,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31928,7 +33843,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32026,7 +33941,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32125,7 +34040,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32227,7 +34142,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32306,7 +34221,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32381,7 +34296,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32611,7 +34526,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32690,7 +34605,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32769,7 +34684,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32846,7 +34761,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32945,7 +34860,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33021,7 +34936,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33108,7 +35023,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33202,7 +35117,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33445,7 +35360,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33633,7 +35548,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33709,7 +35624,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33792,7 +35707,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33871,7 +35786,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34038,7 +35953,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34056,6 +35971,76 @@
       "*"
     ],
     "summary": "Generate SQL queries from natural language descriptions. Supports BigQuery, PostgreSQL, MySQL, and other dialects. Reads database schemas…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "database"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "database",
+    "commit": "9a1f4dd5f7659f75707435da3ce854b6e48321d1",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 162,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a6694d231676963073b1891422262cad009303569adbee2be7fa20a3d85dd870"
+      }
+    ],
+    "id": "sqlite-map-parser",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "sqlite-map-parser",
+    "needs": [
+      "database"
+    ],
+    "origin": "lab",
+    "path": "tasks/civ6-adjacency-optimizer/environment/skills/sqlite-map-parser",
+    "quality": null,
+    "repo": "benchflow-ai/skillsbench",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 72,
+      "mentions30d": 0,
+      "repoSkills": 276,
+      "starVelocity30d": null,
+      "stars": 1828
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Parse SQLite databases into structured JSON data. Use when exploring unknown database schemas, understanding table relationships, and…",
     "tier": "mission",
     "type": "skill"
   },
@@ -34207,7 +36192,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34306,7 +36291,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34393,7 +36378,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34682,7 +36667,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34771,6 +36756,150 @@
     "summary": "The official Svelte MCP server providing docs and autofixing tools for Svelte development",
     "tier": "mission",
     "type": "mcp"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "swift-expertise"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "swift-expertise",
+    "commit": "d5770817d2622e1585b1f7eaebc791a9cb0959c8",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 242,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "8c667b2ff988251c7c291abe046b77d7b8fcfbe3b5ed36961e25e224b1ead491"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "ee6afe3f6c048fa77f73510f5536abc8f399bc48c8641dc308343ed37ee53cfc"
+      },
+      {
+        "path": "assets/logo-small.png",
+        "sha256": "f1f69d278df362306d16809151486fad79fc08d6b3018aeabea4580507392f93"
+      },
+      {
+        "path": "assets/logo.png",
+        "sha256": "7eeb6005c4ce9d1ab514418cc645c463fa6b84536527dfac715676ee878cf7b1"
+      },
+      {
+        "path": "references/_index.md",
+        "sha256": "7e9e076d885ef05402a67aa8a84b83e63a3c29b3d005816f6acb4c30b6d76531"
+      },
+      {
+        "path": "references/actors.md",
+        "sha256": "2de7cebbdd1cbc2b7c9312c7b59a3f44ada0456b6e74579aae7fba3e02b0b5fe"
+      },
+      {
+        "path": "references/async-algorithms.md",
+        "sha256": "9e16790e9b81850a37b3de995220074491f3efd5accab1f5daa0a633625fed40"
+      },
+      {
+        "path": "references/async-await-basics.md",
+        "sha256": "e550aba692af77cf660ad6f754a65c52b01505cad234d159a6d47a919faaf536"
+      },
+      {
+        "path": "references/async-sequences.md",
+        "sha256": "33d853118e37c1ac380c253200571efa44fe7127b9b6512ba95b43e670a5f453"
+      },
+      {
+        "path": "references/core-data.md",
+        "sha256": "c89c4846fa64a2389abf807684ed373a6c0e6d16351dfa051e1fd71b85444d00"
+      },
+      {
+        "path": "references/glossary.md",
+        "sha256": "20dd1f05717810944af675db215d758efa5d1c7b487ee007faae1ec4e2a7c36f"
+      },
+      {
+        "path": "references/linting.md",
+        "sha256": "ead994f6e254208acf298a588ad9a49bbd9779530f31e01c74c4d32d06a7bd4a"
+      },
+      {
+        "path": "references/memory-management.md",
+        "sha256": "28dcb8a7ff7411390ca0b7f1b0db16d6b00c3705bd6ed1f9b649c476bf0a7554"
+      },
+      {
+        "path": "references/migration.md",
+        "sha256": "9115da8228d3a19426869627c28b7ed444f8d783723039293cceb46a1fc1c570"
+      },
+      {
+        "path": "references/observation.md",
+        "sha256": "940c085d43e2e067848d7caf95731fb1335c3f16f83ebe43b06549021a29f1b1"
+      },
+      {
+        "path": "references/performance.md",
+        "sha256": "dfd74c1c592ce42c520b54a309ba2b50e228608efa055fd6b597067e9ad71668"
+      },
+      {
+        "path": "references/sendable.md",
+        "sha256": "af8e026b3c205d3c3acb58bf9a59e456f063f564845f38020a91cac511a08ca8"
+      },
+      {
+        "path": "references/tasks.md",
+        "sha256": "0401a762683454149d5ca532684901f4fb5597a6821acacc8d49d037db9a37e9"
+      },
+      {
+        "path": "references/testing.md",
+        "sha256": "3df9e839b3338dd473115d9ac8787a42d91b50a537fe40c55cf66d21034679db"
+      },
+      {
+        "path": "references/threading.md",
+        "sha256": "0a4e44bd27fdf852cf5f8f5aa64cfe15ba229fb7c885b3f69ed2afdbfac8752a"
+      }
+    ],
+    "id": "swift-concurrency",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "swift-concurrency",
+    "needs": [],
+    "origin": "lab",
+    "path": "skills/swift-concurrency",
+    "quality": null,
+    "repo": "avdlee/swift-concurrency-agent-skill",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 20,
+      "mentions30d": 0,
+      "repoSkills": 1,
+      "starVelocity30d": null,
+      "stars": 1673
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Diagnose Swift Concurrency issues, refactor callback-based code to async/await, and guide Swift 6 migration when working with tasks,…",
+    "tier": "stack",
+    "type": "skill"
   },
   {
     "agents": [
@@ -34968,7 +37097,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35165,7 +37294,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35360,7 +37489,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35435,7 +37564,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35600,7 +37729,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35618,6 +37747,80 @@
       "*"
     ],
     "summary": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "tdd-discipline"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "tdd-discipline",
+    "commit": "feb68abe397acc14f32b34984975c48fedba2b33",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 134,
+    "files": [
+      {
+        "path": "README.md",
+        "sha256": "b2af8ed0a1d2f883dd46ec9e2049d9b57b3e8c33d25d746e04e6f5e6c44e28c9"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "dd339e07f123dbd8ef3d989ee79db9a3ab37a84fea7301f8c2d86b6508cb5686"
+      }
+    ],
+    "id": "tdd-enforcement",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "tdd-enforcement",
+    "needs": [
+      "testing"
+    ],
+    "origin": "lab",
+    "path": "library/methodologies/everything-claude-code/skills/tdd-enforcement",
+    "quality": null,
+    "repo": "a5c-ai/babysitter",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 2117,
+      "starVelocity30d": null,
+      "stars": 1826
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Red-Green-Refactor TDD methodology with mandatory failing tests, minimal implementation, quality refactoring, and 80% coverage gating.",
     "tier": "mission",
     "type": "skill"
   },
@@ -35826,7 +38029,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35925,7 +38128,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36189,7 +38392,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36281,7 +38484,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36468,7 +38671,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36551,7 +38754,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36627,7 +38830,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36730,7 +38933,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36805,7 +39008,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36879,7 +39082,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36955,7 +39158,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37164,7 +39367,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37353,7 +39556,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37426,7 +39629,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37502,7 +39705,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37576,7 +39779,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37594,6 +39797,111 @@
       "*"
     ],
     "summary": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "web-design-review"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "web-design-review",
+    "commit": "c172996495bed0fcd26896a9416b2093fd7073f0",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 600,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "cb1ea3de8b6e605614cc59b21d41830d2d82af22e51069bb4c5bb53790cd622b"
+      },
+      {
+        "path": "references/audit-template.md",
+        "sha256": "d28d35ea15d8e70d5537d719e1ba3888e3cbcb5306d50451e65f56dc21d4ff8e"
+      },
+      {
+        "path": "references/cultural-ux.md",
+        "sha256": "c00f0a8c77e0982988a2d012d5a2f31a0221d3c5ea5f8214ed1b2ea8ac3b3c17"
+      },
+      {
+        "path": "references/dark-patterns.md",
+        "sha256": "3af4522a25b03b1ce86467f8781b5f076bba72f60211d00a18673ef1cdcdb48c"
+      },
+      {
+        "path": "references/heuristic-conflicts.md",
+        "sha256": "fba04433ef077de2f027d9b69a378e85fc80b06c678e01aacbfc9e8c79fb12bd"
+      },
+      {
+        "path": "references/krug-principles.md",
+        "sha256": "4acd8802a606750bc8d91893d1d55611197a8084c2229782d49f56b546bb273b"
+      },
+      {
+        "path": "references/nielsen-heuristics.md",
+        "sha256": "09b2141efb6a2e232772a3cd8f30b9be966004dff9d2e80c9137413d7ebe7c71"
+      },
+      {
+        "path": "references/wcag-checklist.md",
+        "sha256": "b1d4ae49d7bf14b2921bb980e442d3c9ac4578ac44b3b5577b9ffacd53249435"
+      }
+    ],
+    "id": "ux-heuristics",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "ux-heuristics",
+    "needs": [
+      "frontend-ui",
+      "seo"
+    ],
+    "origin": "lab",
+    "path": "plugins/ux-design/skills/ux-heuristics",
+    "quality": null,
+    "repo": "wondelai/skills",
+    "reputation": {
+      "flags": [],
+      "inflated": false,
+      "score": 0.482,
+      "starTrust": 0.599
+    },
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 23,
+      "mentions30d": 0,
+      "repoSkills": 196,
+      "starVelocity30d": null,
+      "stars": 2320
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Evaluate and improve interface usability using heuristic analysis. Use when the user mentions \"usability audit\", \"users are confused\",…",
     "tier": "mission",
     "type": "skill"
   },
@@ -37726,7 +40034,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37800,7 +40108,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37880,7 +40188,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37983,7 +40291,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38086,7 +40394,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38175,7 +40483,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38367,7 +40675,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38516,7 +40824,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38600,7 +40908,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38675,7 +40983,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38774,7 +41082,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38792,6 +41100,96 @@
       "*"
     ],
     "summary": "Turn a visual or interaction technique you already built into a reusable web-design skill, by isolating the one mechanism that makes it…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "webapp-testing"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "webapp-testing",
+    "commit": "e5d9444e6e76c399f0004ec9f109b29fa7792d8d",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 146,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "821556e6336796450ab852d375117b48a4887e71d255794fd6318d99982a5ab6"
+      },
+      {
+        "path": "NOTICE.md",
+        "sha256": "2f4db959c8f66c245a30872a47d195edccc0acbe11ccee8c11be62d7272cbbdf"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "2a66311a50230ba51da166d343abb16c6613f49b932b2e37b1cdf5845336b472"
+      },
+      {
+        "path": "references/dogfood/GUIDE.md",
+        "sha256": "4ca12e2fb955e2cfe377c87f9465ff105c0565287159699491232005c49c1ccc"
+      },
+      {
+        "path": "references/issue-taxonomy.md",
+        "sha256": "b90546fab5b59494ebea35b957ccc1d98bab8eaeaaa3529a142b15ea96df2b31"
+      },
+      {
+        "path": "templates/dogfood-report-template.md",
+        "sha256": "3969c662dbc6e1cb88619b671d8f70a8dc3f96f10cd9e59bcaff3387fdf8c519"
+      }
+    ],
+    "id": "webapp-qa",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "webapp-qa",
+    "needs": [
+      "e2e-testing"
+    ],
+    "origin": "lab",
+    "path": "sdk/cloud/catalog/skills/webapp-qa",
+    "quality": null,
+    "repo": "prismer-ai/prismercloud",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 4,
+      "mentions30d": 0,
+      "repoSkills": 102,
+      "starVelocity30d": null,
+      "stars": 1554
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Perform scoped exploratory QA of a web application, reproduce defects, collect screenshots and console evidence, and deliver a prioritized…",
     "tier": "mission",
     "type": "skill"
   },
@@ -39032,7 +41430,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39107,7 +41505,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39198,7 +41596,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39216,6 +41614,76 @@
       "*"
     ],
     "summary": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "agent-evaluation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "agent-evaluation",
+    "commit": "22418da2bfb159f28a1b0dcf64e969e14ae56c99",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 384,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "aa28d26c731e2a16c357d6a8eacb4e3dc8f007a0f73fbb0f5fd8fa7cb8fcf4dd"
+      }
+    ],
+    "id": "write-judge-prompt",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "write-judge-prompt",
+    "needs": [
+      "llm-calls"
+    ],
+    "origin": "lab",
+    "path": "skills/write-judge-prompt",
+    "quality": null,
+    "repo": "hamelsmu/evals-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 49,
+      "mentions30d": 0,
+      "repoSkills": 7,
+      "starVelocity30d": null,
+      "stars": 1673
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Design LLM-as-Judge evaluators for subjective criteria that code-based checks cannot handle. Use when a failure mode requires…",
     "tier": "mission",
     "type": "skill"
   },
@@ -39271,7 +41739,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39353,7 +41821,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39521,7 +41989,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39600,7 +42068,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T17:10:24.354Z",
+      "scannedAt": "2026-10-04T18:48:17.455Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
