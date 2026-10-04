@@ -14,15 +14,17 @@ app, Word and PowerPoint skills in a project whose dependencies only show Excel.
 | 0.2.0: evidence, platforms, coverage | 95 / 95 (100%) on 44 scenarios | 0 | 0 |
 | 0.2.0 + stack experts (catalog) | 108 / 108 (100%) on 49 scenarios | 0 | 0 |
 | 2.0.0: the v2 engine the CLI serves, 91 items | 108 / 108 (100%) on 49 scenarios | 0 | 0 |
-| **2.0.0 with the crawled catalog (548 items)** | **108 / 108 (100%)** on 49 scenarios | **0** | **0** |
+| 2.0.0 with the first crawled catalog (548 items, 95 repositories read) | 108 / 108 (100%) on 49 scenarios | 0 | 0 |
+| **2.0.0 with the catalog derived from the full store (442 items)** | **108 / 108 (100%)** on 49 scenarios | **0** | **0** |
 
 The 0.1.0 row uses the 42 scenarios that existed when the new engine was written (the 37 of 0.1.0, five new ones,
 stricter must-nots on four); two more (command-line tools built with Typer and commander) came from checking real
 repositories; five more (Angular, Laravel, Rails, Java, .NET) came with the stack experts, and each stack scenario now requires
 its own expert and rejects the others'. The catalog grew sixfold (91 to 548 items) without a new violation: a crawled
 item joins a default set only with evidence about itself, and otherwise waits as an alternative. The default set
-averages 14.2 items (the two new hooks are in every set and cost no context) and 3,957 of the 6,000 characters of
-context budget. CI fails below 97% hits or on any violation. What changed is described in
+averages 14.5 items (the two new hooks are in every set and cost no context) and 4,233 of the 6,000 characters of
+context budget. The scenarios check default sets; what else the table offers was checked by reading it (see
+[the full store](#the-pipeline-on-the-full-store)). CI fails below 97% hits or on any violation. What changed is described in
 [ARCHITECTURE.md](ARCHITECTURE.md#the-recommendation-engine).
 
 ### On real repositories
@@ -105,6 +107,48 @@ Times for 20,000 repeats on a laptop (lower is better):
 
 Before 0.2.0 the download chain case re-read each later command once per earlier download; it failed the timing test
 on Node 18 in CI and on slower machines.
+
+## The pipeline on the full store
+
+Measured on 2026-10-03 and 2026-10-04 with the store of one crawl, on a server with 4 CPUs and 24 GB of memory unless
+a laptop is named.
+
+| Step | Measured |
+|---|---|
+| Discovery | 19,502 candidate repositories; 12,062 are not forks and have 10 stars or more |
+| Crawl (laptop, 4 at a time) | 12,567 repositories read, 42 with an error; 7,533 hold skills: 419,581 skill folders, 317,666 distinct, 302,087 distinct `SKILL.md` texts |
+| Restore on another machine | 7,533 of 7,533 repositories fetched again at their recorded commits in 77 minutes, none failed; 21 GB |
+| Security scan, scanner 1.5.0 | 419,581 folders in 78 minutes with three processes: 376,515 verified, 22,544 caution, 8,724 quarantined, 11,798 rejected |
+| Scanner 1.5.0 against 1.4.0 | Of 264,963 distinct folders both scanned, 113 changed level, every one to a stricter level |
+| A second `observe` run | 12,525 repositories unchanged, nothing read again; the plan of what to ask in 59 seconds |
+| Classification | 3,035 questions, none failed, $0.68 ($0.00022 each). 25,015 skill folders are answered about; 62,061 askable skills are not |
+| Derive | 422,194 stored skills considered, 25,015 judged, 325 skills and 24 MCP servers listed, in about 20 seconds |
+| Research | 890 repositories researched; 71 of the 74 repositories the derived skills come from, none of them flagged for inflated stars |
+
+**What keeps a classified skill out** (24,613 of them, most common first): license missing or not accepted (5,189),
+not software work (4,571), tied to a product a project cannot show (3,301), no single clear job (2,272), a copy or
+near copy (1,783), kept in a repository's own agent folder (1,544), description not in English (1,101), the security
+scan (1,002), purpose does not fit the job (832), samples or contributor tooling (598), about its own project (556),
+a repository waiting for a human look (512) and its mirrors (307).
+
+**Copies.** 197,505 skill names are in the store; 27,583 of them are used by two repositories or more with different
+texts. On a sample of 1,009 such pairs (the best-known holder against another), the share of four-word runs both
+texts have falls into two heaps: under a tenth for 523 pairs, half or more for 402, and 84 in between. Every pair
+read between 0.25 and 0.7 was one skill at two revisions, which is where the rule's bar for same-named skills (a
+fifth) comes from. A rewritten skill escapes it: one collection's `mcp-builder` shares 21% with the current
+original, another's `slack-gif-creator` 3%. Those are caught by name, not by text.
+
+**The crawler's silent exit.** With the event loop blocked for 2 to 18 seconds at a time (what storing a large
+repository does), 13 of 75 requests to GitHub's tree API never settled on Node 24, and the process exited with
+"unsettled top-level await". On an idle loop 48 of 48 settled. With the fix (a deadline on the body, another attempt,
+and the store yielding every 50 ms) 60 of 60 settled under the same blocking.
+
+**Limits of these numbers.** The copy bars and the limits were set by reading this same store, so the counts above
+describe it and do not predict another crawl. The catalog's 241 arrivals were read by one reader, once; that read
+removed classes of junk (leaked vendor skills, translations, benchmark output, skills about their own repository) but
+is not a proof that none is left: skills written for a host framework or a narrow field (trading, clinical text,
+protein folding) are still listed as alternatives when the decision model called them general. Only skills the model
+was asked about can be listed, and the budget reached 8% of the distinct texts, the best-known repositories first.
 
 ## Context cost
 

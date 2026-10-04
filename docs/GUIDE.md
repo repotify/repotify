@@ -143,7 +143,7 @@ flowchart LR
 
 The maintainers rebuild the catalog through this pipeline, and your client always reads the newest one (ETag-cached, with an offline copy in the package and rollback protection). Installed third-party items stay locked until you approve a scanned update. The package ships a copy of the catalog for offline use.
 
-What the current catalog was built from (2026-10-03): 4,651 skill folders from 54 repositories, of which 431 passed the rules; 2,613 MCP servers with at least 1,000 downloads a month, of which 24 are listed; 93 hand-vetted items. What kept the rest out, most common first: not software work (1,198 skills), no single clear job (640), tied to a product a project cannot show (529), a repository popular only by its stars (471, waiting for a human), kept in a repository's own agent folder (341), the security scan (327). For MCP servers: too little use to list (2,371).
+What the current catalog was built from (2026-10-04): 419,581 skill folders from 12,525 repositories, of which the decision model was asked about 25,015 (the best-known repositories first) and 325 passed the rules; 2,613 MCP servers with at least 1,000 downloads a month, of which 24 are listed; 93 hand-vetted items. What kept the rest out, most common first: license missing or not accepted (5,189 skills), not software work (4,571), tied to a product a project cannot show (3,301), no single clear job (2,272), a copy or near copy of a skill listed from its likelier origin (1,783), kept in a repository's own agent folder (1,544), a description not in English (1,101), the security scan (1,002). For MCP servers: too little use to list (2,371). One repository lists at most 15 skills, 3 for one job, and a job and stack lists 10 in all.
 
 ## Privacy
 

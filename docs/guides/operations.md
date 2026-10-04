@@ -15,7 +15,7 @@ locally, as described below. Everything else is derived from a content store tha
 
 ```bash
 GITHUB_TOKEN=… node pipeline/crawl.mjs --store STORE --discover        # fetch skill folders, once each
-JEV_API_KEY=… node pipeline/observe.mjs --store STORE                  # scan and classify what is new
+JEV_API_KEY=… node pipeline/observe.mjs --store STORE --max-asks N     # scan what is new, classify within a budget
 node pipeline/research.mjs --store STORE --env-file FILE               # what people say about each repository
 JEV_API_KEY=… node pipeline/mcp.mjs --store STORE                      # MCP registry, downloads, stars, gate
 node pipeline/derive.mjs --store STORE --dry-run --report report.json  # what the rules keep and why
@@ -27,6 +27,51 @@ npm run eval && npm test                                               # 108/108
 replaces every derived item. **Running `pipeline/run.mjs` or the catalog-build workflow rewrites `catalog/` from the
 seed alone: run `derive` again afterwards, or the crawled items are gone.** A taxonomy change (a new job or stack)
 changes the questions, so `observe` and `mcp --from-state` ask again before `derive` sees answers.
+
+### At the scale of the full store
+
+The store of the 2026-10-03 crawl holds 12,567 repository records, 419,581 skill folders (317,666 distinct) and about
+two million files in 21 GB. What that changes:
+
+- **`observe` reads only what is new.** What a run finds about a repository is kept under `STORE/index/observe/`; an
+  unchanged repository costs two small reads on the next run (12,525 repositories in under a minute). A new scanner
+  version reads everything again, once: 78 minutes for the whole store with three processes
+  (`--no-jev --shard 0/3`, `1/3`, `2/3`).
+- **The decision model is asked within a budget.** `--max-asks N` asks the N skills most worth asking: most installed
+  and best-known repositories first, at most 100 of one repository (`--per-repo`), same-named skills last, and never
+  a skill that could not be listed whatever the answer. `--max-asks 0` only counts. A question costs about $0.00022;
+  the store has 62,000 skills that could still be asked about. Measure the credit before a run
+  (`GET https://openrouter.ai/api/v1/credits`); with none left the model returns nothing and twelve unanswered
+  questions in a row end the run.
+- **`derive` takes about twenty seconds** on that store, because it considers only the 25,015 skill folders the
+  model has answered about. Derive into a copy first and read what arrives before touching `catalog/`:
+  `cp -r catalog /tmp/staging && node pipeline/derive.mjs --store STORE --out /tmp/staging --report /tmp/report.json`.
+  The report lists every skill kept out and why. The first catalog derived from the full store passed the scenarios
+  and still held leaked vendor skills, translations of hand-vetted skills and benchmark output: the scenarios check
+  default sets, not everything the table offers.
+- **A crawl round survives its two known faults** (a git child that dies mid-input, a GitHub response cut off
+  mid-body); a round that ends early is still safe to run again.
+
+### Running the heavy steps on another machine
+
+A laptop with a spinning disk needs hours for one pass over the store; a small server needs minutes. The store is
+plain files, but two million of them: copying them took 63 files a second off the laptop disk. So move the records
+and let the other machine fetch the content again:
+
+```bash
+# 1. records, observations and state files only (300,000 files, 80 minutes from a slow disk)
+tar -C STORE -cf - --exclude=./blobs --exclude=./trees --exclude=./git . | zstd -3 | ssh HOST 'zstd -d | tar -C STORE -xf -'
+# 2. on the server: the code, without the repository's history or agent folders
+rsync -a --delete --exclude=/.git --exclude=/.claude --exclude=/node_modules ./ HOST:repo/
+# 3. on the server: content back from GitHub at the commits the records name (77 minutes for 7,533 repositories)
+GITHUB_TOKEN=… node pipeline/crawl.mjs --store STORE --restore --concurrency 8
+```
+
+Every repository comes back byte for byte as recorded, so the observations keyed by content still apply; a repository
+whose commit is gone is marked and read again by the next crawl. Verify the copy by counts (repository records,
+observation files per kind), not by reading the laptop's store again. Keep the keys in a file only the pipeline's
+user can read, run long steps under `tmux` with `nice`, and bring back `obs/`, `repos/`, `index/` and the state files
+as one compressed archive rather than as files.
 
 - **On GitHub:** Actions → **catalog-build** → **Run workflow**. The `build` job discovers, gates and scores items with
   the jury keys; the `publish` job re-verifies the result, runs the tests and commits `catalog/` as `catalog: build <version>`.

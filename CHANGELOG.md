@@ -29,10 +29,12 @@ after the install.
 - **`audit` reads your MCP servers too.** A configured server whose command fails the security scan is marked for
   removal; one that is not pinned to a version, or whose config file holds a secret, is marked for review. The audit
   names the variable, never the value.
-- **A catalog from a crawl: 548 items** (517 skills, 27 MCP servers, 1 tool, 3 hooks) from 55 repositories. Every
+- **A catalog from a crawl: 442 items** (411 skills, 27 MCP servers, 1 tool, 3 hooks) from 106 repositories. Every
   skill folder is fetched once into a content store; scans, the decision model's answers and research are kept as
   observations, and rules turn them into items with no network, so a changed rule rebuilds the catalog in seconds.
-  Of 4,651 crawled skills 431 passed. A crawled item joins a default set only with evidence about itself (installs,
+  The crawl read 12,525 repositories and 419,581 skill folders; the 25,015 from the best-known repositories were
+  judged and 325 passed. A skill is listed once, from its likelier origin: copies, old revisions, translations and
+  mirrors stay out, and one repository lists at most 15. A crawled item joins a default set only with evidence about itself (installs,
   or downloads and stars); the rest are alternatives.
 - **Stars are not enough.** Four research agents read what else there is about a repository: forum threads, star
   history against real installs, directories and curated lists. Of 90 repositories, 19 looked inflated; the 471
@@ -131,8 +133,8 @@ skill for instruction safety.
 
 ### Measured
 
-- Recommendation quality on 49 scenarios, run against the engine the CLI serves and the 548-item catalog: 108/108
-  must-include, 0 violations, 0 duplicate jobs; the default set averages 14.2 items and 3,957 of 6,000 characters.
+- Recommendation quality on 49 scenarios, run against the engine the CLI serves and the 442-item catalog: 108/108
+  must-include, 0 violations, 0 duplicate jobs; the default set averages 14.5 items and 4,233 of 6,000 characters.
 - One setup costs the agent about 2,900 tokens (2,822–2,982 over seven fixture projects, `test/eval/flow-tokens.mjs`).
 - The router, the classifier and the questions: [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
 - The scanner reads a long line of `git clone` commands 2.7 times faster (each later command was read once per
@@ -154,6 +156,12 @@ are on the website's leaderboard as mean [min–max] at n = 3 per cell.
   and decision model, kept per content and question set), `research.mjs` (four agents), `mcp.mjs` (registry,
   downloads, repository stars, setup gate) and `derive.mjs` (rules only). `node pipeline/derive.mjs --store DIR`
   rebuilds the catalog from the store in seconds; `--dry-run --report FILE` shows what each rule kept out.
+- The pipeline at the scale of a full crawl (12,525 repositories, 419,581 skill folders): `observe` reads only
+  repositories that changed and asks the decision model within a budget (`--max-asks`, best-known first, `--shard`
+  for several processes); `crawl --restore` refills a store moved to another machine from its records; `derive`
+  judges only skills the model answered about, with the copy rules of `pipeline/copies.mjs`. Two faults that ended
+  crawl rounds are fixed (a git child that dies mid-input, a GitHub response cut off mid-body). Numbers and their
+  limits: [docs/BENCHMARKS.md](docs/BENCHMARKS.md#the-pipeline-on-the-full-store).
 - The router is measured, not assumed: `node test/eval/router.mjs`. Two request sets were written by another model
   (`pipeline/router-evalset.mjs`); the second is never tuned on, and floors in the test suite catch a regression.
 - Pipeline scripts share one flag reader and one logger (`pipeline/lib/cli.mjs`).
