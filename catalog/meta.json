@@ -1,11 +1,11 @@
 {
   "files": {
-    "core.json": "94e86e41d39c0bdcd9256c729b3bb6694dbbc2c1db8bb5620d317594b9ecdf9b",
-    "items.json": "b985528630d7527f6778bde2feb5c38e84a7c86f46c504539273233ce03e70b7",
+    "core.json": "14e4b6d64697622c00acef05571d3a4467e405828861f6427ca63e38d6cf8294",
+    "items.json": "3d74b9448628fd64e75c766766615b75181230fa59ab99a4ce8a493223fb9027",
     "loadouts.json": "8b553db4f4ba919b8c06b8f7705b96ca9d745f3189cce8279f8bdb0977c9d569",
     "taxonomy.json": "7df5982f0344ca78a6292236d8525c0a684289f1108eb8f28a407ddcf7c54339"
   },
-  "generatedAt": "2026-10-04T01:16:51.930Z",
+  "generatedAt": "2026-10-04T09:06:31.066Z",
   "schemaVersion": 1,
-  "version": "2026.10.04.1"
+  "version": "2026.10.04.2"
 }
