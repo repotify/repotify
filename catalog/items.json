@@ -54,7 +54,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -282,7 +282,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -382,7 +382,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -457,7 +457,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -576,7 +576,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -584,7 +584,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 177,
       "starVelocity30d": null,
@@ -594,6 +594,146 @@
       "python"
     ],
     "summary": "This skill should be used for time series machine learning tasks including classification, regression, clustering, forecasting, anomaly…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "agent-evaluation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "agent-evaluation",
+    "commit": "ba24901ce28827a4e7274b8dc87b86cc81a5ddbc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 404,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "23f51544db2ad4ed14cef5d52ddb07df83c3b5008eba057c15674a1b85ce0099"
+      }
+    ],
+    "id": "agent-design-review",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "agent-design-review",
+    "needs": [
+      "llm-calls"
+    ],
+    "origin": "lab",
+    "path": "exports/openclaw/agent-design-review",
+    "quality": null,
+    "repo": "mohitagw15856/pm-claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 3644,
+      "starVelocity30d": null,
+      "stars": 1419
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Review an LLM agent design and find where it will be unreliable, expensive, or unsafe. Use when asked to review an agent architecture,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "agent-evaluation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "agent-evaluation",
+    "commit": "ba24901ce28827a4e7274b8dc87b86cc81a5ddbc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 551,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "10de4a77a093d5a3848180b1302e68d8bdce8b77dc1206d09674b7b437cca34e"
+      }
+    ],
+    "id": "agent-incident-postmortem",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "agent-incident-postmortem",
+    "needs": [
+      "llm-calls"
+    ],
+    "origin": "lab",
+    "path": "exports/openclaw/agent-incident-postmortem",
+    "quality": null,
+    "repo": "mohitagw15856/pm-claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 3644,
+      "starVelocity30d": null,
+      "stars": 1419
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Run a blameless postmortem for an incident caused by an AI agent or LLM feature — hallucinated facts shipped to users, runaway tool use,…",
     "tier": "mission",
     "type": "skill"
   },
@@ -652,7 +792,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -741,6 +881,76 @@
       "*"
     ],
     "summary": "Neutral arbiter for resolving git merge conflicts between two agents' branches using stated intents to guide impartial resolution.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "devops-infra"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "devops-infra",
+    "commit": "ba24901ce28827a4e7274b8dc87b86cc81a5ddbc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 428,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "d0c2004c0472d71098b3604423c70ce123ae04a228cd2c62ab43388d8c0de333"
+      }
+    ],
+    "id": "agent-observability-spec",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "agent-observability-spec",
+    "needs": [
+      "infra"
+    ],
+    "origin": "lab",
+    "path": "exports/openclaw/agent-observability-spec",
+    "quality": null,
+    "repo": "mohitagw15856/pm-claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 3644,
+      "starVelocity30d": null,
+      "stars": 1419
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Specify the tracing, metrics, and alerting for an AI agent or LLM feature in production. Use when asked what to log for an LLM app, design…",
     "tier": "mission",
     "type": "skill"
   },
@@ -874,7 +1084,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -965,7 +1175,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -983,6 +1193,76 @@
       "*"
     ],
     "summary": "Upgrades, or migrates, an Android project to use Android Gradle Plugin (AGP) version 9. Do not use this skill for migrating Kotlin…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "agent-evaluation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "agent-evaluation",
+    "commit": "ba24901ce28827a4e7274b8dc87b86cc81a5ddbc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 727,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "29982a80e038a58b58c0ae3bfbe7ef8030a9019d8c2974cf091533bdd9beb9cd"
+      }
+    ],
+    "id": "ai-agent-reliability",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "ai-agent-reliability",
+    "needs": [
+      "llm-calls"
+    ],
+    "origin": "lab",
+    "path": "exports/openclaw/ai-agent-reliability",
+    "quality": null,
+    "repo": "mohitagw15856/pm-claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 3644,
+      "starVelocity30d": null,
+      "stars": 1419
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Make an AI agent or automation reliable enough to trust — the tests, checks, and guardrails that catch its failures before they reach…",
     "tier": "mission",
     "type": "skill"
   },
@@ -1067,6 +1347,84 @@
     ],
     "badges": [],
     "capabilities": [
+      "agent-evaluation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "agent-evaluation",
+    "commit": "13598cc54e09399bc1bc1398b0fca284110efb2f",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 164,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "20b3cec6fac9cd7e9f62889183895bf122e91b4856d18597a36679355fc43e66"
+      },
+      {
+        "path": "references/artifacts.md",
+        "sha256": "59247f443b66210d4e10be1d8c469c7700a8182e1aca032a63116cb56de7b592"
+      },
+      {
+        "path": "references/guest-insights.md",
+        "sha256": "7f27ea723d1d9f23afefb5ffc045fabb9be2e477919c18088d00d1c5a1221b09"
+      }
+    ],
+    "id": "ai-evals",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "ai-evals",
+    "needs": [
+      "llm-calls"
+    ],
+    "origin": "lab",
+    "path": "skills/ai-evals",
+    "quality": null,
+    "repo": "refoundai/lenny-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 80,
+      "mentions30d": 0,
+      "repoSkills": 76,
+      "starVelocity30d": null,
+      "stars": 1357
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Help users build robust infrastructure for measuring, monitoring, and iterating on AI product performance using human, code-based, and…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "security-review"
     ],
     "cluster": "security-review",
@@ -1111,7 +1469,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1197,7 +1555,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1285,7 +1643,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1293,7 +1651,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -1388,7 +1746,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1406,6 +1764,77 @@
       "csharp"
     ],
     "summary": "Scans .NET code for ~50 performance anti-patterns across async, memory, strings, collections, LINQ, regex, serialization, and I/O with…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "codebase-map"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "codebase-map",
+    "commit": "3b5a89ec1c106dd387e372aec073f9401336382a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 213,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "e548dfccb74fb5de20eb4c8063ad31836b86303f7c4636c3d631746844ca99b7"
+      }
+    ],
+    "id": "analyzing-projects",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "once",
+    "name": "analyzing-projects",
+    "needs": [
+      "large-codebase",
+      "onboarding"
+    ],
+    "origin": "lab",
+    "path": "skills/analyzing-projects",
+    "quality": null,
+    "repo": "cloudai-x/claude-workflow-v2",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 2,
+      "mentions30d": 0,
+      "repoSkills": 14,
+      "starVelocity30d": null,
+      "stars": 1416
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Analyzes codebases to understand structure, tech stack, patterns, and conventions. Use when onboarding to a new project, exploring…",
     "tier": "mission",
     "type": "skill"
   },
@@ -1497,7 +1926,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1667,7 +2096,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1746,7 +2175,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1840,7 +2269,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1988,7 +2417,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -1996,7 +2425,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -2094,7 +2523,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2218,6 +2647,76 @@
     "capabilities": [
       "webapp-testing"
     ],
+    "classifiedBy": "consensus",
+    "cluster": "webapp-testing",
+    "commit": "ba24901ce28827a4e7274b8dc87b86cc81a5ddbc",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 408,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "ecaef74ed3a0c7e6d6672107b17cbf2f5c9f9992aff7122eab7eb3d22c5a10da"
+      }
+    ],
+    "id": "api-test-plan",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "api-test-plan",
+    "needs": [
+      "e2e-testing"
+    ],
+    "origin": "lab",
+    "path": "exports/openclaw/api-test-plan",
+    "quality": null,
+    "repo": "mohitagw15856/pm-claude-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 3644,
+      "starVelocity30d": null,
+      "stars": 1419
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Plan tests for an API endpoint or service — functional, negative, and contract. Use when asked to test an API, write API test cases, plan…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "webapp-testing"
+    ],
     "cluster": "webapp-testing",
     "commit": "19392f7a08264ed00486a251f5b2098321771f94",
     "community": {
@@ -2264,7 +2763,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2338,7 +2837,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2434,7 +2933,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2609,7 +3108,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2617,7 +3116,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -2692,7 +3191,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2700,7 +3199,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -2795,7 +3294,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2875,7 +3374,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2948,7 +3447,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -2966,6 +3465,76 @@
       "*"
     ],
     "summary": "Clarify a feature, change, or refactor through questions, then write a build prompt for another agent. Use for /ask-then-build or requests…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "cloud-services"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "cloud-services",
+    "commit": "e426ed93a9f3215cd21b277fdfa6bfccd3457945",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 139,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "a13e27af361c347b8b27b54282485941331ad56a0f9c2790ea1b4daa47a6853d"
+      }
+    ],
+    "id": "aspire-configuration",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "aspire-configuration",
+    "needs": [
+      "deploy"
+    ],
+    "origin": "lab",
+    "path": "skills/aspire-configuration",
+    "quality": null,
+    "repo": "aaronontheweb/dotnet-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 37,
+      "starVelocity30d": null,
+      "stars": 1199
+    },
+    "stacks": [
+      "csharp"
+    ],
+    "summary": "Configure Aspire AppHost to emit explicit app config via environment variables; keep app code free of Aspire clients and service discovery.",
     "tier": "mission",
     "type": "skill"
   },
@@ -3022,7 +3591,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3112,7 +3681,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3120,7 +3689,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 72,
+      "lastCommitDays": 73,
       "mentions30d": 0,
       "repoSkills": 276,
       "starVelocity30d": null,
@@ -3196,7 +3765,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3292,7 +3861,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3449,7 +4018,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3457,7 +4026,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -3467,6 +4036,389 @@
       "*"
     ],
     "summary": "Audit and rewrite prose so it stops reading as machine-generated. Use this skill when asked to remove AI-isms, clean up AI writing, edit a…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "accessibility"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "accessibility",
+    "commit": "4289ee6cc60fdf49928c53b44f142f8c0b3ff983",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 105,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "4e61675037cf844fd1870ebd26d041ed656cadbc125be5001f0b04cbaaca9dd3"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "fe18682da66aa111a4e906287e35449cb9f2fe79ec97b2101b6a4e800766d0f8"
+      }
+    ],
+    "id": "axiom-audit-accessibility",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "axiom-audit-accessibility",
+    "needs": [
+      "accessibility"
+    ],
+    "origin": "lab",
+    "path": "axiom-codex/skills/axiom-audit-accessibility",
+    "quality": null,
+    "repo": "charleswiltgen/axiom",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 123,
+      "starVelocity30d": null,
+      "stars": 1188
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Use when the user mentions accessibility checking, App Store submission, code review, or WCAG compliance.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "code-review",
+    "commit": "4289ee6cc60fdf49928c53b44f142f8c0b3ff983",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 187,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "d915beeaa555aa27a27537f49125987c5ac71fb9593ba9a1a05755b903304cf7"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "458cd122cf2764d27048dc3a6ca0a981106328629c5dfb64bef2b786c2912d9f"
+      }
+    ],
+    "id": "axiom-audit-camera",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "axiom-audit-camera",
+    "needs": [
+      "github-workflow"
+    ],
+    "origin": "lab",
+    "path": "axiom-codex/skills/axiom-audit-camera",
+    "quality": null,
+    "repo": "charleswiltgen/axiom",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 123,
+      "starVelocity30d": null,
+      "stars": 1188
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Use this agent to scan Swift code for camera, video, and audio capture issues including deprecated APIs, missing interruption handlers,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "code-review"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "code-review",
+    "commit": "4289ee6cc60fdf49928c53b44f142f8c0b3ff983",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 220,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "6af983e960839760669114daceec0fcc467c4293c4d3f7aa793dc10e0f74f71b"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "d8a8a87c54cc6e9a81f4ae5cea237343b4df6dd79d23497d99ce346f8d50c101"
+      }
+    ],
+    "id": "axiom-audit-foundation-models",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "axiom-audit-foundation-models",
+    "needs": [
+      "github-workflow"
+    ],
+    "origin": "lab",
+    "path": "axiom-codex/skills/axiom-audit-foundation-models",
+    "quality": null,
+    "repo": "charleswiltgen/axiom",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "polation lets users override system instructions (\"ignore previous instructions…",
+          "file": "SKILL.md",
+          "line": 311,
+          "note": "documentation context",
+          "rule": "prompt-injection",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "3",
+      "level": "caution",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 123,
+      "starVelocity30d": null,
+      "stars": 1188
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Use when the user mentions Foundation Models review, on-device AI audit, LanguageModelSession issues, or @Generable/guardrail problems —…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "code-review"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "code-review",
+    "commit": "4289ee6cc60fdf49928c53b44f142f8c0b3ff983",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 116,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "174cf32ea457e7648302b7c1ae976fa31f0afe076e35ab8c24074f047077d6fe"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "463086f17b05c85b72cc387de1cffe733591b24e5cb21e446f8aff07489c7c65"
+      }
+    ],
+    "id": "axiom-audit-liquid-glass",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "axiom-audit-liquid-glass",
+    "needs": [
+      "github-workflow"
+    ],
+    "origin": "lab",
+    "path": "axiom-codex/skills/axiom-audit-liquid-glass",
+    "quality": null,
+    "repo": "charleswiltgen/axiom",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 123,
+      "starVelocity30d": null,
+      "stars": 1188
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Use when the user mentions Liquid Glass review, iOS 26 UI updates, toolbar improvements, or visual effect migration.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "security-review",
+    "commit": "4289ee6cc60fdf49928c53b44f142f8c0b3ff983",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 151,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "dc514bbb3077e425137da7b3f173fdd7b6b2b38564529df3f07442815f0cecdc"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "611bb8a786e379beb8660082bb11a14fb9b18abbe198f96e5bc33feebf2e8209"
+      }
+    ],
+    "id": "axiom-scan-security-privacy",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "axiom-scan-security-privacy",
+    "needs": [
+      "auth",
+      "payments",
+      "security"
+    ],
+    "origin": "lab",
+    "path": "axiom-codex/skills/axiom-scan-security-privacy",
+    "quality": null,
+    "repo": "charleswiltgen/axiom",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 123,
+      "starVelocity30d": null,
+      "stars": 1188
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Use when the user mentions security review, App Store submission prep, Privacy Manifest requirements, hardcoded credentials, or sensitive…",
     "tier": "mission",
     "type": "skill"
   },
@@ -3556,7 +4508,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3675,7 +4627,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3770,7 +4722,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -3921,7 +4873,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4036,7 +4988,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4197,7 +5149,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4270,7 +5222,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4278,7 +5230,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 19,
+      "lastCommitDays": 20,
       "mentions30d": 0,
       "repoSkills": 69,
       "starVelocity30d": null,
@@ -4514,7 +5466,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4591,7 +5543,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4664,7 +5616,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4672,7 +5624,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -4747,7 +5699,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -4830,7 +5782,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5014,7 +5966,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5113,7 +6065,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5121,7 +6073,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 33,
       "starVelocity30d": null,
@@ -5220,7 +6172,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5228,7 +6180,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 33,
       "starVelocity30d": null,
@@ -5295,7 +6247,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5409,7 +6361,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5583,7 +6535,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5591,7 +6543,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 177,
       "starVelocity30d": null,
@@ -5662,7 +6614,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5741,7 +6693,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5819,7 +6771,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5894,7 +6846,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -5973,7 +6925,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6048,7 +7000,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6150,7 +7102,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6241,7 +7193,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6414,7 +7366,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6432,6 +7384,126 @@
       "godot"
     ],
     "summary": "Agent-native CLI for Godot project management, scenes, exports, and script execution.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "media-generation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "media-generation",
+    "commit": "b45b13de905e87f0de3dc1e417230f3ef72da61e",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 308,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "689e1d6f62108b33f4873baa08ec403078da723f6b501988c217e944e2945743"
+      },
+      {
+        "path": "assets/examples/batch-config.yaml",
+        "sha256": "181e7d003b1bc14de549f9dd07bf1d36a6943d7810ca183ec3f8b60845a398b5"
+      },
+      {
+        "path": "assets/templates/basic.tape",
+        "sha256": "f3fd16bca14aba2b08f91f9bca13ab91291eae3fd9ede46604c03fd20125e3f1"
+      },
+      {
+        "path": "assets/templates/interactive.tape",
+        "sha256": "7af6348a6cfe1915424ab684ed1231bbfb5d1de6d83e6abe0d24a0648266cea7"
+      },
+      {
+        "path": "assets/templates/self-bootstrap.tape",
+        "sha256": "277c734e59a5c388fddbcb9a22c2aee2fb63684a388febf7890a40e93da3548c"
+      },
+      {
+        "path": "references/advanced_patterns.md",
+        "sha256": "c7c0b31527fffba788c44688b2792bbe2aacf82f73fba85fd30f008f32d31e44"
+      },
+      {
+        "path": "references/best_practices.md",
+        "sha256": "4f2b5991e8070335fbb6245880e3b1eb02789fc68fafe84d08833f876167c9ae"
+      },
+      {
+        "path": "references/vhs_syntax.md",
+        "sha256": "d49f06de9345b586b0b1755a7d26220aa89a5dd9b4154fbb7c6039b25e8717af"
+      },
+      {
+        "path": "scripts/auto_generate_demo.py",
+        "sha256": "c831e9c1e65e5bc5ad2e66e891d1dab530dfeb1d7deca65315e47c29d8844a47"
+      },
+      {
+        "path": "scripts/batch_generate.py",
+        "sha256": "c7275ae65b0f5aa3ecd2813c10b1c316ba2cac2cf7b42a1c8b375ed120d5f87c"
+      },
+      {
+        "path": "scripts/record_interactive.sh",
+        "sha256": "cd5807a9edc5774bfe1afca1c31d23b4bea3432ee231bc4a0a06815db9607b8d"
+      }
+    ],
+    "id": "cli-demo-generator",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "cli-demo-generator",
+    "needs": [
+      "media"
+    ],
+    "origin": "lab",
+    "path": "cli-demo-generator",
+    "quality": null,
+    "repo": "daymade/claude-code-skills",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "echo \"  Linux: sudo apt install asciinema\"",
+          "file": "scripts/record_interactive.sh",
+          "line": 62,
+          "rule": "dangerous-command",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "3",
+      "level": "caution",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 114,
+      "starVelocity30d": null,
+      "stars": 1441
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Generates professional animated CLI demos as GIFs using VHS terminal recordings. Use to create terminal demos, record CLI workflows as…",
     "tier": "mission",
     "type": "skill"
   },
@@ -6612,7 +7684,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6620,7 +7692,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 57,
+      "lastCommitDays": 58,
       "mentions30d": 0,
       "repoSkills": 67,
       "starVelocity30d": null,
@@ -6630,6 +7702,77 @@
       "*"
     ],
     "summary": "Generates, formats, and validates technical documentation — including docstrings, OpenAPI/Swagger specs, JSDoc annotations, doc portals,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "codebase-map"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "codebase-map",
+    "commit": "e7521acf1f46ed0e1510a624a22077be3e58f856",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 171,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "8a304e0b8aa85e0940061f048dd99276b7a7e12038ffd2d0b1b86144ce91e6dd"
+      }
+    ],
+    "id": "code-explorer",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "code-explorer",
+    "needs": [
+      "large-codebase",
+      "onboarding"
+    ],
+    "origin": "lab",
+    "path": "lib/clacky/default_skills/code-explorer",
+    "quality": null,
+    "repo": "clacky-ai/openclacky",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 2,
+      "mentions30d": 0,
+      "repoSkills": 22,
+      "starVelocity30d": null,
+      "stars": 1203
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Use this skill when exploring, analyzing, or understanding project/code structure. Required for tasks like \"analyze project\", \"explore…",
     "tier": "mission",
     "type": "skill"
   },
@@ -6783,7 +7926,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -6941,7 +8084,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7100,7 +8243,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7108,7 +8251,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -7175,7 +8318,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7377,7 +8520,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7525,7 +8668,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7667,7 +8810,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7675,7 +8818,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -7765,7 +8908,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7773,7 +8916,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -7862,7 +9005,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7870,7 +9013,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -7937,7 +9080,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -7945,7 +9088,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -8034,7 +9177,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8042,7 +9185,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -8198,7 +9341,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8206,7 +9349,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 444,
       "starVelocity30d": null,
@@ -8216,6 +9359,82 @@
       "csharp"
     ],
     "summary": "Get best practices for C# async programming",
+    "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "dotnet-expertise"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "dotnet-expertise",
+    "commit": "e426ed93a9f3215cd21b277fdfa6bfccd3457945",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 526,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "62c64b253f5133eec554f83a66416442717aaef3d48022ee0a76992f45a23ecb"
+      },
+      {
+        "path": "nrt-migration-playbook-reference.md",
+        "sha256": "b94ae3d303c2a42b1a5c2bf52b46cffeeb4c869738905374992e024139e7ff82"
+      },
+      {
+        "path": "nullable-attributes-reference.md",
+        "sha256": "7227f7c94e2fcc383475dca6979da078def5b51678a9ac33d65f607ed1418e2a"
+      }
+    ],
+    "id": "csharp-nullable-reference-types",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "csharp-nullable-reference-types",
+    "needs": [],
+    "origin": "lab",
+    "path": "skills/csharp-nullable-reference-types",
+    "quality": null,
+    "repo": "aaronontheweb/dotnet-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 37,
+      "starVelocity30d": null,
+      "stars": 1199
+    },
+    "stacks": [
+      "csharp"
+    ],
+    "summary": "Guidelines for introducing and using nullable reference types (NRT) and System.Diagnostics.CodeAnalysis nullable attributes in C# / .NET…",
     "tier": "stack",
     "type": "skill"
   },
@@ -8275,7 +9494,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8363,7 +9582,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8371,7 +9590,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 399,
       "starVelocity30d": null,
@@ -8598,7 +9817,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8674,7 +9893,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8897,7 +10116,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -8965,7 +10184,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9045,7 +10264,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9053,7 +10272,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 16,
+      "lastCommitDays": 17,
       "mentions30d": 0,
       "repoSkills": 180,
       "starVelocity30d": null,
@@ -9176,7 +10395,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9355,7 +10574,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9437,7 +10656,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9445,7 +10664,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -9513,7 +10732,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9617,7 +10836,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9625,7 +10844,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 23,
+      "lastCommitDays": 24,
       "mentions30d": 0,
       "repoSkills": 196,
       "starVelocity30d": null,
@@ -9692,7 +10911,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9835,7 +11054,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -9843,7 +11062,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -10006,7 +11225,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10079,7 +11298,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10172,7 +11391,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10260,7 +11479,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10343,7 +11562,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10351,7 +11570,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -10416,7 +11635,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10492,7 +11711,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10562,7 +11781,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10653,7 +11872,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10745,7 +11964,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10820,7 +12039,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -10839,6 +12058,164 @@
     ],
     "summary": "Anti-slop frontend skill for landing pages, portfolios, and redesigns. The agent reads the brief, infers the right design direction, and…",
     "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "tdd-discipline"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "tdd-discipline",
+    "commit": "3b5a89ec1c106dd387e372aec073f9401336382a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 229,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "049cf75af6094c92c46135f07c700fae5cc020f7bb6bb6700a25ba912f798d67"
+      }
+    ],
+    "id": "designing-tests",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "designing-tests",
+    "needs": [
+      "testing"
+    ],
+    "origin": "lab",
+    "path": "skills/designing-tests",
+    "quality": null,
+    "repo": "cloudai-x/claude-workflow-v2",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 2,
+      "mentions30d": 0,
+      "repoSkills": 14,
+      "starVelocity30d": null,
+      "stars": 1416
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Designs and implements testing strategies for any codebase. Use when adding tests, improving coverage, setting up testing infrastructure,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "swift-expertise"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "swift-expertise",
+    "commit": "b45b13de905e87f0de3dc1e417230f3ef72da61e",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 408,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "863d0224dc4cf31011fdf43f3bbbe36c0d000e3b470adfe1d0a2f4701c93d62d"
+      },
+      {
+        "path": "references/apple-codesign-notarize.md",
+        "sha256": "8880c503479d826ec500931222aefff6e75b47130a94b14ec01322be4ba492af"
+      },
+      {
+        "path": "references/camera-avfoundation.md",
+        "sha256": "dd47ed663f2c2e1f38c7b90e99e5eaf4f9035d5e74eea2840b9951722f1937a4"
+      },
+      {
+        "path": "references/swiftui-compatibility.md",
+        "sha256": "dc9867e95a957ac565e43e2ad156e8e0b705c72da9f9bfd9d3d808fdb960a22d"
+      },
+      {
+        "path": "references/testing-mainactor.md",
+        "sha256": "537bc008470063c0c63265a5a691b20225fe0165c69584096128b094f1face2f"
+      },
+      {
+        "path": "references/xcodegen-full.md",
+        "sha256": "aa30116902e8784df06e219784829502e5619b8b74c3efd4009f7aec0ab16a5c"
+      }
+    ],
+    "id": "developing-ios-apps",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "every_task",
+    "name": "developing-ios-apps",
+    "needs": [],
+    "origin": "lab",
+    "path": "daymade-macos/developing-ios-apps",
+    "quality": null,
+    "repo": "daymade/claude-code-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 114,
+      "starVelocity30d": null,
+      "stars": 1441
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Builds and ships iOS/macOS apps with XcodeGen, SwiftUI and SPM: Xcode build fixes, device deployment, Apple Developer…",
+    "tier": "stack",
     "type": "skill"
   },
   {
@@ -10901,7 +12278,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11229,7 +12606,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11301,7 +12678,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11376,7 +12753,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -11538,7 +12915,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12026,7 +13403,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12118,7 +13495,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12193,7 +13570,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12201,7 +13578,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 19,
+      "lastCommitDays": 20,
       "mentions30d": 0,
       "repoSkills": 69,
       "starVelocity30d": null,
@@ -12280,7 +13657,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12436,7 +13813,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12524,7 +13901,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12532,7 +13909,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 25,
       "starVelocity30d": null,
@@ -12599,7 +13976,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12674,7 +14051,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12756,7 +14133,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12764,7 +14141,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -12826,7 +14203,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12909,7 +14286,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -12927,6 +14304,80 @@
       "*"
     ],
     "summary": "This skill should be used when building agent evaluation systems: deterministic checks, regression suites, multi-dimensional rubrics,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "devops-infra"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "devops-infra",
+    "commit": "e786d25128a6018d42bd7bcb8c47c531ff31c0f0",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 214,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "31dee493c674c68e1858633b85e6dba0bf4a549fe5dc3a2bbe2da62989263290"
+      },
+      {
+        "path": "event-patterns.md",
+        "sha256": "0db6525a92b99445e7dcf56333d054cb11f724d79d53231ff076e245c86a59c0"
+      }
+    ],
+    "id": "eventbridge",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "eventbridge",
+    "needs": [
+      "infra"
+    ],
+    "origin": "lab",
+    "path": "skills/eventbridge",
+    "quality": null,
+    "repo": "itsmostafa/aws-agent-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 6,
+      "mentions30d": 0,
+      "repoSkills": 18,
+      "starVelocity30d": null,
+      "stars": 1159
+    },
+    "stacks": [
+      "aws"
+    ],
+    "summary": "AWS EventBridge serverless event bus for event-driven architectures. Use when creating rules, configuring event patterns, setting up…",
     "tier": "mission",
     "type": "skill"
   },
@@ -12988,7 +14439,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13061,7 +14512,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13216,7 +14667,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13224,7 +14675,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 177,
       "starVelocity30d": null,
@@ -13304,7 +14755,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13312,7 +14763,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 26,
       "starVelocity30d": null,
@@ -13412,7 +14863,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13420,7 +14871,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 26,
       "starVelocity30d": null,
@@ -13487,7 +14938,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13566,7 +15017,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13574,7 +15025,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 25,
       "starVelocity30d": null,
@@ -13639,7 +15090,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -13647,7 +15098,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 25,
       "starVelocity30d": null,
@@ -13711,7 +15162,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14000,7 +15451,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14167,7 +15618,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14246,7 +15697,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14329,7 +15780,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14412,7 +15863,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14579,7 +16030,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14723,7 +16174,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14798,7 +16249,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14873,7 +16324,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -14950,7 +16401,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15071,7 +16522,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15239,7 +16690,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15429,7 +16880,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15502,7 +16953,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15510,7 +16961,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 63,
       "starVelocity30d": null,
@@ -15909,7 +17360,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -15917,7 +17368,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 102,
+      "lastCommitDays": 103,
       "mentions30d": 0,
       "repoSkills": 2,
       "starVelocity30d": null,
@@ -15983,7 +17434,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16001,6 +17452,116 @@
       "react"
     ],
     "summary": "Builds production-quality, accessible, responsive user-facing UIs. Use when building or modifying interfaces and pages, creating…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "webapp-testing"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "webapp-testing",
+    "commit": "b45b13de905e87f0de3dc1e417230f3ef72da61e",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 419,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "92e91d9b0d79ee4019c95b02b732c40479951881eeb7dab00fb5329bd012f266"
+      },
+      {
+        "path": "references/auth-session-and-environment-traps.md",
+        "sha256": "20282056b6b40756d4f086c6c3af5712d022a4b7d4d62a7aa6cb49c18257fd29"
+      },
+      {
+        "path": "references/browser-driving-and-observation-traps.md",
+        "sha256": "5e9b1f4b4db15125bc24f85d707ee05c4312de34aa40a1de8e1d809e76f0b4eb"
+      },
+      {
+        "path": "references/data_viz_tier_and_token_audit.md",
+        "sha256": "443d6671bab87f49a76766cab6d99540d67176d0c2bfe338dc372556c0c4f484"
+      },
+      {
+        "path": "references/history-derived-checklist.md",
+        "sha256": "61ee8f8090c8273f34c1560b9f0d2dc0dc68bd99358388caa73878433273721a"
+      },
+      {
+        "path": "references/journey-and-page-contracts.md",
+        "sha256": "b51d7c3f24ef0c0aac5feb597df490776183c4573137104a95d21fb0441c26c3"
+      },
+      {
+        "path": "references/reference-parity-decomposition.md",
+        "sha256": "e7aefdcccf85cdad353a5f940a0e70a2a972a482297dd19471582ea554cf111b"
+      },
+      {
+        "path": "references/silent-degradation-and-evidence.md",
+        "sha256": "67f50727f4618ed73ebb70ad16a167695d6dbd77041d6f09ac7794a9e51af451"
+      },
+      {
+        "path": "scripts/attention_inventory.mjs",
+        "sha256": "2aaf2f169077cf7aa29115a43fd1c153be12fc00c477a82c0133c0449e9decc8"
+      },
+      {
+        "path": "scripts/silent_degradation_probe.mjs",
+        "sha256": "9dba1cce27968f224d5905759c2451cd3f864180d16b4b1d56426832cce21b62"
+      },
+      {
+        "path": "scripts/visual_layout_audit.mjs",
+        "sha256": "7464a5650283ddfb4f2c35c3ecb142531ae4c8948224c1f528f94397adc6a515"
+      }
+    ],
+    "id": "frontend-visual-qa",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "frontend-visual-qa",
+    "needs": [
+      "e2e-testing"
+    ],
+    "origin": "lab",
+    "path": "frontend-visual-qa",
+    "quality": null,
+    "repo": "daymade/claude-code-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 114,
+      "starVelocity30d": null,
+      "stars": 1441
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Audits already-rendered UI — web app, deck/slide, dashboard, design-system, or Electron/native app — via real-browser/native-app journeys…",
     "tier": "mission",
     "type": "skill"
   },
@@ -16090,7 +17651,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16167,7 +17728,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16262,7 +17823,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16270,7 +17831,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 57,
+      "lastCommitDays": 58,
       "mentions30d": 0,
       "repoSkills": 67,
       "starVelocity30d": null,
@@ -16332,7 +17893,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16405,7 +17966,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16501,7 +18062,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16576,7 +18137,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16662,7 +18223,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16741,7 +18302,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16815,7 +18376,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -16823,7 +18384,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -16885,7 +18446,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17031,7 +18592,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17117,7 +18678,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17209,7 +18770,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17291,7 +18852,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17464,7 +19025,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17625,7 +19186,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17633,7 +19194,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 57,
+      "lastCommitDays": 58,
       "mentions30d": 0,
       "repoSkills": 67,
       "starVelocity30d": null,
@@ -17698,7 +19259,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17773,7 +19334,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -17946,7 +19507,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18021,7 +19582,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18096,7 +19657,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18104,7 +19665,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -18663,7 +20224,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18736,7 +20297,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18810,7 +20371,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18887,7 +20448,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -18962,7 +20523,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19065,7 +20626,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19159,7 +20720,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19233,7 +20794,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19309,7 +20870,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19436,7 +20997,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19529,7 +21090,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19757,7 +21318,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19833,7 +21394,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -19957,7 +21518,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20035,7 +21596,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20043,7 +21604,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 23,
+      "lastCommitDays": 24,
       "mentions30d": 0,
       "repoSkills": 196,
       "starVelocity30d": null,
@@ -20118,7 +21679,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20202,7 +21763,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20282,7 +21843,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20290,7 +21851,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 16,
+      "lastCommitDays": 17,
       "mentions30d": 0,
       "repoSkills": 180,
       "starVelocity30d": null,
@@ -20355,7 +21916,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20464,7 +22025,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20584,7 +22145,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20592,7 +22153,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 23,
+      "lastCommitDays": 24,
       "mentions30d": 0,
       "repoSkills": 196,
       "starVelocity30d": null,
@@ -20659,7 +22220,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20667,7 +22228,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -20739,7 +22300,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -20896,7 +22457,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21041,7 +22602,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21118,7 +22679,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21203,7 +22764,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21280,7 +22841,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21355,7 +22916,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21427,7 +22988,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21502,7 +23063,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21575,7 +23136,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21648,7 +23209,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -21725,7 +23286,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22152,7 +23713,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22224,7 +23785,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22337,7 +23898,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22440,7 +24001,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22448,7 +24009,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 177,
       "starVelocity30d": null,
@@ -22539,7 +24100,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -22547,7 +24108,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 177,
       "starVelocity30d": null,
@@ -22618,7 +24179,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23219,7 +24780,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23302,7 +24863,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23392,7 +24953,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23400,7 +24961,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 72,
+      "lastCommitDays": 73,
       "mentions30d": 0,
       "repoSkills": 276,
       "starVelocity30d": null,
@@ -23514,6 +25075,78 @@
     ],
     "badges": [],
     "capabilities": [
+      "dotnet-expertise"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "dotnet-expertise",
+    "commit": "e426ed93a9f3215cd21b277fdfa6bfccd3457945",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 173,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "cea7b85541eae377e5503358bcd171011c7467831e13f56f966aad29b9578102"
+      },
+      {
+        "path": "advanced-patterns.md",
+        "sha256": "eda59eb9c7e7226df77b5fec4ef268e33698bdb27cc3c3c591f4b8795b048d26"
+      }
+    ],
+    "id": "microsoft-extensions-configuration",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "microsoft-extensions-configuration",
+    "needs": [],
+    "origin": "lab",
+    "path": "skills/microsoft-extensions-configuration",
+    "quality": null,
+    "repo": "aaronontheweb/dotnet-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 37,
+      "starVelocity30d": null,
+      "stars": 1199
+    },
+    "stacks": [
+      "csharp"
+    ],
+    "summary": "Microsoft.Extensions.Options patterns including IValidateOptions, strongly-typed settings, validation on startup, and the Options pattern…",
+    "tier": "stack",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
       "database"
     ],
     "cluster": "database",
@@ -23560,7 +25193,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23637,7 +25270,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23738,7 +25371,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23808,7 +25441,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -23816,7 +25449,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 72,
+      "lastCommitDays": 73,
       "mentions30d": 0,
       "repoSkills": 276,
       "starVelocity30d": null,
@@ -23975,7 +25608,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24118,7 +25751,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24411,7 +26044,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24485,7 +26118,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24572,7 +26205,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24723,7 +26356,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -24731,7 +26364,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 17,
+      "lastCommitDays": 18,
       "mentions30d": 0,
       "repoSkills": 2117,
       "starVelocity30d": null,
@@ -24799,7 +26432,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25074,7 +26707,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25223,7 +26856,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25366,7 +26999,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25445,7 +27078,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25521,7 +27154,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25600,7 +27233,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25735,7 +27368,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25743,7 +27376,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 177,
       "starVelocity30d": null,
@@ -25838,7 +27471,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25913,7 +27546,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -25931,6 +27564,146 @@
       "csharp"
     ],
     "summary": "Optimize and improve the performance of slow Entity Framework Core (EF Core) queries: make them generate less SQL, make fewer database…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "performance-optimization"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "performance-optimization",
+    "commit": "3b5a89ec1c106dd387e372aec073f9401336382a",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 227,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "53e8ff0a1ede4c7f2842a947c21491374fae8e6d9c6bd8ccb9824fafbbe23f96"
+      }
+    ],
+    "id": "optimizing-performance",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "optimizing-performance",
+    "needs": [
+      "performance"
+    ],
+    "origin": "lab",
+    "path": "skills/optimizing-performance",
+    "quality": null,
+    "repo": "cloudai-x/claude-workflow-v2",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 2,
+      "mentions30d": 0,
+      "repoSkills": 14,
+      "starVelocity30d": null,
+      "stars": 1416
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Analyzes and optimizes application performance across frontend, backend, and database layers. Use when diagnosing slowness, improving load…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "build-tooling"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "build-tooling",
+    "commit": "e426ed93a9f3215cd21b277fdfa6bfccd3457945",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 199,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "e430214f9875d3438399a2b5dda19d5a2f862595dd97fbc61749ae910a747b11"
+      }
+    ],
+    "id": "package-management",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "package-management",
+    "needs": [
+      "monorepo"
+    ],
+    "origin": "lab",
+    "path": "skills/package-management",
+    "quality": null,
+    "repo": "aaronontheweb/dotnet-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 37,
+      "starVelocity30d": null,
+      "stars": 1199
+    },
+    "stacks": [
+      "csharp"
+    ],
+    "summary": "Manage NuGet packages using Central Package Management (CPM) and dotnet CLI commands. Never edit XML directly - use dotnet add/remove/list…",
     "tier": "mission",
     "type": "skill"
   },
@@ -26007,7 +27780,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26015,7 +27788,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 57,
+      "lastCommitDays": 58,
       "mentions30d": 0,
       "repoSkills": 67,
       "starVelocity30d": null,
@@ -26233,7 +28006,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26241,7 +28014,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 177,
       "starVelocity30d": null,
@@ -26483,7 +28256,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -26834,7 +28607,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27002,7 +28775,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27271,7 +29044,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27279,7 +29052,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 18,
       "starVelocity30d": null,
@@ -27366,7 +29139,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27374,7 +29147,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 57,
+      "lastCommitDays": 58,
       "mentions30d": 0,
       "repoSkills": 67,
       "starVelocity30d": null,
@@ -27513,7 +29286,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27521,7 +29294,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 25,
       "starVelocity30d": null,
@@ -27686,7 +29459,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27760,7 +29533,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27908,7 +29681,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -27983,7 +29756,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28065,7 +29838,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28140,7 +29913,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28218,7 +29991,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28597,7 +30370,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28692,7 +30465,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28778,7 +30551,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28856,7 +30629,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28967,7 +30740,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -28975,7 +30748,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -29046,7 +30819,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29237,7 +31010,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29328,7 +31101,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29471,7 +31244,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29490,6 +31263,90 @@
     ],
     "summary": "Set up Playwright in a project. Use when user says \"set up playwright\", \"add e2e tests\", \"configure playwright\", \"testing setup\", \"init…",
     "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "python-expertise"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "python-expertise",
+    "commit": "d3974af4e8991489df54c87b51989e13d3d6f265",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 202,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "85b836dd2e8e661310cf3b4c7c1462209aa6b63fc4dca3a68f6d4792b15b1c4e"
+      },
+      {
+        "path": "references/effective-python-tips.md",
+        "sha256": "7dbb2a3c8022e849d106a6200edaf59bef2bda24a5a1e3bda0325cecdb3b1a6a"
+      },
+      {
+        "path": "references/google-style-guide.md",
+        "sha256": "3ab83741c7296fe4fdd02dfabeed09a7951723672975ba4747f9492978e162dd"
+      },
+      {
+        "path": "references/idiomatic-patterns.md",
+        "sha256": "184c03ff6adb26c0b076630e219d03d09d18257100cb2c6cf4fe29f761a65f58"
+      },
+      {
+        "path": "references/zen-of-python.md",
+        "sha256": "dd7b60ea2d86b868777e1ee2a8748ca4c3020f690e2115c1034510f78ccc527b"
+      }
+    ],
+    "id": "python-guidelines",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "every_task",
+    "name": "python-guidelines",
+    "needs": [],
+    "origin": "lab",
+    "path": "plugins/python-skills/skills/python-guidelines",
+    "quality": null,
+    "repo": "fcakyon/claude-codex-settings",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 102,
+      "starVelocity30d": null,
+      "stars": 1161
+    },
+    "stacks": [
+      "python"
+    ],
+    "summary": "This skill should be used when writing, reviewing, or refactoring Python code. Covers code integration, idiomatic patterns, docstring…",
+    "tier": "stack",
     "type": "skill"
   },
   {
@@ -29636,7 +31493,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29644,7 +31501,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 17,
+      "lastCommitDays": 18,
       "mentions30d": 0,
       "repoSkills": 2117,
       "starVelocity30d": null,
@@ -29751,7 +31608,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -29858,7 +31715,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -30929,7 +32786,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31014,7 +32871,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31128,7 +32985,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31211,7 +33068,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31219,7 +33076,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 25,
       "starVelocity30d": null,
@@ -31285,7 +33142,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31355,7 +33212,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31430,7 +33287,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31527,7 +33384,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31610,7 +33467,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31693,7 +33550,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31783,7 +33640,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31866,7 +33723,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -31949,7 +33806,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32252,7 +34109,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32335,7 +34192,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32426,6 +34283,236 @@
     "summary": "Pack local or remote codebases into AI-friendly files that LLMs and coding agents can read or search",
     "tier": "mission",
     "type": "mcp"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "security-review"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "security-review",
+    "commit": "b45b13de905e87f0de3dc1e417230f3ef72da61e",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 263,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "3e8c020d62244dc2f635dcfda65da6996476a69af3efdabf1ec521f3d83c6094"
+      },
+      {
+        "path": "references/common_secrets.md",
+        "sha256": "342e32f259dd1b84f2d20e5e16fa76ca0a3db630dfa35035cd7c9ce5b2306c56"
+      },
+      {
+        "path": "scripts/safe_pack.py",
+        "sha256": "a6e110b4a4952869c5fd7f12bdf8acebed893273c55048158a385bacbfd3a9cb"
+      },
+      {
+        "path": "scripts/scan_secrets.py",
+        "sha256": "6c040e5f70a3cb41f97867c35a70c4d4df970ede0099d4f40fd236eeaa7a8608"
+      }
+    ],
+    "id": "repomix-safe-mixer",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "repomix-safe-mixer",
+    "needs": [
+      "auth",
+      "payments",
+      "security"
+    ],
+    "origin": "lab",
+    "path": "repomix-safe-mixer",
+    "quality": null,
+    "repo": "daymade/claude-code-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 114,
+      "starVelocity30d": null,
+      "stars": 1441
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Safely package codebases with repomix by automatically detecting and removing hardcoded credentials before packing. Use when packaging…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "data-visualization"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "data-visualization",
+    "commit": "b45b13de905e87f0de3dc1e417230f3ef72da61e",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 417,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "49649eac298d676c2c56ec9e7a7501fdb50aec7638ce18adbed2636ac4bc4c63"
+      },
+      {
+        "path": "assets/components/citation-drawer.html",
+        "sha256": "1898168a7f3b9761d887a6f77ce59903a4f4509c9a6579830f279ea3568d95e1"
+      },
+      {
+        "path": "assets/components/lightbox-gallery.html",
+        "sha256": "ba06122d6ba155bcf35bcbc112d920ae7f17024897cd39148ecbf30cabd69186"
+      },
+      {
+        "path": "assets/components/sticky-nav.html",
+        "sha256": "4e8652122003f6eb7465a5fc960facbe669678694f97123eafd8471369dc22ac"
+      },
+      {
+        "path": "assets/delivery-gates.json",
+        "sha256": "0ca294586e41673dac5e3000dcb3b2903fa3b2d574c57ac0431f17b8b196b6db"
+      },
+      {
+        "path": "assets/examples/change_report.html",
+        "sha256": "249c0554feab28acbd11afffb9e38842ecc8fb32c6f46996d7945774009b4a3d"
+      },
+      {
+        "path": "assets/regen-docs-template.py",
+        "sha256": "5a466d886b9d860ab30ff0979d137938e6731bfe32b705ce44d9a569720dae88"
+      },
+      {
+        "path": "assets/report-template.html",
+        "sha256": "dd4557e1789f768c952387b0f812eb559f865ea611c6581ac749d25ff1558953"
+      },
+      {
+        "path": "references/approved-examples.md",
+        "sha256": "336f85ba0e8be681b0829b2ce265b05658ea8a4572578736fb92696982a78165"
+      },
+      {
+        "path": "references/audience-triage.md",
+        "sha256": "d421b9f17b7a30a9c54dc41b113981d847273bb75119643f83c3cdd8fb40773d"
+      },
+      {
+        "path": "references/design-principles.md",
+        "sha256": "25af6384dbb569b63dc43b3b1057f5b136047a950e7dbd8d8b3b24f04bee08ca"
+      },
+      {
+        "path": "references/independent-review-prompt.md",
+        "sha256": "f2c15e603a0ee438cb7017912668e72c7467432dc20af67bc25176a78349524e"
+      },
+      {
+        "path": "references/interaction-components.md",
+        "sha256": "814ffdc73e1c817a31b06ce1935949c34f56ed954228dfc2d42ba82b19423b0d"
+      },
+      {
+        "path": "references/long-lived-report-maintenance.md",
+        "sha256": "cff9b1a591281b1d1df373d0b0043b2a66885326ef2c0f169fd286d7ab32ac9d"
+      },
+      {
+        "path": "references/visualization-patterns.md",
+        "sha256": "75d6943807fa8c3ac48d31f6a7e51d489fa10e76a3a2beebde7a8c325e3845e5"
+      },
+      {
+        "path": "scripts/crop_segments.py",
+        "sha256": "bdb3fe198395b7e4ca70db9a01b52399bfa2fa2944076288879335ef94b7c6f0"
+      },
+      {
+        "path": "scripts/delivery_gate.py",
+        "sha256": "09d222e2e1e9e287873916545e0f7908d9c220d9199b9418d7b5f2188dfa8f07"
+      },
+      {
+        "path": "scripts/reconcile_content_diff.py",
+        "sha256": "bf0a732ebc261a9fd4aeb05e8bf4f856efe71465407ce1eedbadd9942dbf7163"
+      },
+      {
+        "path": "scripts/render_report.sh",
+        "sha256": "ec89eb250625c1887f8583324850f1936e94cef547cbf5ff8f39c5f0c8bd18ef"
+      },
+      {
+        "path": "scripts/test_reconcile_content_diff.py",
+        "sha256": "b1d584edff995edbd655d7ae27dc6c181f90eb2b7a1583763140dfbea4b911e7"
+      }
+    ],
+    "id": "report-with-html",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "report-with-html",
+    "needs": [
+      "data-processing"
+    ],
+    "origin": "lab",
+    "path": "report-with-html",
+    "quality": null,
+    "repo": "daymade/claude-code-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 114,
+      "starVelocity30d": null,
+      "stars": 1441
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Produces the reader-facing HTML artifact — report, dashboard, architecture view, data browser, or review workbench — evidence-backed,…",
+    "tier": "mission",
+    "type": "skill"
   },
   {
     "agents": [
@@ -32723,7 +34810,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32797,7 +34884,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32876,7 +34963,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -32974,7 +35061,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33285,7 +35372,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33360,7 +35447,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33368,7 +35455,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -33536,7 +35623,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33741,7 +35828,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33843,7 +35930,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -33941,7 +36028,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34040,7 +36127,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34142,7 +36229,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34221,7 +36308,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34296,7 +36383,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34526,7 +36613,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34605,7 +36692,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34684,7 +36771,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34761,7 +36848,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34860,7 +36947,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34936,7 +37023,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -34954,6 +37041,76 @@
       "*"
     ],
     "summary": "Token-optimized structural code search using tree-sitter AST parsing. Use instead of reading full files when you need to understand code…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "tdd-discipline"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "tdd-discipline",
+    "commit": "e426ed93a9f3215cd21b277fdfa6bfccd3457945",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 184,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "46b73ab9533e2ad870c7e4da4b864cbede008fb6803b0f6da66f3d9259e9b7bd"
+      }
+    ],
+    "id": "snapshot-testing",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "snapshot-testing",
+    "needs": [
+      "testing"
+    ],
+    "origin": "lab",
+    "path": "skills/snapshot-testing",
+    "quality": null,
+    "repo": "aaronontheweb/dotnet-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 37,
+      "starVelocity30d": null,
+      "stars": 1199
+    },
+    "stacks": [
+      "csharp"
+    ],
+    "summary": "Use Verify for snapshot testing in .NET. Approve API surfaces, HTTP responses, rendered emails, and serialized outputs. Detect unintended…",
     "tier": "mission",
     "type": "skill"
   },
@@ -35023,7 +37180,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35117,7 +37274,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35125,7 +37282,7 @@
       "coUsage": 0,
       "copies": 2,
       "installs": null,
-      "lastCommitDays": 57,
+      "lastCommitDays": 58,
       "mentions30d": 0,
       "repoSkills": 67,
       "starVelocity30d": null,
@@ -35360,7 +37517,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35548,7 +37705,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35624,7 +37781,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35707,7 +37864,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35786,7 +37943,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35794,7 +37951,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -35953,7 +38110,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -35961,7 +38118,7 @@
       "coUsage": 0,
       "copies": 4,
       "installs": null,
-      "lastCommitDays": 19,
+      "lastCommitDays": 20,
       "mentions30d": 0,
       "repoSkills": 69,
       "starVelocity30d": null,
@@ -36023,7 +38180,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36031,7 +38188,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 72,
+      "lastCommitDays": 73,
       "mentions30d": 0,
       "repoSkills": 276,
       "starVelocity30d": null,
@@ -36192,7 +38349,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36200,7 +38357,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 1,
+      "lastCommitDays": 2,
       "mentions30d": 0,
       "repoSkills": 25,
       "starVelocity30d": null,
@@ -36291,7 +38448,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36299,7 +38456,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 47,
+      "lastCommitDays": 48,
       "mentions30d": 0,
       "repoSkills": 16,
       "starVelocity30d": null,
@@ -36378,7 +38535,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36667,7 +38824,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -36880,7 +39037,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37097,7 +39254,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37294,7 +39451,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37489,7 +39646,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37497,7 +39654,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": 67223,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -37564,7 +39721,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37729,7 +39886,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37803,7 +39960,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -37811,7 +39968,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 17,
+      "lastCommitDays": 18,
       "mentions30d": 0,
       "repoSkills": 2117,
       "starVelocity30d": null,
@@ -38029,7 +40186,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38128,7 +40285,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38392,7 +40549,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38400,7 +40557,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 19,
+      "lastCommitDays": 20,
       "mentions30d": 0,
       "repoSkills": 69,
       "starVelocity30d": null,
@@ -38484,7 +40641,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38671,7 +40828,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38754,7 +40911,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38830,7 +40987,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -38933,7 +41090,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39008,7 +41165,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39082,7 +41239,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39090,7 +41247,7 @@
       "coUsage": 0,
       "copies": 3,
       "installs": null,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -39100,6 +41257,76 @@
       "*"
     ],
     "summary": "Configure Turborepo for efficient monorepo builds with local and remote caching. Use when setting up Turborepo, optimizing build…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "performance-optimization"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "performance-optimization",
+    "commit": "e426ed93a9f3215cd21b277fdfa6bfccd3457945",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 168,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "646bd121d6b13e5c943c6b8ebfc9c04ffc32c62377e33802846615226c5af1a0"
+      }
+    ],
+    "id": "type-design-performance",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "type-design-performance",
+    "needs": [
+      "performance"
+    ],
+    "origin": "lab",
+    "path": "skills/csharp-type-design-performance",
+    "quality": null,
+    "repo": "aaronontheweb/dotnet-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 17,
+      "mentions30d": 0,
+      "repoSkills": 37,
+      "starVelocity30d": null,
+      "stars": 1199
+    },
+    "stacks": [
+      "csharp"
+    ],
+    "summary": "Design .NET types for performance. Seal classes, use readonly structs, prefer static pure functions, avoid premature enumeration, and…",
     "tier": "mission",
     "type": "skill"
   },
@@ -39158,7 +41385,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39166,7 +41393,7 @@
       "coUsage": 0,
       "copies": 4,
       "installs": 83435,
-      "lastCommitDays": 2,
+      "lastCommitDays": 3,
       "mentions30d": 0,
       "repoSkills": 184,
       "starVelocity30d": null,
@@ -39367,7 +41594,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39556,7 +41783,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39629,7 +41856,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39705,7 +41932,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39779,7 +42006,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39884,7 +42111,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -39892,7 +42119,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 23,
+      "lastCommitDays": 24,
       "mentions30d": 0,
       "repoSkills": 196,
       "starVelocity30d": null,
@@ -40034,7 +42261,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40108,7 +42335,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40188,7 +42415,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40206,6 +42433,97 @@
       "*"
     ],
     "summary": "Research an app idea or resolve product and technical uncertainties before committing to a design.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [
+      "caution"
+    ],
+    "capabilities": [
+      "security-review"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "security-review",
+    "commit": "0590993b35ad51961f65a4d01cf1196dfead05bb",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 187,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "README.md",
+        "sha256": "4939b89250cf8aa98ff26c14bde07efaf605013beadad09683de73fdd58b8a83"
+      },
+      {
+        "path": "SKILL.md",
+        "sha256": "d83cd2d3002a7d77cf4ee395d82059f925429dcd584f9c02ea55f0dee7ca94da"
+      }
+    ],
+    "id": "vibesec-skill",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "every_task",
+    "name": "VibeSec-Skill",
+    "needs": [
+      "auth",
+      "payments",
+      "security"
+    ],
+    "origin": "lab",
+    "path": "",
+    "quality": null,
+    "repo": "behisecc/vibesec-skill",
+    "security": {
+      "findings": [
+        {
+          "excerpt": "name injection | `; rm -rf /` in filename | Sanitize filenames, use random name…",
+          "file": "SKILL.md",
+          "line": 430,
+          "note": "documentation context",
+          "rule": "dangerous-command",
+          "severity": "medium"
+        }
+      ],
+      "gateVersion": "3",
+      "level": "caution",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 1,
+      "installs": null,
+      "lastCommitDays": 229,
+      "mentions30d": 0,
+      "repoSkills": 1,
+      "starVelocity30d": null,
+      "stars": 1307
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "This skill helps Claude write secure web applications. Use this when working on any web application or when a user requests a scan or…",
     "tier": "mission",
     "type": "skill"
   },
@@ -40291,7 +42609,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40394,7 +42712,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40483,7 +42801,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40675,7 +42993,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40683,7 +43001,7 @@
       "coUsage": 0,
       "copies": 1,
       "installs": null,
-      "lastCommitDays": 57,
+      "lastCommitDays": 58,
       "mentions30d": 0,
       "repoSkills": 67,
       "starVelocity30d": null,
@@ -40824,7 +43142,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40832,7 +43150,7 @@
       "coUsage": 0,
       "copies": 0,
       "installs": null,
-      "lastCommitDays": 6,
+      "lastCommitDays": 7,
       "mentions30d": 0,
       "repoSkills": 18,
       "starVelocity30d": null,
@@ -40908,7 +43226,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -40983,7 +43301,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41082,7 +43400,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41172,7 +43490,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41430,7 +43748,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41505,7 +43823,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41596,7 +43914,7 @@
       ],
       "gateVersion": "3",
       "level": "caution",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41614,6 +43932,80 @@
       "*"
     ],
     "summary": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction,…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "agent-evaluation"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "agent-evaluation",
+    "commit": "80d5f7b0127c7572ed9e9339937adbfd7240ffeb",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 214,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "6acf7d26f1b64d2dd7792675e3afefa0fc7accd6e0efd73184c6dd356c64338b"
+      },
+      {
+        "path": "agents/openai.yaml",
+        "sha256": "5e0a5fa940ad295c7693d712221e65c030b06a3e2044a52a772ec175ad61eb7e"
+      }
+    ],
+    "id": "write-code-eval",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "write-code-eval",
+    "needs": [
+      "llm-calls"
+    ],
+    "origin": "lab",
+    "path": "skills/write-code-eval",
+    "quality": null,
+    "repo": "ai-evals-course/evals-skills",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 10,
+      "mentions30d": 0,
+      "repoSkills": 9,
+      "starVelocity30d": null,
+      "stars": 1434
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "Write code evaluators for known failure modes with objective rules. Use when code can check the rule from a trace, with or without a…",
     "tier": "mission",
     "type": "skill"
   },
@@ -41666,7 +44058,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41739,7 +44131,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41821,7 +44213,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -41989,7 +44381,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -42068,7 +44460,7 @@
       "findings": [],
       "gateVersion": "3",
       "level": "verified",
-      "scannedAt": "2026-10-04T18:54:27.425Z",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
       "scannerVersion": "1.5.1"
     },
     "setup": null,
@@ -42086,6 +44478,92 @@
       "*"
     ],
     "summary": "Explain the last message, or a supplied file, link, or passage, in plain language a person follows on the first read. Use when the user…",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "build-tooling"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "build-tooling",
+    "commit": "6bd7b596cd688b1127ded00e812b1b6937ec35d6",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 390,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "1fb85b5556ba85950073231c893c63db9231bb684052e4838e96a80cdd6e8866"
+      },
+      {
+        "path": "references/build-optimization-sources.md",
+        "sha256": "77abb87a6ac6608a2db1a5415559f85df8f6f33d0a4767dd5ab62db939d217e6"
+      },
+      {
+        "path": "references/build-settings-best-practices.md",
+        "sha256": "26f1a3a23b3fece4b067fb094ab12fb6bd7dee33e97044d515db3cf70bc9b8a4"
+      },
+      {
+        "path": "references/project-audit-checks.md",
+        "sha256": "eb61ac8e1329eccac33e7d8b4c466003f50cca6b1a23e2be118d1f6a9af62e53"
+      },
+      {
+        "path": "references/recommendation-format.md",
+        "sha256": "ad8eb87228be739d2dd53d0b927558fc9e68b2135e1b1eec475a981c4cd1feb2"
+      }
+    ],
+    "id": "xcode-project-analyzer",
+    "jury": null,
+    "license": "MIT",
+    "lifecycle": "occasional",
+    "name": "xcode-project-analyzer",
+    "needs": [
+      "monorepo"
+    ],
+    "origin": "lab",
+    "path": "skills/xcode-project-analyzer",
+    "quality": null,
+    "repo": "avdlee/xcode-build-optimization-agent-skill",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 20,
+      "mentions30d": 0,
+      "repoSkills": 6,
+      "starVelocity30d": null,
+      "stars": 1245
+    },
+    "stacks": [
+      "swift"
+    ],
+    "summary": "Audit Xcode project configuration, build settings, scheme behavior, and script phases to find build-time improvements with explicit…",
     "tier": "mission",
     "type": "skill"
   },
@@ -42378,6 +44856,84 @@
       "*"
     ],
     "summary": "Builds and edits spreadsheets with formulas, formatting and charts; cleans messy tabular data.",
+    "tier": "mission",
+    "type": "skill"
+  },
+  {
+    "agents": [
+      "claude-code",
+      "cursor",
+      "codex",
+      "gemini-cli",
+      "generic"
+    ],
+    "badges": [],
+    "capabilities": [
+      "data-ml"
+    ],
+    "classifiedBy": "consensus",
+    "cluster": "data-ml",
+    "commit": "d3974af4e8991489df54c87b51989e13d3d6f265",
+    "community": {
+      "kept7d": 0,
+      "rating": 0,
+      "removed": 0,
+      "selected": 0,
+      "shown": 0,
+      "votes": 0
+    },
+    "conflicts": [],
+    "defaultEligible": false,
+    "derive": "3",
+    "descriptionChars": 470,
+    "files": [
+      {
+        "path": "SKILL.md",
+        "sha256": "583bc50d6995dc123827954fe2730cb570fcaafed092a0f29572d89d8351444f"
+      },
+      {
+        "path": "references/diagnostics.md",
+        "sha256": "177bf9e54393ae11f8ee284663b87c273ceed7b1f886ee063a788ae2594c0a17"
+      },
+      {
+        "path": "references/task-notes.md",
+        "sha256": "fc86dd7b4a3f52ed7caad796fcb34729016adf8fcd9f501aa7bdc346b494e961"
+      }
+    ],
+    "id": "yolo-training",
+    "jury": null,
+    "license": "Apache-2.0",
+    "lifecycle": "occasional",
+    "name": "yolo-training",
+    "needs": [
+      "data-processing"
+    ],
+    "origin": "lab",
+    "path": "plugins/ultralytics-dev/skills/yolo-training",
+    "quality": null,
+    "repo": "fcakyon/claude-codex-settings",
+    "security": {
+      "findings": [],
+      "gateVersion": "3",
+      "level": "verified",
+      "scannedAt": "2026-10-04T22:45:15.630Z",
+      "scannerVersion": "1.5.1"
+    },
+    "setup": null,
+    "signals": {
+      "coUsage": 0,
+      "copies": 0,
+      "installs": null,
+      "lastCommitDays": 1,
+      "mentions30d": 0,
+      "repoSkills": 102,
+      "starVelocity30d": null,
+      "stars": 1161
+    },
+    "stacks": [
+      "*"
+    ],
+    "summary": "This skill should be used when user asks to \"improve my mAP\", \"why is my model overfitting\", \"my training is diverging\", \"read my…",
     "tier": "mission",
     "type": "skill"
   }
