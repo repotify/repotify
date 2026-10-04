@@ -7,7 +7,7 @@ import {
 import { splitPipelines } from "./shell.mjs";
 import { fileRules, isBinaryFile, hostsInScript, NETWORK_ALLOWLIST } from "./files.mjs";
 
-export const SCANNER_VERSION = "1.5.0";
+export const SCANNER_VERSION = "1.5.1";
 
 const RANK = { low: 0, medium: 1, high: 2, critical: 3 };
 const MAX_FINDINGS_PER_RULE_PER_FILE = 10;

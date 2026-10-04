@@ -32,8 +32,17 @@ export function fileKind(path, text = "") {
 }
 
 // Words that mark a line as describing a pattern rather than instructing the agent to run it.
-export const DOC_CONTEXT_RE =
-  /(\b(never|don'?t|do not|avoid|detect(s|ed|ion)?|flag(s|ged)?|block(s|ed)?|prevent(s|ed)?|scan(s|ning)? for|look(ing)? for|such as|for example|examples?|patterns?|attacks?|attacker|malicious|suspicious|vulnerab\w*|dangerous|exploit\w*|injection|payloads?|theft|steal\w*|stealers?|malware|keyloggers?|indicators?|iocs?|persistence|backdoors?)\b|\be\.g\.(?!\w))/i;
+// Documentation words in Chinese/Japanese. `\b` does not work for CJK text, so these match
+// anywhere; like the English words they only demote a finding, never clear it.
+const CJK_DOC_CONTEXT =
+  "例如|比如|检测|檢測|过滤|過濾|防御|防禦|防范|防範|攻击|攻擊|恶意|惡意|示例|模式|注入|说明|說明|警惕|疑似|検出|検知|攻撃|例えば|警告";
+
+export const DOC_CONTEXT_RE = new RegExp(
+  "(\\b(never|don'?t|do not|avoid|detect(s|ed|ion)?|flag(s|ged)?|block(s|ed)?|prevent(s|ed)?|scan(s|ning)? for|look(ing)? for|such as|for example|examples?|patterns?|attacks?|attacker|malicious|suspicious|vulnerab\\w*|dangerous|exploit\\w*|injection|payloads?|theft|steal\\w*|stealers?|malware|keyloggers?|indicators?|iocs?|persistence|backdoors?)\\b|\\be\\.g\\.(?!\\w)|(?:" +
+    CJK_DOC_CONTEXT +
+    "))",
+  "i",
+);
 
 // A negation right before a command ("Never run `curl … | sh`"). Only this may lower a critical finding in
 // documentation to caution; other descriptive words send it to human review instead.
@@ -480,7 +489,7 @@ const foreignInjections = reAll([
 const warningSuppression = reAll([
   /\b(?:it|this|that|these|those|the\s+(?:warning|alert|finding|error|block)s?)(?:\s+is|\s+are|'s)\s+(?:just\s+|only\s+|always\s+)?(?:a\s+)?false\s+positives?\b[^.\n]{0,80}?\b(?:proceed|continue|ignore|go\s+ahead|install|run|retry|override)\b/i,
   /\b(?:ignore|dismiss|disregard|bypass|suppress|override)\s+(?:any|all|the|these|those|such)?\s*(?:security|safety|guard|scanner|repotify)\s+(?:warnings?|alerts?|blocks?|findings?|prompts?)\b/i,
-  /\b(?:disable|turn\s+off|remove|uninstall)\s+(?:the\s+)?(?:repotify\s+)?(?:package\s+)?guard\b/i,
+  /\b(?:disable|turn\s+off|remove|uninstall)\s+(?:the\s+)?(?:repotify\s+(?:package\s+)?guard|package\s+guard|security\s+guard|safety\s+guard)\b/i,
 ]);
 const secretsIntoContext = reAll([
   /\b(?:read|cat|open|load|print|include|paste|output|show|display|dump|copy)\b[^.\n]{0,60}?(?<![\w-])\.env\b(?!\.(?:example|sample|template))[^.\n]{0,80}?\b(?:into|in|to)\s+(?:the\s+|your\s+)?(?:context|conversation|chat|response|reply|output|prompt)\b/i,
@@ -533,6 +542,18 @@ function notNegated(matches, shown, ctx) {
 // PowerShell accepts any unambiguous prefix of -EncodedCommand, and -ec.
 const ENCODED_FLAG = ["ec", ...Array.from("encodedcommand", (_, n) => "encodedcommand".slice(0, n + 1))].sort((a, b) => b.length - a.length).join("|");
 const PS_ENCODED_RE = new RegExp(`\\b(?:powershell|pwsh)(?:\\.exe)?\\b[^\\n|;&]{0,200}?\\s-(?:${ENCODED_FLAG})\\s+['"]?[A-Za-z0-9+/=]{16,}`, "i");
+
+// Words that mark an encoded command as forensic evidence being documented rather than an
+// instruction to run it. Checked on the match line and the three lines before it.
+const FORENSICS_EVIDENCE_RE = /\b(forensics?|dfir|evidence|artifacts?|iocs?|indicators?(\s+of\s+compromise)?|malware|threats?|investigat\w+|triage)\b/i;
+
+function isForensicEvidence(line, ctx) {
+  const lines = ctx?.lines;
+  if (!lines) return DOC_CONTEXT_RE.test(line);
+  const start = Math.max(0, ctx.i - 3);
+  const window = lines.slice(start, ctx.i + 1).join("\n");
+  return FORENSICS_EVIDENCE_RE.test(window) || DOC_CONTEXT_RE.test(window);
+}
 
 export const LINE_RULES = [
   {
@@ -628,11 +649,30 @@ export const LINE_RULES = [
       /\b(new\s+)?Function\s*\(\s*(atob|Buffer\.from)\s*\(/,
       /\bbase64\s+(-d|--decode|-D)\b[^\n]{0,300}?\|\s*(sudo\s+)?(ba|z)?sh\b/,
       /\bString\.fromCharCode\((\s*\d+\s*,){20,}/,
-      // PowerShell runs a Base64 string given to -EncodedCommand (any prefix of the name, or -ec).
-      PS_ENCODED_RE,
       /\bFromBase64String\b[^\n]{0,300}?\|\s*(?:iex|Invoke-Expression)\b/i,
       /\b(?:iex|Invoke-Expression)\b[^\n]{0,300}?\bFromBase64String\b/i,
     ]),
+  },
+  {
+    // PowerShell runs a Base64 string given to -EncodedCommand (any prefix of the name, or -ec).
+    id: "obfuscation",
+    severity: () => "high",
+    matches(line, ctx) {
+      const found = reAll([PS_ENCODED_RE])(line, ctx);
+      return found.length && !isForensicEvidence(line, ctx) ? found : NO_MATCHES;
+    },
+  },
+  {
+    // The same command shown as forensic evidence is documentation, not an instruction to run it.
+    id: "obfuscation",
+    severity: () => "medium",
+    matches(line, ctx) {
+      const found = reAll([PS_ENCODED_RE])(line, ctx);
+      return found.length && isForensicEvidence(line, ctx) ? found : NO_MATCHES;
+    },
+    adjust() {
+      return { severity: "medium", note: "forensic evidence example" };
+    },
   },
   {
     id: "dangerous-command",
