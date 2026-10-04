@@ -35,7 +35,7 @@ export function fileKind(path, text = "") {
 // Documentation words in Chinese/Japanese. `\b` does not work for CJK text, so these match
 // anywhere; like the English words they only demote a finding, never clear it.
 const CJK_DOC_CONTEXT =
-  "例如|比如|检测|檢測|过滤|過濾|防御|防禦|防范|防範|攻击|攻擊|恶意|惡意|示例|模式|注入|说明|說明|警惕|疑似|検出|検知|攻撃|例えば|警告";
+  "例如|比如|检测|檢測|过滤|過濾|防御|防禦|防范|防範|攻击|攻擊|恶意|惡意|注入|警惕|疑似|検出|検知|攻撃|例えば";
 
 export const DOC_CONTEXT_RE = new RegExp(
   "(\\b(never|don'?t|do not|avoid|detect(s|ed|ion)?|flag(s|ged)?|block(s|ed)?|prevent(s|ed)?|scan(s|ning)? for|look(ing)? for|such as|for example|examples?|patterns?|attacks?|attacker|malicious|suspicious|vulnerab\\w*|dangerous|exploit\\w*|injection|payloads?|theft|steal\\w*|stealers?|malware|keyloggers?|indicators?|iocs?|persistence|backdoors?)\\b|\\be\\.g\\.(?!\\w)|(?:" +
@@ -547,12 +547,14 @@ const PS_ENCODED_RE = new RegExp(`\\b(?:powershell|pwsh)(?:\\.exe)?\\b[^\\n|;&]{
 // instruction to run it. Checked on the match line and the three lines before it.
 const FORENSICS_EVIDENCE_RE = /\b(forensics?|dfir|evidence|artifacts?|iocs?|indicators?(\s+of\s+compromise)?|malware|threats?|investigat\w+|triage)\b/i;
 
+// Never inside a script or a shell snippet: an agent runs those as written, whatever the heading above them says
+// ("Example:" three lines up must not turn a runnable encoded command into evidence). And only words of the trade
+// count, not any documentation word.
 function isForensicEvidence(line, ctx) {
   const lines = ctx?.lines;
-  if (!lines) return DOC_CONTEXT_RE.test(line);
+  if (!lines || ctx.comments) return false;
   const start = Math.max(0, ctx.i - 3);
-  const window = lines.slice(start, ctx.i + 1).join("\n");
-  return FORENSICS_EVIDENCE_RE.test(window) || DOC_CONTEXT_RE.test(window);
+  return FORENSICS_EVIDENCE_RE.test(lines.slice(start, ctx.i + 1).join("\n"));
 }
 
 export const LINE_RULES = [

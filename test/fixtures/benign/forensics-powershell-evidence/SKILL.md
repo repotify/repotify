@@ -10,7 +10,7 @@ description: Documents forensic evidence collection.
 When examining process creation logs, look for encoded commands such as this
 example of a fileless attack artifact:
 
-```powershell
+```text
 powershell -enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAKQA=
 ```
 
