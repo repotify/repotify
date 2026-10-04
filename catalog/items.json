@@ -10504,7 +10504,7 @@
       "stars": 32247
     },
     "stacks": [
-      "*"
+      "python"
     ],
     "summary": "Provides guidance for building scalable data pipelines, warehouses, and streaming architectures using Spark, dbt, Airflow, and cloud data p…",
     "tier": "mission",
@@ -42104,8 +42104,7 @@
     "lifecycle": "occasional",
     "name": "Spreadsheets (Anthropic)",
     "needs": [
-      "office-docs",
-      "data-processing"
+      "office-docs"
     ],
     "origin": "curated",
     "path": "skills/xlsx",
