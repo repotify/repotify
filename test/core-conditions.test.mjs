@@ -126,16 +126,8 @@ test("xlsx defaults with office-docs evidence", () => {
   assert.equal(inSet(out, "xlsx"), true);
 });
 
-// --- data-engineer: python data tooling, not stack-agnostic ---
-
-test("data-engineer is scoped to the python stack", () => {
-  assert.deepEqual(itemOf("data-engineer").stacks, ["python"]);
-});
-
-test("data-engineer does not surface for a non-python project", () => {
-  const { out } = recommend(fpOf({ empty: false, stacks: ["go"], inferredNeeds: ["data-processing", "testing"] }));
-  assert.equal(inScored(out, "data-engineer"), false, "a Go project has no use for python data tooling");
-});
+// --- data-engineer: the davila7 python-scoped skill is gone from the catalog;
+// the surviving data-engineer is stack-agnostic, but still a data-processing pick ---
 
 test("data-engineer still surfaces for a python data project", () => {
   const { out } = recommend(fpOf({ empty: false, stacks: ["python"], inferredNeeds: ["data-processing", "testing"] }));

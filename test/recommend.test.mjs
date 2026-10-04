@@ -56,7 +56,10 @@ test("golden: empty folder + content site answer uses the content-site loadout",
   const { rec } = await scenario("empty", { projectType: "content-site" });
   invariants(rec);
   assert.equal(rec.loadout, "content-site");
-  for (const id of [...CORE, "web-design-guidelines", "frontend-design", "writing-guidelines"]) assert.ok(rec.defaultSet.includes(id), id);
+  // Loadout items are read from the loadout itself so the golden tracks catalog
+  // cleanups (web-design-guidelines/writing-guidelines were removed).
+  const loadoutItems = catalog.loadouts.find((l) => l.id === "content-site").items;
+  for (const id of [...CORE, ...loadoutItems]) assert.ok(rec.defaultSet.includes(id), id);
   assert.ok(rec.rows.find((r) => r.id === "playwright-mcp"), "playwright-mcp listed");
 });
 
@@ -83,7 +86,10 @@ test("installed items are marked, not defaulted, and count toward the budget", a
 });
 
 test("conflicts and exclusive groups are resolved by score", () => {
-  const base = catalog.items.find((i) => i.id === "writing-guidelines");
+  // writing-guidelines left the catalog with the cleanup; brainstorming is a
+  // stable stand-in for the synthetic-item boilerplate (id/caps/cluster/tier
+  // are all overridden below).
+  const base = catalog.items.find((i) => i.id === "brainstorming");
   const a = { ...base, id: "meta-a", capabilities: ["workflow-meta"], cluster: "workflow-meta", tier: "core" };
   const b = { ...base, id: "meta-b", capabilities: ["workflow-meta", "writing-quality"], cluster: "writing-quality", tier: "core" };
   const c = { ...base, id: "rival", tier: "core", cluster: "codebase-map", conflicts: ["meta-a"] };

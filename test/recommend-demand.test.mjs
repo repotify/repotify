@@ -83,12 +83,14 @@ test("Excel evidence gets the spreadsheet skill, not Word or PowerPoint; a state
 });
 
 test("mobile apps get no web-only skills; web apps still do", () => {
+  // web-design-guidelines left the catalog with the cleanup; webapp-testing is
+  // the surviving web-only skill that the web fixture defaults.
   const mobile = run(fpOf({ stacks: ["node", "react", "react-native", "typescript"], inferredNeeds: ["frontend-ui", "mobile"] }));
   assert.ok(mobile.defaultSet.includes("react-native-skills"));
-  for (const id of ["webapp-testing", "web-design-guidelines", "react-best-practices"]) assert.ok(!mobile.rows.some((r) => r.id === id), id);
+  for (const id of ["webapp-testing", "react-best-practices"]) assert.ok(!mobile.rows.some((r) => r.id === id), id);
   assert.deepEqual(mobile.demand.platforms, ["mobile"]);
   const web = run(fpOf({ stacks: ["node", "typescript", "vue"], inferredNeeds: ["frontend-ui", "e2e-testing"] }));
-  for (const id of ["webapp-testing", "web-design-guidelines"]) assert.ok(web.defaultSet.includes(id), id);
+  assert.ok(web.defaultSet.includes("webapp-testing"), "webapp-testing");
 });
 
 test("an optional item that adds nothing the set does not already serve stays out, with the item that covers it", () => {

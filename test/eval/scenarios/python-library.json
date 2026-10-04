@@ -20,8 +20,7 @@
   },
   "mustInclude": [
     "property-based-testing",
-    "supply-chain-risk-auditor",
-    "writing-guidelines"
+    "supply-chain-risk-auditor"
   ],
   "mustNotInclude": [
     "react-native-skills"

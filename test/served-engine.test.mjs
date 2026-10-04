@@ -112,8 +112,11 @@ test("installed items keep their job: nothing else is offered for it, and their 
 });
 
 test("a candidate that conflicts with an installed item is not offered", () => {
-  const [a, b] = ["ask-navigator", "behavioral-modes"];
-  assert.ok(itemById.get(a).conflicts.includes(b), "fixture: the catalog pairs them");
+  // ask-navigator/behavioral-modes left the catalog with the cleanup; planning
+  // and task-coordination-strategies are the surviving conflicts_with pair (c01).
+  const [a, b] = ["planning", "task-coordination-strategies"];
+  const cw = graph.byType.get("conflicts_with") ?? [];
+  assert.ok(cw.some((e) => e.from === `item:${a}` && e.to === `item:${b}`), "fixture: the seed graph pairs them");
   const narrowed = recommendLocal({ catalog, graph, demand: webDemand(), installed: [a] }).narrowed;
   const out = narrowed.eliminated.find((e) => e.id === b);
   assert.ok(!narrowed.candidates.some((c) => c.item.id === b));

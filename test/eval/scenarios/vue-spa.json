@@ -22,7 +22,6 @@
   "answers": {},
   "mustInclude": [
     "frontend-design",
-    "web-design-guidelines",
     "webapp-testing",
     "vue-expert"
   ],
