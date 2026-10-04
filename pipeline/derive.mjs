@@ -251,11 +251,6 @@ export function contentVerdict(text, { files = [] } = {}) {
   if (/apache license[\s,]+version 2\.0|mit license\b|gnu general public license/i.test(body.slice(0, 2000)) && !/^##\s/m.test(body)) {
     why.push("its body is only a license text, not a skill");
   }
-  // A body too short and unstructured to teach anything: no sections, no code, no steps.
-  // (Is 7 trial: learn-codebase was a single 901-char paragraph.)
-  if (body.length < 1000 || (body.length < 1200 && !/^##\s/m.test(body) && !/```/.test(body))) {
-    why.push("its body is too thin to be a usable skill");
-  }
   if (body.length < 1000 && /https?:\/\//i.test(body) && /webfetch|\.fetch\(|curl /i.test(body)) why.push("its body is nearly empty; the content is fetched from a remote URL");
   // A fill-in template: many distinct natural-language bracketed placeholders, not a usable skill. Bracketed
   // link labels ([text](url)), quoted code keys (["key"]) and short tags ([optional]) are not placeholders.
