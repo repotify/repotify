@@ -1,11 +1,21 @@
 [
   {
     "id": "graphify",
-    "reason": "Every agent works better when it can navigate the codebase as a graph instead of grepping blindly."
+    "reason": "Every agent works better when it can navigate the codebase as a graph instead of grepping blindly.",
+    "defaultWhen": {
+      "notEmpty": true,
+      "needsAny": [
+        "large-codebase",
+        "monorepo"
+      ]
+    }
   },
   {
     "id": "brainstorming",
-    "reason": "Forces a design conversation before code, the cheapest place to catch wrong assumptions."
+    "reason": "Forces a design conversation before code, the cheapest place to catch wrong assumptions.",
+    "defaultWhen": {
+      "empty": true
+    }
   },
   {
     "id": "writing-plans",
@@ -25,7 +35,16 @@
   },
   {
     "id": "differential-review",
-    "reason": "A security pass on every diff catches what functional tests never look for."
+    "reason": "A security pass on every diff catches what functional tests never look for.",
+    "defaultWhen": {
+      "needsAny": [
+        "security",
+        "auth",
+        "payments",
+        "compliance",
+        "smart-contracts"
+      ]
+    }
   },
   {
     "id": "repotify-guard",
@@ -33,7 +52,10 @@
   },
   {
     "id": "repotify-tracker",
-    "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick."
+    "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick.",
+    "defaultWhen": {
+      "empty": true
+    }
   },
   {
     "id": "repotify-router",

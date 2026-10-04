@@ -68,7 +68,7 @@
       "capabilities": ["docx-documents"], "needs": ["office-docs"], "stacks": ["*"], "agents": ["claude-code", "cursor", "codex", "gemini-cli", "generic"] },
     { "id": "xlsx", "type": "skill", "name": "Spreadsheets (Anthropic)", "repo": "anthropics/skills", "path": "skills/xlsx", "license": "Proprietary, source-available (see LICENSE.txt)", "tier": "mission",
       "summary": "Builds and edits spreadsheets with formulas, formatting and charts; cleans messy tabular data.",
-      "capabilities": ["spreadsheets"], "needs": ["office-docs", "data-processing"], "stacks": ["*"], "agents": ["claude-code", "cursor", "codex", "gemini-cli", "generic"] },
+      "capabilities": ["spreadsheets"], "needs": ["office-docs"], "stacks": ["*"], "agents": ["claude-code", "cursor", "codex", "gemini-cli", "generic"] },
     { "id": "pptx", "type": "skill", "name": "Slide Decks (Anthropic)", "repo": "anthropics/skills", "path": "skills/pptx", "license": "Proprietary, source-available (see LICENSE.txt)", "tier": "mission",
       "summary": "Creates and edits PowerPoint decks with layouts, speaker notes and consistent design.",
       "capabilities": ["presentations"], "needs": ["office-docs"], "stacks": ["*"], "agents": ["claude-code", "cursor", "codex", "gemini-cli", "generic"] },
@@ -187,15 +187,19 @@
     {"id":"dispatching-parallel-agents","type":"skill","name":"dispatching-parallel-agents","repo":"davila7/claude-code-templates","path":"cli-tool/components/skills/ai-research/dispatching-parallel-agents","license":"MIT","tier":"mission","summary":"Skill for dispatching multiple AI agents in parallel to handle independent tasks, with guidance on scoping, prompting, and integration.","capabilities":["workflow-meta"],"needs":["agent-skills","testing"],"stacks":["*"],"agents":["claude-code","cursor","codex","gemini-cli","generic"]}
   ],
   "core": [
-    { "id": "graphify", "reason": "Every agent works better when it can navigate the codebase as a graph instead of grepping blindly." },
-    { "id": "brainstorming", "reason": "Forces a design conversation before code, the cheapest place to catch wrong assumptions." },
+    { "id": "graphify", "reason": "Every agent works better when it can navigate the codebase as a graph instead of grepping blindly.",
+      "defaultWhen": { "notEmpty": true, "needsAny": ["large-codebase", "monorepo"] } },
+    { "id": "brainstorming", "reason": "Forces a design conversation before code, the cheapest place to catch wrong assumptions.",
+      "defaultWhen": { "empty": true } },
     { "id": "writing-plans", "reason": "Turns designs into small verified steps, which keeps long agent sessions on track." },
     { "id": "test-driven-development", "reason": "Tests written first are the agent's main defence against confident but wrong code." },
     { "id": "systematic-debugging", "reason": "Root-cause debugging stops the patch-on-patch spiral that burns tokens." },
     { "id": "verification-before-completion", "reason": "Evidence before 'done' removes the most common agent failure: claiming success without checking." },
-    { "id": "differential-review", "reason": "A security pass on every diff catches what functional tests never look for." },
+    { "id": "differential-review", "reason": "A security pass on every diff catches what functional tests never look for.",
+      "defaultWhen": { "needsAny": ["security", "auth", "payments", "compliance", "smart-contracts"] } },
     { "id": "repotify-guard", "reason": "Agents hallucinate package names; attackers register them. The guard blocks that at install time." },
-    { "id": "repotify-tracker", "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick." },
+    { "id": "repotify-tracker", "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick.",
+      "defaultWhen": { "empty": true } },
     { "id": "repotify-router", "reason": "An agent with many skills forgets the one that fits. The router names it at the moment it matters." }
   ],
   "loadouts": [
