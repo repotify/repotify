@@ -285,7 +285,7 @@ test("derive: the same name with a few lines changed is a copy; another skill of
 test("derive: a skill kept inside another project's repository is listed for a product the project shows, or when people install it", async () => {
   const store = await storeWith([
     { repo: "acme/engine", name: "tweens" },
-    { repo: "acme/engine", name: "engine-supabase", answers: { productBound: { noul: 0.9 }, stack: choice("supabase", 0.95), job: choice("database", 0.9), purpose: choice("product") } },
+    { repo: "acme/engine", name: "tables-supabase", answers: { productBound: { noul: 0.9 }, stack: choice("supabase", 0.95), job: choice("database", 0.9), purpose: choice("product") } },
     { repo: "acme/engine", name: "installed-one" },
     { repo: "acme/engine-skills", name: "scenes" },
     { repo: "acme/topical", name: "cameras" },
@@ -296,7 +296,7 @@ test("derive: a skill kept inside another project's repository is listed for a p
     store.putRepo(repo, { ...rec, files, meta: { ...rec.meta, topics } });
   }
   const r = derive(store, { leaderboard: [{ source: "acme/engine", skill: "installed-one", installs: 12, weekly: [] }] });
-  assert.deepEqual(r.items.map((i) => i.id).sort(), ["cameras", "engine-supabase", "installed-one", "scenes", "sprites"]);
+  assert.deepEqual(r.items.map((i) => i.id).sort(), ["cameras", "installed-one", "scenes", "sprites", "tables-supabase"]);
   assert.equal(reason(r, "tweens"), "kept inside another project's repository: written for that project");
   assert.equal(isSkillsRepo("vendor/agent-skills", { files: 9000, skillFiles: 3 }), true);
   assert.equal(isSkillsRepo("vendor/reskillsed", { files: 9000, skillFiles: 3 }), false);
@@ -422,8 +422,10 @@ test("derive: samples and contributor tooling, republished prompts, a descriptio
     { repo: "acme/Life-OS", name: "ideate", description: "Evolutionary ideation engine with loop-controlled idea cycles." },
     { repo: "acme/Life-OS", name: "life-os-db", description: "Life OS on Supabase: tables and policies.", answers: { productBound: { noul: 0.9 }, stack: choice("supabase", 0.95), job: choice("database", 0.9), purpose: choice("product") } },
     { repo: "acme/agents", name: "fleet", description: "Coordinates several agents on one task, clearly and practically." },
+    { repo: "supa/supabase", name: "rls", description: "Supabase row level security policies, clear and practical.", answers: { productBound: { noul: 0.9 }, stack: choice("supabase", 0.95), job: choice("database", 0.9), purpose: choice("product") } },
   ]));
-  assert.deepEqual(r.items.map((i) => i.id).sort(), ["device-examples", "fleet", "ideate", "life-os", "life-os-db"]);
+  assert.deepEqual(r.items.map((i) => i.id).sort(), ["device-examples", "fleet", "ideate", "life-os", "rls"]);
+  assert.equal(reason(r, "life-os-db"), "about its own project, which a repository cannot show");
   assert.equal(reason(r, "infra"), "its description is not in English");
   assert.equal(reason(r, "hardening"), "about its own project, which a repository cannot show");
   for (const id of ["sample-skill", "contrib-pr", "resilient", "planner-zht", "resolve"]) assert.match(reason(r, id), /examples or its own tooling/, id);

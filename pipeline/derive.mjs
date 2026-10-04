@@ -223,7 +223,8 @@ function judge(c, { taxonomy, installsOf, outOfScopeRepo }) {
   if (fit.why) return fit;
   const { stack } = fit;
   if (!c.rec.skillsRepo && taxonomy.stacks[stack]?.kind !== "product" && !installsOf(c)) return { why: ["kept inside another project's repository: written for that project"] };
-  if (namesOwnProject(c, description) && taxonomy.stacks[stack]?.kind !== "product" && !installsOf(c)) return { why: ["about its own project, which a repository cannot show"] };
+  // (A product's own repository is the exception: Remotion's skills are about Remotion, the stack they are listed for.)
+  if (namesOwnProject(c, description) && stack !== slug(c.repo.split("/")[1]) && !installsOf(c)) return { why: ["about its own project, which a repository cannot show"] };
   if (outOfScopeRepo(c.repo) && (a.purpose !== "product" || (a.purposeP ?? 0) < 0.9)) return { why: ["most of its repository is security operations or off-topic"] };
   if (a.quality == null || a.quality < RULES.quality || (a.qualityConfidence ?? 0) < RULES.qualityConfidence) return { why: [`quality ${a.quality} (confidence ${a.qualityConfidence})`] };
   const rep = c.reputation;
