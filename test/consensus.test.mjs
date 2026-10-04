@@ -72,9 +72,15 @@ test("validateConsensusEntry: accepts a good entry, rejects bad shapes and unkno
 });
 
 // A store with one skill and a consensus observation for it (no jev answer).
+// The skill text is long enough to pass the content rules (not a thin stub).
 function storeWithConsensus({ name = "tdd", job = "tdd-discipline", jobDuzey = "uzlasilmis" } = {}) {
   const store = newStore();
-  const text = `---\nname: ${name}\ndescription: Helps with ${name} in a clear and practical way.\n---\nWrite the failing test first, then the code.\n`;
+  const paras = [
+    "Write the failing test first, then the code. This is the core discipline of test-driven development, and it changes how you think about design.",
+    "When you write the test first, you are forced to think about the interface before the implementation. What should this function be called? What arguments does it take? What does it return? These are design questions, and TDD makes you answer them upfront.",
+    "A common objection is that TDD slows you down. In the short term, it does: you write more code (tests plus implementation). But in the medium term, you save time because you catch bugs earlier, when they are cheaper to fix, and because the tests document the intended behavior.",
+  ];
+  const text = `---\nname: ${name}\ndescription: Helps with ${name} in a clear and practical way for software teams.\n---\n# ${name}\n\n${paras.join("\n\n")}\n\n## Steps\n\n1. Describe the behavior you want in a test. Be specific about inputs, outputs, and edge cases. A vague test leads to vague code.\n2. Run the test and watch it fail. If it passes, the test is wrong: either the behavior already exists or the test does not check anything.\n3. Write the smallest code that makes it pass. Do not add extra features or speculative generality.\n4. Refactor while keeping the tests green. Clean up duplication and clarify names.\n5. Repeat for the next behavior. Small steps keep you safe.\n\n## When to use\n\nUse this whenever you add a feature or fix a bug. Do not skip the failing-test step. Skipping leads to untested code and regressions that are expensive to diagnose later.\n\n## Common mistakes\n\n- Writing too much code before testing anything.\n- Testing implementation details instead of observable behavior.\n- Not refactoring because the code already works.\n- Writing tests after the code, which usually means testing what the code does rather than what it should do.\n\n## Example\n\n\`\`\`js\n// test: addition works\nassert.equal(add(2, 3), 5);\nassert.equal(add(-1, 1), 0);\n// implementation\nfunction add(a, b) { return a + b; }\n\`\`\`\n\nThe example above shows the full cycle on a trivial function. On real code the cycle is the same, only the tests are more involved.\n`;
   const md = store.putBlob(text);
   const tree = store.putTree([{ path: "SKILL.md", sha256: md, size: text.length }]);
   const repo = "acme/skills";

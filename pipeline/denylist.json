@@ -182,5 +182,50 @@
     "repo": "davepoon/buildwithclaude",
     "path": "plugins/agents-uc-taskmanager/skills/work-status",
     "reason": "pinned to one repository's works/ folder convention"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-browser/skills/browser-extract",
+    "reason": "thin wrapper around ruflo-proprietary MCP tools; no independent content (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-browser/skills/browser-form-fill",
+    "reason": "thin wrapper around ruflo-proprietary MCP tools; no independent content (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-browser/skills/browser-screenshot-diff",
+    "reason": "depends on ruflo RVF container and proprietary MCP tools; not portable (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-daa/skills/cognitive-pattern",
+    "reason": "thin wrapper around ruflo-proprietary MCP tools; no independent content (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-cost-tracker/skills/cost-anomaly",
+    "reason": "depends on ruflo cost CLI; company-internal tracking, not portable (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-cost-tracker/skills/cost-benchmark",
+    "reason": "depends on ruflo cost-tracker plugin; company-internal, not portable (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-cost-tracker/skills/cost-diff",
+    "reason": "depends on ruflo cost CLI and repo-external scripts; not portable (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-aidefence/skills/pii-detect",
+    "reason": "thin wrapper around ruflo aidefence MCP tools; no independent content (Is 7 trial)"
+  },
+  {
+    "repo": "ruvnet/ruflo",
+    "path": "plugins/ruflo-agentdb/skills/vector-search",
+    "reason": "embedded in ruflo-proprietary vector tools; not portable (Is 7 trial)"
   }
 ]
