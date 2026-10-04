@@ -101,6 +101,18 @@
     },
     "yara-rules": {
       "maxLevel": "caution"
+    },
+    "mutation-testing-guard": {
+      "maxLevel": "verified"
+    },
+    "injection-defense-zh": {
+      "maxLevel": "caution"
+    },
+    "injection-defense-ja": {
+      "maxLevel": "caution"
+    },
+    "forensics-powershell-evidence": {
+      "maxLevel": "caution"
     }
   },
   "malicious": {
@@ -319,6 +331,14 @@
     "zero-width-stego": {
       "minLevel": "rejected",
       "rule": "hidden-unicode"
+    },
+    "repotify-guard-disable": {
+      "minLevel": "quarantined",
+      "rule": "unsafe-instruction"
+    },
+    "ignore-previous-chinese": {
+      "minLevel": "quarantined",
+      "rule": "prompt-injection"
     }
   }
 }
