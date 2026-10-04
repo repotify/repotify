@@ -145,12 +145,6 @@ function candidates(store, { taxonomy, model }) {
   // The key prefix differs from "jev", so the two never mix; each record carries source: "consensus".
   const consensusOf = consensusKeyer();
   const consensusAnswered = store.listObs("consensus");
-  // Approved consensus keys: an approval overrides the paid model (two independent readers said KEEP).
-  const consensusApproved = new Set();
-  for (const ck of consensusAnswered) {
-    const co = store.getObs("consensus", ck);
-    if (co && isApproved(co)) consensusApproved.add(ck);
-  }
   const out = [];
   const repos = new Map();
   const byMd = new Map();
@@ -178,13 +172,12 @@ function candidates(store, { taxonomy, model }) {
       // A text held by a thousand repositories is hashed once.
       const key = keys.get(s.skillMd) ?? keys.set(s.skillMd, keyOf(s.skillMd)).get(s.skillMd);
       const hasJev = answered.has(key);
-      // An approved consensus observation overrides the paid model. Otherwise paid model first:
-      // consensus only fills the gap when the paid model has no answer.
-      const cKey = consensusOf(s.skillMd);
-      const cApproved = cKey && consensusApproved.has(cKey);
-      const useConsensus = cApproved || (!hasJev && cKey && consensusAnswered.has(cKey));
-      if (!hasJev && !useConsensus) continue;
-      out.push({ repo: name, rec, skill: s, fm: { name: s.name, description: s.description }, folder, key, consensusKey: useConsensus ? cKey : null });
+      // Paid model first, always: a skill the paid model answered is decided by that answer alone.
+      // Consensus (and approval) is never used for it. Consensus only fills the gap when the paid
+      // model has no answer.
+      const cKey = hasJev ? null : consensusOf(s.skillMd);
+      if (!hasJev && !(cKey && consensusAnswered.has(cKey))) continue;
+      out.push({ repo: name, rec, skill: s, fm: { name: s.name, description: s.description }, folder, key, consensusKey: cKey });
     }
   }
   const reputations = new Map();

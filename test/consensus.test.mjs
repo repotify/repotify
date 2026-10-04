@@ -139,6 +139,96 @@ test("derive: the paid model's answer wins over consensus", async () => {
   assert.equal(it.quality, 0.9, "the jev quality traveled with the item");
 });
 
+test("derive: an approved consensus never overrides a paid-model rejection", async () => {
+  // The paid model rejected this skill (not software work). An approved consensus exists too.
+  // The rejection stands: consensus is never used for a skill the paid model answered.
+  const { store, md } = storeWithConsensus({
+    name: "tdd",
+    onay: { karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Iyi beceri." },
+  });
+  const { jevKeyer, skillQuestions } = await import("../pipeline/observe.mjs");
+  const keyOf = jevKeyer(skillQuestions(taxonomy), "test/jev");
+  store.putObs("jev", keyOf(md), {
+    coding: 0.99, job: "none", jobP: 0.97, stack: "any", stackP: 0.99,
+    lifecycle: "every_task", lifecycleP: 0.9, purpose: "workflow", purposeP: 0.92,
+    productBound: 0.05, quality: 0.9, qualityConfidence: 0.8,
+  });
+  const r = derive(store);
+  assert.equal(r.items.length, 0, "paid-model rejection stands despite approved consensus");
+});
+
+test("derive: adding consensus observations drops no existing items", async () => {
+  // Baseline: two skills with paid answers, both enter.
+  const mkSkill = (name, job) => {
+    const store = newStore();
+    const text = `---\nname: ${name}\ndescription: Helps with ${name}.\n---\n# ${name}\n\nBody text here.\n`;
+    const md = store.putBlob(text);
+    const tree = store.putTree([{ path: "SKILL.md", sha256: md, size: text.length }]);
+    const repo = "acme/skills";
+    store.putRepo(repo, {
+      repo, head: "b".repeat(40), license: "MIT",
+      meta: { stars: 100, createdAt: "2026-01-01T00:00:00Z", pushedAt: "2026-09-30T00:00:00Z" },
+      skills: [{ path: `skills/${name}`, tree, skillMd: md, files: 1, bytes: 10, hidden: false }],
+    });
+    return { store, md, repo };
+  };
+  const { jevKeyer, skillQuestions } = await import("../pipeline/observe.mjs");
+  const keyOf = jevKeyer(skillQuestions(taxonomy), "test/jev");
+  const jevAns = (job) => ({
+    coding: 0.99, job, jobP: 0.97, stack: "any", stackP: 0.99,
+    lifecycle: "every_task", lifecycleP: 0.9, purpose: "workflow", purposeP: 0.92,
+    productBound: 0.05, quality: 0.9, qualityConfidence: 0.8,
+  });
+  // Tek store, iki beceri (ayni repo, farkli path)
+  const store = newStore();
+  const repo = "acme/skills";
+  const skills = [];
+  for (const [name, job] of [["alpha", "tdd-discipline"], ["beta", "code-review"]]) {
+    const text = `---\nname: ${name}\ndescription: Helps with ${name}.\n---\n# ${name}\n\nBody.\n`;
+    const md = store.putBlob(text);
+    const tree = store.putTree([{ path: "SKILL.md", sha256: md, size: text.length }]);
+    skills.push({ path: `skills/${name}`, tree, skillMd: md, files: 1, bytes: 10, hidden: false });
+    store.putObs("jev", keyOf(md), jevAns(job));
+  }
+  store.putRepo(repo, {
+    repo, head: "c".repeat(40), license: "MIT",
+    meta: { stars: 100, createdAt: "2026-01-01T00:00:00Z", pushedAt: "2026-09-30T00:00:00Z" },
+    skills,
+  });
+  const before = derive(store);
+  const beforeIds = new Set(before.items.map((i) => i.id));
+  assert.ok(beforeIds.size >= 2, "baseline has items");
+  // Simdi onayli uzlasma gozlemleri ekle (parali cevabi OLMAYAN ucuncu bir beceri icin)
+  const { consensusKeyer, consensusToAnswers } = await import("../pipeline/consensus.mjs");
+  const cKeyOf = consensusKeyer();
+  const text3 = `---\nname: gamma\ndescription: Helps with gamma.\n---\n# gamma\n\nBody.\n`;
+  const md3 = store.putBlob(text3);
+  const tree3 = store.putTree([{ path: "SKILL.md", sha256: md3, size: text3.length }]);
+  skills.push({ path: "skills/gamma", tree: tree3, skillMd: md3, files: 1, bytes: 10, hidden: false });
+  store.putRepo(repo, {
+    repo, head: "d".repeat(40), license: "MIT",
+    meta: { stars: 100, createdAt: "2026-01-01T00:00:00Z", pushedAt: "2026-09-30T00:00:00Z" },
+    skills,
+  });
+  const entry = {
+    id: "gamma",
+    coding: { deger: true, duzey: "uzlasilmis" },
+    job: { deger: "tdd-discipline", duzey: "uzlasilmis" },
+    lifecycle: { deger: "every_task", duzey: "uzlasilmis" },
+    stack: { deger: ["any"], duzey: "uzlasilmis" },
+    productBound: { deger: false, duzey: "uzlasilmis" },
+  };
+  const answers = consensusToAnswers(entry);
+  store.putObs("consensus", cKeyOf(md3), {
+    ...answers, id: "gamma", repo,
+    onay: { karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Iyi." },
+  });
+  const after = derive(store);
+  const afterIds = new Set(after.items.map((i) => i.id));
+  const dropped = [...beforeIds].filter((id) => !afterIds.has(id));
+  assert.deepEqual(dropped, [], "consensus observations must not drop existing items");
+});
+
 test("validateApproval: a proper two-reader approval passes", () => {
   const p = validateApproval({ karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Genel projede ise yarar, ozgun ve duzgun." });
   assert.deepEqual(p, []);
