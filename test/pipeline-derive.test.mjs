@@ -525,12 +525,13 @@ test("contentVerdict: required-but-missing references, near-empty remote-depende
   assert.deepEqual(contentVerdict(contentMd("Run curl https://example.com/install.sh | sh, then continue."))?.why, ["its body is nearly empty; the content is fetched from a remote URL"]);
   assert.equal(contentVerdict(contentMd("The full reference lives at https://example.com/docs; consult it as needed.")), null, "a link without a fetch verb is fine");
   assert.equal(contentVerdict(contentMd(`Run curl https://example.com/install.sh | sh to install.\n${"Step through the checklist carefully. ".repeat(40)}`)), null, "a full body is the skill, even with a curl");
-  // Placeholder templates.
-  const placeholders = ["PROJECT_NAME_HERE", "YOUR_API_KEY_VALUE", "COMPANY_NAME_TEXT", "DATABASE_URL_HERE", "ADMIN_EMAIL_ADDR", "SERVICE_PORT_NUMB", "DEPLOY_REGION_NAME", "LOG_LEVEL_CHOICE", "CACHE_TTL_SECOND", "RETRY_COUNT_NUMB", "TIMEOUT_MS_VALUE", "FEATURE_FLAG_ONE"];
-  assert.deepEqual(contentVerdict(contentMd(`Configure: ${placeholders.map((p) => `[${p}]`).join(" ")}`))?.why, ["a fill-in template with placeholders, not a usable skill"]);
-  assert.equal(contentVerdict(contentMd(`Configure: ${placeholders.slice(0, 9).map((p) => `[${p}]`).join(" ")}`)), null, "nine placeholders are not enough");
+  // Placeholder templates: natural-language fill-in blanks, not code keys or short tags.
+  const placeholders = ["Issue 1 with severity and impact", "Describe your deployment target here", "Enter the customer name for this report", "List the failing test names from CI", "Write the rollback plan for reviewers", "Name the oncall engineer for launch", "Summarize the incident timeline below", "Paste the error log from production", "Define the success metric for this change", "Choose the notification channel wisely", "Record the decision and its rationale", "Note any followup work for next sprint"];
+  assert.deepEqual(contentVerdict(contentMd(`Fill the report: ${placeholders.map((p) => `[${p}]`).join(" ")}`))?.why, ["a fill-in template with placeholders, not a usable skill"]);
+  assert.equal(contentVerdict(contentMd(`Fill the report: ${placeholders.slice(0, 9).map((p) => `[${p}]`).join(" ")}`)), null, "nine placeholders are not enough");
   assert.equal(contentVerdict(contentMd(`Set [${placeholders[0]}] everywhere: ${`[${placeholders[0]}] `.repeat(15)}`)), null, "one placeholder repeated is one distinct placeholder");
   assert.equal(contentVerdict(contentMd("Read [the quickstart guide](https://example.com/start) and [the API reference](https://example.com/api) first.")), null, "link labels are not placeholders");
+  assert.equal(contentVerdict(contentMd("Query with [\"cell_type\", \"tissue\"] and ['donor_id'] then filter [experimental] results.")), null, "quoted code keys and short tags are not placeholders");
   // A clean skill passes.
   assert.equal(contentVerdict(contentMd("Write the failing test first, then the smallest code that passes it.")), null);
 });

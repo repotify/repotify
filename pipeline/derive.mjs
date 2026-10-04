@@ -232,10 +232,15 @@ export function contentVerdict(text, { files = [] } = {}) {
   // A body too thin to be the skill, pointing at a URL the agent must fetch: the content lives elsewhere.
   const body = String(text).replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "");
   if (body.length < 1000 && /https?:\/\//i.test(body) && /webfetch|\.fetch\(|curl /i.test(body)) why.push("its body is nearly empty; the content is fetched from a remote URL");
-  // A fill-in template: many distinct bracketed placeholders, not a usable skill. Bracketed link labels ([text](url))
-  // are not placeholders.
+  // A fill-in template: many distinct natural-language bracketed placeholders, not a usable skill. Bracketed
+  // link labels ([text](url)), quoted code keys (["key"]) and short tags ([optional]) are not placeholders.
   const placeholders = new Set();
-  for (const m of text.matchAll(/\[[^\[\]\n]{10,80}\](?!\()/g)) placeholders.add(m[0]);
+  for (const m of text.matchAll(/\[([^\[\]\n]{20,80})\](?!\()/g)) {
+    const inner = m[1];
+    if (/^["'\s]/.test(inner)) continue;
+    if (inner.split(/\s+/).length < 3) continue;
+    placeholders.add(m[0]);
+  }
   if (placeholders.size >= 10) why.push("a fill-in template with placeholders, not a usable skill");
   return why.length ? { why } : null;
 }
