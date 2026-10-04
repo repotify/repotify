@@ -1,6 +1,6 @@
 {
   "name": "empty-no-answers",
-  "note": "User only said: help me start a project",
+  "note": "User only said: help me start a project [core-by-project: graphify needs code to map; brainstorming is the empty-project default]",
   "fingerprint": {
     "empty": true,
     "stacks": [],
@@ -13,7 +13,7 @@
   },
   "answers": {},
   "mustInclude": [
-    "graphify",
+    "brainstorming",
     "test-driven-development",
     "repotify-guard"
   ],
