@@ -81,3 +81,20 @@ export function formatQuestions(questions) {
     .map((q, i) => `${i + 1}. ${q.text} (${q.multi ? "pick several" : "pick one"})\n` + q.options.map((o) => `   - ${o.id}: ${o.label}`).join("\n"))
     .join("\n");
 }
+
+// Whether a conditional core item earns its default slot for this demand.
+// A catalog core entry may carry `defaultWhen` naming the project situations
+// where the item is worth recommending without further evidence; everywhere
+// else the item stays in the candidate table as a backup pick. No condition
+// (undefined/null) keeps the historic behavior: always a default.
+// Shape: { empty?: true, notEmpty?: true, needsAny?: string[] }.
+export function meetsCoreCondition(cond, demand = {}) {
+  if (!cond) return true;
+  if (cond.empty && !demand.empty) return false;
+  if (cond.notEmpty && demand.empty) return false;
+  if (Array.isArray(cond.needsAny) && cond.needsAny.length) {
+    const needs = new Set(demand.needs ?? []);
+    if (!cond.needsAny.some((n) => needs.has(n))) return false;
+  }
+  return true;
+}
