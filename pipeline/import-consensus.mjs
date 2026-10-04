@@ -76,6 +76,7 @@ export function importConsensus(store, { entries, idToRepo, metinlerDir, validJo
       path: skill.path,
       models: ["muse-spark"],
       date: "2026-10-04",
+      onay: entry.onay ?? null,
       levels: {
         coding: entry.coding.duzey, job: entry.job.duzey, stack: entry.stack.duzey,
         lifecycle: entry.lifecycle.duzey, productBound: entry.productBound.duzey,

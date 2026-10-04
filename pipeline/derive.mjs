@@ -13,7 +13,7 @@ import { SCANNER_VERSION } from "../src/scan/index.mjs";
 import { jevConfig } from "../lib/signals/jev.mjs";
 import { createStore } from "./store.mjs";
 import { scanTree, skillQuestions, repoFacts, jevKeyer } from "./observe.mjs";
-import { consensusKeyer } from "./consensus.mjs";
+import { consensusKeyer, isApproved } from "./consensus.mjs";
 import { shingles, isCopy, compareRank, isOwnSource, LARGE_COLLECTION } from "./copies.mjs";
 import { extendTaxonomy, needsFor } from "./jev-classify.mjs";
 import { extendTaxonomyV2 } from "./taxonomy.mjs";
@@ -194,7 +194,7 @@ function candidates(store, { taxonomy, model }) {
     }
     c.reputation = reputationOf(c.repo);
   }
-  return { all: out.filter((c) => c.answers), stored, repos, byMd, byName, byPath, reputationOf };
+  return { all: out.filter((c) => c.answers && (!c.consensusKey || isApproved(c.answers))), stored, repos, byMd, byName, byPath, reputationOf };
 }
 
 // An MCP server is a tool for the agent whatever it reaches, so "the agent's own work" fits every job. One for

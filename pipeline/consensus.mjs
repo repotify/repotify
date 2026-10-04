@@ -71,5 +71,25 @@ export function validateConsensusEntry(entry, { validJobs, validStacks }) {
   }
   if (entry.coding?.deger != null && typeof entry.coding.deger !== "boolean") problems.push("coding.deger: not a boolean");
   if (entry.productBound?.deger != null && typeof entry.productBound.deger !== "boolean") problems.push("productBound.deger: not a boolean");
+  if (entry.onay != null) for (const pr of validateApproval(entry.onay)) problems.push("onay: " + pr);
   return problems;
+}
+// Reading-gate approval (Is 7 direction change): a consensus-sourced skill enters the catalog only with
+// an approval from TWO independent readers who both fully read the SKILL.md (and helper file list).
+// karar "onayli" requires both readers TUT; a single CIKAR or SUPHE means "red".
+export function validateApproval(onay) {
+  const problems = [];
+  if (!onay || typeof onay !== "object") return ["not an object"];
+  if (onay.karar !== "onayli" && onay.karar !== "red") problems.push("bad karar " + onay.karar);
+  const ok = onay.okuyucular;
+  if (!Array.isArray(ok) || ok.length !== 2 || !ok.every((x) => typeof x === "string" && x)) problems.push("okuyucular: need exactly 2 reader ids");
+  if (typeof onay.tarih !== "string" || !onay.tarih) problems.push("missing tarih");
+  if (typeof onay.gerekce !== "string" || !onay.gerekce) problems.push("missing gerekce");
+  return problems;
+}
+
+// True when the entry/observation carries a valid "onayli" approval.
+export function isApproved(entry) {
+  const o = entry?.onay;
+  return !!o && o.karar === "onayli" && validateApproval(o).length === 0;
 }

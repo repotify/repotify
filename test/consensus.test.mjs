@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createStore } from "../pipeline/store.mjs";
-import { consensusKeyer, consensusToAnswers, validateConsensusEntry } from "../pipeline/consensus.mjs";
+import { consensusKeyer, consensusToAnswers, validateConsensusEntry, validateApproval, isApproved } from "../pipeline/consensus.mjs";
 import { deriveItems, RULES } from "../pipeline/derive.mjs";
 import { skillQuestions } from "../pipeline/observe.mjs";
 import { extendTaxonomyV2 } from "../pipeline/taxonomy.mjs";
@@ -73,7 +73,7 @@ test("validateConsensusEntry: accepts a good entry, rejects bad shapes and unkno
 
 // A store with one skill and a consensus observation for it (no jev answer).
 // The skill text is long enough to pass the content rules (not a thin stub).
-function storeWithConsensus({ name = "tdd", job = "tdd-discipline", jobDuzey = "uzlasilmis" } = {}) {
+function storeWithConsensus({ name = "tdd", job = "tdd-discipline", jobDuzey = "uzlasilmis", onay = null } = {}) {
   const store = newStore();
   const paras = [
     "Write the failing test first, then the code. This is the core discipline of test-driven development, and it changes how you think about design.",
@@ -92,14 +92,14 @@ function storeWithConsensus({ name = "tdd", job = "tdd-discipline", jobDuzey = "
   const keyOf = consensusKeyer();
   const entry = entry22({ id: name, job: { deger: job, duzey: jobDuzey } });
   const answers = consensusToAnswers(entry);
-  if (answers) store.putObs("consensus", keyOf(md), { ...answers, id: name, repo, levels: { job: jobDuzey } });
+  if (answers) store.putObs("consensus", keyOf(md), { ...answers, id: name, repo, levels: { job: jobDuzey }, onay });
   return { store, md };
 }
 
 const derive = (store) => deriveItems(store, { taxonomy, model: "test/jev", now: new Date("2026-10-02T00:00:00Z") });
 
 test("derive: a 2/2 consensus skill becomes a backup item, never a default", () => {
-  const { store } = storeWithConsensus();
+  const { store } = storeWithConsensus({ onay: { karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Genel projede ise yarar." } });
   const r = derive(store);
   assert.equal(r.items.length, 1);
   const it = r.items[0];
@@ -132,4 +132,51 @@ test("derive: the paid model's answer wins over consensus", async () => {
   const it = r.items[0];
   assert.ok(!("classifiedBy" in it) || it.classifiedBy !== "consensus", "jev answer takes precedence");
   assert.equal(it.quality, 0.9, "the jev quality traveled with the item");
+});
+
+test("validateApproval: a proper two-reader approval passes", () => {
+  const p = validateApproval({ karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Genel projede ise yarar, ozgun ve duzgun." });
+  assert.deepEqual(p, []);
+});
+
+test("validateApproval: bad approvals are rejected", () => {
+  assert.ok(validateApproval(null).length > 0);
+  assert.ok(validateApproval({ karar: "belki", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "x" }).length > 0);
+  assert.ok(validateApproval({ karar: "onayli", okuyucular: ["r1"], tarih: "2026-10-04", gerekce: "x" }).length > 0, "need exactly 2 readers");
+  assert.ok(validateApproval({ karar: "onayli", okuyucular: ["r1", "r2"], gerekce: "x" }).length > 0, "tarih required");
+  assert.ok(validateApproval({ karar: "red", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Tek sirkete bagli." }).length === 0, "red is a valid karar");
+});
+
+test("isApproved: only a valid onayli counts", () => {
+  const ok = { karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "x" };
+  assert.equal(isApproved({ onay: ok }), true);
+  assert.equal(isApproved({ onay: { ...ok, karar: "red" } }), false);
+  assert.equal(isApproved({}), false, "missing onay");
+  assert.equal(isApproved({ onay: { ...ok, okuyucular: ["r1"] } }), false, "one reader is not enough");
+});
+
+test("validateConsensusEntry: an onay field is validated when present", () => {
+  const e = entry22({ onay: { karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "x" } });
+  assert.deepEqual(validateConsensusEntry(e, { validJobs, validStacks }), []);
+  const bad = entry22({ onay: { karar: "onayli", okuyucular: ["r1"], tarih: "2026-10-04", gerekce: "x" } });
+  assert.ok(validateConsensusEntry(bad, { validJobs, validStacks }).some((m) => m.startsWith("onay:")));
+});
+
+test("derive: a consensus item without approval is excluded", () => {
+  const { store } = storeWithConsensus({ name: "tdd" }); // no onay
+  const r = derive(store);
+  assert.equal(r.items.length, 0, "unapproved consensus item must not enter the catalog");
+});
+
+test("derive: a consensus item with red approval is excluded", () => {
+  const { store } = storeWithConsensus({ name: "tdd", onay: { karar: "red", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Stub." } });
+  const r = derive(store);
+  assert.equal(r.items.length, 0);
+});
+
+test("derive: a consensus item with two-reader approval enters", () => {
+  const { store } = storeWithConsensus({ name: "tdd", onay: { karar: "onayli", okuyucular: ["r1", "r2"], tarih: "2026-10-04", gerekce: "Genel projede ise yarar." } });
+  const r = derive(store);
+  assert.equal(r.items.length, 1);
+  assert.equal(r.items[0].classifiedBy, "consensus");
 });
