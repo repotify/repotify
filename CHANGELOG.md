@@ -139,8 +139,10 @@ skill for instruction safety.
 - The router, the classifier and the questions: [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
 - The scanner reads a long line of `git clone` commands 2.7 times faster (each later command was read once per
   clone); re-scanning the 4,484 stored skill folders gives the same verdict for every one.
-- 943 tests: all pass on Node 22 and 24; on Node 18 and 20, six worker tests that need `node:sqlite` are skipped.
-  Coverage 94.9% of lines, 85.4% of branches.
+- 976 tests: all pass on Node 22 and 24; on Node 18 and 20, six worker tests that need `node:sqlite` are skipped.
+  Coverage, now counting `lib/` as well: 96.1% of lines, 86.7% of branches, 94.2% of functions.
+- The new scanner rules on the 517 skills of the catalog (2,865 files): no item changed level. One false alarm showed
+  up on the way (a row of an anti-pattern table read as an instruction) and the rule was corrected for it.
 
 ### Built, not live
 
