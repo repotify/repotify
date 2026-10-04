@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createStore, obsKey } from "../pipeline/store.mjs";
 import { scanTree, skillQuestions, answerRecord, classifySkill, observeAll, skillState, PURPOSES } from "../pipeline/observe.mjs";
-import { deriveItems, deriveMcp, summaryOf, purposeFits, serverPurposeFits, RULES, DEFAULT_EVIDENCE, MCP_CONTEXT_CHARS, MCP_LIMITS, COLLECTION_LIMIT } from "../pipeline/derive.mjs";
+import { deriveItems, deriveMcp, summaryOf, purposeFits, serverPurposeFits, RULES, DEFAULT_EVIDENCE, MCP_CONTEXT_CHARS, MCP_LIMITS, SKILL_LIMITS, isSkillsRepo } from "../pipeline/derive.mjs";
 import { shingles, overlap, isCopy, compareRank, COPY, LARGE_COLLECTION, NOTABLE_STARS } from "../pipeline/copies.mjs";
 import { classifyServer, gateServer, serverQuestions } from "../pipeline/mcp.mjs";
 import { validateCatalog } from "../src/catalog.mjs";
@@ -271,8 +271,58 @@ test("derive: the same name with a few lines changed is a copy; another skill of
   ]);
   pad(store, "templ/ates");
   const r = derive(store);
-  assert.deepEqual(r.items.map((i) => `${i.id}@${i.repo}/${i.path}`).sort(), ["frontend-design@anthro/skills/legacy/frontend-design", "other-frontend-design@other/dev/skills/frontend-design"]);
-  assert.deepEqual(r.dropped.map((d) => `${d.repo}: ${d.reason}`).sort(), ["anthro/skills: nearly the same skill as legacy/frontend-design in its repository", "templ/ates: near copy of a skill in anthro/skills"]);
+  assert.deepEqual(r.items.map((i) => `${i.id}@${i.repo}/${i.path}`).sort(), ["frontend-design@anthro/skills/legacy/frontend-design"]);
+  // A namesake with another text: the name belongs to the known source that uses it.
+  assert.deepEqual(r.dropped.map((d) => `${d.repo}: ${d.reason}`).sort(), ["anthro/skills: nearly the same skill as legacy/frontend-design in its repository", "other/dev: named like a skill anthro/skills keeps", "templ/ates: near copy of a skill in anthro/skills"]);
+  // A common word is nobody's name: two different skills called "review" are both listed, each under its owner.
+  const common = derive(await storeWith([
+    { repo: "anthro/skills", name: "review", md: BASE.replaceAll("frontend-design", "review"), stars: 5000 },
+    { repo: "other/dev", name: "review", md: OTHER.replaceAll("frontend-design", "review"), stars: 10 },
+  ]));
+  assert.deepEqual(common.items.map((i) => i.id).sort(), ["anthro-review", "other-review"]);
+});
+
+test("derive: a skill kept inside another project's repository is listed for a product the project shows, or when people install it", async () => {
+  const store = await storeWith([
+    { repo: "acme/engine", name: "tweens" },
+    { repo: "acme/engine", name: "engine-supabase", answers: { productBound: { noul: 0.9 }, stack: choice("supabase", 0.95), job: choice("database", 0.9), purpose: choice("product") } },
+    { repo: "acme/engine", name: "installed-one" },
+    { repo: "acme/engine-skills", name: "scenes" },
+    { repo: "acme/topical", name: "cameras" },
+    { repo: "acme/mostly", name: "sprites" },
+  ]);
+  for (const [repo, files, topics] of [["acme/engine", 5000, []], ["acme/engine-skills", 5000, []], ["acme/topical", 5000, ["agent-skills"]], ["acme/mostly", 4, []]]) {
+    const rec = store.getRepo(repo);
+    store.putRepo(repo, { ...rec, files, meta: { ...rec.meta, topics } });
+  }
+  const r = derive(store, { leaderboard: [{ source: "acme/engine", skill: "installed-one", installs: 12, weekly: [] }] });
+  assert.deepEqual(r.items.map((i) => i.id).sort(), ["cameras", "engine-supabase", "installed-one", "scenes", "sprites"]);
+  assert.equal(reason(r, "tweens"), "kept inside another project's repository: written for that project");
+  assert.equal(isSkillsRepo("vendor/agent-skills", { files: 9000, skillFiles: 3 }), true);
+  assert.equal(isSkillsRepo("vendor/reskillsed", { files: 9000, skillFiles: 3 }), false);
+  assert.equal(isSkillsRepo("vendor/product", { files: 100, skillFiles: 20 }), true);
+});
+
+test("derive: a mirror of a repository that waits for a human look waits with it", async () => {
+  const text = BASE.replaceAll("frontend-design", "deck-maker");
+  const store = await storeWith([
+    { repo: "held/origin", name: "deck-maker", md: text, stars: 9000 },
+    { repo: "mirror/hub", name: "deck-maker", md: text, stars: 400 },
+    { repo: "mirror/other", name: "deck-maker", md: NEAR.replaceAll("frontend-design", "deck-maker"), stars: 300 },
+    // The waiting repository also copied a better-known author's skill, and one people install from its author.
+    { repo: "held/origin", name: "solo-skill", md: OTHER.replaceAll("frontend-design", "solo-skill"), stars: 9000 },
+    { repo: "true/author", name: "solo-skill", md: OTHER.replaceAll("frontend-design", "solo-skill"), stars: 20000 },
+    { repo: "held/origin", name: "taste", stars: 9000 },
+    { repo: "small/author", name: "taste", stars: 60 },
+  ]);
+  store.putObs("reputation", reputationKey("held/origin"), { score: 0.3, inflated: true, needsReview: true, flags: [] });
+  const r = derive(store, { leaderboard: [{ source: "small/author", skill: "taste", installs: 7, weekly: [] }] });
+  assert.deepEqual(r.items.map((i) => `${i.id}@${i.repo}`).sort(), ["solo-skill@true/author", "taste@small/author"]);
+  assert.deepEqual(r.dropped.filter((d) => d.id === "deck-maker").map((d) => `${d.repo} ${d.level}: ${d.reason}`).sort(), [
+    "held/origin review: popular only by its stars: needs a human look",
+    "mirror/hub review: also carried by held/origin, which waits for a human look",
+    "mirror/other review: also carried by held/origin, which waits for a human look",
+  ]);
 });
 
 test("derive: a large collection's skill named like one a known source keeps is its copy, however far the text has drifted", async () => {
@@ -297,7 +347,7 @@ test("derive: a copy of a skill that cannot be listed is not listed either", asy
   // with a line changed, under MIT.
   const store = await storeWith([
     { repo: "vendor/skills", name: "xlsx", md: BASE.replaceAll("frontend-design", "xlsx"), stars: 90000, license: null, unasked: true },
-    { repo: "leak/prompts", name: "xlsx", md: NEAR.replaceAll("frontend-design", "xlsx"), stars: 30000 },
+    { repo: "mirror/skills", name: "xlsx", md: NEAR.replaceAll("frontend-design", "xlsx"), stars: 30000 },
   ]);
   const r = derive(store);
   assert.deepEqual(r.items, []);
@@ -316,7 +366,7 @@ test("derive: nearly the same text under another name is listed once for its job
   assert.equal(reason(r, "ui-craft"), "nearly the same text as a/one/skills/design-guide");
 });
 
-test("derive: a skill named like a hand-vetted item is a copy of it, or waits when the vetted text is not in the store", async () => {
+test("derive: a skill named like a hand-vetted item is its copy, its translation or its namesake: the name is taken", async () => {
   const store = await storeWith([
     { repo: "anthro/skills", name: "frontend-design", md: BASE, stars: 50 },
     { repo: "templ/ates", name: "frontend-design", md: NEAR, stars: 20000 },
@@ -332,23 +382,54 @@ test("derive: a skill named like a hand-vetted item is a copy of it, or waits wh
   assert.deepEqual(r.items, []);
   assert.equal(r.dropped.find((d) => d.repo === "templ/ates").reason, "near copy of a skill in anthro/skills", "the hand-vetted path outranks 20,000 stars");
   assert.equal(r.dropped.find((d) => d.repo === "z/w").reason, "nearly the same text as frontend-design");
-  const waits = r.dropped.find((d) => d.repo === "x/y");
-  assert.equal(waits.level, "review");
-  assert.match(waits.reason, /named like the hand-vetted mcp-builder/);
+  assert.equal(r.dropped.find((d) => d.repo === "x/y").reason, "takes the name of the hand-vetted mcp-builder");
+  // The vetted repository's own other skills are not held to that.
+  const own = derive(await storeWith([{ repo: "anthro/skills", name: "frontend-design", md: BASE, stars: 50 }, { repo: "anthro/skills", name: "frontend-design", md: OTHER, path: "v2/frontend-design" }]), { curated });
+  assert.deepEqual(own.items.map((i) => i.path), ["v2/frontend-design"]);
 });
 
-test("derive: a large collection lists its fifteen most used and best made skills", async () => {
+test("derive: one repository lists fifteen skills, three for a job; a job and stack lists ten in all", async () => {
+  const jobs = ["agent-memory", "workflow-meta", "agent-orchestration", "skill-authoring", "implementation-planning", "design-brainstorming", "verification-gate", "debugging-method", "code-review", "refactoring"];
   const cases = [];
-  for (let i = 0; i < 20; i++) cases.push({ repo: "big/collection", name: `topic${String.fromCharCode(97 + i)}`, answers: { quality: { score: i < 3 ? 4 : 3.6, confidence: 0.8 } } });
-  cases.push({ repo: "own/skills", name: "solo" });
-  const store = await storeWith(cases);
-  pad(store, "big/collection");
-  const r = derive(store, { leaderboard: [{ source: "big/collection", skill: "topict", installs: 40, weekly: [] }] });
-  const listed = r.items.filter((i) => i.repo === "big/collection").map((i) => i.id);
-  assert.equal(listed.length, COLLECTION_LIMIT);
+  for (let i = 0; i < 20; i++) cases.push({ repo: "big/source", name: `topic${String.fromCharCode(97 + i)}`, answers: { job: choice(jobs[i % 10]), quality: { score: i < 3 ? 4 : 3.6, confidence: 0.8 } } });
+  for (let i = 0; i < 5; i++) cases.push({ repo: "one/job", name: `solo${i}`, answers: { job: choice("tdd-discipline"), quality: { score: 3.2 + i * 0.1, confidence: 0.8 } } });
+  for (let i = 0; i < 12; i++) cases.push({ repo: `owner${i}/repo`, name: `commit${i}`, stars: 100 + i, answers: { job: choice("git-workflow") } });
+  const r = derive(await storeWith(cases), { leaderboard: [{ source: "big/source", skill: "topict", installs: 40, weekly: [] }] });
+  const listed = r.items.filter((i) => i.repo === "big/source").map((i) => i.id);
+  assert.equal(listed.length, SKILL_LIMITS.perRepo);
   assert.ok(["topict", "topica", "topicb", "topicc"].every((id) => listed.includes(id)), "the installed one and the best made come first");
-  assert.equal(r.dropped.filter((d) => /a collection of 200 skills lists its 15/.test(d.reason)).length, 5);
-  assert.ok(r.items.some((i) => i.id === "solo"));
+  assert.equal(r.dropped.filter((d) => d.reason === "its repository already lists its 15 most used and best made skills").length, 5);
+  assert.deepEqual(r.items.filter((i) => i.repo === "one/job").map((i) => i.id).sort(), ["solo2", "solo3", "solo4"]);
+  assert.equal(r.dropped.filter((d) => d.reason === "its repository already lists 3 better skills for tdd-discipline").length, 2);
+  assert.deepEqual(r.items.filter((i) => i.capabilities[0] === "git-workflow").map((i) => i.id).sort(), Array.from({ length: 10 }, (_, i) => `commit${i + 2}`).sort());
+  assert.equal(r.dropped.filter((d) => d.reason === "10 more used or better made skills already do git-workflow").length, 2);
+});
+
+test("derive: samples and contributor tooling, republished prompts, a description not in English, a skill about its own repository", async () => {
+  const r = derive(await storeWith([
+    { repo: "acme/tools", name: "sample-skill", path: "examples/skills/sample-skill" },
+    { repo: "acme/orm", name: "contrib-pr", path: "skills-contrib/contrib-pr" },
+    { repo: "acme/bench", name: "resilient", path: "benchmarks/gdpval/skills/resilient" },
+    { repo: "acme/planner", name: "planner-zht", path: "skills/i18n/planner-zht" },
+    { repo: "acme/agent", name: "resolve", path: "dev/agent/skills/resolve" },
+    { repo: "some/system_prompts_leaks", name: "verify-change" },
+    { repo: "acme/zh", name: "tdd-zh", description: "在实现任何功能或修复 bug 时使用，在编写实现代码之前" },
+    { repo: "acme/widget", name: "fix-tests", description: "Diagnose a failing test in the acme/widget repo and fix it properly." },
+    { repo: "acme/fine", name: "device-examples", path: "skills/device-examples", description: "Écrit des exemples d'appareils, clairs et pratiques, for devs." },
+    { repo: "acme/mixed", name: "infra", description: "云原生基础设施 Kubernetes Helm Kustomize Operator CRD GitOps ArgoCD Flux" },
+    { repo: "acme/Life-OS", name: "hardening", description: "Hardens LifeOS tests via property and mutation testing." },
+    { repo: "acme/Life-OS", name: "life-os", description: "LifeOS itself: a personal operating system for agents, clear and practical." },
+    { repo: "acme/Life-OS", name: "ideate", description: "Evolutionary ideation engine with loop-controlled idea cycles." },
+    { repo: "acme/Life-OS", name: "life-os-db", description: "Life OS on Supabase: tables and policies.", answers: { productBound: { noul: 0.9 }, stack: choice("supabase", 0.95), job: choice("database", 0.9), purpose: choice("product") } },
+    { repo: "acme/agents", name: "fleet", description: "Coordinates several agents on one task, clearly and practically." },
+  ]));
+  assert.deepEqual(r.items.map((i) => i.id).sort(), ["device-examples", "fleet", "ideate", "life-os", "life-os-db"]);
+  assert.equal(reason(r, "infra"), "its description is not in English");
+  assert.equal(reason(r, "hardening"), "about its own project, which a repository cannot show");
+  for (const id of ["sample-skill", "contrib-pr", "resilient", "planner-zht", "resolve"]) assert.match(reason(r, id), /examples or its own tooling/, id);
+  assert.match(reason(r, "verify-change"), /republishes prompts taken from other products/);
+  assert.equal(reason(r, "tdd-zh"), "its description is not in English");
+  assert.equal(reason(r, "fix-tests"), "about its own repository");
 });
 
 test("derive: a repository whose stars the research found inflated vouches for none of its skills", async () => {

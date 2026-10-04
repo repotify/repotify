@@ -50,10 +50,41 @@ export const RULES = Object.freeze({
 // for one bundler or one service passes for "any project" more easily than it should.
 export const DEFAULT_EVIDENCE = Object.freeze({ quality: 0.85, job: 0.85, installs: 1000, reputation: 0.65, downloads: 10000, stars: 200, anyStackDownloads: 100000, anyStackStars: 1000 });
 
-// How many skills one large collection (copies.mjs LARGE_COLLECTION) may list: the most installed, then the best made.
-// Measured on the store (2026-10-03): six collections hold 11,600 of 420,000 folders, most of them other people's
-// skills; uncapped, one of them supplied 274 of the catalog's 431 derived skills.
-export const COLLECTION_LIMIT = 15;
+// How many derived skills the catalog lists from one repository, from one repository for one job, and for one job and
+// stack in all: the most installed, then the best made. Twenty alternates for a job help nobody choose, and without a
+// limit the numbers come from a few sources (measured on the store, 2026-10-04: one repository of design snippets
+// supplied 63 skills, a game engine's own repository 22 for "game development", one collection 274 before that).
+export const SKILL_LIMITS = Object.freeze({ perRepo: 15, perRepoJob: 3, perJob: 10 });
+// Folders a repository keeps as samples, benchmark output, translations or tooling for its own contributors: not
+// skills it offers. Read on the store: examples/…/my-first-skill, benchmarks/gdpval/skills/… (fifteen variants of one
+// workflow), skills-contrib/contrib-pr ("open a PR against this repository"), skills/i18n/….
+const NOT_OFFERED = /(^|[\/_-])(examples?|samples?|benchmarks?|contrib|contributing|maintainers?|i18n|demos?)([\/_-]|$)|(^|\/)dev(\/|$)/i;
+// A skills repository says so (its name, its topics) or is mostly skill folders. Anything else is a project that
+// ships a few skills about itself (a game engine's "tweens", a table library's "getting started" for each framework):
+// those fit a repository only when it uses that project, which the catalog can tell for product stacks alone.
+// Measured on the store (2026-10-04, 158 repositories with listable skills): skill folders hold a fifth of the files
+// or more in the skills repositories read, a tenth or less in the projects.
+const SKILLS_TOPICS = new Set(["skills", "agent-skills", "claude-skills", "claude-code-skills", "codex-skills", "claude-code-plugin", "claude-code-plugins"]);
+const SKILLS_SHARE = 0.2;
+export const isSkillsRepo = (name, { topics = [], files = null, skillFiles = 0 } = {}) =>
+  /(^|[-_.])skills?([-_.]|$)/i.test(String(name).split("/")[1] ?? "") || topics.some((t) => SKILLS_TOPICS.has(t)) || !files || skillFiles / files >= SKILLS_SHARE;
+// A skill whose description names the project it lives in ("Hardens LifeOS tests") works on that project, unless the
+// skill is the project (a one-skill repository) or the name is a common word.
+const COMMON_REPO_NAMES = new Set(["agents", "agent", "skills", "skill", "tools", "toolkit", "plugins", "plugin", "prompts", "rules", "awesome", "claude", "codex", "cursor", "gemini", "superpowers"]);
+function namesOwnProject(c, description) {
+  const name = c.repo.split("/")[1];
+  const parts = name.split(/[-_.]+/).filter(Boolean);
+  if (name.length < 5 || COMMON_REPO_NAMES.has(name) || !c.skill.path || slug(c.folder) === slug(name) || slug(c.fm.name ?? "") === slug(name)) return false;
+  return new RegExp(`(^|[^a-z0-9])${parts.map((p) => p.replace(/[^a-z0-9]/gi, "")).join("[-_ .]?")}([^a-z0-9]|$)`, "i").test(description);
+}
+// A repository that republishes prompts and skills taken from other products has no license to give for them.
+const REPUBLISHED = /(^|[^a-z])leak(s|ed)?([^a-z]|$)|system[-_ ]?prompts?|jailbreak/i;
+// The catalog's text is English: a description mostly in another script cannot be shown, and the skill behind it is
+// most often a translation of one already listed.
+const latinShare = (text) => {
+  const letters = text.match(/\p{L}/gu) ?? [];
+  return letters.length ? (text.match(/\p{Script=Latin}/gu) ?? []).length / letters.length : 1;
+};
 // How many better-placed holders of the same name a skill is compared with, at most.
 const NAME_COMPARISONS = 25;
 
@@ -123,6 +154,7 @@ function candidates(store, { taxonomy, model }) {
     const facts = repoFacts(store, name, full);
     // Only what the rules read: a large collection's full record is megabytes.
     const rec = { head: full.head, license: full.license ?? null, meta: full.meta ?? null, folders: facts.skills.length };
+    rec.skillsRepo = isSkillsRepo(name, { topics: full.meta?.topics ?? [], files: full.files ?? null, skillFiles: (full.skills ?? []).reduce((n, s) => n + (s.files ?? 0), 0) });
     repos.set(name, rec);
     for (const s of facts.skills) {
       if (!s.skillMd) continue;
@@ -181,10 +213,17 @@ function judge(c, { taxonomy, installsOf, outOfScopeRepo }) {
   const why = [];
   if (c.skill.hidden && !installsOf(c)) why.push("kept in the repository's own agent folder");
   if (!["verified", "caution"].includes(c.skill.scan)) why.push(`security ${c.skill.scan ?? "not scanned"}`);
+  if (NOT_OFFERED.test(c.skill.path.split("/").slice(0, -1).join("/"))) why.push("kept with the repository's examples or its own tooling, not offered as a skill");
+  if (REPUBLISHED.test(`${c.repo} ${c.rec.meta?.description ?? ""} ${(c.rec.meta?.topics ?? []).join(" ")}`)) why.push("its repository republishes prompts taken from other products");
   if (why.length) return { why };
+  const description = String(c.fm.description ?? "");
+  if (latinShare(description) < 0.9) return { why: ["its description is not in English"] };
+  if (description.toLowerCase().includes(c.repo)) return { why: ["about its own repository"] };
   const fit = judgeAnswers(a, taxonomy);
   if (fit.why) return fit;
   const { stack } = fit;
+  if (!c.rec.skillsRepo && taxonomy.stacks[stack]?.kind !== "product" && !installsOf(c)) return { why: ["kept inside another project's repository: written for that project"] };
+  if (namesOwnProject(c, description) && taxonomy.stacks[stack]?.kind !== "product" && !installsOf(c)) return { why: ["about its own project, which a repository cannot show"] };
   if (outOfScopeRepo(c.repo) && (a.purpose !== "product" || (a.purposeP ?? 0) < 0.9)) return { why: ["most of its repository is security operations or off-topic"] };
   if (a.quality == null || a.quality < RULES.quality || (a.qualityConfidence ?? 0) < RULES.qualityConfidence) return { why: [`quality ${a.quality} (confidence ${a.qualityConfidence})`] };
   const rep = c.reputation;
@@ -246,11 +285,9 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
   const vettedSkills = curated.filter((i) => i.repo && (i.type === undefined || i.type === "skill"));
   const heldOf = (i) => byPath.get(`${i.repo.toLowerCase()}/${i.path ?? ""}`) ?? null;
   const textOf = (i) => store.getBlob(heldOf(i)?.skillMd ?? (i.files ?? []).find((f) => f.path === "SKILL.md")?.sha256 ?? "")?.toString("utf8") ?? null;
+  // The names hand-vetted skills go by: the catalog lists one skill under a name.
   const vettedNames = new Map();
-  for (const i of vettedSkills) {
-    if (heldOf(i)) continue;
-    for (const n of new Set([slug(i.id), slug(i.name ?? ""), slug((i.path ?? "").split("/").pop() ?? "")])) if (n) vettedNames.set(n, i.id);
-  }
+  for (const i of vettedSkills) for (const n of new Set([slug(i.id), slug(i.name ?? ""), slug((i.path ?? "").split("/").pop() ?? "")])) if (n) vettedNames.set(n, i);
   const copyOf = (c) => {
     const me = c.standing;
     // The same SKILL.md, byte for byte, held where it more likely comes from.
@@ -259,17 +296,29 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
     if (origin.path !== c.skill.path) return `the same skill as ${origin.path} in its repository`;
     // The same name and nearly the same text, held where it more likely comes from.
     const names = [...new Set([slug(c.folder), slug(c.fm.name ?? "")])].filter(Boolean);
-    for (const n of names) if (vettedNames.has(n)) return `named like the hand-vetted ${vettedNames.get(n)}, whose text the store does not hold to compare`;
     // Its better-placed holders first, one per distinct text.
     const seen = new Set([c.skill.skillMd]);
     const better = names.flatMap((n) => byName.get(n) ?? []).map((h) => ({ ...standing(h), skillMd: h.skillMd })).filter((h) => compareRank(h, me) < 0).sort(compareRank)
       .filter((h) => !seen.has(h.skillMd) && seen.add(h.skillMd)).slice(0, NAME_COMPARISONS);
     const mine = shinglesOf(c.skill.skillMd);
+    // A repository waiting for a human look is not replaced by its mirrors: a skill it also carries waits with it,
+    // when that repository would be the likelier origin but for its flag and nobody installs the skill from here.
+    // (The other way round is common too: the waiting repository is the copier, and the author's skill stays.)
+    const unflagged = (h) => ({ ...standing(h), flagged: false });
+    const held = (h) => h.repo !== c.repo && Boolean(reputationOf(h.repo)?.needsReview) && compareRank(unflagged(h), { ...me, flagged: false }) < 0;
+    const waiting = installsOf(c) ? null : byMd.get(c.skill.skillMd).find(held) ?? names.flatMap((n) => byName.get(n) ?? []).filter(held).slice(0, NAME_COMPARISONS).find((h) => isCopy(mine, shinglesOf(h.skillMd), { sameName: true }));
+    if (waiting) return `also carried by ${waiting.repo}, which waits for a human look`;
     for (const h of better) if (isCopy(mine, shinglesOf(h.skillMd), { sameName: true })) return h.repo === c.repo ? `nearly the same skill as ${h.path} in its repository` : `near copy of a skill in ${h.repo}`;
     // A large collection's skill named like one a known source keeps: collections carry old revisions whose text has
     // drifted from the original (measured: a collection's mcp-builder shares 21% of its runs with the current one).
-    const source = me.large ? better.find((h) => h.repo !== c.repo && (h.curated || isOwnSource(h))) : null;
-    if (source) return `a collection's copy of ${names[0]}, which ${source.repo} keeps`;
+    // Elsewhere a name that is not a common word belongs to the best-placed known source that uses it: its namesakes
+    // are most often the same skill before a rewrite (a known skill's earlier text shares 3% with its current one).
+    const source = better.find((h) => h.repo !== c.repo && (h.curated || isOwnSource(h)));
+    if (source && me.large) return `a collection's copy of ${names[0]}, which ${source.repo} keeps`;
+    if (source && !names.every((n) => GENERIC_NAMES.has(n))) return `named like a skill ${source.repo} keeps`;
+    // A translation, an old revision or a namesake of a hand-vetted skill: the name is taken.
+    const vetted = names.map((n) => vettedNames.get(n)).find((i) => i && i.repo.toLowerCase() !== c.repo);
+    if (vetted) return `takes the name of the hand-vetted ${vetted.id}`;
     return null;
   };
   // Then against what is already in: a hand-vetted item or a better-placed skill for the same job with nearly the same
@@ -290,23 +339,25 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
       if (twin) why = `nearly the same text as ${twin.id}`;
       else jobOf(c.answers.job).push({ id: `${c.repo}/${c.skill.path}`, set: mine });
     }
-    if (why) drop(c, why, /hand-vetted .* does not hold/.test(why) ? "review" : "declined");
+    if (why) drop(c, why, /waits for a human look/.test(why) ? "review" : "declined");
     else unique.push(c);
   }
 
-  // A large collection lists a few skills, the ones with the most to show for themselves.
-  const perCollection = new Map();
+  // The limits (SKILL_LIMITS): the skills with the most to show for themselves take the places.
+  const taken = new Map();
   const finalists = [];
-  const merit = (x, y) => (installsOf(y) ?? 0) - (installsOf(x) ?? 0) || y.answers.quality - x.answers.quality || (y.answers.jobP ?? 0) - (x.answers.jobP ?? 0) || (x.skill.path < y.skill.path ? -1 : 1);
+  const starsOf = (c) => c.rec.meta?.stars ?? 0;
+  const merit = (x, y) => (installsOf(y) ?? 0) - (installsOf(x) ?? 0) || y.answers.quality - x.answers.quality || (y.answers.jobP ?? 0) - (x.answers.jobP ?? 0) || starsOf(y) - starsOf(x)
+    || (x.repo < y.repo ? -1 : x.repo > y.repo ? 1 : 0) || (x.skill.path < y.skill.path ? -1 : 1);
   for (const c of [...unique].sort(merit)) {
-    if (c.rec.folders >= LARGE_COLLECTION) {
-      const n = perCollection.get(c.repo) ?? 0;
-      if (n >= COLLECTION_LIMIT) {
-        drop(c, `a collection of ${c.rec.folders} skills lists its ${COLLECTION_LIMIT} most used and best made`);
-        continue;
-      }
-      perCollection.set(c.repo, n + 1);
+    const job = c.answers.job;
+    const keys = { perRepoJob: `${c.repo} ${job}`, perRepo: c.repo, perJob: `${job}/${c.verdict.stack ?? "*"}` };
+    const full = Object.keys(keys).find((k) => (taken.get(`${k} ${keys[k]}`) ?? 0) >= SKILL_LIMITS[k]);
+    if (full) {
+      drop(c, full === "perRepoJob" ? `its repository already lists ${SKILL_LIMITS.perRepoJob} better skills for ${job}` : full === "perRepo" ? `its repository already lists its ${SKILL_LIMITS.perRepo} most used and best made skills` : `${SKILL_LIMITS.perJob} more used or better made skills already do ${job}`);
+      continue;
     }
+    for (const k of Object.keys(keys)) taken.set(`${k} ${keys[k]}`, (taken.get(`${k} ${keys[k]}`) ?? 0) + 1);
     finalists.push(c);
   }
 
