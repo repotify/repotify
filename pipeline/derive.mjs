@@ -13,6 +13,7 @@ import { SCANNER_VERSION } from "../src/scan/index.mjs";
 import { jevConfig } from "../lib/signals/jev.mjs";
 import { createStore } from "./store.mjs";
 import { scanTree, skillQuestions, repoFacts, jevKeyer } from "./observe.mjs";
+import { consensusKeyer } from "./consensus.mjs";
 import { shingles, isCopy, compareRank, isOwnSource, LARGE_COLLECTION } from "./copies.mjs";
 import { extendTaxonomy, needsFor } from "./jev-classify.mjs";
 import { extendTaxonomyV2 } from "./taxonomy.mjs";
@@ -140,6 +141,10 @@ export function summaryOf(description) {
 function candidates(store, { taxonomy, model }) {
   const keyOf = jevKeyer(skillQuestions(taxonomy), model);
   const answered = store.listObs("jev");
+  // Consensus fallback (Is 7): when the paid model has no answer, a 2/2 consensus observation may qualify.
+  // The key prefix differs from "jev", so the two never mix; each record carries source: "consensus".
+  const consensusOf = consensusKeyer();
+  const consensusAnswered = store.listObs("consensus");
   const out = [];
   const repos = new Map();
   const byMd = new Map();
@@ -166,8 +171,11 @@ function candidates(store, { taxonomy, model }) {
       for (const n of new Set([slug(folder), slug(s.name ?? "")])) if (n) push(byName, n, holder);
       // A text held by a thousand repositories is hashed once.
       const key = keys.get(s.skillMd) ?? keys.set(s.skillMd, keyOf(s.skillMd)).get(s.skillMd);
-      if (!answered.has(key)) continue;
-      out.push({ repo: name, rec, skill: s, fm: { name: s.name, description: s.description }, folder, key });
+      const hasJev = answered.has(key);
+      // Paid model first: consensus only fills the gap.
+      const cKey = hasJev ? null : consensusOf(s.skillMd);
+      if (!hasJev && !(cKey && consensusAnswered.has(cKey))) continue;
+      out.push({ repo: name, rec, skill: s, fm: { name: s.name, description: s.description }, folder, key, consensusKey: cKey });
     }
   }
   const reputations = new Map();
@@ -177,8 +185,13 @@ function candidates(store, { taxonomy, model }) {
   };
   const answers = new Map();
   for (const c of out) {
-    if (!answers.has(c.key)) answers.set(c.key, store.getObs("jev", c.key));
-    c.answers = answers.get(c.key);
+    if (c.consensusKey) {
+      if (!answers.has(c.consensusKey)) answers.set(c.consensusKey, store.getObs("consensus", c.consensusKey));
+      c.answers = answers.get(c.consensusKey);
+    } else {
+      if (!answers.has(c.key)) answers.set(c.key, store.getObs("jev", c.key));
+      c.answers = answers.get(c.key);
+    }
     c.reputation = reputationOf(c.repo);
   }
   return { all: out.filter((c) => c.answers), stored, repos, byMd, byName, byPath, reputationOf };
@@ -203,7 +216,9 @@ function judgeAnswers(a, taxonomy, { fits = (job, purpose) => purposeFits(job, p
   if (a.job === "none" || (a.jobP ?? 0) < RULES.job || !taxonomy.capabilities[a.job]) return { why: [`main job unsure: ${a.job} (${a.jobP})`], review: true };
   if (OUT_OF_SCOPE.has(a.job)) return { why: [`${a.job}: not building software`] };
   if (OWN_JOBS.has(a.job)) return { why: [`${a.job}: a job Repotify's own hooks do`] };
-  if ((a.purposeP ?? 0) < 0.5 || !fits(a.job, a.purpose, stack)) return { why: [`purpose ${a.purpose} (${a.purposeP}) does not fit ${a.job}`], review: true };
+  // Consensus did not ask purpose: unmeasured, not a failure. productBound is null for the same reason
+  // (systematically over-flagged), so the productBound rejection above already skips it naturally.
+  if (a.source !== "consensus" && ((a.purposeP ?? 0) < 0.5 || !fits(a.job, a.purpose, stack))) return { why: [`purpose ${a.purpose} (${a.purposeP}) does not fit ${a.job}`], review: true };
   return { stack };
 }
 
@@ -262,7 +277,9 @@ function judge(c, { taxonomy, installsOf, outOfScopeRepo, store }) {
   // (A product's own repository is the exception: Remotion's skills are about Remotion, the stack they are listed for.)
   if (namesOwnProject(c, description) && stack !== slug(c.repo.split("/")[1]) && !installsOf(c)) return { why: ["about its own project, which a repository cannot show"] };
   if (outOfScopeRepo(c.repo) && (a.purpose !== "product" || (a.purposeP ?? 0) < 0.9)) return { why: ["most of its repository is security operations or off-topic"] };
-  if (a.quality == null || a.quality < RULES.quality || (a.qualityConfidence ?? 0) < RULES.qualityConfidence) return { why: [`quality ${a.quality} (confidence ${a.qualityConfidence})`] };
+  // Consensus has no quality measurement: the gate is skipped, but consensus items never join a default set
+  // (see defaultEligible below), so an unmeasured skill is listed as an alternate, not a pick.
+  if (a.source !== "consensus" && (a.quality == null || a.quality < RULES.quality || (a.qualityConfidence ?? 0) < RULES.qualityConfidence)) return { why: [`quality ${a.quality} (confidence ${a.qualityConfidence})`] };
   // The content rules from the second review: read the SKILL.md itself (see contentVerdict). The tree is read only
   // when the text mentions references/, which is nearly never.
   const text = store.getBlob(c.skill.skillMd)?.toString("utf8") ?? "";
@@ -392,7 +409,7 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
   const taken = new Map();
   const finalists = [];
   const starsOf = (c) => c.rec.meta?.stars ?? 0;
-  const merit = (x, y) => (installsOf(y) ?? 0) - (installsOf(x) ?? 0) || y.answers.quality - x.answers.quality || (y.answers.jobP ?? 0) - (x.answers.jobP ?? 0) || starsOf(y) - starsOf(x)
+  const merit = (x, y) => (installsOf(y) ?? 0) - (installsOf(x) ?? 0) || (y.answers.quality ?? 0) - (x.answers.quality ?? 0) || (y.answers.jobP ?? 0) - (x.answers.jobP ?? 0) || starsOf(y) - starsOf(x)
     || (x.repo < y.repo ? -1 : x.repo > y.repo ? 1 : 0) || (x.skill.path < y.skill.path ? -1 : 1);
   for (const c of [...unique].sort(merit)) {
     const job = c.answers.job;
@@ -429,7 +446,9 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
     const named = (rep?.bestSkills ?? []).some((n) => [c.folder, c.fm.name].filter(Boolean).some((x) => String(x).toLowerCase() === String(n).toLowerCase()));
     // A repository whose stars the research found inflated vouches for nothing: only installs count for its skills.
     const evidence = (itemInstalls ?? 0) >= DEFAULT_EVIDENCE.installs || ((rep?.score ?? 0) >= DEFAULT_EVIDENCE.reputation && !rep.inflated && named);
-    const defaultEligible = evidence && a.quality >= DEFAULT_EVIDENCE.quality && (a.jobP ?? 0) >= DEFAULT_EVIDENCE.job;
+    // Consensus-sourced items stay out of default sets for now (Is 7): listed as alternates only, until a
+    // larger measurement earns them the pick. The null quality already excludes them; this is explicit.
+    const defaultEligible = c.answers.source !== "consensus" && evidence && a.quality >= DEFAULT_EVIDENCE.quality && (a.jobP ?? 0) >= DEFAULT_EVIDENCE.job;
     if (SENSITIVE_JOBS.has(a.job) && !defaultEligible && taxonomy.stacks[verdict.stack]?.kind !== "product") {
       dropped.push({ ...where, id, level: "review", reason: `${a.job} needs the project's provider or proven use` });
       used.delete(id);
@@ -453,6 +472,8 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
         mentions30d: 0, installs: itemInstalls, copies: new Set(byMd.get(c.skill.skillMd).map((h) => h.repo)).size - 1, repoSkills,
       },
       defaultEligible,
+      // Which classifier put this item here: "consensus" for the reconciliation protocol, absent (jev) otherwise.
+      ...(c.answers.source === "consensus" ? { classifiedBy: "consensus" } : {}),
       // Only serious flags travel with the item; "no description" and the like stay in the research record.
       ...(rep ? { reputation: { score: rep.score, inflated: rep.inflated, starTrust: rep.starTrust, flags: (rep.flags ?? []).filter((f) => SERIOUS_FLAG.test(f.text)).slice(0, 3).map((f) => f.text) } } : {}),
       community: { shown: 0, selected: 0, kept7d: 0, removed: 0, rating: 0, votes: 0 },
