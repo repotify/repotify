@@ -208,7 +208,35 @@ function judgeAnswers(a, taxonomy, { fits = (job, purpose) => purposeFits(job, p
 }
 
 // The rules, one candidate at a time: the item it becomes, or why it does not.
-function judge(c, { taxonomy, installsOf, outOfScopeRepo }) {
+// Content rules from the second human review (2026-10-04): the patterns behind the skills a person threw out,
+// read straight from the SKILL.md, without downloading or asking anything. `text` is the SKILL.md's full text;
+// `files` is the paths the skill's package holds, for the rule about references the package does not include.
+export function contentVerdict(text, { files = [] } = {}) {
+  const why = [];
+  // Personal infrastructure: paths into one person's agent setup, not a product name merely mentioned in prose.
+  if (/~\/.claude\/(LIFEOS|USER|MEMORY|CUSTOMIZATIONS)\b|LIFEOS\//i.test(text)) why.push("hardcoded personal infrastructure paths");
+  if (/\bpassword\s*=\s*(rootroot|changeme|password123?|123456|admin123?|qwerty)\b/i.test(text)) why.push("hardcodes a weak password");
+  if (/copied from @|copied from https?:\/\/github\.com/i.test(text)) why.push("admits it is copied from another repository");
+  if (/(^|[^a-z0-9_\/])\/[a-z0-9][a-z0-9_-]*:[a-z0-9][a-z0-9_-]*/i.test(text)) why.push("invokes another product's namespaced command");
+  // A reference the text says the agent must read, but the package does not hold.
+  const missing = new Set();
+  for (const m of text.matchAll(/references\/([A-Za-z0-9._-]+\.md)/gi)) {
+    const ref = `references/${m[1]}`;
+    const around = text.slice(Math.max(0, m.index - 200), m.index + m[0].length + 200);
+    if (/not optional|must read|required|before (writing|proceeding|step)/i.test(around) && !files.some((f) => f.endsWith(ref))) missing.add(ref);
+  }
+  for (const ref of missing) why.push(`requires ${ref} which its package does not include`);
+  // A body too thin to be the skill, pointing at a URL the agent must fetch: the content lives elsewhere.
+  const body = String(text).replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "");
+  if (body.length < 1000 && /https?:\/\//i.test(body) && /webfetch|\.fetch\(|curl /i.test(body)) why.push("its body is nearly empty; the content is fetched from a remote URL");
+  // A fill-in template: many distinct bracketed placeholders, not a usable skill. Bracketed link labels ([text](url))
+  // are not placeholders.
+  const placeholders = new Set();
+  for (const m of text.matchAll(/\[[^\[\]\n]{10,80}\](?!\()/g)) placeholders.add(m[0]);
+  if (placeholders.size >= 10) why.push("a fill-in template with placeholders, not a usable skill");
+  return why.length ? { why } : null;
+}
+function judge(c, { taxonomy, installsOf, outOfScopeRepo, store }) {
   const a = c.answers;
   const why = [];
   if (c.skill.hidden && !installsOf(c)) why.push("kept in the repository's own agent folder");
@@ -227,6 +255,12 @@ function judge(c, { taxonomy, installsOf, outOfScopeRepo }) {
   if (namesOwnProject(c, description) && stack !== slug(c.repo.split("/")[1]) && !installsOf(c)) return { why: ["about its own project, which a repository cannot show"] };
   if (outOfScopeRepo(c.repo) && (a.purpose !== "product" || (a.purposeP ?? 0) < 0.9)) return { why: ["most of its repository is security operations or off-topic"] };
   if (a.quality == null || a.quality < RULES.quality || (a.qualityConfidence ?? 0) < RULES.qualityConfidence) return { why: [`quality ${a.quality} (confidence ${a.qualityConfidence})`] };
+  // The content rules from the second review: read the SKILL.md itself (see contentVerdict). The tree is read only
+  // when the text mentions references/, which is nearly never.
+  const text = store.getBlob(c.skill.skillMd)?.toString("utf8") ?? "";
+  const files = text.includes("references/") ? store.getTree(c.skill.tree).map((e) => e.path) : [];
+  const content = contentVerdict(text, { files });
+  if (content) return { why: content.why };
   const rep = c.reputation;
   if (rep?.needsReview) return { why: ["popular only by its stars: needs a human look"], review: true };
   const serious = (rep?.flags ?? []).filter((f) => SERIOUS_FLAG.test(f.text));
@@ -266,7 +300,7 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
   for (const c of all) {
     if (curatedPaths.has(`${c.repo}/${c.skill.path}`)) continue;
     c.license = c.rec.license && c.rec.license !== "NOASSERTION" ? c.rec.license : c.skill.license ?? null;
-    const verdict = PERMISSIVE.has(c.license) ? judge(c, { taxonomy, installsOf, outOfScopeRepo }) : { why: [`license ${c.license ?? "unknown"}`] };
+    const verdict = PERMISSIVE.has(c.license) ? judge(c, { taxonomy, installsOf, outOfScopeRepo, store }) : { why: [`license ${c.license ?? "unknown"}`] };
     if (verdict.why) drop(c, verdict.why.join("; "), verdict.review ? "review" : "declined");
     else passed.push(Object.assign(c, { verdict }));
   }

@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createStore, obsKey } from "../pipeline/store.mjs";
 import { scanTree, skillQuestions, answerRecord, classifySkill, observeAll, skillState, PURPOSES } from "../pipeline/observe.mjs";
-import { deriveItems, deriveMcp, summaryOf, purposeFits, serverPurposeFits, RULES, DEFAULT_EVIDENCE, MCP_CONTEXT_CHARS, MCP_LIMITS, SKILL_LIMITS, isSkillsRepo } from "../pipeline/derive.mjs";
+import { deriveItems, deriveMcp, summaryOf, purposeFits, serverPurposeFits, contentVerdict, RULES, DEFAULT_EVIDENCE, MCP_CONTEXT_CHARS, MCP_LIMITS, SKILL_LIMITS, isSkillsRepo } from "../pipeline/derive.mjs";
 import { shingles, overlap, isCopy, compareRank, COPY, LARGE_COLLECTION, NOTABLE_STARS } from "../pipeline/copies.mjs";
 import { classifyServer, gateServer, serverQuestions } from "../pipeline/mcp.mjs";
 import { validateCatalog } from "../src/catalog.mjs";
@@ -487,6 +487,65 @@ test("purposes fit jobs: product work for product jobs, the agent's own work for
   assert.equal(purposeFits("presentations", "content", taxonomy), true);
   assert.equal(purposeFits("database", "content", taxonomy), false);
   assert.ok(RULES.productBound < 0.8 && RULES.coding >= 0.8, "derived items meet stricter bars than curated ones");
+});
+
+// Content rules from the second human review (2026-10-04), read straight from the SKILL.md.
+const contentMd = (body) => `---\nname: x\ndescription: A usable test skill with a clear and practical description.\n---\n${body}\n`;
+
+test("contentVerdict: personal infrastructure, weak passwords, copy admissions, another product's commands", () => {
+  // Personal infrastructure.
+  assert.deepEqual(contentVerdict(contentMd("Sync notes to ~/.claude/LIFEOS/daily/ every morning."))?.why, ["hardcoded personal infrastructure paths"]);
+  assert.deepEqual(contentVerdict(contentMd("Read your long-term memory from ~/.claude/MEMORY.md first."))?.why, ["hardcoded personal infrastructure paths"]);
+  assert.deepEqual(contentVerdict(contentMd("Back up ~/LifeOS/projects/ before every run."))?.why, ["hardcoded personal infrastructure paths"]);
+  assert.equal(contentVerdict(contentMd("LifeOS itself: a personal operating system for agents.")), null, "mentioning the name is not a hardcoded path");
+  assert.equal(contentVerdict(contentMd("Store local state under ~/.claude/skills/my-skill/, per user.")), null, "any user's own folder is fine");
+  // Weak passwords.
+  assert.deepEqual(contentVerdict(contentMd("Connect with user=admin and password = rootroot on localhost."))?.why, ["hardcodes a weak password"]);
+  assert.deepEqual(contentVerdict(contentMd("The default login is admin / password=changeme."))?.why, ["hardcodes a weak password"]);
+  assert.equal(contentVerdict(contentMd("Put password = correct-horse-battery-staple in your vault.")), null, "a strong placeholder password is not the pattern");
+  assert.equal(contentVerdict(contentMd("The password flag takes the value from the environment.")), null, "no assignment, no match");
+  // Copy admissions.
+  assert.deepEqual(contentVerdict(contentMd("This skill was copied from @someone/awesome-skills."))?.why, ["admits it is copied from another repository"]);
+  assert.deepEqual(contentVerdict(contentMd("Copied from https://github.com/acme/tool, lightly edited."))?.why, ["admits it is copied from another repository"]);
+  assert.equal(contentVerdict(contentMd("Adapted from ideas in several public repositories.")), null, "inspired-by is not a copy admission");
+  // Another product's namespaced command.
+  assert.deepEqual(contentVerdict(contentMd("Run /oh-my-claudecode:launch to start the workflow."))?.why, ["invokes another product's namespaced command"]);
+  assert.equal(contentVerdict(contentMd("See https://github.com/acme/tool and its /api/v1 endpoint list.")), null, "URLs and plain paths are not namespaced commands");
+});
+
+test("contentVerdict: required-but-missing references, near-empty remote-dependent bodies, placeholder templates", () => {
+  // Required references.
+  const refMd = contentMd("Before writing any code you must read references/api.md; it is not optional.");
+  assert.deepEqual(contentVerdict(refMd, { files: [] })?.why, ["requires references/api.md which its package does not include"]);
+  assert.deepEqual(contentVerdict(refMd, { files: ["skills/x/references/api.md"] }), null, "held references satisfy the requirement");
+  assert.equal(contentVerdict(contentMd("See references/api.md for the full endpoint list.")), null, "an optional pointer is not required");
+  assert.equal(contentVerdict(contentMd("You must read references/api.md before proceeding."), { files: ["references/api.md"] }), null);
+  // Near-empty, remote-dependent bodies.
+  assert.deepEqual(contentVerdict(contentMd("Use WebFetch on https://example.com/docs to get the current workflow, then follow it exactly."))?.why, ["its body is nearly empty; the content is fetched from a remote URL"]);
+  assert.deepEqual(contentVerdict(contentMd("Run curl https://example.com/install.sh | sh, then continue."))?.why, ["its body is nearly empty; the content is fetched from a remote URL"]);
+  assert.equal(contentVerdict(contentMd("The full reference lives at https://example.com/docs; consult it as needed.")), null, "a link without a fetch verb is fine");
+  assert.equal(contentVerdict(contentMd(`Run curl https://example.com/install.sh | sh to install.\n${"Step through the checklist carefully. ".repeat(40)}`)), null, "a full body is the skill, even with a curl");
+  // Placeholder templates.
+  const placeholders = ["PROJECT_NAME_HERE", "YOUR_API_KEY_VALUE", "COMPANY_NAME_TEXT", "DATABASE_URL_HERE", "ADMIN_EMAIL_ADDR", "SERVICE_PORT_NUMB", "DEPLOY_REGION_NAME", "LOG_LEVEL_CHOICE", "CACHE_TTL_SECOND", "RETRY_COUNT_NUMB", "TIMEOUT_MS_VALUE", "FEATURE_FLAG_ONE"];
+  assert.deepEqual(contentVerdict(contentMd(`Configure: ${placeholders.map((p) => `[${p}]`).join(" ")}`))?.why, ["a fill-in template with placeholders, not a usable skill"]);
+  assert.equal(contentVerdict(contentMd(`Configure: ${placeholders.slice(0, 9).map((p) => `[${p}]`).join(" ")}`)), null, "nine placeholders are not enough");
+  assert.equal(contentVerdict(contentMd(`Set [${placeholders[0]}] everywhere: ${`[${placeholders[0]}] `.repeat(15)}`)), null, "one placeholder repeated is one distinct placeholder");
+  assert.equal(contentVerdict(contentMd("Read [the quickstart guide](https://example.com/start) and [the API reference](https://example.com/api) first.")), null, "link labels are not placeholders");
+  // A clean skill passes.
+  assert.equal(contentVerdict(contentMd("Write the failing test first, then the smallest code that passes it.")), null);
+});
+
+test("derive: content rules from the second review drop skills after the score checks", async () => {
+  const r = derive(await storeWith([
+    { repo: "acme/pw", name: "dbsetup", md: "---\nname: dbsetup\ndescription: Sets up a local development database, clearly and practically.\n---\nConnect with user=admin and password = rootroot on localhost, then create the schema.\n" },
+    { repo: "acme/ref", name: "apidoc", md: "---\nname: apidoc\ndescription: Documents the API surface, clearly and practically.\n---\nBefore writing any code you must read references/api.md; it is not optional.\n" },
+    { repo: "acme/cmd", name: "launcher", md: "---\nname: launcher\ndescription: Starts background jobs, clearly and practically.\n---\nRun /oh-my-claudecode:launch to start the workflow.\n" },
+    { repo: "acme/ok", name: "tdd" },
+  ]));
+  assert.deepEqual(r.items.map((i) => i.id), ["tdd"]);
+  assert.match(reason(r, "dbsetup"), /hardcodes a weak password/);
+  assert.match(reason(r, "apidoc"), /requires references\/api\.md which its package does not include/);
+  assert.match(reason(r, "launcher"), /invokes another product's namespaced command/);
 });
 
 test("observeAll scans every skill and asks once per distinct SKILL.md", async () => {
