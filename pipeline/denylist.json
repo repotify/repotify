@@ -2,5 +2,185 @@
   {
     "repo": "asgeirtj/system_prompts_leaks",
     "reason": "leaked system prompts of other companies' products (Anthropic's Claude Code skills); the uploader cannot license them"
+  },
+  {
+    "repo": "danielmiessler/lifeos",
+    "path": "LifeOS/install/skills/ApertureOscillation",
+    "reason": "hardcoded personal LifeOS paths (~/.claude/LIFEOS/)"
+  },
+  {
+    "repo": "hkuds/vibe-trading",
+    "path": "agent/src/skills/backtest-diagnose",
+    "reason": "pinned to one project's files (code/signal_engine.py, class SignalEngine)"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-ideate",
+    "reason": "requires sibling skills and references/*.md not in the package"
+  },
+  {
+    "repo": "garrytan/gstack",
+    "path": "browser-skills/hackernews-frontpage",
+    "reason": "single-site scraper tied to private infrastructure"
+  },
+  {
+    "repo": "davila7/claude-code-templates",
+    "path": "cli-tool/components/skills/ai-research/behavioral-modes",
+    "reason": "empty 'Combining Modes' section; critical dependency on a skill the catalog does not hold"
+  },
+  {
+    "repo": "github/awesome-copilot",
+    "path": "skills/breakdown-epic-arch",
+    "reason": "pinned to one company's stack; personal output path"
+  },
+  {
+    "repo": "danielmiessler/lifeos",
+    "path": "LifeOS/install/skills/Evals",
+    "reason": "hardcoded personal LifeOS paths"
+  },
+  {
+    "repo": "steipete/agent-scripts",
+    "path": "skills/swiftui-liquid-glass",
+    "reason": "admits it is copied from another repository"
+  },
+  {
+    "repo": "vercel-labs/agent-skills",
+    "path": "skills/writing-guidelines",
+    "reason": "SKILL.md nearly empty; its rules are fetched from a remote URL on every use"
+  },
+  {
+    "repo": "galaxy-dawn/claude-scholar",
+    "path": "skills/architecture-design",
+    "reason": "one repository's internal project template (brain_decoder/ paths)"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-bakeoff",
+    "reason": "requires sibling skills and references/*.md not in the package"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-polish",
+    "reason": "mandatory references/*.md files missing from the package"
+  },
+  {
+    "repo": "wshobson/agents",
+    "path": "plugins/database-design/skills/postgresql-table-design",
+    "reason": "near-duplicate of postgres-schema-design"
+  },
+  {
+    "repo": "danielmiessler/lifeos",
+    "path": "LifeOS/install/skills/BitterPillEngineering",
+    "reason": "hardcoded personal LifeOS paths"
+  },
+  {
+    "repo": "danielmiessler/lifeos",
+    "path": "LifeOS/install/skills/Ideate",
+    "reason": "hardcoded personal LifeOS paths"
+  },
+  {
+    "repo": "danielmiessler/lifeos",
+    "path": "LifeOS/install/skills/Art",
+    "reason": "hardcoded personal LifeOS paths"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-brainstorm",
+    "reason": "requires sibling skills and references/*.md not in the package"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-resolve-pr-feedback",
+    "reason": "mandatory references/*.md files missing from the package"
+  },
+  {
+    "repo": "mengto/skills",
+    "path": "agent-skills/codex/codex-gpt-image-2-5-flare",
+    "reason": "locked to one product's internal image tool"
+  },
+  {
+    "repo": "danielmiessler/lifeos",
+    "path": "LifeOS/install/skills/Prompting",
+    "reason": "hardcoded personal LifeOS paths; mandatory localhost callback"
+  },
+  {
+    "repo": "yeachan-heo/oh-my-claudecode",
+    "path": "skills/ask-navigator",
+    "reason": "embedded in the oh-my-claudecode shipyard ecosystem"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-commit-push-pr",
+    "reason": "requires sibling skills not in the package"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-sweep",
+    "reason": "requires sibling skills not in the package"
+  },
+  {
+    "repo": "github/awesome-copilot",
+    "path": "skills/ai-prompt-engineering-safety-review",
+    "reason": "placeholder template, not a usable skill"
+  },
+  {
+    "repo": "github/awesome-copilot",
+    "path": "skills/create-spring-boot-java-project",
+    "reason": "hardcodes a weak password (rootroot) into generated projects"
+  },
+  {
+    "repo": "htdt/godogen",
+    "path": "asset-gen",
+    "reason": "pinned to the project's internal tool paths (${ASSET_GEN_SKILL_DIR})"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-debug",
+    "reason": "mandatory references/*.md missing; requires sibling skills"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-test-browser",
+    "reason": "mandatory references/*.md files missing from the package"
+  },
+  {
+    "repo": "davila7/claude-code-templates",
+    "path": "cli-tool/components/skills/ai-research/data-engineer",
+    "reason": "a technology list with no real know-how"
+  },
+  {
+    "repo": "vercel-labs/agent-skills",
+    "path": "skills/web-design-guidelines",
+    "reason": "SKILL.md nearly empty; its rules are fetched from a remote URL on every use"
+  },
+  {
+    "repo": "fengshao1227/ccg-workflow",
+    "path": "templates/skills/impeccable/audit",
+    "reason": "mandatorily invokes another workflow's /frontend-design command"
+  },
+  {
+    "repo": "everyinc/compound-engineering-plugin",
+    "path": "skills/ce-handoff",
+    "reason": "mandatory references/*.md missing ('that read is not optional')"
+  },
+  {
+    "repo": "agentscope-ai/qwenpaw",
+    "path": "src/qwenpaw/agents/skills/chat_with_agent-en",
+    "reason": "depends on QwenPaw's built-in tools (list_agents, chat_with_agent)"
+  },
+  {
+    "repo": "fengshao1227/ccg-workflow",
+    "path": "templates/skills/impeccable/clarify",
+    "reason": "mandatorily invokes another workflow's commands"
+  },
+  {
+    "repo": "zebbern/claude-code-guide",
+    "path": "skills/dataset-quality-audit",
+    "reason": "its core depends on scripts/data_quality_checker.py, which the package does not include"
+  },
+  {
+    "repo": "davepoon/buildwithclaude",
+    "path": "plugins/agents-uc-taskmanager/skills/work-status",
+    "reason": "pinned to one repository's works/ folder convention"
   }
 ]
