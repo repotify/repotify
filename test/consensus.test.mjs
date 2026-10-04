@@ -41,9 +41,14 @@ test("consensusToAnswers: a 2/2 job maps to jobP 0.95 with source consensus", ()
   assert.equal(a.jobP, 0.95);
   assert.equal(a.coding, 0.95);
   assert.equal(a.stack, "any");
-  assert.equal(a.productBound, null, "productBound is unknown, not used for rejection");
+  assert.ok(Math.abs(a.productBound - 0.05) < 1e-9, "productBound v2 (Is 6): false maps to 1-P_AGREE, used for rejection");
   assert.equal(a.quality, null);
   assert.equal(a.purpose, null);
+});
+
+test("consensusToAnswers: productBound v2 true maps to 0.95", () => {
+  const a = consensusToAnswers(entry22({ productBound: { deger: true, duzey: "uzlasilmis" } }));
+  assert.equal(a.productBound, 0.95);
 });
 
 test("consensusToAnswers: a non-2/2 job is not a candidate", () => {
