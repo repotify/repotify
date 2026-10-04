@@ -24,7 +24,7 @@ import { serverObservations, mcpSetup, startsServer } from "./mcp.mjs";
 import { flag } from "./lib/cli.mjs";
 
 // Bump when a rule changes; every derived item records it.
-export const DERIVE_VERSION = "2";
+export const DERIVE_VERSION = "3";
 
 // The operating points of the rules. Set by reading the store's distributions, not fitted.
 // Stricter than the curated catalog's bars (jev-classify BARS): these items had no human look. Measured on the 49
@@ -207,6 +207,9 @@ function judgeAnswers(a, taxonomy, { fits = (job, purpose) => purposeFits(job, p
   return { stack };
 }
 
+// Skills the second human review threw out (2026-10-04): repo and path, dropped whatever the rules say.
+const DENYLIST = JSON.parse(readFileSync(new URL("./denylist.json", import.meta.url), "utf8"));
+
 // The rules, one candidate at a time: the item it becomes, or why it does not.
 // Content rules from the second human review (2026-10-04): the patterns behind the skills a person threw out,
 // read straight from the SKILL.md, without downloading or asking anything. `text` is the SKILL.md's full text;
@@ -299,6 +302,8 @@ export function deriveItems(store, { taxonomy, curated = [], leaderboard = [], n
   const passed = [];
   for (const c of all) {
     if (curatedPaths.has(`${c.repo}/${c.skill.path}`)) continue;
+    const denied = DENYLIST.find((d) => d.repo.toLowerCase() === c.repo.toLowerCase() && (d.path == null || d.path === c.skill.path));
+    if (denied) { drop(c, `denylist: ${denied.reason}`); continue; }
     c.license = c.rec.license && c.rec.license !== "NOASSERTION" ? c.rec.license : c.skill.license ?? null;
     const verdict = PERMISSIVE.has(c.license) ? judge(c, { taxonomy, installsOf, outOfScopeRepo, store }) : { why: [`license ${c.license ?? "unknown"}`] };
     if (verdict.why) drop(c, verdict.why.join("; "), verdict.review ? "review" : "declined");

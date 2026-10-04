@@ -117,7 +117,7 @@ test("derive: a well-made, permissively licensed skill becomes a catalog item", 
   assert.equal(it.security.level, "verified");
   assert.equal(it.defaultEligible, false, "no installs and no reputation: listed, not defaulted");
   assert.equal(it.files.length, 1);
-  assert.equal(it.derive, "2");
+  assert.equal(it.derive, "3");
 });
 
 test("derive: each rule keeps its own kind of skill out", async () => {
@@ -546,6 +546,17 @@ test("derive: content rules from the second review drop skills after the score c
   assert.match(reason(r, "dbsetup"), /hardcodes a weak password/);
   assert.match(reason(r, "apidoc"), /requires references\/api\.md which its package does not include/);
   assert.match(reason(r, "launcher"), /invokes another product's namespaced command/);
+});
+
+test("derive: the denylist drops listed skills and paths whatever the rules say", async () => {
+  const r = derive(await storeWith([
+    { repo: "danielmiessler/lifeos", name: "aperture", path: "LifeOS/install/skills/ApertureOscillation" },
+    { repo: "asgeirtj/system_prompts_leaks", name: "leakskill" },
+    { repo: "danielmiessler/lifeos", name: "other", path: "LifeOS/install/skills/Other" },
+  ]));
+  assert.match(reason(r, "aperture"), /^denylist: /);
+  assert.match(reason(r, "leakskill"), /^denylist: /, "a repo entry without a path covers every skill in it");
+  assert.ok(r.items.some((i) => i.id === "other"), "the same repo, a path not on the denylist, is judged normally");
 });
 
 test("observeAll scans every skill and asks once per distinct SKILL.md", async () => {
