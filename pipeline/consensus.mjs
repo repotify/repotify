@@ -82,7 +82,7 @@ export function validateApproval(onay) {
   if (!onay || typeof onay !== "object") return ["not an object"];
   if (onay.karar !== "onayli" && onay.karar !== "red") problems.push("bad karar " + onay.karar);
   const ok = onay.okuyucular;
-  if (!Array.isArray(ok) || ok.length !== 2 || !ok.every((x) => typeof x === "string" && x)) problems.push("okuyucular: need exactly 2 reader ids");
+  if (!Array.isArray(ok) || ![2, 3].includes(ok.length) || !ok.every((x) => typeof x === "string" && x)) problems.push("okuyucular: need 2 or 3 reader ids");
   if (typeof onay.tarih !== "string" || !onay.tarih) problems.push("missing tarih");
   if (typeof onay.gerekce !== "string" || !onay.gerekce) problems.push("missing gerekce");
   return problems;
