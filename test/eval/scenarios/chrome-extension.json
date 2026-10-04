@@ -20,7 +20,6 @@
   "answers": {},
   "mustInclude": [
     "frontend-design",
-    "web-design-guidelines",
     "react-best-practices"
   ],
   "mustNotInclude": [

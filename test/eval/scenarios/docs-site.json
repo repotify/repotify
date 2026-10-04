@@ -20,9 +20,7 @@
       "docs-writing"
     ]
   },
-  "mustInclude": [
-    "writing-guidelines"
-  ],
+  "mustInclude": [],
   "mustNotInclude": [
     "guidelines-advisor"
   ]

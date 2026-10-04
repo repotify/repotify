@@ -21,7 +21,6 @@
   },
   "answers": {},
   "mustInclude": [
-    "web-design-guidelines",
     "frontend-design"
   ],
   "mustNotInclude": [

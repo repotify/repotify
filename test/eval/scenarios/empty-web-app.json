@@ -17,7 +17,6 @@
   "mustInclude": [
     "frontend-design",
     "webapp-testing",
-    "web-design-guidelines",
     "react-best-practices"
   ],
   "mustNotInclude": [

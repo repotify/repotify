@@ -22,10 +22,7 @@
       "docs-writing"
     ]
   },
-  "mustInclude": [
-    "writing-guidelines",
-    "web-design-guidelines"
-  ],
+  "mustInclude": [],
   "mustNotInclude": [
     "guidelines-advisor"
   ]

@@ -15,9 +15,7 @@
     "projectType": "content-site"
   },
   "mustInclude": [
-    "web-design-guidelines",
-    "frontend-design",
-    "writing-guidelines"
+    "frontend-design"
   ],
   "mustNotInclude": [
     "guidelines-advisor",
