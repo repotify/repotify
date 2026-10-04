@@ -70,7 +70,11 @@ test("an answer already given is not asked again, and what it settles drops out"
 });
 
 test("nothing to ask when no answer can change the picks", async () => {
-  const coreOnly = { ...catalog, items: catalog.items.filter((i) => i.tier === "core") };
+  // Unconditional core only: with conditional core items in the catalog, an
+  // answer (large codebase? security?) CAN change the picks, so questions are
+  // asked. Filter to the always-default backbone to test the no-questions path.
+  const unconditional = new Set(catalog.core.filter((c) => !c.defaultWhen).map((c) => c.id));
+  const coreOnly = { ...catalog, items: catalog.items.filter((i) => unconditional.has(i.id)) };
   const r = adaptiveQuestions({ catalog: coreOnly, graph, fingerprint: await project("empty") });
   assert.deepEqual(r.questions, []);
   assert.match(formatAdaptive(r), /^No answer would change the picks for this project \(\d+ picked from \d+ candidates\)/);

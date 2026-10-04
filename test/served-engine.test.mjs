@@ -48,17 +48,22 @@ test("no default set offers a skill written for a stack the project does not use
 });
 
 test("every project gets the core backbone, even when the demand is too thin to pick extras", () => {
-  const core = catalog.items.filter((i) => i.tier === "core").map((i) => i.id);
+  // The backbone is the UNCONDITIONAL core: conditional core items (defaultWhen)
+  // join the default set only where the project earns them.
+  const core = catalog.core.filter((c) => !c.defaultWhen).map((c) => c.id);
   for (const s of scenarios) {
     const set = new Set(recommendLocal({ catalog, graph, demand: servedSet(s).demand }).set);
     const missing = core.filter((id) => !set.has(id));
     // The context budget may cut the last core item on a crowded set; never more than one.
     assert.ok(missing.length <= 1, `${s.name}: core missing ${missing.join(",")}`);
   }
-  const thin = { stacks: [], platforms: [], capabilitiesWanted: ["tdd-discipline"], capWeights: {}, needs: [], needWeights: {}, webOnlyCaps: new Set(), answered: [] };
+  const thinFp = { empty: true, stacks: [], inferredNeeds: [], frameworks: [], agents: { configured: [], skills: [] } };
+  const thinNeeds = resolveNeeds({ fingerprint: thinFp, answers: {}, taxonomy: catalog.taxonomy });
+  const thin = demandFor({ catalog, fingerprint: thinFp, needs: thinNeeds });
   const r = recommendLocal({ catalog, graph, demand: thin });
+  const allCore = catalog.core.map((c) => c.id);
   assert.equal(r.decision, "reject");
-  assert.ok(r.set.every((id) => core.includes(id)), `thin demand offers only core: ${r.set}`);
+  assert.ok(r.set.every((id) => allCore.includes(id)), `thin demand offers only core: ${r.set}`);
   assert.ok(r.set.length >= core.length - 1);
 });
 
