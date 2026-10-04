@@ -1,21 +1,21 @@
 [
   {
-    "id": "graphify",
-    "reason": "Every agent works better when it can navigate the codebase as a graph instead of grepping blindly.",
     "defaultWhen": {
-      "notEmpty": true,
       "needsAny": [
         "large-codebase",
         "monorepo"
-      ]
-    }
+      ],
+      "notEmpty": true
+    },
+    "id": "graphify",
+    "reason": "Every agent works better when it can navigate the codebase as a graph instead of grepping blindly."
   },
   {
-    "id": "brainstorming",
-    "reason": "Forces a design conversation before code, the cheapest place to catch wrong assumptions.",
     "defaultWhen": {
       "empty": true
-    }
+    },
+    "id": "brainstorming",
+    "reason": "Forces a design conversation before code, the cheapest place to catch wrong assumptions."
   },
   {
     "id": "writing-plans",
@@ -34,8 +34,6 @@
     "reason": "Evidence before 'done' removes the most common agent failure: claiming success without checking."
   },
   {
-    "id": "differential-review",
-    "reason": "A security pass on every diff catches what functional tests never look for.",
     "defaultWhen": {
       "needsAny": [
         "security",
@@ -44,18 +42,20 @@
         "compliance",
         "smart-contracts"
       ]
-    }
+    },
+    "id": "differential-review",
+    "reason": "A security pass on every diff catches what functional tests never look for."
   },
   {
     "id": "repotify-guard",
     "reason": "Agents hallucinate package names; attackers register them. The guard blocks that at install time."
   },
   {
-    "id": "repotify-tracker",
-    "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick.",
     "defaultWhen": {
       "empty": true
-    }
+    },
+    "id": "repotify-tracker",
+    "reason": "A setup chosen once goes stale as the project grows. The tracker says when a new stack or need calls for a new pick."
   },
   {
     "id": "repotify-router",
