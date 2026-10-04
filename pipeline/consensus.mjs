@@ -24,9 +24,9 @@ const P_AGREE = 0.95;
 // Map a consensus entry {id, coding:{deger,duzey}, job:{...}, stack:{...}, lifecycle:{...}, productBound:{...}}
 // to the answer shape derive.mjs judges. Returns null when the job is not 2/2: a skill whose main job the two
 // runs did not agree on is not a candidate.
-// productBound is set to null (unknown): the protocol systematically over-flagged it (50% vs 4.1% hand-labeled),
-// so derivation must not reject on it. purpose/quality were not asked and are null; the judges skip those gates
-// for consensus-sourced answers (see derive.mjs).
+// productBound uses the v2 verification (Is 6): the systematic over-flagging (50% vs 4.1% hand-labeled) was
+// corrected by a blind second reading (98.0% accuracy on 49 hand-labeled, 4.15% true rate). purpose/quality were
+// not asked and are null; the judges skip those gates for consensus-sourced answers (see derive.mjs).
 export function consensusToAnswers(entry) {
   const job = entry?.job;
   if (!job || job.duzey !== "uzlasilmis" || typeof job.deger !== "string" || !job.deger) return null;
@@ -45,7 +45,7 @@ export function consensusToAnswers(entry) {
     lifecycleP: entry.lifecycle?.duzey === "uzlasilmis" ? P_AGREE : 0.85,
     purpose: null,
     purposeP: null,
-    productBound: null,
+    productBound: entry.productBound?.deger === true ? P_AGREE : entry.productBound?.deger === false ? 1 - P_AGREE : null,
     quality: null,
     qualityConfidence: null,
   };

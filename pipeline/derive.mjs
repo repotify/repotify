@@ -216,8 +216,8 @@ function judgeAnswers(a, taxonomy, { fits = (job, purpose) => purposeFits(job, p
   if (a.job === "none" || (a.jobP ?? 0) < RULES.job || !taxonomy.capabilities[a.job]) return { why: [`main job unsure: ${a.job} (${a.jobP})`], review: true };
   if (OUT_OF_SCOPE.has(a.job)) return { why: [`${a.job}: not building software`] };
   if (OWN_JOBS.has(a.job)) return { why: [`${a.job}: a job Repotify's own hooks do`] };
-  // Consensus did not ask purpose: unmeasured, not a failure. productBound is null for the same reason
-  // (systematically over-flagged), so the productBound rejection above already skips it naturally.
+  // Consensus did not ask purpose: unmeasured, not a failure. productBound uses the v2 verification
+  // (Is 6, 98% accuracy), so the productBound rejection above applies to consensus answers too.
   if (a.source !== "consensus" && ((a.purposeP ?? 0) < 0.5 || !fits(a.job, a.purpose, stack))) return { why: [`purpose ${a.purpose} (${a.purposeP}) does not fit ${a.job}`], review: true };
   return { stack };
 }
