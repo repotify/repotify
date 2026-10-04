@@ -32,7 +32,7 @@ Or just tell your agent: **"Set up Repotify for this project: https://github.com
 
 1. **Read.** It looks at your manifests and file names, and at which runtimes this computer has. Your code is never read or sent anywhere.
 2. **Ask.** Only the questions whose answer would change the picks: at most three, often none. Each is asked once.
-3. **Pick.** One best skill, MCP server or tool per job, from a catalog where every item passed a security scan and was classified by a decision model. A find from the crawl joins your default set only with proof that people use it; without it, it is listed as an alternative.
+3. **Pick.** One best skill, MCP server or tool per job, from a catalog where every item passed a security scan and was classified by a decision model. A find from the crawl joins your default set only with proof that people use it; without it, it is listed as an alternative. A small core of discipline skills is always in play, but four of its ten items join only where they pay off: a codebase graph for large codebases, brainstorming for empty projects, a diff security review for security-sensitive work, and the tracker for new setups.
 4. **Install.** Each skill comes from a pinned commit, is hash-checked and scanned again on your machine. Hooks and MCP servers stay off until you switch them on.
 5. **Keep up.** Two optional hooks keep the setup working after day one: the tracker and the router (below).
 

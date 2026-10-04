@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- **Scanner 1.5.1.** Three false positives fixed: a "remove the guard" line in a mutation-testing context no longer
+  fires `unsafe-instruction`; Chinese/Japanese document-context words (examples, warnings, "for instance") no longer
+  turn a quoted injection into an attack; a `powershell -enc` snippet shown as forensic evidence is discounted only in
+  prose or `text` blocks next to forensics words — never in script or shell blocks, where an agent would run it as-is.
+- **Conditional core.** Four of the ten core items now join the default set only where they pay off: Graphify for
+  non-empty, large or monorepo codebases; brainstorming and the tracker for empty projects; a diff security review
+  when the project handles security, auth, payments, compliance or smart contracts. A core item whose condition is not
+  met stays in the candidate table as a backup instead of being dropped. Also: `xlsx` now claims only `office-docs`,
+  and `data-engineer` is scoped to Python — both were over-claiming and misfiring.
+
 ## 2.0.0 (2026-10-03)
 
 A new recommendation engine, a catalog built from a crawl instead of a hand-kept list, and a setup that keeps working
