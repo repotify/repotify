@@ -35,7 +35,9 @@ const pilots = [
   {
     name: "python data pipeline with pandas",
     fp: { stacks: ["python"], platforms: [], capabilityHints: [], inferredNeeds: ["data-processing"] },
-    expect: { decision: "recommend", includesAny: ["data-engineer", "ml-pipeline", "pandas"] },
+    // fine-tuning-expert now wins the data-ml cluster on score; pandas was
+    // never a catalog id.
+    expect: { decision: "recommend", includesAny: ["data-engineer", "ml-pipeline", "fine-tuning-expert"] },
   },
   {
     name: "rust cli with clap",
